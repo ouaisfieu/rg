@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>SAS d’entrée – L’Organisation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050712;
+      --bg-alt: #0b0f26;
+      --accent: #8bffb0;
+      --accent-soft: rgba(139, 255, 176, 0.18);
+      --accent-2: #d28bff;
+      --accent-2-soft: rgba(210, 139, 255, 0.18);
+      --danger: #ff4d7a;
+      --text-main: #f5f7ff;
+      --text-muted: #a3b0ff;
+      --panel: rgba(9, 13, 42, 0.96);
+      --border-soft: 1px solid rgba(255, 255, 255, 0.1);
+      --radius: 22px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background:
+        radial-gradient(circle at 10% 0%, rgba(139, 255, 176, 0.12), transparent 55%),
+        radial-gradient(circle at 90% 100%, rgba(210, 139, 255, 0.18), transparent 55%),
+        #050712;
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 1.2rem 0.9rem 1.6rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 1120px;
+      background: linear-gradient(135deg, rgba(16, 22, 58, 0.96), rgba(5, 8, 27, 0.98));
+      border-radius: 28px;
+      border: 1px solid rgba(145, 170, 255, 0.35);
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.85);
+      padding: 1.2rem 1rem 1.4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .shell {
+        padding: 1.6rem 1.6rem 1.8rem;
+      }
+    }
+
+    .scanline {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.2;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.04),
+        rgba(255, 255, 255, 0.04) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      mix-blend-mode: soft-light;
+    }
+
+    header {
+      position: relative;
+      margin-bottom: 1.1rem;
+      border-bottom: 1px solid rgba(145, 170, 255, 0.45);
+      padding-bottom: 0.8rem;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 0.45rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.18rem 0.65rem 0.18rem 0.28rem;
+      border-radius: 999px;
+      border: 1px solid rgba(139, 255, 176, 0.9);
+      background: radial-gradient(circle at 0 0, rgba(139, 255, 176, 0.26), transparent 60%);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(139, 255, 176, 1);
+    }
+
+    .mode-chip {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      border-radius: 999px;
+      border: 1px solid rgba(210, 139, 255, 0.9);
+      padding: 0.2rem 0.7rem;
+      background: radial-gradient(circle at 100% 0, rgba(210, 139, 255, 0.2), transparent 60%);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: var(--accent-2);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .mode-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(210, 139, 255, 0.9);
+      box-shadow: 0 0 8px rgba(210, 139, 255, 1);
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      line-height: 1.12;
+      margin-bottom: 0.3rem;
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 650px;
+    }
+
+    .subtitle strong {
+      color: var(--text-main);
+    }
+
+    .warning {
+      margin-top: 0.8rem;
+      border-radius: 16px;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid rgba(255, 77, 122, 0.9);
+      background:
+        linear-gradient(120deg, rgba(255, 77, 122, 0.18), transparent 60%),
+        radial-gradient(circle at 0 0, rgba(255, 210, 152, 0.28), transparent 60%);
+      display: flex;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+      align-items: flex-start;
+    }
+
+    .warning-icon {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.75rem;
+      color: var(--danger);
+      padding-top: 0.1rem;
+    }
+
+    .warning-text strong {
+      color: #ffd4e2;
+    }
+
+    .layout {
+      position: relative;
+      margin-top: 1.1rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 960px) {
+      .layout {
+        grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.2fr);
+      }
+    }
+
+    .panel {
+      background:
+        radial-gradient(circle at 0 0, rgba(139, 255, 176, 0.06), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(210, 139, 255, 0.08), transparent 55%),
+        rgba(7, 11, 32, 0.96);
+      border-radius: var(--radius);
+      border: 1px solid rgba(145, 170, 255, 0.5);
+      padding: 0.9rem 0.9rem 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .panel {
+        padding: 1rem 1.1rem 1.1rem;
+      }
+    }
+
+    .panel h2 {
+      font-size: 1rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .panel p {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Cartes / boutons */
+    .cards {
+      margin-top: 0.6rem;
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .card {
+      border-radius: 16px;
+      padding: 0.7rem 0.75rem;
+      background: rgba(5, 8, 28, 0.96);
+      border: 1px solid rgba(148, 172, 255, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.7);
+      transition: 0.18s ease-out;
+    }
+
+    .card:hover {
+      border-color: rgba(139, 255, 176, 0.9);
+      box-shadow: 0 0 22px rgba(139, 255, 176, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .card-title {
+      font-size: 0.94rem;
+      font-weight: 600;
+    }
+
+    .card-text {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .links-row {
+      margin-top: 0.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .link-pill {
+      font-size: 0.78rem;
+      font-family: "JetBrains Mono", monospace;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(139, 255, 176, 0.8);
+      background: radial-gradient(circle at 0 0, rgba(139, 255, 176, 0.25), rgba(5, 8, 24, 0.96));
+      text-decoration: none;
+      color: #041308;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: 0.15s ease-out;
+    }
+
+    .link-pill span {
+      font-size: 0.78rem;
+    }
+
+    .link-pill:hover {
+      box-shadow: 0 0 14px rgba(139, 255, 176, 0.7);
+      transform: translateY(-1px);
+    }
+
+    .link-pill.alt {
+      border-color: rgba(148, 172, 255, 0.9);
+      background: rgba(6, 9, 32, 0.96);
+      color: var(--text-main);
+    }
+
+    /* Steps à droite */
+    .steps {
+      margin-top: 0.5rem;
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 0.5rem;
+      align-items: flex-start;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .step-index {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(139, 255, 176, 0.9);
+      background: rgba(5, 8, 22, 0.96);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.76rem;
+      color: var(--accent);
+      box-shadow: 0 0 10px rgba(139, 255, 176, 0.7);
+    }
+
+    .step strong {
+      color: var(--text-main);
+    }
+
+    .tagline {
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    footer {
+      margin-top: 1rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.3rem;
+    }
+
+    footer code {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 172, 255, 0.8);
+      background: rgba(6, 9, 28, 0.96);
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="scanline"></div>
+
+    <header>
+      <div class="top-row">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          <span>SAS</span>
+          <span>Hub central</span>
+        </div>
+        <div class="mode-chip">
+          <span class="mode-dot"></span>
+          <span>Mobile first</span>
+        </div>
+      </div>
+
+      <h1>SAS d’entrée de <span>L’Organisation</span></h1>
+      <p class="subtitle">
+        Tu es dans le sas : la pièce entre le dehors et le dedans.  
+        D’ici, tu peux accéder à <strong>toutes les zones</strong> du dispositif&nbsp;:
+        présentation, organigramme, recrutement, tests, dossiers…
+      </p>
+
+      <div class="warning">
+        <div class="warning-icon">[!]</div>
+        <div class="warning-text">
+          <strong>Avertissement pédagogique :</strong> tout ceci est un dispositif fictif / expérimental.
+          Rien ici ne remplace un vrai contrat de travail, un avis médical, juridique ou social.  
+          Tu peux quitter le sas à tout moment en fermant l’onglet.
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <!-- COLONNE GAUCHE : LES ZONES PRINCIPALES -->
+      <section class="panel">
+        <h2>Zones principales</h2>
+        <p>
+          Chaque bloc ci-dessous t’emmène vers une partie spécifique.  
+          Tu peux tout explorer dans l’ordre ou sauter directement là où ça t’intéresse.
+        </p>
+
+        <div class="cards">
+          <!-- 1. Présentation / Portail -->
+          <article class="card">
+            <div class="card-title">1. Comprendre l’Organisation</div>
+            <p class="card-text">
+              Présentation générale, contexte, fiction, objectifs affichés et non affichés.
+              C’est la partie “c’est quoi ce truc ?” avec un ton sérieux mais pas trop.
+            </p>
+            <div class="links-row">
+              <a class="link-pill" href="portail-0.html"><span>&gt;</span> Portail général</a>
+              <a class="link-pill alt" href="about.html"><span>i</span> À propos / Meta</a>
+            </div>
+          </article>
+
+          <!-- 2. Carte & Phase 0 -->
+          <article class="card">
+            <div class="card-title">2. Carte 0 & Phase 0</div>
+            <p class="card-text">
+              La “carte 0” et la “phase 0” définissent le ton, les règles du jeu, les risques narratifs,
+              l’ambiance globale. C’est la porte d’entrée de l’expérience côté joueur / joueuse.
+            </p>
+            <div class="links-row">
+              <a class="link-pill" href="carte-0.html"><span>&gt;</span> Carte 0</a>
+              <a class="link-pill alt" href="phase-0.html"><span>&gt;</span> Phase 0</a>
+              <a class="link-pill alt" href="etdonc.html"><span>?</span> “Et donc…”</a>
+            </div>
+          </article>
+
+          <!-- 3. Organisation interne -->
+          <article class="card">
+            <div class="card-title">3. Bureau & organigramme</div>
+            <p class="card-text">
+              La partie “organisation interne” : qui fait quoi, comment se structure la
+              machine, vue façon organigramme / graph view, bureau fictif, etc.
+            </p>
+            <div class="links-row">
+              <a class="link-pill" href="bureau.html"><span>&gt;</span> Bureau / QG</a>
+              <a class="link-pill alt" href="organigramme-obs.html"><span>#</span> Organigramme (mode Obsidian)</a>
+            </div>
+          </article>
+
+          <!-- 4. Recrutement & tests -->
+          <article class="card">
+            <div class="card-title">4. Recrutement & tests</div>
+            <p class="card-text">
+              Tout ce qui concerne le “dossier de candidature” : explications, avertissements,
+              conditions fictives, plus les tests de connaissances thématiques.
+            </p>
+            <div class="links-row">
+              <a class="link-pill" href="recrutement.html"><span>&gt;</span> Page recrutement</a>
+              <a class="link-pill alt" href="test-index.html"><span>&gt;</span> Index des tests</a>
+              <a class="link-pill alt" href="test-0.html"><span>0</span> Test 0</a>
+              <a class="link-pill alt" href="test-1.html"><span>1</span> Test 1</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- COLONNE DROITE : MODE D’EMPLOI / PARCOURS SUGGÉRÉ -->
+      <aside class="panel">
+        <h2>Par où commencer ?</h2>
+        <p>
+          Tu peux tout ouvrir dans le désordre. Mais si tu veux un <strong>parcours guidé</strong>, voici la
+          version “safe mode”.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-index">1</div>
+            <div>
+              <strong>Lire le Portail & l’À propos.</strong><br>
+              Histoire de comprendre la blague, les enjeux, et savoir que tu n’es pas dans un vrai intranet de la NSA.
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-index">2</div>
+            <div>
+              <strong>Passer par la Carte 0 / Phase 0.</strong><br>
+              C’est là que les “règles du jeu” et les risques narratifs sont expliqués.  
+              Si tu ne lis pas, tu ne pourras pas dire qu’on ne t’a pas prévenu.
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-index">3</div>
+            <div>
+              <strong>Visiter le Bureau & l’Organigramme.</strong><br>
+              Pour voir comment l’Organisation se représente elle-même : qui est censé faire quoi, et où tu pourrais te projeter.
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-index">4</div>
+            <div>
+              <strong>Ouvrir la zone Recrutement & Tests.</strong><br>
+              Tu lis la page de recrutement, tu explores les avertissements, puis tu attaques les tests à ton rythme.
+            </div>
+          </div>
+        </div>
+
+        <p class="tagline">
+          // Astuce : garde ce SAS ouvert dans un onglet séparé pour pouvoir revenir au hub à tout moment.
+        </p>
+      </aside>
+    </main>
+
+    <footer>
+      <span>SAS d’entrée – L’Organisation · dispositif expérimental / fictif</span>
+      <code>SAS.html // hub principal</code>
+    </footer>
+  </div>
+</body>
+</html>
