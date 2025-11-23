@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>NOESIS – Renseignement & Analyse Opérationnelle</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #030712;
+      --accent: #22c55e;
+      --accent2: #0ea5e9;
+      --accent3: #f97316;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.45);
+      --radius-xl: 20px;
+      --shadow-soft: 0 24px 55px rgba(0, 0, 0, 0.9);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 10% -10%, rgba(14, 165, 233, 0.33), transparent 55%),
+        radial-gradient(circle at 100% 110%, rgba(34, 197, 94, 0.26), transparent 55%),
+        radial-gradient(circle at 50% 120%, rgba(15, 23, 42, 1), rgba(2, 6, 23, 1));
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    /* Subtle scanlines */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        rgba(15, 23, 42, 0.17) 1px,
+        rgba(15, 23, 42, 0) 1px
+      );
+      background-size: 100% 2px;
+      opacity: 0.5;
+      mix-blend-mode: soft-light;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.12), transparent 60%)
+        ,rgba(10, 20, 40, 0.97);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.9);
+      box-shadow: 0 18px 35px rgba(0, 0, 0, 0.8);
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        conic-gradient(from 180deg, #22c55e, #0ea5e9, #22c55e);
+      position: relative;
+      box-shadow:
+        0 0 0 2px rgba(15, 23, 42, 1),
+        0 0 32px rgba(34, 197, 94, 0.8);
+    }
+
+    .brand-mark::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, #020617, #020617);
+    }
+
+    .brand-mark span {
+      position: relative;
+      font-family: var(--font-mono);
+      color: #22c55e;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+    }
+
+    .brand-text-main {
+      font-size: 0.95rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .brand-text-sub {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.8rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: var(--muted);
+      transition: background 0.16s, color 0.16s, border-color 0.16s,
+                  transform 0.16s, box-shadow 0.16s;
+      font-family: var(--font-mono);
+    }
+
+    nav a:hover {
+      background: rgba(15, 23, 42, 1);
+      border-color: rgba(148, 163, 184, 0.7);
+      color: var(--text);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.9);
+    }
+
+    nav a.cta {
+      border-color: rgba(34, 197, 94, 0.85);
+      color: #bbf7d0;
+      background: rgba(15, 23, 42, 0.98);
+    }
+
+    nav a.cta:hover {
+      background: linear-gradient(135deg, #22c55e, #0ea5e9);
+      color: #020617;
+    }
+
+    @media (max-width: 760px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* Banner / classification */
+    .banner-classif {
+      margin: 12px auto 0;
+      max-width: 1100px;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 197, 94, 0.9);
+      background:
+        radial-gradient(circle at 0 0, rgba(22, 163, 74, 0.3), transparent 65%),
+        rgba(2, 6, 23, 0.95);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 5px 11px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
+      position: relative;
+      z-index: 2;
+    }
+
+    .banner-classif span.level {
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 197, 94, 0.9);
+      background: rgba(22, 101, 52, 0.85);
+      color: #bbf7d0;
+    }
+
+    .banner-classif span.message {
+      color: #e5e7eb;
+      opacity: 0.85;
+    }
+
+    /* Main layout */
+    main {
+      flex: 1;
+      padding: 16px 12px 18px;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .content {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.8fr) minmax(0, 1.2fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 960px) {
+      .content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    section {
+      scroll-margin-top: 80px;
+    }
+
+    /* Left column: public face */
+    .panel-main {
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      background:
+        radial-gradient(circle at 0 0, rgba(15, 23, 42, 0.96), rgba(2, 6, 23, 0.98));
+      box-shadow: var(--shadow-soft);
+      padding: 14px 14px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel-main::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background-image:
+        radial-gradient(circle at 10% 10%, rgba(15, 23, 42, 0.85) 0, transparent 60%),
+        repeating-linear-gradient(
+          135deg,
+          rgba(15, 23, 42, 0.3),
+          rgba(15, 23, 42, 0.3) 1px,
+          transparent 1px,
+          transparent 4px
+        );
+      opacity: 0.6;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    .panel-main-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hero-text h1 {
+      font-size: 1.4rem;
+      margin-bottom: 4px;
+    }
+
+    .hero-text .baseline {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .hero-text .baseline span {
+      color: #bfdbfe;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .hero-tag {
+      border-radius: 999px;
+      padding: 3px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 0.72rem;
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.96);
+      font-family: var(--font-mono);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--text);
+      font-size: 0.78rem;
+      padding: 6px 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: background 0.16s, transform 0.16s, box-shadow 0.16s, border-color 0.16s;
+      font-family: var(--font-mono);
+    }
+
+    .btn:hover {
+      background: rgba(15, 23, 42, 1);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.9);
+    }
+
+    .btn-primary {
+      border-color: rgba(34, 197, 94, 0.9);
+      background: linear-gradient(135deg, #22c55e, #0ea5e9);
+      color: #020617;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 18px 40px rgba(34, 197, 94, 0.9);
+    }
+
+    .btn-ghost {
+      border-color: rgba(148, 163, 184, 0.7);
+    }
+
+    /* Hero panel (right side - map/heat) */
+    .hero-visual {
+      border-radius: 14px;
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.2), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.18), transparent 60%),
+        #020617;
+      padding: 8px;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-visual-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .hero-visual-title {
+      color: #e5e7eb;
+    }
+
+    .hero-visual-leds {
+      display: flex;
+      gap: 4px;
+    }
+
+    .hero-visual-led {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #4ade80;
+      box-shadow: 0 0 10px rgba(74, 222, 128, 0.9);
+    }
+
+    .hero-visual-led.alt {
+      background: #f97316;
+      box-shadow: 0 0 10px rgba(248, 113, 113, 0.9);
+    }
+
+    .hero-visual-body {
+      border-radius: 10px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: radial-gradient(circle at 50% 0, rgba(15, 23, 42, 0.9), #020617);
+      padding: 6px;
+    }
+
+    .hero-visual-lines {
+      max-height: 120px;
+      overflow: hidden;
+    }
+
+    .hero-visual-line {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2px;
+    }
+
+    .hero-visual-line span.label {
+      color: #9ca3af;
+    }
+
+    .hero-visual-line span.value {
+      color: #22c55e;
+    }
+
+    .hero-visual-hint {
+      margin-top: 4px;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    /* Sections */
+    .section-block {
+      margin-top: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: rgba(10, 20, 40, 0.98);
+      padding: 9px 10px 10px;
+      position: relative;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .section-block h2 {
+      font-size: 0.98rem;
+      margin-bottom: 4px;
+    }
+
+    .section-block p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 5px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      padding: 2px 7px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 8px;
+    }
+
+    @media (max-width: 840px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .mini-card {
+      border-radius: 10px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: rgba(15, 23, 42, 0.98);
+      padding: 7px;
+      font-size: 0.78rem;
+    }
+
+    .mini-card h3 {
+      font-size: 0.86rem;
+      margin-bottom: 3px;
+    }
+
+    .mini-card p {
+      font-size: 0.78rem;
+      margin-bottom: 3px;
+    }
+
+    .mini-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .list-clean {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 2px;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .list-clean li {
+      margin-bottom: 3px;
+    }
+
+    /* Contact */
+    .contact-form {
+      margin-top: 6px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .contact-form label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: block;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      margin-top: 2px;
+      border-radius: 8px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: rgba(15, 23, 42, 0.98);
+      color: var(--text);
+      padding: 5px 7px;
+      font-size: 0.8rem;
+      outline: none;
+      font-family: var(--font-main);
+    }
+
+    .contact-form textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .contact-summary {
+      margin-top: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      background: #020617;
+      border-radius: 10px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      padding: 6px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #e5e7eb;
+    }
+
+    .disclaimer {
+      margin-top: 6px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border-top: 1px dashed rgba(51, 65, 85, 0.9);
+      padding-top: 4px;
+    }
+
+    /* Right column: operator / intranet tip */
+    .panel-side {
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.18), transparent 60%),
+                  #020617;
+      box-shadow: var(--shadow-soft);
+      padding: 10px 10px 12px;
+      position: relative;
+      overflow: hidden;
+      font-size: 0.78rem;
+    }
+
+    .panel-side::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(
+        115deg,
+        rgba(56, 189, 248, 0.16),
+        transparent 40%,
+        rgba(34, 197, 94, 0.12),
+        transparent 70%
+      );
+      opacity: 0.6;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    .panel-side-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .side-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .side-header h2 {
+      font-size: 0.9rem;
+    }
+
+    .side-badge {
+      border-radius: 999px;
+      padding: 3px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .side-section-title {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #9ca3af;
+      margin: 6px 0 4px;
+      font-family: var(--font-mono);
+    }
+
+    .side-matrix {
+      border-radius: 10px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: #020617;
+      padding: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+    }
+
+    .side-matrix-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2px;
+    }
+
+    .side-matrix-row span.key {
+      color: #9ca3af;
+    }
+
+    .side-matrix-row span.val {
+      color: #22c55e;
+    }
+
+    .side-hint {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* Operator access (fake login trigger) */
+    .op-access {
+      margin-top: 8px;
+      border-radius: 10px;
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      padding: 6px;
+      background: rgba(15, 23, 42, 0.98);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+    }
+
+    .op-access-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .op-access span.tag {
+      color: #f97316;
+    }
+
+    .op-hint {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    /* Modal - operator */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.92);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal {
+      width: min(420px, 95vw);
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.2), transparent 65%),
+        #020617;
+      box-shadow: 0 26px 60px rgba(0, 0, 0, 1);
+      padding: 10px 11px 10px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .modal-title {
+      color: #e5e7eb;
+      font-size: 0.86rem;
+    }
+
+    .modal-close {
+      border: none;
+      background: transparent;
+      color: #9ca3af;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .modal-body {
+      border-radius: 10px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: #020617;
+      padding: 6px;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+
+    .modal-line {
+      margin-bottom: 3px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .modal-line span.sys {
+      color: #0ea5e9;
+      margin-right: 4px;
+    }
+
+    .modal-line span.msg {
+      color: #e5e7eb;
+    }
+
+    footer {
+      padding: 7px 12px 9px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      border-top: 1px solid rgba(15, 23, 42, 0.9);
+      background: rgba(2, 6, 23, 0.98);
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 760px) {
+      footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="brand-mark">
+      <span>NØ</span>
+    </div>
+    <div>
+      <div class="brand-text-main">NOESIS</div>
+      <div class="brand-text-sub">INTELLIGENCE · ANALYSE · SURVEILLANCE DES RISQUES</div>
+    </div>
+  </div>
+  <nav>
+    <a href="#accueil">Aperçu</a>
+    <a href="#capabilities">Capacités</a>
+    <a href="#clients">Secteurs</a>
+    <a href="#ethics">Conformité</a>
+    <a href="#contact">Contact</a>
+    <a href="#intranet" class="cta">Operator</a>
+  </nav>
+</header>
+
+<div class="banner-classif">
+  <span class="level">CLASSIFICATION : PUBLIC / CORPORATE</span>
+  <span class="message">
+    NOESIS opère sur des données ouvertes &amp; licites. Aucun accès clandestin, aucun fantasme de film : juste du renseignement d’entreprise, froid et méthodique.
+  </span>
+</div>
+
+<main>
+  <div class="content">
+    <!-- Colonne principale : vitrine publique -->
+    <section class="panel-main" id="accueil">
+      <div class="panel-main-inner">
+        <div class="hero-grid">
+          <div class="hero-text">
+            <h1>Renseignement d’entreprise pour un monde saturé de signaux</h1>
+            <p class="baseline">
+              Nous cartographions les acteurs, les récits et les risques
+              pour les organisations qui doivent décider <span>avant que l’histoire ne soit écrite à leur place</span>.
+            </p>
+            <div class="hero-tags">
+              <span class="hero-tag">Veille stratégique</span>
+              <span class="hero-tag">Analyse de récits &amp; influence</span>
+              <span class="hero-tag">Cartographie d’acteurs</span>
+              <span class="hero-tag">Notes exécutives</span>
+            </div>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#capabilities">
+                Voir nos capacités opérationnelles
+              </a>
+              <a class="btn btn-ghost" href="#ethics">
+                Comprendre notre cadre éthique
+              </a>
+            </div>
+          </div>
+
+          <aside class="hero-visual">
+            <div class="hero-visual-header">
+              <div class="hero-visual-title">NOESIS // MONITOR-00</div>
+              <div class="hero-visual-leds">
+                <span class="hero-visual-led"></span>
+                <span class="hero-visual-led alt"></span>
+              </div>
+            </div>
+            <div class="hero-visual-body">
+              <div class="hero-visual-lines">
+                <div class="hero-visual-line">
+                  <span class="label">Nœuds surveillés</span>
+                  <span class="value">&gt; 12 000 / 24h</span>
+                </div>
+                <div class="hero-visual-line">
+                  <span class="label">Langues actives</span>
+                  <span class="value">FR · EN · NL · DE</span>
+                </div>
+                <div class="hero-visual-line">
+                  <span class="label">Sources</span>
+                  <span class="value">Open media · OSSINT</span>
+                </div>
+                <div class="hero-visual-line">
+                  <span class="label">Livrables</span>
+                  <span class="value">Notes 1-3 pages</span>
+                </div>
+                <div class="hero-visual-line">
+                  <span class="label">Délai standard</span>
+                  <span class="value">&lt; 72h</span>
+                </div>
+              </div>
+              <div class="hero-visual-hint">
+                Aucune “magie noire” : collecte de sources publiques, croisement, validation, rédaction. Le spectaculaire reste pour les films.
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <!-- Capabilities -->
+        <section id="capabilities" class="section-block">
+          <h2>Capacités opérationnelles</h2>
+          <p>
+            Nous traitons l’information comme une matière première : brut, instable, biaisée.
+            Notre rôle est de la filtrer, la recouper et la livrer au format exploitable par des
+            directions générales, des cellules de crise ou des équipes communication.
+          </p>
+          <div class="pill-row">
+            <span class="pill">Données ouvertes uniquement</span>
+            <span class="pill">Pas d’intrusion · Pas de hacking</span>
+            <span class="pill">Confidentialité contractuelle</span>
+          </div>
+
+          <div class="grid-2">
+            <article class="mini-card">
+              <h3>Veille &amp; cartographie</h3>
+              <p>
+                Sur un sujet donné, nous identifions les sources, les acteurs, les récits dominants
+                et leurs dynamiques dans le temps.
+              </p>
+              <ul class="list-clean">
+                <li>• Cartographie d’acteurs &amp; d’influence</li>
+                <li>• Typologie de récits &amp; narratifs</li>
+                <li>• Indicateurs d’alerte précoce</li>
+              </ul>
+              <div class="mini-meta">
+                Utilisation : préparation de décision, anticipation de crise, due diligence élargie.
+              </div>
+            </article>
+
+            <article class="mini-card">
+              <h3>Analyse &amp; synthèse</h3>
+              <p>
+                Quand tout le monde parle, nous produisons des notes courtes, argumentées,
+                avec hypothèses et limites explicites.
+              </p>
+              <ul class="list-clean">
+                <li>• Notes exécutives (1–3 pages)</li>
+                <li>• Scénarios &amp; options de réponse</li>
+                <li>• Cahiers de risques &amp; vulnérabilités</li>
+              </ul>
+              <div class="mini-meta">
+                Utilisation : arbitrage interne, brief COMEX, préparation de prises de parole.
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Clients / secteurs -->
+        <section id="clients" class="section-block">
+          <h2>Secteurs que nous accompagnons</h2>
+          <p>
+            NOESIS intervient auprès d’organisations qui ne peuvent pas “débrancher” :
+            institutions, opérateurs critiques, entreprises exposées médiatiquement.
+          </p>
+          <div class="grid-2">
+            <article class="mini-card">
+              <h3>Entreprises &amp; institutions</h3>
+              <ul class="list-clean">
+                <li>• Groupes soumis à forte pression médiatique</li>
+                <li>• Institutions publiques en contexte sensible</li>
+                <li>• Acteurs de l’énergie, transport, santé</li>
+              </ul>
+              <div class="mini-meta">
+                Positionnement : au croisement du conseil, de la veille et de la communication de crise.
+              </div>
+            </article>
+
+            <article class="mini-card">
+              <h3>Équipes en première ligne</h3>
+              <ul class="list-clean">
+                <li>• Cellules de crise &amp; risk management</li>
+                <li>• Directions communication</li>
+                <li>• Fonctions sécurité / sûreté</li>
+              </ul>
+              <div class="mini-meta">
+                Nous ne remplaçons pas vos équipes : nous leur livrons un terrain de jeu lisible.
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Ethics / conformité -->
+        <section id="ethics" class="section-block">
+          <h2>Ce que nous faisons. Ce que nous ne faisons pas.</h2>
+          <p>
+            Notre approche s’inspire de la culture du renseignement, mais reste strictement
+            encadrée par le droit et l’éthique. Pas de fantasme, pas de zone grise.
+          </p>
+          <div class="grid-2">
+            <article class="mini-card">
+              <h3>Zone d’action</h3>
+              <ul class="list-clean">
+                <li>• Analyse de données ouvertes (OSINT élargi)</li>
+                <li>• Exploitation de contenus publics &amp; licites</li>
+                <li>• Contrats &amp; NDA avec nos clients</li>
+              </ul>
+              <div class="mini-meta">
+                Pas d’accès clandestin, pas de collecte cachée, pas de “boîte noire”.
+              </div>
+            </article>
+
+            <article class="mini-card">
+              <h3>Lignes rouges</h3>
+              <ul class="list-clean">
+                <li>• Aucune opération illégale ou intrusive</li>
+                <li>• Aucune surveillance ciblée de personnes privées</li>
+                <li>• Aucun mandat politique ou partisan</li>
+              </ul>
+              <div class="mini-meta">
+                Si votre besoin dépasse ce cadre, nous sommes simplement… pas le bon interlocuteur.
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="section-block">
+          <h2>Entrer en contact</h2>
+          <p>
+            Nous ne publions pas de formulaire d’upload ni de “chat instantané”.
+            Si vous travaillez sur un sujet réel, vous méritez mieux qu’un chatbot anonyme.
+          </p>
+          <p>
+            Décrivez simplement votre contexte en quelques lignes : secteur, horizon de temps,
+            question centrale. Le reste se fait hors-ligne.
+          </p>
+
+          <form class="contact-form" id="contactForm">
+            <label>
+              Organisation / structure
+              <input type="text" name="org" required />
+            </label>
+            <label>
+              Secteur &amp; contexte
+              <input type="text" name="secteur" required />
+            </label>
+            <label>
+              Question centrale
+              <textarea name="question" required></textarea>
+            </label>
+            <button type="submit" class="btn btn-ghost">
+              📡 Générer un résumé local de votre demande
+            </button>
+          </form>
+
+          <pre class="contact-summary" id="contactSummary" aria-live="polite"></pre>
+
+          <div class="disclaimer">
+            Rien n’est transmis via ce site. Le résumé ci-dessus est uniquement calculé
+            dans votre navigateur, pour vous aider à formuler un premier mandat si vous
+            décidez de nous contacter par vos propres canaux.
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- Colonne droite : “operator / intranet” en mode teasing -->
+    <aside class="panel-side" id="intranet">
+      <div class="panel-side-inner">
+        <div class="side-header">
+          <h2>NOESIS // OPERATOR SURFACE</h2>
+          <span class="side-badge">Interface résumée (démo)</span>
+        </div>
+        <p class="side-hint">
+          Vous voyez ici la couche visible d’un intranet d’analyse. La couche réelle vit
+          hors ligne, sur des systèmes qui ne se référencent pas dans les moteurs de recherche.
+        </p>
+
+        <div class="side-section-title">INDICATEURS SYNTHÉTIQUES</div>
+        <div class="side-matrix">
+          <div class="side-matrix-row">
+            <span class="key">Flux surveillés</span>
+            <span class="val">&gt; 120 / jour</span>
+          </div>
+          <div class="side-matrix-row">
+            <span class="key">Missions actives</span>
+            <span class="val">6</span>
+          </div>
+          <div class="side-matrix-row">
+            <span class="key">Notes publiées (30j)</span>
+            <span class="val">19</span>
+          </div>
+          <div class="side-matrix-row">
+            <span class="key">Alertes critiques</span>
+            <span class="val">2</span>
+          </div>
+        </div>
+
+        <p class="side-hint">
+          Ce bloc montre le type d’agrégats que voient nos analystes. Pas de chiffres “magiques”,
+          juste des volumes, des dynamiques et des seuils d’alerte.
+        </p>
+
+        <div class="side-section-title">ACCÈS OPÉRATEUR</div>
+        <div class="op-access">
+          <div class="op-access-top">
+            <span>CHANNEL : /OP-LOGIN</span>
+            <button class="btn-small" id="btnOperator">
+              🔐 Demander une ouverture de session
+            </button>
+          </div>
+          <div>
+            <span class="tag">[NOTICE]</span> Les interfaces d’analyse NE sont PAS
+            accessibles via ce site public. Cette interaction simule uniquement le refus poli
+            d’un système qui existe ailleurs.
+          </div>
+        </div>
+        <p class="op-hint">
+          Si vous avez besoin d’un vrai intranet (cours, simulation, labo), ce bloc est
+          un bon point de départ pour une version pédagogique en local.
+        </p>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<!-- Modal operator -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">NOESIS // ACCESS CONTROL NODE</div>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <div class="modal-line">
+        <span class="sys">[SYS]</span>
+        <span class="msg">Requête reçue : tentative d’ouverture de session via interface publique.</span>
+      </div>
+      <div class="modal-line">
+        <span class="sys">[ACL]</span>
+        <span class="msg">Canal utilisé : HTTP / non chiffré de bout en bout / origine inconnue.</span>
+      </div>
+      <div class="modal-line">
+        <span class="sys">[POL]</span>
+        <span class="msg">Conformité : aucune interface opérateur n’est exposée sur le périmètre Internet.</span>
+      </div>
+      <div class="modal-line">
+        <span class="sys">[ANS]</span>
+        <span class="msg">Conclusion : accès refusé. Pour toute collaboration, passez par les canaux contractuels.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>
+    NOESIS – Plateforme de renseignement &amp; d’analyse fictive, inspirée du réel.
+    Aucune opération illégale, aucun accès clandestin.
+  </span>
+  <span>
+    Ce fichier est autonome : enregistrez-le comme <strong>index.html</strong>, ouvrez-le dans votre navigateur ou depuis une clé USB. À adapter librement à votre propre “corpo” dystopique.
+  </span>
+</footer>
+
+<script>
+  // --- Modal operator ---
+  const modalBackdrop = document.getElementById("modalBackdrop");
+  const btnOperator = document.getElementById("btnOperator");
+  const modalClose = document.getElementById("modalClose");
+
+  function openModal() {
+    modalBackdrop.style.display = "flex";
+  }
+
+  function closeModal() {
+    modalBackdrop.style.display = "none";
+  }
+
+  btnOperator.addEventListener("click", openModal);
+  modalClose.addEventListener("click", closeModal);
+  modalBackdrop.addEventListener("click", (e) => {
+    if (e.target === modalBackdrop) closeModal();
+  });
+
+  // --- Contact résumé local ---
+  const contactForm = document.getElementById("contactForm");
+  const contactSummary = document.getElementById("contactSummary");
+
+  contactForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(contactForm);
+    const org = formData.get("org");
+    const secteur = formData.get("secteur");
+    const question = formData.get("question");
+
+    const recap =
+`NOESIS – ÉBAUCHE DE MANDAT (LOCAL)
+----------------------------------
+Organisation : ${org}
+Secteur / contexte : ${secteur}
+
+Question centrale :
+${question}
+
+Étape suivante (si vous le décidez) :
+- relire ce texte
+- le consolider en interne
+- utiliser vos propres canaux pour nous contacter.`;
+
+    contactSummary.textContent = recap;
+  });
+</script>
+</body>
+</html>
