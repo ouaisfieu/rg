@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>FAQ – Comment faire la même chose (voire mieux) soi-même ?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #fef9c3;
+      --bg2: #e0f2fe;
+      --bg3: #fdf2f8;
+      --card: #ffffff;
+      --accent: #f97316;
+      --accent2: #22c55e;
+      --accent3: #0ea5e9;
+      --text: #111827;
+      --muted: #4b5563;
+      --border: rgba(15, 23, 42, 0.08);
+      --font-main: "Comic Sans MS", "Comic Neue", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "Courier New", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --radius-xl: 22px;
+      --shadow-soft: 0 14px 35px rgba(15, 23, 42, 0.18);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, #fee2e2, transparent 60%),
+        radial-gradient(circle at 100% 0, #bfdbfe, transparent 60%),
+        radial-gradient(circle at 50% 100%, #bbf7d0, transparent 60%),
+        #fef9c3;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    a { color: #1d4ed8; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 10px 16px;
+      background: rgba(254, 252, 232, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 2px solid rgba(251, 191, 36, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 8px 20px rgba(248, 171, 64, 0.3);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 30% 20%, #f9a8d4, #f97316);
+      box-shadow:
+        0 0 0 3px #fef9c3,
+        0 0 0 6px rgba(251, 191, 36, 0.9),
+        0 10px 18px rgba(180, 83, 9, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: #fef9c3;
+      text-shadow: 0 2px 0 rgba(124, 45, 18, 0.7);
+    }
+
+    .title-block h1 {
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .title-block .sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .balloon {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #be123c;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #fee2e2;
+      box-shadow:
+        0 3px 0 #fca5a5,
+        0 4px 10px rgba(248, 113, 113, 0.5);
+      text-shadow:
+        1px 1px 0 #fecaca,
+        -1px 1px 0 #fecaca,
+        0 2px 0 #fecaca;
+      border: 2px solid #fecaca;
+      display: inline-block;
+    }
+
+    main {
+      flex: 1;
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 960px;
+    }
+
+    .intro-card {
+      background: #fffbeb;
+      border-radius: var(--radius-xl);
+      border: 2px solid rgba(248, 250, 252, 0.9);
+      box-shadow: var(--shadow-soft);
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .intro-card p {
+      font-size: 0.86rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      border-radius: 999px;
+      padding: 2px 8px;
+      border: 1px dashed rgba(55, 65, 81, 0.3);
+      background: #f9fafb;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .tag.bold {
+      border-style: solid;
+      background: #bbf7d0;
+      color: #14532d;
+    }
+
+    .levels {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 840px) {
+      .levels {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .col {
+      background: #fefce8;
+      border-radius: var(--radius-xl);
+      border: 2px solid rgba(248, 250, 252, 0.9);
+      box-shadow: var(--shadow-soft);
+      padding: 10px;
+    }
+
+    h2 {
+      font-size: 0.98rem;
+      margin-bottom: 4px;
+    }
+
+    .levels-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .level-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+
+    .lvl-badge {
+      border-radius: 999px;
+      padding: 3px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      background: #e0f2fe;
+      font-size: 0.78rem;
+      cursor: pointer;
+    }
+
+    .lvl-badge.active {
+      background: #bfdbfe;
+      border-color: #1d4ed8;
+      color: #1d4ed8;
+    }
+
+    .faq-list {
+      list-style: none;
+      margin-top: 4px;
+    }
+
+    .faq-item {
+      border-radius: 16px;
+      border: 2px solid rgba(248, 250, 252, 0.9);
+      background: #ffffff;
+      margin-bottom: 6px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      padding: 7px 9px;
+      font-size: 0.86rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      background: linear-gradient(90deg, #fee2e2, #fffbeb);
+    }
+
+    .faq-question span.lvl-tag {
+      font-size: 0.72rem;
+      border-radius: 999px;
+      padding: 2px 6px;
+      border: 1px solid rgba(252, 165, 165, 0.8);
+      background: #fee2e2;
+      color: #9f1239;
+      font-family: var(--font-mono);
+      margin-right: 4px;
+    }
+
+    .faq-question span.chevron {
+      font-size: 0.86rem;
+      color: #6b7280;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.18s ease-out, padding 0.18s ease-out;
+      padding: 0 9px;
+      background: #ffffff;
+    }
+
+    .faq-answer.open {
+      padding: 7px 9px 8px;
+    }
+
+    .faq-answer p {
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .faq-answer ul {
+      margin-left: 16px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .faq-answer li {
+      margin-bottom: 3px;
+    }
+
+    .step {
+      font-weight: 700;
+      color: #10b981;
+    }
+
+    .hint {
+      font-size: 0.78rem;
+      color: #6b7280;
+    }
+
+    .side-note {
+      background: #eff6ff;
+      border-radius: 16px;
+      border: 2px dashed rgba(96, 165, 250, 0.7);
+      padding: 8px;
+      font-size: 0.82rem;
+      margin-top: 4px;
+    }
+
+    .side-note h3 {
+      font-size: 0.88rem;
+      margin-bottom: 4px;
+    }
+
+    .side-note ul {
+      margin-left: 16px;
+      margin-top: 2px;
+    }
+
+    footer {
+      padding: 8px 16px 10px;
+      background: #fee2e2;
+      border-top: 2px solid rgba(248, 113, 113, 0.7);
+      font-size: 0.8rem;
+      color: #7f1d1d;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 720px) {
+      header { flex-direction: column; align-items: flex-start; }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="logo" aria-hidden="true">?</div>
+    <div class="title-block">
+      <h1>FAQ – Faire ton propre “jeu STIC de l’anarchie”</h1>
+      <div class="sub">Comment faire la même chose (voire mieux), tout seul, à partir de rien, sans prérequis.</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="balloon">LEVEL 0 → LEVEL BOSS</div>
+    <div style="margin-top:4px; font-size:0.72rem;">
+      Slogan : <strong>« Tu n’as rien, mais tu peux tout documenter. »</strong>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="shell">
+    <div class="intro-card">
+      <p>
+        Cette FAQ est faite pour <strong>une personne seule</strong> qui part de
+        <strong>0</strong> (pas d’idée, pas de compétence, pas de projet) et qui veut quand même
+        <strong>créer un site / jeu STIC / proto de thèse</strong> comme OPÉRATION MILOU – mais à sa façon.
+      </p>
+      <p>
+        On y va <strong>par niveaux</strong> (Niveau 0 → Niveau Boss) et tu peux t’arrêter à celui que tu veux.
+        Chaque réponse explique quoi faire <em>concrètement</em>.
+      </p>
+      <div class="tag-row">
+        <span class="tag bold">aucun prérequis</span>
+        <span class="tag">HTML statique</span>
+        <span class="tag">GitHub Pages</span>
+        <span class="tag">journal de bord</span>
+        <span class="tag">gamification (optionnelle)</span>
+      </div>
+    </div>
+
+    <div class="levels">
+      <!-- COLONNE GAUCHE : FAQ par niveaux -->
+      <div class="col">
+        <h2>🔢 Niveaux de départ</h2>
+        <p class="levels-desc">
+          Choisis un niveau qui te ressemble. Tu peux commencer au Niveau 0 même si tu sais déjà des trucs,
+          ça sécurise la base.
+        </p>
+        <div class="level-badges">
+          <button class="lvl-badge active" data-level="0">Niveau 0 – Rien du tout</button>
+          <button class="lvl-badge" data-level="1">Niveau 1 – 1 page Web</button>
+          <button class="lvl-badge" data-level="2">Niveau 2 – Publié en ligne</button>
+          <button class="lvl-badge" data-level="3">Niveau 3 – Journal & recherche</button>
+          <button class="lvl-badge" data-level="4">Niveau 4 – Gamification & MMO</button>
+        </div>
+
+        <ul class="faq-list">
+          <!-- NIVEAU 0 -->
+          <li class="faq-item" data-level="0">
+            <div class="faq-question">
+              <div>
+                <span class="lvl-tag">N0</span>
+                Je n’ai aucune idée, aucune compétence. Je fais quoi concrètement ?
+              </div>
+              <span class="chevron">▼</span>
+            </div>
+            <div class="faq-answer">
+              <p><span class="step">Étape 1 :</span> accepte officiellement que tu pars de zéro.</p>
+              <p class="hint">
+                (C’est une bonne nouvelle : tu n’as aucune mauvaise habitude technique à désapprendre.)
+              </p>
+              <p><span class="step">Étape 2 :</span> crée un petit dossier sur ton ordinateur.</p>
+              <ul>
+                <li>Par exemple : <code>Documents/mon-jeu-stic/</code>.</li>
+                <li>À l’intérieur, crée un fichier texte nommé <code>index.html</code>.</li>
+                <li>Si ton système refuse, crée un fichier texte normal et renomme-le ensuite.</li>
+              </ul>
+              <p><span class="step">Étape 3 :</span> copie-colle dans ce fichier le texte suivant :</p>
+              <p class="hint">
+                (Tu peux le modifier plus tard, l’important est que tu voies que “ça marche”.)
+              </p>
+              <pre style="white-space:pre-wrap; font-size:0.75rem; background:#fefce8; border-radius:10px; border:1px solid rgba(148,163,184,0.6); padding:6px; overflow:auto;">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;title&gt;Mon tout premier proto STIC&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Bonjour, c’est mon début de jeu STIC de l’anarchie&lt;/h1&gt;
+  &lt;p&gt;Je pars de zéro, mais j’ai déjà une page.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+              </pre>
+              <p><span class="step">Étape 4 :</span> double-clique sur <code>index.html</code>.</p>
+              <p>
+                Ça s’ouvre dans ton navigateur ? Tu as <strong>réussi</strong>.  
+                Tu es officiellement au <strong>Niveau 0 validé</strong>. Tu peux passer à la suite.
+              </p>
+            </div>
+          </li>
+
+          <li class="faq-item" data-level="0">
+            <div class="faq-question">
+              <div>
+                <span class="lvl-tag">N0</span>
+                Et si je n’ai pas d’idée de projet / de thèse / de sujet ?
+              </div>
+              <span class="chevron">▼</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Tu peux commencer avec un sujet ultra large, même flou, du type :
+                <em>« Ce qui me dérange dans le numérique »</em> ou
+                <em>« Pourquoi je me méfie des plateformes »</em>.
+              </p>
+              <p><span class="step">Mini-exercice :</span></p>
+              <ul>
+                <li>Ouvre à nouveau <code>index.html</code> avec un éditeur de texte.</li>
+                <li>À la place du paragraphe, écris juste une phrase qui t’énerve ou te fascine dans le numérique.</li>
+                <li>Exemple : <em>« J’ai l’impression que tout ce que je fais en ligne est suivi et revendu. »</em></li>
+              </ul>
+              <p>
+                C’est ton <strong>point de départ</strong>. Le reste du site servira à
+                <strong>explorer et structurer ça</strong>, pas à avoir toutes les réponses maintenant.
+              </p>
+            </div>
+          </li>
+
+          <!-- NIVEAU 1 -->
+          <li class="faq-item" data-level="1">
+            <div class="faq-question">
+              <div>
+                <span class="lvl-tag">N1</span>
+                Comment faire une page un peu jolie sans connaître le HTML/CSS ?
+              </div>
+              <span class="chevron">▼</span>
+            </div>
+            <div class="faq-answer">
+              <p><span class="step">Idée :</span> tu pars d’un modèle simple (comme cette FAQ ou le site MILOU) et tu le simplifies.</p>
+              <p>
+                Pour commencer “bien mais simple”, tu peux :
+              </p>
+              <ul>
+                <li>Garder un <strong>seul fichier</strong> : <code>index.html</code>.</li>
+                <li>Mettre le style dans la partie <code>&lt;style&gt;</code> en haut.</li>
+                <li>Avoir une seule page avec : Titre, Question, Journal de bord.</li>
+              </ul>
+              <p><span class="step">Structure minimale recommandée :</span></p>
+              <ul>
+                <li>Un <code>&lt;header&gt;</code> avec le nom de ton “opération”.</li>
+                <li>Un <code>&lt;main&gt;</code> avec :
+                  <ul>
+                    <li>1 bloc “Ce que je cherche à comprendre”.</li>
+                    <li>1 bloc “Ce que je fais concrètement cette semaine”.</li>
+                    <li>1 bloc “Journal de bord” que tu mets à jour.</li>
+                  </ul>
+                </li>
+              </ul>
+              <p class="hint">
+                Tu peux reprendre le style cartoon licorne/bisounours d’OPÉRATION MILOU et juste
+                supprimer ce qui te semble trop compliqué. Tu supprimes, tu regardes si la page marche encore.
+              </p>
+            </div>
+          </li>
+
+          <li class="faq-item" data-level="1">
+            <div class="faq-question">
+              <div>
+                <span class="lvl-tag">N1</span>
+                Comment je ne me perds pas dans la technique dès le début ?
+              </div>
+              <span class="chevron">▼</span>
+            </div>
+            <div class="faq-answer">
+              <p>Règle d’or : <strong>1 seule page, 1 seul fichier, 0 framework</strong>.</p>
+              <ul>
+                <li>Pas de base de données.</li>
+                <li>Pas de backend.</li>
+                <li>Pas d’inscription / login.</li>
+              </ul>
+              <p>
+                Tu notes tout dans un <strong>journal de bord</strong> en bas de ta page :
+              </p>
+              <ul>
+                <li>date du jour,</li>
+                <li>ce que tu as fait,</li>
+                <li>ce que tu as compris ou pas compris.</li>
+              </ul>
+              <p class="hint">
+                C’est déjà de la recherche : tu documentes ta propre progression. Tu pourras la réutiliser
+                dans un mémoire, une thèse, ou un article plus tard.
+              </p>
+            </div>
+          </li>
+
+          <!-- NIVEAU 2 -->
+          <li class="faq-item" data-level="2">
+            <div class="faq-question">
+              <div>
+                <span class="lvl-tag">N2</span>
+                Comment publier la page en ligne avec GitHub Pages, étape par étape ?
+              </div>
+              <span class="chevron">▼</span>
+            </div>
+            <div class="faq-answer">
+              <p><span class="step">Étape 1 :</span> créer un compte GitHub (gratuit).</p>
+              <ul>
+                <li>Va sur <a href="https://github.com" target="_blank">github.com</a>.</li>
+                <li>Crée un compte avec un pseudo qui te va (tu peux rester anonyme ou pseudo).</li>
+              </ul>
+              <p><span class="step">Étape 2 :</span> créer un nouveau dépôt.</p>
+              <ul>
+                <li>Clique sur “New repository”.</li>
+                <li>Nom du dépôt : par exemple <code>mon-jeu-stic</code>.</li>
+                <li>Tu peux le laisser en <strong>public</strong> (plus simple pour GitHub Pages).</li>
+              </ul>
+              <p><span class="step">Étape 3 :</span> envoyer ton fichier <code>index.html</code> dans GitHub.</p>
+              <ul>
+                <li>Dans ton dépôt, onglet “Add file” → “Upload files”.</li>
+                <li>Glisse ton <code>index.html</code> (et tes PDFs si tu en as).</li>
+                <li>Clique sur “Commit changes”.</li>
+              </ul>
+              <p><span class="step">Étape 4 :</span> activer GitHub Pages.</p>
+              <ul>
+                <li>Va dans “Settings” du dépôt.</li>
+                <li>Section “Pages” (ou “Pages” dans le menu latéral).</li>
+                <li>Source : “Deploy from branch” → branche <code>main</code>, dossier <code>/root</code> ou <code>/</code>.</li>
+                <li>Enregistre. GitHub te donne une URL quelques minutes après.</li>
+              </ul>
+              <p class="hint">
+                Cette URL, c’est l’adresse officielle de ton proto. Tu peux la mettre dans ton CV, ta thèse, l’envoyer à des ami·es.
+              </p>
+            </div>
+          </li>
+
+          <li class="faq-item" data-level="2">
+            <div class="faq-question">
+              <div>
+                <span class="lvl-tag">N2</span>
+                Est-ce que je dois comprendre Git et la ligne de commande tout de suite ?
+              </div>
+              <span class="chevron">▼</span>
+            </div>
+            <div class="faq-answer">
+              <p>Non. Vraiment non.</p>
+              <p>
+                Tu peux faire la première version de ton projet en utilisant <strong>uniquement l’interface web de GitHub</strong> :
+              </p>
+              <ul>
+                <li>Upload de fichiers via le bouton “Upload files”.</li>
+                <li>Édition de fichiers via le bouton “✏️”.</li>
+              </ul>
+              <p class="hint">
+                Quand tu seras à l’aise, tu pourras apprendre Git et la ligne de commande.
+                Mais ce n’est pas nécessaire pour <em>démarrer</em>.
+              </p>
+            </div>
+          </li>
+
+          <!-- NIVEAU 3 -->
+          <li class="faq-item" data-level="3">
+            <div class="faq-question">
+              <div>
+                <span class="lvl-tag">N3</span>
+                Comment transformer ça en proto de thèse / projet sérieux ?
+              </div>
+              <span class="chevron">▼</span>
+            </div>
+            <div class="faq-answer">
+              <p><span class="step">Idée :</span> utiliser ton site comme <strong>dispositif de recherche</strong>.</p>
+              <p>Tu peux ajouter 3 blocs simples :</p>
+              <ul>
+                <li><strong>1. Question de recherche (même floue)</strong><br />
+                  Ex. : « Pourquoi je me sens épié·e dans toutes mes interactions numériques ? »</li>
+                <li><strong>2. Méthode minimale</strong><br />
+                  Ex. : lire 3 textes, observer 1 cas concret, noter ce que tu vois.</li>
+                <li><strong>3. Journal de bord</strong><br />
+                  Tu ajoutes une ligne à chaque session de travail.</li>
+              </ul>
+              <p class="hint">
+                Quand tu rencontreras un·e directeur·rice de mémoire ou de thèse, tu pourras montrer ce site
+                comme trace de ton travail et de ta motivation.
+              </p>
+            </div>
+          </li>
+
+          <li class="faq-item" data-level="3">
+            <div class="faq-question">
+              <div>
+                <span class="lvl-tag">N3</span>
+                Comment intégrer des PDFs, annexes, textes dans mon site ?
+              </div>
+              <span class="chevron">▼</span>
+            </div>
+            <div class="faq-answer">
+              <p><span class="step">Étape 1 :</span> ajoute les fichiers dans ton dépôt GitHub.</p>
+              <ul>
+                <li>Par exemple : <code>annexe1.pdf</code>, <code>dystopie.pdf</code>, etc.</li>
+              </ul>
+              <p><span class="step">Étape 2 :</span> dans ton <code>index.html</code>, fais une section “Annexes”.</p>
+              <ul>
+                <li>Ajoute des liens du type :
+                  <br /><code>&lt;a href="dystopie.pdf" target="_blank"&gt;dystopie.pdf&lt;/a&gt;</code>
+                </li>
+              </ul>
+              <p class="hint">
+                Tu peux plus tard faire des modales, des viewer intégrés, des quiz, etc.
+                Mais au début, des <strong>liens simples</strong> suffisent largement.
+              </p>
+            </div>
+          </li>
+
+          <!-- NIVEAU 4 -->
+          <li class="faq-item" data-level="4">
+            <div class="faq-question">
+              <div>
+                <span class="lvl-tag">N4</span>
+                Comment ajouter la gamification (XP, niveaux, classes) comme dans MILOU ?
+              </div>
+              <span class="chevron">▼</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Tu peux commencer avec une version ultra simple, sans JavaScript compliqué :
+              </p>
+              <ul>
+                <li>Une section “XP & Niveaux” avec une table ou une liste.</li>
+                <li>Des badges “Niveau 1, 2, 3…” que tu mets à jour à la main.</li>
+              </ul>
+              <p><span class="step">Exemple de règles :</span></p>
+              <ul>
+                <li>+10 XP = 1 page lue.</li>
+                <li>+20 XP = 1 note de journal bien écrite.</li>
+                <li>+50 XP = 1 mini analyse.</li>
+              </ul>
+              <p>
+                Tu peux noter ton XP total dans un coin de la page, ou tenir un fichier texte à part
+                (<code>xp.txt</code>) que tu synchronises à la main.
+              </p>
+              <p class="hint">
+                La gamification sert à <strong>te donner envie de continuer</strong>, pas à complexifier le code.
+                Tu peux coder le système plus tard, quand le besoin se fait sentir.
+              </p>
+            </div>
+          </li>
+
+          <li class="faq-item" data-level="4">
+            <div class="faq-question">
+              <div>
+                <span class="lvl-tag">N4</span>
+                Comment “faire mieux” qu’OPÉRATION MILOU ?
+              </div>
+              <span class="chevron">▼</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                “Mieux” = plus adapté à <strong>toi</strong>. Quelques pistes pour aller plus loin :
+              </p>
+              <ul>
+                <li>Rendre ton site lisible pour quelqu’un qui n’a aucune idée du STIC.</li>
+                <li>Proposer 2 niveaux de lecture : “cartoon / jeu” + “annexe sérieuse / bibliographie”.</li>
+                <li>Documenter tes erreurs, tes abandons, tes virages de sujet (c’est ultra précieux).</li>
+                <li>Inviter d’autres personnes (IRL) à t’envoyer des retours, que tu notes dans le journal.</li>
+              </ul>
+              <p class="hint">
+                Si tu arrives à publier régulièrement, à faire évoluer ta question de recherche,
+                à garder la trace de tes essais, tu es déjà “au-dessus de la moyenne” en termes de rigueur
+                – même si le style est licorne, Scratch ou bisounours.
+              </p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- COLONNE DROITE : CONSEILS GLOBAUX -->
+      <div class="col">
+        <h2>🧭 Conseils pour ne pas te perdre</h2>
+        <p class="levels-desc">
+          Cette colonne, c’est le panneau de rappel : ce qui compte vraiment, quel que soit ton niveau.
+        </p>
+
+        <div class="side-note">
+          <h3>1. Tu as le droit d’être flou</h3>
+          <ul>
+            <li>Tu n’as pas besoin d’avoir “LA grande idée” pour commencer.</li>
+            <li>Ton site peut être un <strong>carnet de bord</strong> où tu cherches ton sujet.</li>
+            <li>Tu peux changer de titre, de tagline, de style en cours de route.</li>
+          </ul>
+        </div>
+
+        <div class="side-note" style="margin-top:6px;">
+          <h3>2. Commence par la version la plus moche qui fonctionne</h3>
+          <ul>
+            <li>Une page blanche avec du texte = déjà un site.</li>
+            <li>Tu peux “cartooniser” plus tard (couleurs, licornes, etc.).</li>
+            <li>La priorité, c’est <strong>le contenu</strong> : ce que tu penses, ce que tu observes.</li>
+          </ul>
+        </div>
+
+        <div class="side-note" style="margin-top:6px;">
+          <h3>3. Ton site est un outil, pas un jugement</h3>
+          <ul>
+            <li>Tu n’es pas noté·e sur la déco, mais sur ta capacité à documenter.</li>
+            <li>Chaque fois que tu vas dessus pour écrire 3 lignes, tu montes en XP.</li>
+            <li>Tu peux noter ce qui t’angoisse, ce qui t’inspire, ce qui t’énerve. C’est de la donnée.</li>
+          </ul>
+        </div>
+
+        <div class="side-note" style="margin-top:6px;">
+          <h3>4. Quand tu es perdu·e, reviens à ces 3 questions</h3>
+          <ul>
+            <li>Qu’est-ce que j’essaie de comprendre ?</li>
+            <li>Qu’est-ce que j’ai vu / lu / vécu de concret récemment ?</li>
+            <li>Qu’est-ce que je peux écrire aujourd’hui qui pourrait servir à quelqu’un (ou à moi plus tard) ?</li>
+          </ul>
+          <p style="font-size:0.78rem; margin-top:4px;">
+            Si tu réponds à ces trois questions dans ton journal de bord, tu fais <strong>déjà</strong> du travail de recherche.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span>
+    FAQ – Faire ton propre “jeu STIC de l’anarchie”, même en partant de rien. De Niveau 0 à “Boss final : la rédaction”.
+  </span>
+  <span>
+    Tu peux copier cette page, la simplifier, la réécrire à ta sauce. Le but est que tu te sentes autorisé·e à commencer tout de suite.
+  </span>
+</footer>
+
+<script>
+  // Gestion des FAQ (ouvrir/fermer) + filtrage par niveau
+  const faqItems = document.querySelectorAll(".faq-item");
+  const levelButtons = document.querySelectorAll(".lvl-badge");
+
+  // Ouvrir/fermer une question
+  faqItems.forEach(item => {
+    const q = item.querySelector(".faq-question");
+    const answer = item.querySelector(".faq-answer");
+    q.addEventListener("click", () => {
+      const isOpen = answer.classList.contains("open");
+      if (isOpen) {
+        answer.classList.remove("open");
+        answer.style.maxHeight = "0px";
+        q.querySelector(".chevron").textContent = "▼";
+      } else {
+        answer.classList.add("open");
+        answer.style.maxHeight = answer.scrollHeight + "px";
+        q.querySelector(".chevron").textContent = "▲";
+      }
+    });
+  });
+
+  function filterLevel(level) {
+    faqItems.forEach(item => {
+      const itemLevel = item.getAttribute("data-level");
+      item.style.display = (level === "all" || itemLevel === level) ? "block" : "none";
+      const ans = item.querySelector(".faq-answer");
+      if (ans && ans.classList.contains("open")) {
+        ans.classList.remove("open");
+        ans.style.maxHeight = "0px";
+        item.querySelector(".chevron").textContent = "▼";
+      }
+    });
+  }
+
+  levelButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      levelButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const lvl = btn.getAttribute("data-level");
+      filterLevel(lvl);
+    });
+  });
+
+  // Au chargement : afficher tous les niveaux mais bouton Niveau 0 actif
+  filterLevel("0");
+</script>
+</body>
+</html>
