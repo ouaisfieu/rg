@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>OPÉRATION MILOU · #milou</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="OPÉRATION MILOU (#milou) – cellule d'expérimentation socio-technique : anarchie, capitalisme et infrastructures numériques. Suivi de travaux pour une thèse en sciences et technologies de l'information."
+  />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #030711;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #0ea5e9;
+      --accent3: #f97316;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.42);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --radius-xl: 20px;
+      --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.95);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.24), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.24), transparent 60%),
+        #020617;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        rgba(15, 23, 42, 0.18) 1px,
+        transparent 1px
+      );
+      background-size: 100% 2px;
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    a { color: inherit; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.26), transparent 60%),
+        rgba(3, 7, 18, 0.96);
+      border-bottom: 1px solid rgba(30, 64, 175, 0.7);
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 180deg, #22c55e, #0ea5e9, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow:
+        0 0 0 2px #020617,
+        0 0 32px rgba(34, 197, 94, 0.9);
+    }
+
+    .logo-mark::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, #020617, #020617);
+    }
+
+    .logo-mark span {
+      position: relative;
+      font-family: var(--font-mono);
+      color: #22c55e;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+    }
+
+    .header-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .header-main {
+      font-size: 1rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .header-sub {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .tag-milou {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      padding: 2px 8px;
+      margin-bottom: 3px;
+    }
+
+    .tag-milou span.hash {
+      color: #22c55e;
+    }
+
+    .tag-milou span.code {
+      color: #e5e7eb;
+    }
+
+    .header-right .slogan {
+      color: #facc15;
+    }
+
+    main {
+      flex: 1;
+      padding: 14px 12px 18px;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .content {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.3fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 980px) {
+      .content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel-main {
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.22), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.2), transparent 60%),
+        var(--bg-soft);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 12px 12px 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel-main::before {
+      content: "";
+      position: absolute;
+      inset: -35%;
+      background-image: repeating-linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.25),
+        rgba(15, 23, 42, 0.25) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+      mix-blend-mode: soft-light;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .panel-main-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .panel-side {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 10px 12px;
+      font-size: 0.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel-side::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        120deg,
+        rgba(56, 189, 248, 0.2),
+        transparent 45%,
+        rgba(34, 197, 94, 0.16),
+        transparent 70%
+      );
+      mix-blend-mode: soft-light;
+      opacity: 0.6;
+    }
+
+    .panel-side-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    h1, h2, h3 {
+      margin-bottom: 4px;
+    }
+
+    h1 {
+      font-size: 1.1rem;
+    }
+
+    h2 {
+      font-size: 0.96rem;
+      margin-top: 8px;
+    }
+
+    h3 {
+      font-size: 0.9rem;
+    }
+
+    p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .hero-intro {
+      margin-bottom: 8px;
+    }
+
+    .hero-intro h1 {
+      font-size: 1.2rem;
+    }
+
+    .hero-intro .baseline {
+      font-size: 0.86rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .baseline span {
+      color: #bfdbfe;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      padding: 2px 7px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .pill.accent {
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #bbf7d0;
+    }
+
+    section {
+      margin-top: 8px;
+      border-radius: 14px;
+      border: 1px solid rgba(51, 65, 85, 0.96);
+      background: rgba(3, 7, 18, 0.98);
+      padding: 8px 9px 9px;
+    }
+
+    section:first-of-type {
+      margin-top: 0;
+    }
+
+    ul {
+      font-size: 0.8rem;
+      color: var(--muted);
+      padding-left: 16px;
+      margin-top: 2px;
+      margin-bottom: 4px;
+    }
+
+    li { margin-bottom: 3px; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.05fr);
+      gap: 8px;
+    }
+
+    @media (max-width: 860px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    .mini-card {
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.96);
+      background: #020617;
+      padding: 7px;
+      font-size: 0.8rem;
+    }
+
+    .mini-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 3px;
+      font-family: var(--font-mono);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      padding: 2px 7px;
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+      margin-right: 6px;
+    }
+
+    /* Worklog */
+    .worklog-list {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 4px;
+    }
+
+    .worklog-item {
+      border-radius: 9px;
+      border: 1px solid rgba(55, 65, 81, 0.96);
+      background: #020617;
+      padding: 6px 7px;
+      font-size: 0.78rem;
+      margin-bottom: 5px;
+    }
+
+    .worklog-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 2px;
+    }
+
+    .worklog-date {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .status-pill {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      padding: 1px 6px;
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      color: var(--muted);
+    }
+
+    .status-idee { border-color: rgba(148, 163, 184, 0.8); }
+    .status-en-cours { border-color: rgba(56, 189, 248, 0.9); color: #bae6fd; }
+    .status-valide { border-color: rgba(34, 197, 94, 0.9); color: #bbf7d0; }
+
+    .worklog-title {
+      font-size: 0.82rem;
+      margin-bottom: 2px;
+    }
+
+    .worklog-body {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .worklog-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 4px;
+      font-size: 0.72rem;
+    }
+
+    .filter-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.96);
+      background: #020617;
+      color: var(--muted);
+      padding: 2px 7px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    .filter-btn.active {
+      border-color: rgba(56, 189, 248, 0.9);
+      color: #e0f2fe;
+    }
+
+    /* Tableau méthode */
+    .method-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 4px;
+      font-size: 0.78rem;
+    }
+
+    .method-table th,
+    .method-table td {
+      border: 1px solid rgba(55, 65, 81, 0.96);
+      padding: 4px 6px;
+      vertical-align: top;
+    }
+
+    .method-table th {
+      background: rgba(15, 23, 42, 0.98);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+
+    .code-block {
+      margin-top: 5px;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      background: #020617;
+      border-radius: 8px;
+      border: 1px solid rgba(55, 65, 81, 0.96);
+      padding: 6px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 6px 12px 9px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(30, 64, 175, 0.7);
+      background: rgba(2, 6, 23, 0.98);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 760px) {
+      header { flex-direction: column; align-items: flex-start; }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="logo-mark"><span>MI</span></div>
+    <div class="header-titles">
+      <div class="header-main">OPÉRATION MILOU</div>
+      <div class="header-sub">Cellule d'expérimentation socio-technique · start-up research lab</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="tag-milou">
+      <span class="hash">#</span>
+      <span class="code">milou</span>
+    </div>
+    <div class="slogan">« bande de klets · esprit samouraï · protocole sérieux »</div>
+  </div>
+</header>
+
+<main>
+  <div class="content">
+    <!-- Colonne principale : vision & méthode -->
+    <div class="panel-main">
+      <div class="panel-main-inner">
+        <div class="hero-intro">
+          <h1>Peut-on bricoler un capitalisme moins toxique avec des outils anarchistes&nbsp;?</h1>
+          <p class="baseline">
+            OPÉRATION MILOU documente, au fil de l’eau, une enquête théorique et pratique&nbsp;:
+            <span>dans quelles conditions des principes anarchistes (autogestion, entraide, communs, horizontalité)
+            peuvent-ils contribuer à réparer – ou au moins limiter – des dégâts du capitalisme numérique&nbsp;?</span>
+          </p>
+          <div class="pill-row">
+            <span class="pill accent">thèse STIC</span>
+            <span class="pill">anarchie &amp; capitalisme</span>
+            <span class="pill">communs &amp; infra numériques</span>
+            <span class="pill">méthode 6·4·2</span>
+            <span class="pill">GitHub Pages</span>
+          </div>
+        </div>
+
+        <section id="question">
+          <h2>Question de recherche (version publique)</h2>
+          <p>
+            <strong>Hypothèse de travail&nbsp;:</strong> certaines pratiques et théories anarchistes peuvent être
+            mobilisées pour concevoir des organisations socio-techniques (plateformes, collectifs, coopératives,
+            projets libres) qui atténuent des effets destructeurs du capitalisme (sur les personnes, les communs,
+            le climat) sans faire basculer immédiatement dans un autre système économique.
+          </p>
+          <p>
+            <strong>Question centrale&nbsp;:</strong> comment articuler
+            des <em>principes d’anarchie</em> (non-domination, entraide, horizontale, refus des monopoles)
+            avec des <em>contraintes capitalistes</em> (marché, propriété, financement, régulation) à travers
+            des dispositifs concrets de gouvernance et d’infrastructure numérique&nbsp;?
+          </p>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h3>Ce que ce projet n’est pas</h3>
+              <ul>
+                <li>Pas un appel au chaos ni à la violence.</li>
+                <li>Pas un plan de renversement de régime.</li>
+                <li>Pas un pitch startup bullshit de plus.</li>
+              </ul>
+              <div class="mini-meta">
+                Terrain&nbsp;: réflexion critique, documentation empirique, exploration de modèles socio-techniques concrets.
+              </div>
+            </div>
+            <div class="mini-card">
+              <h3>Ce que ce projet tente d’être</h3>
+              <ul>
+                <li>Une enquête rigoureuse, assumée politiquement mais documentée.</li>
+                <li>Un laboratoire public de documentation (issues, commits, notes).</li>
+                <li>Une base possible pour une thèse en STIC.</li>
+              </ul>
+              <div class="mini-meta">
+                Support&nbsp;: ce dépôt GitHub, cette page, et un ensemble d’annexes PDF / notes / scripts.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="methode">
+          <h2>Méthode 6·4·2 – squelette de la recherche</h2>
+          <p>
+            La méthode «&nbsp;6·4·2&nbsp;» est un compromis entre rigueur académique et praticabilité
+            pour une bande de klets en marge du 9–17.
+          </p>
+          <table class="method-table">
+            <tr>
+              <th>6 — Fils directeurs</th>
+              <th>4 — Axes de terrain</th>
+              <th>2 — Niveaux d’analyse</th>
+            </tr>
+            <tr>
+              <td>
+                <ul>
+                  <li>(1) Gouvernance&nbsp;: qui décide, comment, avec quels contre-pouvoirs&nbsp;?</li>
+                  <li>(2) Propriété&nbsp;: propriété privée, usages collectifs, mutualisation.</li>
+                  <li>(3) Infrastructures&nbsp;: serveurs, logiciels, normes, dépendances.</li>
+                  <li>(4) Rémunération&nbsp;: quels flux économiques, quelles injustices corrigées ou déplacées&nbsp;?</li>
+                  <li>(5) Conflit &amp; soin&nbsp;: comment on gère la merde quand elle arrive.</li>
+                  <li>(6) Reproductibilité&nbsp;: ce qui peut être documenté, transmis, forké.</li>
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  <li>Axe A — Théories &amp; récits (anarchie, capitalisme, communs).</li>
+                  <li>Axe B — Projets libres &amp; coopératives (cas réels, terrain).</li>
+                  <li>Axe C — Infrastructures numériques (hébergement, protocoles, gouvernance de code).</li>
+                  <li>Axe D — Régulation &amp; institutions (droit, normes, politiques publiques).</li>
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  <li>Niveau 1 — <strong>Micro</strong> (collectifs, équipes, projets concrets, intranets, outils).</li>
+                  <li>Niveau 2 — <strong>Macro</strong> (écosystèmes, marchés, régulation, imaginaires politiques).</li>
+                </ul>
+              </td>
+            </tr>
+          </table>
+          <p class="mini-meta">
+            La thèse (ou le rapport de recherche) sera structurée en croisant ces 6 fils, 4 axes et 2 niveaux,
+            de façon explicite (tableaux de correspondance, cartes, diagrammes).
+          </p>
+        </section>
+
+        <section id="these">
+          <h2>Cadre STIC – comment ça devient une « vraie » thèse</h2>
+          <div class="grid-2">
+            <div class="mini-card">
+              <h3>Positionnement STIC</h3>
+              <ul>
+                <li>Sciences de l’information&nbsp;: circulation de l’info, médiations, récits.</li>
+                <li>Technologies de l’information&nbsp;: logiciels libres, plateformes, protocoles.</li>
+                <li>Dimension socio-technique&nbsp;: aucune techno sans humains, aucune décision sans infra.</li>
+              </ul>
+              <div class="mini-meta">
+                Méthode&nbsp;: revue de littérature, études de cas, analyse de pratiques, cartographies d’acteurs.
+              </div>
+            </div>
+            <div class="mini-card">
+              <h3>Exigences minimales</h3>
+              <ul>
+                <li>Question de recherche claire et délimitée.</li>
+                <li>Corpus explicite (textes, projets, entretiens, notes terrain).</li>
+                <li>Méthodologie argumentée (pourquoi cette méthode, pas une autre).</li>
+                <li>Traçabilité via ce dépôt GitHub (commits, issues, versions).</li>
+              </ul>
+              <div class="mini-meta">
+                Cette page est la façade. Le dépôt GitHub contient le reste (code, data, analyse).
+              </div>
+            </div>
+          </div>
+          <div class="code-block">
+Plan de thèse (provisoire) – version MILOU:
+- Partie I : Cartographie des concepts (anarchie, capitalisme, communs, STIC)
+- Partie II : Études de cas socio-techniques (projets libres, coopératives, plateformes alternatives)
+- Partie III : Proposition de modèles &amp; scénarios (comment l’anarchie « répare » à la marge)
+- Partie IV : Discussion, limites, pistes pour la suite (au-delà de MILOU)
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Colonne droite : worklog, annexes, déploiement -->
+    <aside class="panel-side">
+      <div class="panel-side-inner">
+        <div class="badge">
+          <span class="dot"></span>
+          MILOU // PUBLIC LOGBOOK
+        </div>
+
+        <section id="worklog">
+          <h2>Journal de bord de l’opération</h2>
+          <p>
+            Suivi minimal mais public de l’avancée. Le détail vit dans les
+            commits, issues et branches du dépôt GitHub.
+          </p>
+
+          <div class="worklog-filters">
+            <button class="filter-btn active" data-filter="all">Tous</button>
+            <button class="filter-btn" data-filter="idee">Idées</button>
+            <button class="filter-btn" data-filter="en-cours">En cours</button>
+            <button class="filter-btn" data-filter="valide">Stabilisé</button>
+          </div>
+
+          <ul class="worklog-list" id="worklogList"></ul>
+        </section>
+
+        <section id="annexes">
+          <h2>Corpus &amp; annexes (PDF)</h2>
+          <p>
+            Les documents ci-dessous sont fournis à titre de base de réflexion.
+            Ils doivent être cités proprement dans la thèse / le mémoire.
+          </p>
+          <ul>
+            <li>
+              <a href="dystopie.pdf" target="_blank"><strong>dystopie.pdf</strong></a><br />
+              <span class="muted">Annexe sur les dynamiques dystopiques contemporaines (surveillance, autoritarisme, climat, IA…).</span>
+            </li>
+            <li>
+              <a href="plaidoyer-jp.pdf" target="_blank"><strong>plaidoyer-jp.pdf</strong></a><br />
+              <span class="muted">Texte de plaidoyer / réflexion de référence (lecture critique, pas dogme).</span>
+            </li>
+            <li>
+              <a href="pression (1).pdf" target="_blank"><strong>pression (1).pdf</strong></a><br />
+              <span class="muted">Annexe sur la pression (sociale, institutionnelle, économique) dans les dispositifs étudiés.</span>
+            </li>
+          </ul>
+          <p class="mini-meta">
+            Pour GitHub Pages&nbsp;: place ces PDF à la racine du dépôt (ou adapte les chemins dans ce fichier).
+          </p>
+        </section>
+
+        <section id="github">
+          <h2>Déploiement GitHub Pages (opérationnel)</h2>
+          <p>
+            L’OPÉRATION MILOU doit rester déployable par n’importe quel·le membre de l’équipe,
+            sans magie noire. Rappel des étapes de base&nbsp;:
+          </p>
+          <ol style="font-size:0.8rem; color:var(--muted); padding-left:18px; margin-top:3px;">
+            <li>Créer un dépôt GitHub (public ou privé selon le degré d’expo souhaité).</li>
+            <li>Placer ce fichier sous le nom <code>index.html</code> à la racine du dépôt.</li>
+            <li>Ajouter les PDF &amp; autres fichiers nécessaires (dystopie.pdf, etc.).</li>
+            <li>Dans les paramètres du dépôt&nbsp;: activer GitHub Pages (branche <code>main</code>, dossier <code>/root</code> ou <code>/docs</code> si tu déplaces ce fichier).</li>
+            <li>Attendre que l’URL soit générée, puis la noter dans le manuscrit (section « dispositif socio-technique »).</li>
+          </ol>
+          <div class="code-block">
+À chaque avancée significative :
+- mettre à jour le journal de bord ci-dessus
+- pousser le commit sur GitHub
+- ouvrir une issue pour ce qui reste flou (concept, cas, hypothèse)
+          </div>
+        </section>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <span>
+    OPÉRATION MILOU – bande de klets bien de chez nous, à la sauce samouraï, mais protocole scientifique assumé.
+  </span>
+  <span>
+    Ce site est statique (HTML/CSS/JS). Aucun suivi, aucun cookie. Toute l’histoire est dans le dépôt Git et dans la thèse STIC à venir.
+  </span>
+</footer>
+
+<script>
+  // ====== Données du journal de bord (à éditer à la main dans le dépôt) ======
+  const worklogData = [
+    {
+      date: "2025-01-01",
+      titre: "Initialisation de l’OPÉRATION MILOU",
+      statut: "valide",
+      texte: "Nom de code fixé (#milou). Décision de documenter publiquement la démarche (GitHub Pages) tout en gardant certaines discussions en cercle de confiance."
+    },
+    {
+      date: "2025-01-05",
+      titre: "Formulation de la question de recherche",
+      statut: "en-cours",
+      texte: "Passage de « l’anarchie peut-elle sauver le monde » à une formulation STIC ciblée : quels dispositifs socio-techniques concrets, dans quelles limites."
+    },
+    {
+      date: "2025-01-10",
+      titre: "Esquisse de la méthode 6·4·2",
+      statut: "en-cours",
+      texte: "Définition de 6 fils directeurs, 4 axes de terrain, 2 niveaux d’analyse. À affiner avec des exemples et des cas réels."
+    },
+    {
+      date: "2025-01-15",
+      titre: "Collecte initiale d’annexes",
+      statut: "valide",
+      texte: "Ajout des PDF (dystopie, plaidoyer, pression) dans le dépôt. Première cartographie des thèmes transverses."
+    },
+    {
+      date: "2025-01-20",
+      titre: "Repérage de cas d’étude possibles",
+      statut: "idee",
+      texte: "Identifier 3 à 5 projets (logiciels libres, coopératives, communs numériques) à analyser en profondeur."
+    }
+  ];
+
+  const worklogList = document.getElementById("worklogList");
+  const filterButtons = document.querySelectorAll(".filter-btn");
+
+  function renderWorklog(filter = "all") {
+    worklogList.innerHTML = "";
+    worklogData.forEach(entry => {
+      if (filter !== "all" && entry.statut !== filter) return;
+
+      const li = document.createElement("li");
+      li.className = "worklog-item";
+
+      const top = document.createElement("div");
+      top.className = "worklog-top";
+
+      const date = document.createElement("span");
+      date.className = "worklog-date";
+      date.textContent = entry.date;
+
+      const status = document.createElement("span");
+      status.className = "status-pill";
+      if (entry.statut === "idee") status.classList.add("status-idee");
+      if (entry.statut === "en-cours") status.classList.add("status-en-cours");
+      if (entry.statut === "valide") status.classList.add("status-valide");
+      status.textContent =
+        entry.statut === "idee"
+          ? "idée"
+          : entry.statut === "en-cours"
+          ? "en cours"
+          : "stabilisé";
+
+      top.appendChild(date);
+      top.appendChild(status);
+
+      const title = document.createElement("div");
+      title.className = "worklog-title";
+      title.textContent = entry.titre;
+
+      const body = document.createElement("div");
+      body.className = "worklog-body";
+      body.textContent = entry.texte;
+
+      li.appendChild(top);
+      li.appendChild(title);
+      li.appendChild(body);
+      worklogList.appendChild(li);
+    });
+
+    if (!worklogList.children.length) {
+      const li = document.createElement("li");
+      li.className = "worklog-item";
+      li.textContent = "Aucune entrée pour ce filtre. Mets à jour worklogData dans le script.";
+      worklogList.appendChild(li);
+    }
+  }
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      filterButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const filter = btn.dataset.filter;
+      renderWorklog(filter);
+    });
+  });
+
+  renderWorklog();
+</script>
+</body>
+</html>
