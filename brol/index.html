@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>BROL 2.0 – Organiser le chaos en un site</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0b1120;
+      --bg-soft: #020617;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #38bdf8;
+      --accent3: #facc15;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.5);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --radius-xl: 18px;
+      --shadow-soft: 0 22px 48px rgba(0, 0, 0, 0.95);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.2), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.18), transparent 60%),
+        var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        rgba(15, 23, 42, 0.22) 1px,
+        transparent 1px
+      );
+      background-size: 100% 2px;
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    a { color: #93c5fd; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.26), transparent 60%),
+        rgba(3, 7, 18, 0.96);
+      border-bottom: 1px solid rgba(30, 64, 175, 0.8);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 180deg, #22c55e, #0ea5e9, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #22c55e;
+      position: relative;
+      box-shadow:
+        0 0 0 2px #020617,
+        0 0 28px rgba(34, 197, 94, 0.9);
+    }
+
+    .logo::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, #020617, #020617);
+    }
+
+    .logo span {
+      position: relative;
+      letter-spacing: 0.08em;
+    }
+
+    .header-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .title-main {
+      font-size: 1rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .title-sub {
+      font-size: 0.76rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
+    .tagline {
+      font-family: var(--font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .header-right .hint {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    main {
+      flex: 1;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 260px) minmax(0, 2.1fr) minmax(0, 1.4fr);
+      gap: 10px;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 1060px) {
+      main {
+        grid-template-columns: 260px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+      }
+    }
+
+    @media (max-width: 800px) {
+      main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+      }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-title {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 4px;
+      font-family: var(--font-mono);
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      text-align: left;
+      border-radius: 999px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: rgba(15, 23, 42, 0.98);
+      color: var(--muted);
+      padding: 5px 9px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 0.8rem;
+      transition: background 0.16s, color 0.16s, border-color 0.16s, transform 0.16s, box-shadow 0.16s;
+    }
+
+    .nav-btn span.label {
+      flex: 1;
+    }
+
+    .nav-btn span.key {
+      font-size: 0.7rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      font-family: var(--font-mono);
+    }
+
+    .nav-btn:hover {
+      background: rgba(15, 23, 42, 1);
+      color: var(--text);
+      border-color: rgba(56, 189, 248, 0.9);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.95);
+    }
+
+    .nav-btn.active {
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.24), transparent 60%);
+      border-color: rgba(34, 197, 94, 0.9);
+      color: var(--text);
+    }
+
+    .sidebar-footer {
+      margin-top: 6px;
+      padding-top: 5px;
+      border-top: 1px solid rgba(51, 65, 85, 0.9);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .sidebar-footer code {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    /* Main panel (catalogue BROL) */
+    .main-panel {
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.2), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(250, 204, 21, 0.16), transparent 55%),
+        var(--bg-soft);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 12px 12px 14px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .main-panel::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      pointer-events: none;
+      background-image: repeating-linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.25),
+        rgba(15, 23, 42, 0.25) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+      opacity: 0.5;
+      mix-blend-mode: soft-light;
+    }
+
+    .main-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 1.1rem;
+      margin-bottom: 3px;
+    }
+
+    .lead {
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+      max-width: 600px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.95);
+      padding: 2px 7px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .pill.accent {
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #bbf7d0;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.8rem;
+    }
+
+    .filters input[type="text"] {
+      flex: 1;
+      min-width: 120px;
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      color: var(--text);
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      outline: none;
+      font-family: var(--font-main);
+    }
+
+    .filters input::placeholder {
+      color: #64748b;
+    }
+
+    .filters select {
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      color: var(--text);
+      padding: 3px 9px;
+      font-size: 0.78rem;
+      outline: none;
+      font-family: var(--font-main);
+    }
+
+    .filters .btn-small {
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.9);
+      background: rgba(15, 23, 42, 0.98);
+      color: #e0f2fe;
+      font-size: 0.76rem;
+      padding: 4px 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+      transition: background 0.16s, box-shadow 0.16s, transform 0.16s;
+    }
+
+    .filters .btn-small:hover {
+      background: rgba(15, 23, 42, 1);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.95);
+      transform: translateY(-1px);
+    }
+
+    .results-info {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .grid-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 6px;
+    }
+
+    .item-card {
+      border-radius: 12px;
+      border: 1px solid rgba(51, 65, 85, 0.98);
+      background: rgba(3, 7, 18, 0.98);
+      padding: 7px 8px;
+      font-size: 0.78rem;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      cursor: pointer;
+      transition: border-color 0.16s, box-shadow 0.16s, transform 0.16s;
+    }
+
+    .item-card:hover {
+      border-color: rgba(56, 189, 248, 0.9);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.95);
+      transform: translateY(-1px);
+    }
+
+    .item-title {
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .item-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .item-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      margin-top: 2px;
+    }
+
+    .item-tag {
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.95);
+      padding: 1px 5px;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .empty-state {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* Right-side : tutoriel */
+    .tutorial-panel {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      font-size: 0.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tutorial-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        120deg,
+        rgba(56, 189, 248, 0.22),
+        transparent 45%,
+        rgba(250, 204, 21, 0.18),
+        transparent 70%
+      );
+      mix-blend-mode: soft-light;
+      opacity: 0.5;
+    }
+
+    .tutorial-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .tutorial-inner h2 {
+      font-size: 0.9rem;
+      margin-bottom: 3px;
+    }
+
+    .tutorial-inner p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .step-list {
+      list-style: none;
+      margin-top: 4px;
+    }
+
+    .step-item {
+      border-radius: 10px;
+      border: 1px solid rgba(51, 65, 85, 0.98);
+      background: #020617;
+      padding: 6px 7px;
+      font-size: 0.78rem;
+      margin-bottom: 4px;
+    }
+
+    .step-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #a5b4fc;
+      margin-bottom: 2px;
+    }
+
+    .code-block {
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      background: #020617;
+      color: #e5e7eb;
+      border-radius: 8px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      padding: 5px 7px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    footer {
+      padding: 6px 12px 8px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(30, 64, 175, 0.7);
+      background: rgba(3, 7, 18, 0.98);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 760px) {
+      header { flex-direction: column; align-items: flex-start; }
+      footer { flex-direction: column; }
+    }
+
+    /* Modal preview */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal-overlay.visible {
+      display: flex;
+    }
+
+    .modal {
+      width: min(960px, 96vw);
+      height: min(560px, 92vh);
+      background: #020617;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 8px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(55, 65, 81, 0.98);
+      font-size: 0.85rem;
+    }
+
+    .modal-header h3 {
+      font-size: 0.9rem;
+    }
+
+    .modal-header button {
+      border-radius: 999px;
+      border: 1px solid rgba(248, 113, 113, 0.9);
+      background: rgba(127, 29, 29, 0.95);
+      color: #fee2e2;
+      font-size: 0.76rem;
+      padding: 3px 8px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+    }
+
+    .modal-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.1fr);
+      gap: 6px;
+      padding: 6px;
+    }
+
+    @media (max-width: 860px) {
+      .modal-body {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 1.2fr) minmax(0, 1fr);
+      }
+    }
+
+    .modal-main {
+      background: #020617;
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      overflow: hidden;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+    }
+
+    .modal-main iframe,
+    .modal-main embed,
+    .modal-main img,
+    .modal-main video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border: none;
+      border-radius: 8px;
+    }
+
+    .modal-side {
+      background: #020617;
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      padding: 6px;
+      font-size: 0.78rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .modal-side h4 {
+      font-size: 0.82rem;
+    }
+
+    .modal-side p {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .modal-side .code-block {
+      font-size: 0.73rem;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="logo"><span>BR</span></div>
+    <div class="header-titles">
+      <div class="title-main">BROL 2.0</div>
+      <div class="title-sub">Base de Rangement Opérationnelle Libre · transformer le chaos de fichiers en site cohérent</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="tagline">“Empiler pièce par pièce jusqu’au brol cohérent.”</div>
+    <div class="hint">Un seul fichier HTML pour ranger tous tes fichiers, formats confondus.</div>
+  </div>
+</header>
+
+<main>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <div class="nav-title">Modes de vue</div>
+      <ul class="nav-list">
+        <li><button class="nav-btn" data-view="all"><span class="label">Tout le brol</span><span class="key">Alt+1</span></button></li>
+        <li><button class="nav-btn" data-view="docs"><span class="label">Docs & PDF</span><span class="key">Alt+2</span></button></li>
+        <li><button class="nav-btn" data-view="media"><span class="label">Images / audio / vidéo</span><span class="key">Alt+3</span></button></li>
+        <li><button class="nav-btn" data-view="links"><span class="label">Liens externes / embeds</span><span class="key">Alt+4</span></button></li>
+        <li><button class="nav-btn" data-view="favorites"><span class="label">Favoris / épingles</span><span class="key">Alt+5</span></button></li>
+      </ul>
+    </div>
+    <div class="sidebar-footer">
+      💡 Tu n’es pas obligé·e d’utiliser toutes les pièces.  
+      Commence avec 3–4 éléments dans <code>brolItems</code>, teste, puis ajoute au fur et à mesure.
+    </div>
+  </aside>
+
+  <!-- Main catalogue -->
+  <section class="main-panel">
+    <div class="main-inner">
+      <h1>BROL 2.0 – ton catalogue de fichiers</h1>
+      <p class="lead">
+        Ici, tu ranges <strong>tous tes fichiers</strong> (PDF, images, vidéos, audio, liens, notes…)
+        dans une seule interface, avec des filtres par type, catégorie et tags.
+        Le tout est statique : c’est toi qui déclares les fichiers dans un tableau JavaScript.
+      </p>
+      <div class="pill-row">
+        <span class="pill accent">HTML statique</span>
+        <span class="pill">dossiers & PDFs</span>
+        <span class="pill">images / audio / vidéo</span>
+        <span class="pill">liens YouTube / Spotify</span>
+        <span class="pill">tags & catégories</span>
+      </div>
+
+      <div class="filters">
+        <input type="text" id="searchInput" placeholder="Rechercher (nom, type, tags, description)..." />
+        <select id="typeSelect">
+          <option value="all">Tous types</option>
+          <option value="pdf">PDF</option>
+          <option value="image">Image</option>
+          <option value="audio">Audio</option>
+          <option value="video">Vidéo</option>
+          <option value="link">Lien / embed</option>
+          <option value="note">Note / texte</option>
+        </select>
+        <select id="categorySelect">
+          <option value="all">Toutes catégories</option>
+          <option value="these">Thèse / STIC</option>
+          <option value="detective">Détective / Agence</option>
+          <option value="tutos">Tutoriels / comment faire</option>
+          <option value="divers">Divers / brol</option>
+        </select>
+        <button class="btn-small" id="btnReset">Reset</button>
+      </div>
+
+      <div class="results-info" id="resultsInfo">0 éléments dans ce brol (pour l’instant).</div>
+      <div class="grid-items" id="itemsGrid"></div>
+      <div class="empty-state" id="emptyState" style="display:none;">
+        Aucun élément ne correspond à ce filtre.  
+        Soit tu modifies le filtre, soit tu ajoutes des entrées dans <code>brolItems</code> dans le script.
+      </div>
+    </div>
+  </section>
+
+  <!-- Tutorial pane -->
+  <aside class="tutorial-panel">
+    <div class="tutorial-inner">
+      <h2>Comment construire ton BROL pièce par pièce</h2>
+      <p>
+        Tu peux partir de rien. Ce fichier est déjà un prototype qui fonctionne.  
+        Tu as juste à remplir le tableau <code>brolItems</code> avec tes vrais fichiers.
+      </p>
+      <ul class="step-list">
+        <li class="step-item">
+          <div class="step-label">Étape 1 – Crée le dossier</div>
+          <p>
+            Crée un dossier, par ex. <code>BROL-2.0/</code>.  
+            Mets ce fichier sous le nom <code>index.html</code> à l’intérieur.
+          </p>
+        </li>
+        <li class="step-item">
+          <div class="step-label">Étape 2 – Mets tes fichiers à côté</div>
+          <p>
+            Mets dans le même dossier tes PDF, images, sons, etc.
+            Exemple : <code>dystopie.pdf</code>, <code>plaidoyer-jp.pdf</code>, <code>photo-mur.jpg</code>, etc.
+          </p>
+        </li>
+        <li class="step-item">
+          <div class="step-label">Étape 3 – Déclare-les dans brolItems</div>
+          <p>
+            En bas de ce fichier, dans le script JavaScript, trouve le tableau
+            <code>brolItems</code> et ajoute une entrée par fichier.
+          </p>
+          <div class="code-block">
+{
+  id: "dystopie",
+  name: "Dystopie – annexe thèse",
+  type: "pdf",
+  category: "these",
+  path: "dystopie.pdf",
+  tags: ["annexe", "stic", "dystopie"],
+  description: "PDF local placé à côté de index.html."
+}
+          </div>
+        </li>
+        <li class="step-item">
+          <div class="step-label">Étape 4 – Teste la prévisualisation</div>
+          <p>
+            En cliquant sur une carte :
+          </p>
+          <ul>
+            <li>les PDF et images s’ouvrent en <strong>modale</strong> dans le navigateur,</li>
+            <li>les liens avec <code>type: "link"</code> sont ouverts en iframe (YouTube, Spotify) ou dans un nouvel onglet,</li>
+            <li>tu vois en bas de la modale le <strong>snippet</strong> à copier-coller pour ajouter des entrées similaires.</li>
+          </ul>
+        </li>
+        <li class="step-item">
+          <div class="step-label">Étape 5 – Connecter à tes autres sites</div>
+          <p>
+            Tu peux déclarer ici des liens vers :
+          </p>
+          <ul>
+            <li>OPÉRATION MILOU (page thèse / MMO),</li>
+            <li>ton site détective,</li>
+            <li>ton intranet lambda, ton hub, ta FAQ.</li>
+          </ul>
+          <div class="code-block">
+{
+  id: "milou-site",
+  name: "Site OPÉRATION MILOU",
+  type: "link",
+  category: "these",
+  path: "https://TON-URL-GITHUB-PAGES",
+  tags: ["site", "milou"],
+  description: "Lien vers le site MILOU publié sur GitHub Pages."
+}
+          </div>
+        </li>
+      </ul>
+      <p class="hint">
+        Tout ce que tu as fait avant (MILOU, intranet, moteur, FAQ, console…) peut être intégré ici, soit comme
+        fichiers locaux (autres .html), soit comme liens externes.
+      </p>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  <span>
+    BROL 2.0 – Base de Rangement Opérationnelle Libre. Un catalogue statique pour ranger tous tes fichiers dans un "brol" cohérent.
+  </span>
+  <span>
+    Pour aller plus loin : ajoute des catégories, réutilise le CSS, relie tes autres sites (MILOU, intranet, détective, FAQ…).
+  </span>
+</footer>
+
+<!-- Modal preview -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Prévisualisation</h3>
+      <button type="button" id="modalCloseBtn">Fermer (Esc)</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-main" id="modalMain"></div>
+      <div class="modal-side">
+        <h4>Infos & snippet</h4>
+        <p id="modalMeta"></p>
+        <div>
+          <div style="font-size:0.76rem;margin-bottom:2px;">Snippet à copier dans <code>brolItems</code> :</div>
+          <div class="code-block" id="modalSnippet"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===================== Données BROL =====================
+  // Tu peux modifier ce tableau pour ajouter tous tes fichiers
+  const brolItems = [
+    // EXEMPLES — remplace par tes vrais fichiers / liens
+    {
+      id: "dystopie",
+      name: "Dystopie – annexe thèse",
+      type: "pdf", // pdf | image | audio | video | link | note
+      category: "these",
+      path: "dystopie.pdf", // fichier local ou URL
+      tags: ["annexe", "stic", "dystopie"],
+      description: "PDF local placé à côté de index.html. Exemple de document pour ta thèse / réflexion."
+    },
+    {
+      id: "plaidoyer",
+      name: "Plaidoyer JP",
+      type: "pdf",
+      category: "these",
+      path: "plaidoyer-jp.pdf",
+      tags: ["texte", "référence"],
+      description: "Texte de plaidoyer / réflexion de base."
+    },
+    {
+      id: "pression",
+      name: "Pression – note analytique",
+      type: "pdf",
+      category: "these",
+      path: "pression (1).pdf",
+      tags: ["analyse", "pression"],
+      description: "Annexe sur la pression sociale / institutionnelle."
+    },
+    {
+      id: "pingouin",
+      name: "Pingouin anti-burnout",
+      type: "image",
+      category: "divers",
+      path: "https://media.tenor.com/g9O7U8J0aZQAAAAC/penguin-wobble.gif",
+      tags: ["pingouin", "pause", "gif"],
+      description: "Image / gif de pingouin pour les pauses."
+    },
+    {
+      id: "yt-lofi",
+      name: "YouTube – lofi pour bosser",
+      type: "link",
+      category: "divers",
+      path: "https://www.youtube.com/embed/jfKfPfyJRdk",
+      tags: ["youtube", "musique", "focus"],
+      description: "Lien embed YouTube (mode iframe)."
+    },
+    {
+      id: "spotify-playlist",
+      name: "Spotify – playlist de travail",
+      type: "link",
+      category: "divers",
+      path: "https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO?utm_source=generator",
+      tags: ["spotify", "musique"],
+      description: "Embed Spotify pour travailler."
+    },
+    {
+      id: "milou-site",
+      name: "Site OPÉRATION MILOU",
+      type: "link",
+      category: "these",
+      path: "https://exemple-milou.github.io/operation-milou/", // à remplacer
+      tags: ["site", "milou", "these"],
+      description: "Lien vers ton site OPÉRATION MILOU (une fois publié sur GitHub Pages)."
+    },
+    {
+      id: "detective-site",
+      name: "Site Agence MILOU (détective privé)",
+      type: "link",
+      category: "detective",
+      path: "https://exemple-milou.github.io/agence-milou/", // à remplacer
+      tags: ["site", "detective"],
+      description: "Lien vers ton site de détective privé avec console & intranet."
+    },
+    {
+      id: "tutoriel-brol",
+      name: "Tutoriel BROL 2.0 (ce fichier)",
+      type: "note",
+      category: "tutos",
+      path: "index.html",
+      tags: ["tutoriel", "brol"],
+      description: "Ce fichier lui-même – utile si tu copies cette structure dans un autre dossier."
+    }
+  ];
+
+  // ===================== État & éléments =====================
+  let currentView = "all";
+  const navBtns = document.querySelectorAll(".nav-btn");
+  const searchInput = document.getElementById("searchInput");
+  const typeSelect = document.getElementById("typeSelect");
+  const categorySelect = document.getElementById("categorySelect");
+  const btnReset = document.getElementById("btnReset");
+  const itemsGrid = document.getElementById("itemsGrid");
+  const resultsInfo = document.getElementById("resultsInfo");
+  const emptyState = document.getElementById("emptyState");
+
+  // Modal
+  const modalOverlay = document.getElementById("modalOverlay");
+  const modalCloseBtn = document.getElementById("modalCloseBtn");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalMain = document.getElementById("modalMain");
+  const modalMeta = document.getElementById("modalMeta");
+  const modalSnippet = document.getElementById("modalSnippet");
+
+  // ===================== Filtrage =====================
+  function matchView(item) {
+    if (currentView === "docs") return item.type === "pdf" || item.type === "note";
+    if (currentView === "media") return ["image", "audio", "video"].includes(item.type);
+    if (currentView === "links") return item.type === "link";
+    if (currentView === "favorites") {
+      // Tu peux définir ta propre logique de favoris (tags, id, etc.)
+      return item.tags && item.tags.includes("favorite");
+    }
+    return true;
+  }
+
+  function applyFilters() {
+    const q = (searchInput.value || "").toLowerCase();
+    const type = typeSelect.value;
+    const category = categorySelect.value;
+
+    let filtered = brolItems.filter(item => matchView(item));
+
+    if (type !== "all") {
+      filtered = filtered.filter(item => item.type === type);
+    }
+    if (category !== "all") {
+      filtered = filtered.filter(item => item.category === category);
+    }
+    if (q) {
+      filtered = filtered.filter(item => {
+        const hay = (
+          item.name + " " +
+          item.type + " " +
+          (item.category || "") + " " +
+          (item.description || "") + " " +
+          (item.tags || []).join(" ")
+        ).toLowerCase();
+        return hay.includes(q);
+      });
+    }
+
+    renderItems(filtered);
+  }
+
+  // ===================== Rendu =====================
+  function renderItems(items) {
+    itemsGrid.innerHTML = "";
+    if (!items.length) {
+      resultsInfo.textContent = "0 élément dans ce brol pour ce filtre.";
+      emptyState.style.display = "block";
+      return;
+    }
+    emptyState.style.display = "none";
+    resultsInfo.textContent = items.length + " élément(s) dans ce brol pour ce filtre.";
+
+    items.forEach(item => {
+      const card = document.createElement("article");
+      card.className = "item-card";
+      card.addEventListener("click", () => openPreview(item));
+
+      const title = document.createElement("div");
+      title.className = "item-title";
+      title.textContent = item.name;
+
+      const meta = document.createElement("div");
+      meta.className = "item-meta";
+      meta.textContent = item.type.toUpperCase() + " · " + (item.category || "sans catégorie");
+
+      const tagsContainer = document.createElement("div");
+      tagsContainer.className = "item-tags";
+      (item.tags || []).forEach(tag => {
+        const span = document.createElement("span");
+        span.className = "item-tag";
+        span.textContent = tag;
+        tagsContainer.appendChild(span);
+      });
+
+      const desc = document.createElement("div");
+      desc.style.fontSize = "0.75rem";
+      desc.style.color = "#9ca3af";
+      desc.textContent = item.description || "";
+
+      card.appendChild(title);
+      card.appendChild(meta);
+      if (item.tags && item.tags.length) card.appendChild(tagsContainer);
+      if (item.description) card.appendChild(desc);
+      itemsGrid.appendChild(card);
+    });
+  }
+
+  // ===================== Preview / modal =====================
+  function openPreview(item) {
+    modalTitle.textContent = item.name;
+    modalMain.innerHTML = "";
+    modalMeta.textContent = `Type: ${item.type} · Catégorie: ${item.category || "n/a"} · Chemin/URL: ${item.path}`;
+
+    if (item.type === "pdf") {
+      const embed = document.createElement("embed");
+      embed.type = "application/pdf";
+      embed.src = item.path;
+      modalMain.appendChild(embed);
+    } else if (item.type === "image") {
+      const img = document.createElement("img");
+      img.src = item.path;
+      img.alt = item.name;
+      modalMain.appendChild(img);
+    } else if (item.type === "audio") {
+      const audio = document.createElement("audio");
+      audio.controls = true;
+      audio.src = item.path;
+      modalMain.appendChild(audio);
+    } else if (item.type === "video") {
+      const video = document.createElement("video");
+      video.controls = true;
+      video.src = item.path;
+      modalMain.appendChild(video);
+    } else if (item.type === "link") {
+      // Essaye d'embedder si possible (YouTube, Spotify…) sinon, message + bouton
+      const iframe = document.createElement("iframe");
+      iframe.src = item.path;
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen";
+      modalMain.appendChild(iframe);
+    } else if (item.type === "note") {
+      const div = document.createElement("div");
+      div.style.padding = "8px";
+      div.textContent = item.description || "Note / texte.";
+      modalMain.appendChild(div);
+    } else {
+      const div = document.createElement("div");
+      div.style.padding = "8px";
+      div.textContent = "Type non prévisualisé. Le fichier s’ouvrira mieux dans un nouvel onglet.";
+      modalMain.appendChild(div);
+    }
+
+    // Snippet
+    const snippet = {
+      id: item.id,
+      name: item.name,
+      type: item.type,
+      category: item.category,
+      path: item.path,
+      tags: item.tags,
+      description: item.description
+    };
+    modalSnippet.textContent = JSON.stringify(snippet, null, 2);
+
+    modalOverlay.classList.add("visible");
+  }
+
+  function closeModal() {
+    modalOverlay.classList.remove("visible");
+    modalMain.innerHTML = "";
+  }
+
+  modalCloseBtn.addEventListener("click", closeModal);
+  modalOverlay.addEventListener("click", (e) => {
+    if (e.target === modalOverlay) closeModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modalOverlay.classList.contains("visible")) {
+      closeModal();
+    }
+  });
+
+  // ===================== Événements filtres =====================
+  searchInput.addEventListener("input", applyFilters);
+  typeSelect.addEventListener("change", applyFilters);
+  categorySelect.addEventListener("change", applyFilters);
+  btnReset.addEventListener("click", () => {
+    searchInput.value = "";
+    typeSelect.value = "all";
+    categorySelect.value = "all";
+    currentView = "all";
+    navBtns.forEach(btn => btn.classList.remove("active"));
+    navBtns[0].classList.add("active");
+    applyFilters();
+  });
+
+  // ===================== Navigation sidebar =====================
+  navBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      navBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentView = btn.getAttribute("data-view");
+      applyFilters();
+    });
+  });
+
+  // Raccourcis clavier Alt+1..Alt+5
+  document.addEventListener("keydown", (e) => {
+    if (!e.altKey) return;
+    if (e.key === "1") navBtns[0].click();
+    if (e.key === "2") navBtns[1].click();
+    if (e.key === "3") navBtns[2].click();
+    if (e.key === "4") navBtns[3].click();
+    if (e.key === "5") navBtns[4].click();
+  });
+
+  // ===================== Init =====================
+  document.addEventListener("DOMContentLoaded", () => {
+    navBtns[0].classList.add("active");
+    applyFilters();
+  });
+</script>
+</body>
+</html>
