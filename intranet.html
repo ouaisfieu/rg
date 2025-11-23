@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>NOESIS CORP // Internal Grid</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #020617;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #0ea5e9;
+      --accent3: #f97316;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.5);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --radius-xl: 18px;
+      --shadow-soft: 0 22px 48px rgba(0, 0, 0, 0.95);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.28), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.26), transparent 60%),
+        #020617;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        rgba(15, 23, 42, 0.15) 1px,
+        transparent 1px
+      );
+      background-size: 100% 2px;
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    a { color: inherit; }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.26), transparent 60%),
+        rgba(3, 7, 18, 0.96);
+      border-bottom: 1px solid rgba(30, 64, 175, 0.8);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 180deg, #22c55e, #0ea5e9, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #22c55e;
+      position: relative;
+      box-shadow:
+        0 0 0 2px #020617,
+        0 0 28px rgba(34, 197, 94, 0.9);
+    }
+
+    .logo::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, #020617, #020617);
+    }
+
+    .logo span {
+      position: relative;
+      letter-spacing: 0.08em;
+    }
+
+    .org-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .org-sub {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .top-search {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #020617;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9);
+    }
+
+    .top-search span {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .top-search input {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 0.8rem;
+      outline: none;
+      min-width: 120px;
+    }
+
+    .top-search input::placeholder {
+      color: #64748b;
+    }
+
+    .pill-user {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.98);
+    }
+
+    .pill-user span.name {
+      font-weight: 500;
+    }
+
+    .pill-user button {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Layout global */
+    .layout {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 230px) minmax(0, 1.9fr) minmax(0, 1.3fr);
+      gap: 10px;
+      padding: 12px;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 230px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+      }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-title {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 4px;
+      font-family: var(--font-mono);
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      text-align: left;
+      border-radius: 999px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: rgba(15, 23, 42, 0.98);
+      color: var(--muted);
+      padding: 5px 9px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 0.8rem;
+      transition: background 0.16s, color 0.16s, border-color 0.16s,
+                  transform 0.16s, box-shadow 0.16s;
+    }
+
+    .nav-btn span.key {
+      font-size: 0.7rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      font-family: var(--font-mono);
+    }
+
+    .nav-btn:hover {
+      background: rgba(15, 23, 42, 1);
+      color: var(--text);
+      border-color: rgba(56, 189, 248, 0.9);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.95);
+    }
+
+    .nav-btn.active {
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.24), transparent 60%);
+      border-color: rgba(34, 197, 94, 0.9);
+      color: var(--text);
+    }
+
+    .sidebar-footer {
+      margin-top: 6px;
+      padding-top: 5px;
+      border-top: 1px solid rgba(51, 65, 85, 0.9);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    /* Main panel */
+    .main-panel {
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.2), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.18), transparent 55%),
+        var(--bg-soft);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 12px 12px 14px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .main-panel::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      pointer-events: none;
+      background-image: repeating-linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.25),
+        rgba(15, 23, 42, 0.25) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+      opacity: 0.5;
+      mix-blend-mode: soft-light;
+    }
+
+    .main-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .panel-title {
+      font-size: 1rem;
+      margin-bottom: 3px;
+    }
+
+    .panel-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr);
+      gap: 8px;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: 14px;
+      border: 1px solid rgba(51, 65, 85, 0.98);
+      padding: 8px 9px 9px;
+      font-size: 0.8rem;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.9);
+    }
+
+    .card h3 {
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .card p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.95);
+      padding: 2px 7px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .pill.alert {
+      border-color: rgba(239, 68, 68, 0.9);
+      color: #fecaca;
+    }
+
+    .news-list {
+      list-style: none;
+      margin-top: 4px;
+    }
+
+    .news-item {
+      margin-bottom: 5px;
+    }
+
+    .news-item strong {
+      display: block;
+      font-size: 0.82rem;
+    }
+
+    .news-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .quick-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .quick-link {
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      padding: 6px 7px;
+      font-size: 0.75rem;
+      background: #020617;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      text-align: left;
+      transition: border-color 0.16s, box-shadow 0.16s, transform 0.16s;
+    }
+
+    .quick-link span.label {
+      font-weight: 500;
+    }
+
+    .quick-link span.meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .quick-link:hover {
+      border-color: rgba(56, 189, 248, 0.9);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.95);
+      transform: translateY(-1px);
+    }
+
+    /* Annuaire */
+    .directory-list {
+      list-style: none;
+      margin-top: 6px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 6px;
+    }
+
+    .directory-card {
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 6px 7px;
+      font-size: 0.78rem;
+    }
+
+    .directory-card strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .directory-role {
+      font-size: 0.75rem;
+      color: #a5b4fc;
+    }
+
+    .directory-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .directory-filter {
+      margin-top: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.74rem;
+    }
+
+    .directory-filter input,
+    .directory-filter select {
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      color: var(--text);
+      padding: 3px 7px;
+      font-size: 0.75rem;
+      outline: none;
+    }
+
+    /* Documents */
+    .doc-filters {
+      margin-top: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-size: 0.74rem;
+    }
+
+    .doc-filter-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      color: var(--muted);
+      padding: 3px 7px;
+      cursor: pointer;
+      font-size: 0.74rem;
+      font-family: var(--font-mono);
+    }
+
+    .doc-filter-btn.active {
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #bbf7d0;
+      background: rgba(15, 23, 42, 0.98);
+    }
+
+    .doc-list {
+      list-style: none;
+      margin-top: 6px;
+      font-size: 0.78rem;
+    }
+
+    .doc-item {
+      margin-bottom: 5px;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed rgba(55, 65, 81, 0.9);
+    }
+
+    .doc-item:last-child {
+      border-bottom: none;
+    }
+
+    .doc-item a {
+      text-decoration: none;
+    }
+
+    .doc-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    /* Right panel : notes / tâches / log */
+    .side-panel {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .side-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(
+        120deg,
+        rgba(56, 189, 248, 0.22),
+        transparent 45%,
+        rgba(34, 197, 94, 0.14),
+        transparent 70%
+      );
+      mix-blend-mode: soft-light;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .side-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .side-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .side-header h2 {
+      font-size: 0.9rem;
+    }
+
+    .badge-soft {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 2px 7px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .notes-area {
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 6px;
+    }
+
+    .notes-area label {
+      font-size: 0.76rem;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .notes-area textarea {
+      width: 100%;
+      min-height: 80px;
+      border-radius: 8px;
+      border: 1px solid rgba(31, 41, 55, 0.98);
+      background: #020617;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      padding: 5px 7px;
+      resize: vertical;
+      outline: none;
+    }
+
+    .btn-small {
+      margin-top: 5px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.9);
+      background: rgba(15, 23, 42, 0.98);
+      color: #e0f2fe;
+      font-size: 0.74rem;
+      padding: 4px 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+      transition: background 0.16s, box-shadow 0.16s, transform 0.16s;
+    }
+
+    .btn-small:hover {
+      background: rgba(15, 23, 42, 1);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.95);
+      transform: translateY(-1px);
+    }
+
+    .tasks {
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 6px;
+    }
+
+    .tasks h3 {
+      font-size: 0.85rem;
+      margin-bottom: 3px;
+    }
+
+    .task-list {
+      list-style: none;
+      font-size: 0.78rem;
+      margin-top: 4px;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 3px;
+    }
+
+    .task-item input {
+      width: 14px;
+      height: 14px;
+    }
+
+    .activity-log {
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+
+    .log-line {
+      margin-bottom: 2px;
+    }
+
+    .log-line span.time {
+      color: #64748b;
+      margin-right: 4px;
+    }
+
+    .log-line span.tag {
+      color: #22c55e;
+      margin-right: 4px;
+    }
+
+    .hint {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 6px 12px 8px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(30, 64, 175, 0.7);
+      background: rgba(3, 7, 18, 0.98);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 760px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="logo"><span>NØ</span></div>
+    <div>
+      <div class="org-name">NOESIS CORP</div>
+      <div class="org-sub">INTERNAL GRID · RISK &amp; COMPLIANCE SURFACE</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <form class="top-search" id="globalSearchForm">
+      <span>⌕</span>
+      <input id="globalSearchInput" type="text" placeholder="Requête : personne, doc, incident, unité…" />
+    </form>
+    <div class="pill-user">
+      <span class="name" id="userNameLabel">Operator-00</span>
+      <button type="button" id="btnChangeUser" title="Changer le nom affiché">✎</button>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <div class="nav-title">Surface</div>
+      <ul class="nav-list">
+        <li><button class="nav-btn active" data-section="dashboard">Tableau de bord <span class="key">1</span></button></li>
+        <li><button class="nav-btn" data-section="directory">Unités &amp; contacts <span class="key">2</span></button></li>
+        <li><button class="nav-btn" data-section="documents">Bibliothèque de consignes <span class="key">3</span></button></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="nav-title">Accès rapides</div>
+      <ul class="nav-list">
+        <li><button class="nav-btn" data-section="dashboard" data-scroll="news">Alertes &amp; annonces <span class="key">N</span></button></li>
+        <li><button class="nav-btn" data-section="dashboard" data-scroll="quicklinks">Outils quotidiens <span class="key">O</span></button></li>
+        <li><button class="nav-btn" data-section="documents" data-scroll="sec">Sécurité &amp; incidents <span class="key">SEC</span></button></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      💡 <strong>Note interne :</strong> cette interface est un modèle.  
+      Pour une vraie organisation, remplace les noms, procédures et unités par ta réalité.
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-panel">
+    <div class="main-inner">
+      <!-- Dashboard -->
+      <section id="section-dashboard" class="section-root">
+        <h1 class="panel-title">Tableau de bord – réseau interne</h1>
+        <p class="panel-sub">
+          Vue consolidée des signaux pour NOESIS CORP : annonces internes, outils critiques, messages de
+          gouvernance. Le reste de l’infrastructure n’est pas exposé ici.
+        </p>
+
+        <div class="grid-2">
+          <article class="card" id="block-news">
+            <h3>Alertes &amp; annonces</h3>
+            <div class="pill-row">
+              <span class="pill">RH</span>
+              <span class="pill">IT</span>
+              <span class="pill alert">Sécurité</span>
+            </div>
+            <ul class="news-list" id="newsList"></ul>
+          </article>
+
+          <article class="card" id="block-quicklinks">
+            <h3>Outils quotidiens</h3>
+            <p>
+              Sélection de surfaces exposées : chaque lien est un point d’entrée contrôlé.
+              Les couches sensibles vivent hors de ce périmètre.
+            </p>
+            <div class="quick-links" id="quickLinks"></div>
+          </article>
+        </div>
+
+        <div class="grid-2" style="margin-top:8px;">
+          <article class="card">
+            <h3>Directive de gouvernance</h3>
+            <p>
+              « L’objectif de NOESIS CORP n’est pas d’accumuler les données,
+              mais de réduire l’incertitude. L’intranet est conçu comme un
+              vecteur de discipline informationnelle, pas comme un réseau social. »
+            </p>
+            <p class="hint">
+              👉 Tu peux transformer ce bloc en message du COMEX, de la direction
+              sûreté ou de la cellule de crise, selon la fiction que tu construis.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3>Paramètres de surface</h3>
+            <ul class="news-list">
+              <li class="news-item">
+                <strong>Fenêtre d’activité siège</strong>
+                <div class="news-meta">Lun–Ven · 7h30–20h UTC+1</div>
+              </li>
+              <li class="news-item">
+                <strong>Canal support IT</strong>
+                <div class="news-meta">grid-it@noesis.corp · poste 7711</div>
+              </li>
+              <li class="news-item">
+                <strong>Canal incidents sûreté</strong>
+                <div class="news-meta">security@noesis.corp (usage réservé)</div>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- Directory -->
+      <section id="section-directory" class="section-root" style="display:none;">
+        <h1 class="panel-title">Unités &amp; contacts</h1>
+        <p class="panel-sub">
+          Cartographie minimale des personnes référentes. Chaque entrée correspond à une porte d’entrée
+          vers un sous-système humain : direction, conformité, IT, opérations terrain.
+        </p>
+        <div class="directory-filter">
+          <input type="text" id="directorySearch" placeholder="Nom, rôle, unité…" />
+          <select id="directoryDept">
+            <option value="all">Toutes les unités</option>
+            <option value="Direction">Direction</option>
+            <option value="Risk & Compliance">Risk & Compliance</option>
+            <option value="IT Grid">IT Grid</option>
+            <option value="Communication">Communication</option>
+            <option value="Ops Terrain">Ops Terrain</option>
+          </select>
+        </div>
+        <ul class="directory-list" id="directoryList"></ul>
+      </section>
+
+      <!-- Documents -->
+      <section id="section-documents" class="section-root" style="display:none;">
+        <h1 class="panel-title">Bibliothèque de consignes</h1>
+        <p class="panel-sub">
+          Set minimal de documents : chartes, procédures de crise, guides d’hygiène numérique.
+          Tu peux les lier à des PDF locaux ou des dossiers réseau protégés.
+        </p>
+        <div class="doc-filters">
+          <button class="doc-filter-btn active" data-category="all">Tous</button>
+          <button class="doc-filter-btn" data-category="RH">RH</button>
+          <button class="doc-filter-btn" data-category="IT">IT Grid</button>
+          <button class="doc-filter-btn" data-category="Sécurité">Sécurité</button>
+          <button class="doc-filter-btn" data-category="Conformité">Conformité</button>
+        </div>
+        <ul class="doc-list" id="docList"></ul>
+        <p class="hint">
+          💾 Pour brancher tes propres documents : repère la constante <code>documents</code> en bas,
+          ajoute une entrée avec <code>categorie</code>, <code>chemin</code> et éventuellement un fichier PDF local.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <!-- Right column : espace perso -->
+  <aside class="side-panel">
+    <div class="side-inner">
+      <div class="side-header">
+        <h2>Station opérateur</h2>
+        <span class="badge-soft">LOCAL NODE ONLY</span>
+      </div>
+      <p class="hint">
+        Bloc-notes, to-do et journal d’activité ne sont stockés que sur ce poste.  
+        Aucune synchronisation, aucun cloud : c’est volontaire.
+      </p>
+
+      <div class="notes-area">
+        <label for="notesText">Bloc-notes (briefs, signaux, idées)</label>
+        <textarea id="notesText" placeholder="Synthèse d’un incident, points clefs pour un brief, éléments à recouper…"></textarea>
+        <button class="btn-small" id="btnClearNotes">🧹 Effacer les notes</button>
+      </div>
+
+      <div class="tasks">
+        <h3>Checklist du jour</h3>
+        <ul class="task-list" id="taskList"></ul>
+        <p class="hint">
+          Modifie la constante <code>tasks</code> pour adapter cette checklist aux rituels de ton organisation.
+        </p>
+      </div>
+
+      <div class="activity-log" id="activityLog"></div>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <span>
+    NOESIS CORP – Internal Grid : modèle d’intranet pour une organisation dystopique, mais ancrée dans le réel.
+  </span>
+  <span>
+    1 fichier HTML, 0 backend. Pour le déployer : copie-le sur une clé USB ou un NAS interne, branche tes propres docs et unités, et étends depuis là.
+  </span>
+</footer>
+
+<script>
+  // ===================== Données fictives (corpo dystopique) =====================
+  const news = [
+    {
+      titre: "Campagne de durcissement des accès réseau",
+      meta: "IT GRID · publié le 02/01",
+      texte: "Les comptes inactifs depuis plus de 90 jours seront désactivés automatiquement. Les accès temporaires non justifiés seront supprimés."
+    },
+    {
+      titre: "Mise à jour de la charte d’usage des données",
+      meta: "RISK & COMPLIANCE · publié le 05/01",
+      texte: "Toute extraction de données en dehors des outils homologués doit être documentée. Les partages par messagerie instantanée externe sont proscrits."
+    },
+    {
+      titre: "Exercice de crise « Faille de réputation »",
+      meta: "DIRECTION · publié le 10/01",
+      texte: "Simulation interne d’une fuite d’informations sensible. Participation requise pour les unités Direction, Communication, Risk & Compliance."
+    }
+  ];
+
+  const quickLinks = [
+    {
+      label: "Portal RH / People",
+      meta: "Contrats, congés, entretiens annuels",
+      targetSection: "documents",
+      tag: "RH"
+    },
+    {
+      label: "IT Grid Support",
+      meta: "Incidents, équipements, accès",
+      targetSection: "dashboard",
+      tag: "IT"
+    },
+    {
+      label: "Risk & Compliance Hub",
+      meta: "Alertes, signalements, directives",
+      targetSection: "documents",
+      tag: "Conformité"
+    },
+    {
+      label: "Incident Sécurité",
+      meta: "Procédures & contacts urgence",
+      targetSection: "documents",
+      tag: "Sécurité"
+    }
+  ];
+
+  const staff = [
+    { nom: "Nora Vidal", role: "Chief Governance Officer", dept: "Direction", contact: "nora.vidal@noesis.corp" },
+    { nom: "Jan Kowalski", role: "Head of Risk & Compliance", dept: "Risk & Compliance", contact: "jan.kowalski@noesis.corp" },
+    { nom: "Leïla Ben Youssef", role: "Analyste conformité & données", dept: "Risk & Compliance", contact: "leila.benyoussef@noesis.corp" },
+    { nom: "Markus Stein", role: "Head of IT Grid", dept: "IT Grid", contact: "markus.stein@noesis.corp" },
+    { nom: "Aya Kobayashi", role: "Ingénieure systèmes & sécurité", dept: "IT Grid", contact: "aya.kobayashi@noesis.corp" },
+    { nom: "Ibrahim Saïd", role: "Responsable communication corporate", dept: "Communication", contact: "ibrahim.said@noesis.corp" },
+    { nom: "Clara Lopez", role: "Coordination Ops Europe", dept: "Ops Terrain", contact: "clara.lopez@noesis.corp" },
+    { nom: "Jonas Müller", role: "Ops Terrain – Zone Nord", dept: "Ops Terrain", contact: "jonas.muller@noesis.corp" }
+  ];
+
+  const documents = [
+    {
+      titre: "Charte d’usage des systèmes d’information",
+      categorie: "Conformité",
+      type: "PDF",
+      chemin: "docs/charte-usage-si.pdf",
+      description: "Ce document définit ce qui est considéré comme un usage acceptable des systèmes internes."
+    },
+    {
+      titre: "Procédure d’alerte éthique / compliance",
+      categorie: "Conformité",
+      type: "PDF",
+      chemin: "docs/procedure-alerte-ethique.pdf",
+      description: "Canaux de signalement, garanties pour les lanceurs d’alerte, délais de traitement."
+    },
+    {
+      titre: "Guide hygiène numérique – Opérateur",
+      categorie: "IT",
+      type: "PDF",
+      chemin: "docs/guide-hygiene-numerique.pdf",
+      description: "Règles de base pour limiter les incidents de sécurité et les fuites involontaires."
+    },
+    {
+      titre: "Plan de réaction incident sécurité",
+      categorie: "Sécurité",
+      type: "PDF",
+      chemin: "docs/plan-incident-securite.pdf",
+      description: "Scénario type en cas de compromission, coordonnateurs, escalade, communication interne."
+    },
+    {
+      titre: "Cadre RH – temps de travail & disponibilité",
+      categorie: "RH",
+      type: "PDF",
+      chemin: "docs/cadre-temps-travail.pdf",
+      description: "Règles relatives aux horaires, astreintes, temps de récupération."
+    }
+  ];
+
+  const tasks = [
+    { label: "Vérifier les alertes IT GRID du jour", done: false },
+    { label: "Relire la dernière directive Risk & Compliance", done: false },
+    { label: "Mettre à jour ma note de situation dans le bloc-notes", done: false }
+  ];
+
+  // ===================== Utilitaires =====================
+  const activityLog = document.getElementById("activityLog");
+
+  function logActivity(tag, message) {
+    const div = document.createElement("div");
+    div.className = "log-line";
+
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, "0");
+    const mm = String(now.getMinutes()).padStart(2, "0");
+    const ss = String(now.getSeconds()).padStart(2, "0");
+
+    const t = document.createElement("span");
+    t.className = "time";
+    t.textContent = `${hh}:${mm}:${ss}`;
+
+    const tg = document.createElement("span");
+    tg.className = "tag";
+    tg.textContent = `[${tag}]`;
+
+    const txt = document.createTextNode(" " + message);
+
+    div.appendChild(t);
+    div.appendChild(tg);
+    div.appendChild(txt);
+    activityLog.appendChild(div);
+    activityLog.scrollTop = activityLog.scrollHeight;
+  }
+
+  function showSection(key) {
+    const sections = document.querySelectorAll(".section-root");
+    sections.forEach(sec => {
+      sec.style.display = sec.id === "section-" + key ? "block" : "none";
+    });
+
+    const navBtns = document.querySelectorAll(".nav-btn[data-section]");
+    navBtns.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.section === key && !btn.dataset.scroll);
+    });
+
+    logActivity("NAV", "Section affichée : " + key);
+  }
+
+  // ===================== Remplissage dashboard =====================
+  function renderNews() {
+    const list = document.getElementById("newsList");
+    list.innerHTML = "";
+    news.forEach(item => {
+      const li = document.createElement("li");
+      li.className = "news-item";
+      const title = document.createElement("strong");
+      title.textContent = item.titre;
+      const meta = document.createElement("div");
+      meta.className = "news-meta";
+      meta.textContent = item.meta;
+      const p = document.createElement("p");
+      p.textContent = item.texte;
+      li.appendChild(title);
+      li.appendChild(meta);
+      li.appendChild(p);
+      list.appendChild(li);
+    });
+  }
+
+  function renderQuickLinks() {
+    const container = document.getElementById("quickLinks");
+    container.innerHTML = "";
+    quickLinks.forEach(link => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "quick-link";
+      btn.addEventListener("click", () => {
+        showSection(link.targetSection);
+      });
+      const label = document.createElement("span");
+      label.className = "label";
+      label.textContent = link.label;
+      const meta = document.createElement("span");
+      meta.className = "meta";
+      meta.textContent = link.meta;
+      btn.appendChild(label);
+      btn.appendChild(meta);
+      container.appendChild(btn);
+    });
+  }
+
+  // ===================== Annuaire =====================
+  function renderDirectory(filterText = "", dept = "all") {
+    const list = document.getElementById("directoryList");
+    list.innerHTML = "";
+    const q = (filterText || "").toLowerCase();
+
+    staff.forEach(person => {
+      if (dept !== "all" && person.dept !== dept) return;
+      const full = (person.nom + " " + person.role + " " + person.dept).toLowerCase();
+      if (q && !full.includes(q)) return;
+
+      const li = document.createElement("li");
+      li.className = "directory-card";
+      const name = document.createElement("strong");
+      name.textContent = person.nom;
+      const role = document.createElement("div");
+      role.className = "directory-role";
+      role.textContent = person.role + " – " + person.dept;
+      const meta = document.createElement("div");
+      meta.className = "directory-meta";
+      meta.textContent = person.contact;
+      li.appendChild(name);
+      li.appendChild(role);
+      li.appendChild(meta);
+      list.appendChild(li);
+    });
+  }
+
+  // ===================== Documents =====================
+  function renderDocuments(category = "all") {
+    const list = document.getElementById("docList");
+    list.innerHTML = "";
+    documents.forEach(doc => {
+      if (category !== "all" && doc.categorie !== category) return;
+      const li = document.createElement("li");
+      li.className = "doc-item";
+      const a = document.createElement("a");
+      a.href = doc.chemin;
+      a.target = "_blank";
+      a.textContent = doc.titre + " (" + doc.type + ")";
+      const meta = document.createElement("div");
+      meta.className = "doc-meta";
+      meta.textContent = doc.categorie + " · " + doc.chemin;
+      const desc = document.createElement("div");
+      desc.textContent = doc.description;
+      li.appendChild(a);
+      li.appendChild(meta);
+      li.appendChild(desc);
+      list.appendChild(li);
+    });
+  }
+
+  // ===================== Notes (localStorage) =====================
+  const NOTES_KEY = "noesis_grid_notes";
+  const USERNAME_KEY = "noesis_grid_user";
+
+  function loadNotes() {
+    const val = localStorage.getItem(NOTES_KEY);
+    if (val !== null) {
+      document.getElementById("notesText").value = val;
+      logActivity("NOTES", "Notes chargées depuis le stockage local.");
+    }
+  }
+
+  function saveNotes() {
+    const val = document.getElementById("notesText").value || "";
+    localStorage.setItem(NOTES_KEY, val);
+  }
+
+  function loadUsername() {
+    const label = document.getElementById("userNameLabel");
+    const saved = localStorage.getItem(USERNAME_KEY);
+    if (saved) {
+      label.textContent = saved;
+      logActivity("USER", "Nom opérateur chargé : " + saved);
+    }
+  }
+
+  function changeUsername() {
+    const current = document.getElementById("userNameLabel").textContent;
+    const name = prompt("Nom à afficher sur la station opérateur :", current);
+    if (name && name.trim()) {
+      localStorage.setItem(USERNAME_KEY, name.trim());
+      document.getElementById("userNameLabel").textContent = name.trim();
+      logActivity("USER", "Nom opérateur mis à jour : " + name.trim());
+    }
+  }
+
+  // ===================== Tâches =====================
+  function renderTasks() {
+    const list = document.getElementById("taskList");
+    list.innerHTML = "";
+    tasks.forEach((task, idx) => {
+      const li = document.createElement("li");
+      li.className = "task-item";
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = task.done;
+      checkbox.addEventListener("change", () => {
+        tasks[idx].done = checkbox.checked;
+        logActivity("TASK", (checkbox.checked ? "Terminé : " : "Ré-ouvert : ") + task.label);
+      });
+      const span = document.createElement("span");
+      span.textContent = task.label;
+      li.appendChild(checkbox);
+      li.appendChild(span);
+      list.appendChild(li);
+    });
+  }
+
+  // ===================== Recherche globale =====================
+  function globalSearch(query) {
+    const q = (query || "").toLowerCase();
+    if (!q) return;
+
+    if (q.includes("unit") || q.includes("personne") || q.includes("contact")) {
+      showSection("directory");
+      logActivity("SEARCH", "Redirection vers unités & contacts pour : " + query);
+      return;
+    }
+    if (q.includes("doc") || q.includes("proc") || q.includes("charte") || q.includes("incident")) {
+      showSection("documents");
+      logActivity("SEARCH", "Redirection vers bibliothèque pour : " + query);
+      return;
+    }
+
+    const serviceMap = {
+      "rh": "documents",
+      "people": "documents",
+      "compliance": "documents",
+      "risk": "documents",
+      "sécurité": "documents",
+      "it": "documents",
+      "grid": "documents"
+    };
+    for (const k in serviceMap) {
+      if (q.includes(k)) {
+        showSection(serviceMap[k]);
+        logActivity("SEARCH", "Redirection thématique (" + k + ") pour : " + query);
+        return;
+      }
+    }
+
+    showSection("dashboard");
+    logActivity("SEARCH", "Recherche générale sans correspondance précise : " + query);
+  }
+
+  // ===================== Événements =====================
+  document.addEventListener("DOMContentLoaded", () => {
+    renderNews();
+    renderQuickLinks();
+    renderDirectory();
+    renderDocuments();
+    renderTasks();
+    loadNotes();
+    loadUsername();
+    logActivity("SYS", "Internal Grid initialisée.");
+
+    // Navigation sidebar
+    document.querySelectorAll(".nav-btn[data-section]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const section = btn.dataset.section;
+        const scrollTarget = btn.dataset.scroll;
+        showSection(section);
+        if (scrollTarget && section === "dashboard") {
+          const id = scrollTarget === "news" ? "block-news" :
+                    scrollTarget === "quicklinks" ? "block-quicklinks" : null;
+          if (id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }
+      });
+    });
+
+    // Filtres annuaire
+    const directorySearch = document.getElementById("directorySearch");
+    const directoryDept = document.getElementById("directoryDept");
+    directorySearch.addEventListener("input", () => {
+      renderDirectory(directorySearch.value, directoryDept.value);
+    });
+    directoryDept.addEventListener("change", () => {
+      renderDirectory(directorySearch.value, directoryDept.value);
+    });
+
+    // Filtres documents
+    const docFilterBtns = document.querySelectorAll(".doc-filter-btn");
+    docFilterBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        docFilterBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const cat = btn.dataset.category;
+        renderDocuments(cat);
+        logActivity("DOC", "Filtre documents = " + cat);
+      });
+    });
+
+    // Notes
+    const notesText = document.getElementById("notesText");
+    notesText.addEventListener("input", () => {
+      if (saveNotes._t) clearTimeout(saveNotes._t);
+      saveNotes._t = setTimeout(() => {
+        saveNotes();
+        logActivity("NOTES", "Notes sauvegardées.");
+      }, 400);
+    });
+    document.getElementById("btnClearNotes").addEventListener("click", () => {
+      notesText.value = "";
+      saveNotes();
+      logActivity("NOTES", "Notes effacées.");
+    });
+
+    // User
+    document.getElementById("btnChangeUser").addEventListener("click", changeUsername);
+
+    // Recherche globale
+    const globalSearchForm = document.getElementById("globalSearchForm");
+    const globalSearchInput = document.getElementById("globalSearchInput");
+    globalSearchForm.addEventListener("submit", e => {
+      e.preventDefault();
+      const q = globalSearchInput.value.trim();
+      if (q) globalSearch(q);
+    });
+  });
+</script>
+</body>
+</html>
