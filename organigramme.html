@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organigramme – Organisation citoyenne</title>
+
+  <!-- Police sympa (facultatif, tu peux enlever si tu veux 100% local) -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050712;
+      --bg-alt: #0b0f26;
+      --panel: #101632;
+      --panel-soft: #181f40;
+      --accent: #8bffb0;
+      --accent-soft: rgba(139, 255, 176, 0.2);
+      --accent-2: #d28bff;
+      --accent-2-soft: rgba(210, 139, 255, 0.18);
+      --text-main: #f5f7ff;
+      --text-muted: #a3b0ff;
+      --danger: #ff4b7b;
+      --shadow-soft: 0 0 40px rgba(0, 0, 0, 0.8);
+      --border-soft: 1px solid rgba(255, 255, 255, 0.1);
+      --radius-xl: 18px;
+      --transition-fast: 0.18s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #24307a 0, #050712 45%, #02030a 100%);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 1.2rem;
+    }
+
+    @media (min-width: 900px) {
+      body {
+        padding: 2rem 3rem;
+      }
+    }
+
+    main {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* Décor : grille & particules */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.16;
+      background-image:
+        linear-gradient(to right, rgba(120, 130, 255, 0.27) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(120, 130, 255, 0.27) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mix-blend-mode: screen;
+      z-index: -3;
+    }
+
+    .bg-orb {
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 999px;
+      filter: blur(80px);
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: -2;
+      background: radial-gradient(circle at 30% 20%, #8bffb0 0, transparent 55%);
+      top: -40px;
+      right: -120px;
+    }
+
+    .bg-orb.secondary {
+      background: radial-gradient(circle at 70% 80%, #d28bff 0, transparent 55%);
+      width: 360px;
+      height: 360px;
+      bottom: -80px;
+      left: -40px;
+      top: auto;
+      right: auto;
+    }
+
+    .page-frame {
+      border-radius: 26px;
+      background: linear-gradient(135deg, rgba(139, 255, 176, 0.08), rgba(210, 139, 255, 0.06));
+      padding: 1px;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
+    }
+
+    .page-inner {
+      border-radius: 25px;
+      background: radial-gradient(circle at top left, rgba(139, 255, 176, 0.12), transparent 50%) ,
+                  radial-gradient(circle at bottom right, rgba(210, 139, 255, 0.15), transparent 55%) ,
+                  linear-gradient(145deg, var(--bg-alt), #050712);
+      padding: 1.4rem;
+    }
+
+    @media (min-width: 900px) {
+      .page-inner {
+        padding: 1.9rem 2rem 2.2rem;
+      }
+    }
+
+    /* En-tête */
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.6rem;
+    }
+
+    @media (min-width: 700px) {
+      .header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+    }
+
+    .title-block {
+      max-width: 520px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(7, 255, 161, 0.1);
+      border: 1px solid rgba(139, 255, 176, 0.7);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(139, 255, 176, 0.9);
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 4vw, 2.2rem);
+      line-height: 1.1;
+      margin-bottom: 0.35rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 36rem;
+    }
+
+    .subtitle strong {
+      color: #ffffff;
+    }
+
+    /* Toolbar */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: flex-start;
+    }
+
+    .toolbar-group {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: var(--border-soft);
+      background: rgba(11, 15, 38, 0.8);
+      color: var(--text-main);
+      font-size: 0.78rem;
+      padding: 0.35rem 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+      backdrop-filter: blur(8px);
+      white-space: nowrap;
+    }
+
+    .btn span.icon {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.85em;
+      opacity: 0.9;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #8bffb0, #d28bff);
+      color: #02030a;
+      border-color: transparent;
+      box-shadow: 0 0 18px rgba(139, 255, 176, 0.5);
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 14px rgba(0, 0, 0, 0.7);
+      border-color: rgba(139, 255, 176, 0.6);
+      background: rgba(20, 25, 60, 0.95);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 0 24px rgba(210, 139, 255, 0.8);
+      filter: saturate(1.15);
+    }
+
+    .btn-ghost {
+      background: transparent;
+    }
+
+    .btn-ghost.toggled {
+      border-color: rgba(210, 139, 255, 0.9);
+      box-shadow: 0 0 18px rgba(210, 139, 255, 0.6);
+      background: rgba(122, 86, 255, 0.16);
+    }
+
+    /* Légende */
+    .legend {
+      margin-bottom: 1.2rem;
+      border-radius: var(--radius-xl);
+      border: var(--border-soft);
+      background: rgba(6, 10, 34, 0.75);
+      padding: 0.8rem 0.9rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem 1.4rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      backdrop-filter: blur(10px);
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      white-space: nowrap;
+    }
+
+    .legend-swatch {
+      width: 18px;
+      height: 10px;
+      border-radius: 999px;
+    }
+
+    .legend-swatch.gov { background: linear-gradient(90deg, #8bffb0, #33ffd1); }
+    .legend-swatch.ops { background: linear-gradient(90deg, #d28bff, #ff86ff); }
+    .legend-swatch.lab { background: linear-gradient(90deg, #ffd68b, #ff9a55); }
+    .legend-swatch.community { background: linear-gradient(90deg, #7fd0ff, #8bffb0); }
+
+    /* Arbre */
+    .org-wrapper {
+      border-radius: 22px;
+      background: radial-gradient(circle at top, rgba(139, 255, 176, 0.14), transparent 58%),
+                  linear-gradient(160deg, rgba(13, 18, 50, 0.96), rgba(3, 6, 24, 0.98));
+      padding: 1rem 0.9rem 1.2rem;
+      border: 1px solid rgba(167, 185, 255, 0.3);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 900px) {
+      .org-wrapper {
+        padding: 1.2rem 1.4rem 1.6rem;
+      }
+    }
+
+    .org-wrapper::before {
+      content: "";
+      position: absolute;
+      inset: -100px;
+      background:
+        radial-gradient(circle at 10% 0, rgba(139, 255, 176, 0.14), transparent 60%),
+        radial-gradient(circle at 90% 20%, rgba(210, 139, 255, 0.16), transparent 60%);
+      opacity: 0.5;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .org-tree {
+      position: relative;
+      padding-left: 0;
+      margin-top: 0.4rem;
+    }
+
+    /* Colonne verticale principale */
+    .org-branch {
+      border-left: 2px dashed rgba(148, 166, 255, 0.5);
+      margin-left: 1rem;
+      padding-left: 1rem;
+    }
+
+    .org-root {
+      margin-left: 0;
+      padding-left: 0;
+      border-left: none;
+    }
+
+    /* Nœuds */
+    details.org-node {
+      margin-bottom: 0.7rem;
+      border-radius: 18px;
+      background: radial-gradient(circle at top left, rgba(139, 255, 176, 0.12), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(210, 139, 255, 0.11), transparent 55%),
+                  linear-gradient(135deg, rgba(9, 14, 44, 0.96), rgba(4, 7, 26, 0.98));
+      border: 1px solid rgba(151, 171, 255, 0.5);
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.7);
+      overflow: hidden;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background 0.25s ease-out;
+      position: relative;
+    }
+
+    details.org-node[open] {
+      box-shadow: 0 0 26px rgba(139, 255, 176, 0.3);
+      border-color: rgba(139, 255, 176, 0.9);
+      transform: translateY(-1px);
+    }
+
+    details.org-node::before {
+      content: "";
+      position: absolute;
+      left: -14px;
+      top: 20px;
+      width: 10px;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(139, 255, 176, 0.9), rgba(210, 139, 255, 0.9));
+      border-radius: 999px;
+    }
+
+    .org-root > details.org-node::before {
+      display: none;
+    }
+
+    summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 0.65rem 0.85rem;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.6rem 0.9rem;
+      align-items: center;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .node-pill {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 30% 20%, #8bffb0, #5cf6ff);
+      box-shadow: 0 0 14px rgba(139, 255, 176, 0.9);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      color: #01020a;
+    }
+
+    .node-pill.gov {
+      background: radial-gradient(circle at 30% 20%, #8bffb0, #33ffd1);
+    }
+
+    .node-pill.ops {
+      background: radial-gradient(circle at 30% 20%, #d28bff, #ff8af5);
+    }
+
+    .node-pill.lab {
+      background: radial-gradient(circle at 30% 20%, #ffd68b, #ff9f61);
+    }
+
+    .node-pill.community {
+      background: radial-gradient(circle at 30% 20%, #7fd0ff, #8bffb0);
+    }
+
+    .node-main {
+      display: flex;
+      flex-direction: column;
+      gap: 0.12rem;
+    }
+
+    .node-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    .node-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .node-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      justify-content: flex-end;
+      font-size: 0.7rem;
+    }
+
+    .tag {
+      border-radius: 999px;
+      padding: 0.12rem 0.45rem;
+      border: 1px solid rgba(155, 174, 255, 0.65);
+      color: var(--text-muted);
+      background: rgba(9, 13, 45, 0.9);
+    }
+
+    .tag.hot {
+      border-color: rgba(255, 155, 171, 0.9);
+      color: #ffb8c9;
+    }
+
+    .tag.future {
+      border-style: dashed;
+      border-color: rgba(139, 255, 176, 0.8);
+      color: var(--accent);
+    }
+
+    .node-body {
+      border-top: 1px solid rgba(104, 128, 255, 0.65);
+      padding: 0.6rem 0.9rem 0.7rem;
+      background: linear-gradient(135deg, rgba(10, 14, 44, 0.95), rgba(7, 11, 36, 0.98));
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .node-body p {
+      margin-bottom: 0.45rem;
+    }
+
+    .node-body ul {
+      margin-left: 1.1rem;
+      margin-bottom: 0.45rem;
+      list-style: square;
+    }
+
+    .node-body li + li {
+      margin-top: 0.15rem;
+    }
+
+    .node-body .hint {
+      font-size: 0.72rem;
+      opacity: 0.9;
+      border-left: 2px solid rgba(139, 255, 176, 0.7);
+      padding-left: 0.45rem;
+      margin-top: 0.25rem;
+    }
+
+    .children {
+      margin-top: 0.45rem;
+      padding-top: 0.45rem;
+      border-top: 1px dashed rgba(120, 140, 255, 0.6);
+    }
+
+    /* Mode simple = on cache les détails */
+    body.simple-mode .node-body {
+      display: none;
+    }
+
+    body.simple-mode details.org-node {
+      background: linear-gradient(135deg, rgba(9, 14, 44, 0.95), rgba(3, 6, 25, 0.98));
+    }
+
+    body.simple-mode .legend {
+      opacity: 0.95;
+    }
+
+    /* Barre de niveau racine */
+    .root-banner {
+      margin-bottom: 0.65rem;
+      border-radius: 999px;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.76rem;
+      background: radial-gradient(circle at 10% 20%, rgba(139, 255, 176, 0.25), transparent 60%),
+                  linear-gradient(90deg, rgba(14, 21, 60, 0.95), rgba(7, 15, 45, 0.98));
+      border: 1px solid rgba(173, 203, 255, 0.75);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .root-banner-pill {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: conic-gradient(from 210deg, #8bffb0, #d28bff, #ffd68b, #7fd0ff, #8bffb0);
+      box-shadow: 0 0 18px rgba(139, 255, 176, 0.9);
+    }
+
+    .root-banner span {
+      color: var(--text-muted);
+    }
+
+    .root-banner strong {
+      color: #ffffff;
+    }
+
+    /* Pied */
+    .footer-note {
+      margin-top: 0.7rem;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-align: right;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-orb"></div>
+  <div class="bg-orb secondary"></div>
+
+  <main>
+    <div class="page-frame">
+      <div class="page-inner">
+        <header class="header">
+          <div class="title-block">
+            <div class="badge">
+              <div class="badge-dot"></div>
+              ORGANIGRAMME IDÉAL – PROTOYPE
+            </div>
+            <h1>Architecture complète de l'organisation</h1>
+            <p class="subtitle">
+              Visualisation <strong>100&nbsp;% conceptuelle</strong> de ta future structure :
+              gouvernance, pôles, cellules, laboratoires et communauté élargie.
+              Tout est pensé pour être <strong>modulaire</strong> et <strong>évolutif</strong>.
+            </p>
+          </div>
+
+          <div class="toolbar">
+            <div class="toolbar-group">
+              <button class="btn btn-primary" id="expandAll">
+                <span class="icon">+</span>
+                Tout développer
+              </button>
+              <button class="btn" id="collapseAll">
+                <span class="icon">−</span>
+                Tout réduire
+              </button>
+            </div>
+            <div class="toolbar-group">
+              <button class="btn btn-ghost" id="toggleMode">
+                <span class="icon">◎</span>
+                Mode simple
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <section class="legend" aria-label="Légende de l’organigramme">
+          <div class="legend-item">
+            <span class="legend-swatch gov"></span>
+            <span>Gouvernance & cadre</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch ops"></span>
+            <span>Opérations & projets</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch lab"></span>
+            <span>Labs & expérimentation</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch community"></span>
+            <span>Communauté élargie</span>
+          </div>
+        </section>
+
+        <section class="org-wrapper" aria-label="Organigramme complet">
+          <div class="root-banner">
+            <div class="root-banner-pill"></div>
+            <span>
+              <strong>Niveau 0&nbsp;:</strong> vision d'ensemble – une organisation distribuée, centrée sur les membres, qui s’adapte à la réalité du terrain.
+            </span>
+          </div>
+
+          <div class="org-tree org-root">
+            <!-- 1. Gouvernance stratégique -->
+            <details class="org-node" open>
+              <summary>
+                <div class="node-pill gov">G0</div>
+                <div class="node-main">
+                  <div class="node-title">Assemblée générale des membres</div>
+                  <div class="node-sub">Souveraineté démocratique & grandes orientations</div>
+                </div>
+                <div class="node-tags">
+                  <span class="tag">gouvernance</span>
+                  <span class="tag">statuts</span>
+                </div>
+              </summary>
+              <div class="node-body">
+                <p>
+                  Instance souveraine qui réunit toutes les personnes, collectifs et organisations
+                  impliquées dans le projet (membres effectifs, associés, alliés stratégiques).
+                </p>
+                <ul>
+                  <li>Valide la vision, la mission et l’ADN de l’organisation.</li>
+                  <li>Approuve le budget, les comptes et les rapports annuels.</li>
+                  <li>Élit les organes de pilotage et de contrôle.</li>
+                </ul>
+                <p class="hint">
+                  Dans ta logique, c’est ici que se décide le cadre global : “ce que nous sommes”
+                  et “ce que nous refusons de devenir”.
+                </p>
+
+                <div class="children org-branch">
+                  <!-- 1.1 Conseil de pilotage -->
+                  <details class="org-node" open>
+                    <summary>
+                      <div class="node-pill gov">G1</div>
+                      <div class="node-main">
+                        <div class="node-title">Conseil de pilotage</div>
+                        <div class="node-sub">Stratégie, priorités & arbitrages</div>
+                      </div>
+                      <div class="node-tags">
+                        <span class="tag">stratégie</span>
+                        <span class="tag">priorisation</span>
+                      </div>
+                    </summary>
+                    <div class="node-body">
+                      <p>
+                        Organe restreint mandaté par l’Assemblée pour traduire la vision en
+                        feuille de route concrète.
+                      </p>
+                      <ul>
+                        <li>Définit les objectifs annuels et les chantiers prioritaires.</li>
+                        <li>Arbitre entre les besoins des différents pôles et projets.</li>
+                        <li>Assure la cohérence globale de l’écosystème (pas de dispersion).</li>
+                      </ul>
+
+                      <div class="children org-branch">
+                        <!-- 1.1.a Cellule prospective -->
+                        <details class="org-node">
+                          <summary>
+                            <div class="node-pill gov">G1a</div>
+                            <div class="node-main">
+                              <div class="node-title">Cellule prospective & veille stratégique</div>
+                              <div class="node-sub">Observer, analyser, anticiper</div>
+                            </div>
+                            <div class="node-tags">
+                              <span class="tag">veille</span>
+                              <span class="tag">analyse</span>
+                            </div>
+                          </summary>
+                          <div class="node-body">
+                            <p>
+                              Petit groupe qui cartographie les enjeux de société, repère les signaux faibles
+                              et documente les opportunités de partenariats ou d’actions.
+                            </p>
+                            <ul>
+                              <li>Réalise des synthèses régulières pour le Conseil de pilotage.</li>
+                              <li>Repère les risques (politiques, technologiques, financiers, réputationnels).</li>
+                              <li>Propose des “scénarios” pour tester les stratégies possibles.</li>
+                            </ul>
+                          </div>
+                        </details>
+
+                        <!-- 1.1.b Collège éthique & juridique -->
+                        <details class="org-node">
+                          <summary>
+                            <div class="node-pill gov">G1b</div>
+                            <div class="node-main">
+                              <div class="node-title">Collège éthique & juridique</div>
+                              <div class="node-sub">Cadre, protection & conformité</div>
+                            </div>
+                            <div class="node-tags">
+                              <span class="tag">éthique</span>
+                              <span class="tag">RGPD</span>
+                            </div>
+                          </summary>
+                          <div class="node-body">
+                            <p>
+                              Gardiens du cadre : ils veillent aux droits des personnes, à la
+                              transparence et à la protection des données.
+                            </p>
+                            <ul>
+                              <li>Vérifie la conformité avec le droit associatif, social & fiscal.</li>
+                              <li>Établit une charte éthique et un protocole de gestion des incidents.</li>
+                              <li>Assure un droit d’alerte sécurisé pour les membres.</li>
+                            </ul>
+                          </div>
+                        </details>
+                      </div>
+                    </div>
+                  </details>
+
+                  <!-- 1.2 Comité de contrôle citoyen -->
+                  <details class="org-node">
+                    <summary>
+                      <div class="node-pill gov">G2</div>
+                      <div class="node-main">
+                        <div class="node-title">Comité de contrôle citoyen</div>
+                        <div class="node-sub">Transparence, redevabilité & retour critique</div>
+                      </div>
+                      <div class="node-tags">
+                        <span class="tag hot">contre-pouvoir</span>
+                      </div>
+                    </summary>
+                    <div class="node-body">
+                      <p>
+                        Instance indépendante qui vérifie que l’organisation reste fidèle à ses promesses
+                        et à ses valeurs.
+                      </p>
+                      <ul>
+                        <li>Audite les décisions importantes (impact social, climat interne).</li>
+                        <li>Organise des consultations régulières des membres et partenaires.</li>
+                        <li>Publie des rapports publics simplifiés et lisibles.</li>
+                      </ul>
+                    </div>
+                  </details>
+                </div>
+              </div>
+            </details>
+
+            <!-- 2. Pôle Opérations & Coordination -->
+            <details class="org-node" open>
+              <summary>
+                <div class="node-pill ops">O0</div>
+                <div class="node-main">
+                  <div class="node-title">Secrétariat opérationnel</div>
+                  <div class="node-sub">Centre nerveux & support au quotidien</div>
+                </div>
+                <div class="node-tags">
+                  <span class="tag">coordination</span>
+                  <span class="tag">support</span>
+                </div>
+              </summary>
+              <div class="node-body">
+                <p>
+                  L’équipe qui fait tourner la machine : organisation, logistique, accompagnement des projets
+                  et des personnes.
+                </p>
+                <p class="hint">
+                  C’est le “hub” où arrivent les demandes, les idées, les problèmes… et d’où partent
+                  les solutions concrètes.
+                </p>
+
+                <div class="children org-branch">
+                  <!-- 2.1 Pôle Administration & Finances -->
+                  <details class="org-node" open>
+                    <summary>
+                      <div class="node-pill ops">O1</div>
+                      <div class="node-main">
+                        <div class="node-title">Pôle Administration & Finances</div>
+                        <div class="node-sub">Base solide & sécurité matérielle</div>
+                      </div>
+                      <div class="node-tags">
+                        <span class="tag">gestion</span>
+                        <span class="tag">comptabilité</span>
+                      </div>
+                    </summary>
+                    <div class="node-body">
+                      <ul>
+                        <li>Gestion des contrats, conventions, assurances et obligations légales.</li>
+                        <li>Gestion budgétaire, comptable et recherche de financements.</li>
+                        <li>Outils de suivi (tableaux de bord, tableaux de bord simplifiés pour les membres).</li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <!-- 2.2 Pôle Animation & Pédagogie -->
+                  <details class="org-node" open>
+                    <summary>
+                      <div class="node-pill ops">O2</div>
+                      <div class="node-main">
+                        <div class="node-title">Pôle Animation & Pédagogie</div>
+                        <div class="node-sub">Formations, ateliers & accompagnements</div>
+                      </div>
+                      <div class="node-tags">
+                        <span class="tag">éducation</span>
+                        <span class="tag">méthodes actives</span>
+                      </div>
+                    </summary>
+                    <div class="node-body">
+                      <ul>
+                        <li>Conçoit des modules de formation (présentiel & en ligne).</li>
+                        <li>Accompagne les groupes, collectifs, associations et individus.</li>
+                        <li>Documente les pratiques (fiches outils, guides, tutoriels).</li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <!-- 2.3 Pôle Veille & Intelligence citoyenne -->
+                  <details class="org-node" open>
+                    <summary>
+                      <div class="node-pill ops">O3</div>
+                      <div class="node-main">
+                        <div class="node-title">Pôle Veille & Intelligence citoyenne</div>
+                        <div class="node-sub">Veille, enquêtes & analyse des enjeux</div>
+                      </div>
+                      <div class="node-tags">
+                        <span class="tag">veille citoyenne</span>
+                        <span class="tag">données</span>
+                      </div>
+                    </summary>
+                    <div class="node-body">
+                      <ul>
+                        <li>Organise des cellules de veille locales ou thématiques.</li>
+                        <li>Met en place des protocoles simples d’enquête, de collecte & d’analyse.</li>
+                        <li>Publie des synthèses accessibles au grand public.</li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <!-- 2.4 Pôle Tech & Infrastructure -->
+                  <details class="org-node" open>
+                    <summary>
+                      <div class="node-pill ops">O4</div>
+                      <div class="node-main">
+                        <div class="node-title">Pôle Tech & Infrastructure</div>
+                        <div class="node-sub">Sites, outils, sécurité numérique</div>
+                      </div>
+                      <div class="node-tags">
+                        <span class="tag">infra</span>
+                        <span class="tag">support technique</span>
+                      </div>
+                    </summary>
+                    <div class="node-body">
+                      <ul>
+                        <li>Administre les sites web, plateformes, outils collaboratifs.</li>
+                        <li>Gère les sauvegardes, les accès et la sécurité de base.</li>
+                        <li>Accompagne les membres dans l’usage des outils (tutoriels, FAQ).</li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <!-- 2.5 Pôle Alliances & Partenariats -->
+                  <details class="org-node">
+                    <summary>
+                      <div class="node-pill ops">O5</div>
+                      <div class="node-main">
+                        <div class="node-title">Pôle Alliances & Partenariats</div>
+                        <div class="node-sub">Écosystème & réseaux</div>
+                      </div>
+                      <div class="node-tags">
+                        <span class="tag">alliances</span>
+                        <span class="tag future">co-organisation</span>
+                      </div>
+                    </summary>
+                    <div class="node-body">
+                      <ul>
+                        <li>Cartographie les organisations alliées, relais et points de friction.</li>
+                        <li>Co-construit des actions, campagnes ou projets communs.</li>
+                        <li>Crée des passerelles entre mondes associatif, académique, militant, etc.</li>
+                      </ul>
+                    </div>
+                  </details>
+                </div>
+              </div>
+            </details>
+
+            <!-- 3. Laboratoires & expérimentation -->
+            <details class="org-node" open>
+              <summary>
+                <div class="node-pill lab">L0</div>
+                <div class="node-main">
+                  <div class="node-title">Laboratoires & Projets spéciaux</div>
+                  <div class="node-sub">Zone d’expérimentation contrôlée</div>
+                </div>
+                <div class="node-tags">
+                  <span class="tag">innovation</span>
+                  <span class="tag hot">beta test</span>
+                </div>
+              </summary>
+              <div class="node-body">
+                <p>
+                  Espace pour tester des formats, outils, jeux sérieux, ARG, dispositifs hybrides…
+                  sans mettre en danger le cœur de l’organisation.
+                </p>
+
+                <div class="children org-branch">
+                  <details class="org-node" open>
+                    <summary>
+                      <div class="node-pill lab">L1</div>
+                      <div class="node-main">
+                        <div class="node-title">Lab Pédagogie & Jeux sérieux</div>
+                        <div class="node-sub">Tests de formats pédagogiques & jeux</div>
+                      </div>
+                      <div class="node-tags">
+                        <span class="tag">jeux</span>
+                        <span class="tag">expérimentation</span>
+                      </div>
+                    </summary>
+                    <div class="node-body">
+                      <ul>
+                        <li>Conçoit des scénarios, tests de recrutement ludiques, simulations.</li>
+                        <li>Évalue la compréhension, l’engagement et l’impact sur les participants.</li>
+                        <li>Documente les résultats pour intégrer les meilleurs formats dans l’offre “officielle”.</li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <details class="org-node">
+                    <summary>
+                      <div class="node-pill lab">L2</div>
+                      <div class="node-main">
+                        <div class="node-title">Lab Numérique & IA</div>
+                        <div class="node-sub">Prototypes d’outils assistés par IA</div>
+                      </div>
+                      <div class="node-tags">
+                        <span class="tag">IA</span>
+                        <span class="tag future">outils internes</span>
+                      </div>
+                    </summary>
+                    <div class="node-body">
+                      <ul>
+                        <li>Teste des chatbots, assistants, générateurs de contenus (dans un cadre éthique).</li>
+                        <li>Met au point des outils pour faciliter la veille, l’analyse ou la formation.</li>
+                        <li>Met en place des garde-fous (validation humaine, traçabilité des contenus).</li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <details class="org-node">
+                    <summary>
+                      <div class="node-pill lab">L3</div>
+                      <div class="node-main">
+                        <div class="node-title">Lab Terrains & Communautés locales</div>
+                        <div class="node-sub">Expériences pilotes in situ</div>
+                      </div>
+                      <div class="node-tags">
+                        <span class="tag">terrain</span>
+                        <span class="tag">projets pilotes</span>
+                      </div>
+                    </summary>
+                    <div class="node-body">
+                      <ul>
+                        <li>Lance des expérimentations dans des quartiers, villes, réseaux associatifs.</li>
+                        <li>Teste des formats de veille citoyenne ou de co-formation sur le terrain.</li>
+                        <li>Remonte les apprentissages au reste de l’organisation.</li>
+                      </ul>
+                    </div>
+                  </details>
+                </div>
+              </div>
+            </details>
+
+            <!-- 4. Communauté & cercles élargis -->
+            <details class="org-node" open>
+              <summary>
+                <div class="node-pill community">C0</div>
+                <div class="node-main">
+                  <div class="node-title">Communauté élargie & Cercles partenaires</div>
+                  <div class="node-sub">Membres, alliés, publics & “satellites”</div>
+                </div>
+                <div class="node-tags">
+                  <span class="tag">communauté</span>
+                  <span class="tag">alliés</span>
+                </div>
+              </summary>
+              <div class="node-body">
+                <p>
+                  Tout ce qui gravite autour de l’organisation et lui donne sa force :
+                  membres actifs, bénévoles, experts, partenaires, publics.
+                </p>
+
+                <div class="children org-branch">
+                  <details class="org-node" open>
+                    <summary>
+                      <div class="node-pill community">C1</div>
+                      <div class="node-main">
+                        <div class="node-title">Cercle des membres actifs</div>
+                        <div class="node-sub">Cellules, équipes & groupes projets</div>
+                      </div>
+                      <div class="node-tags">
+                        <span class="tag">cœur</span>
+                        <span class="tag">auto-organisation</span>
+                      </div>
+                    </summary>
+                    <div class="node-body">
+                      <ul>
+                        <li>Groupes qui portent les projets au quotidien.</li>
+                        <li>Cellules thématiques (par sujet) ou géographiques (par territoire).</li>
+                        <li>Fonctionnement souple, proche du terrain, relié aux pôles opérationnels.</li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <details class="org-node">
+                    <summary>
+                      <div class="node-pill community">C2</div>
+                      <div class="node-main">
+                        <div class="node-title">Cercle des alliés & experts</div>
+                        <div class="node-sub">Personnes ressources & organisations amies</div>
+                      </div>
+                      <div class="node-tags">
+                        <span class="tag">experts</span>
+                        <span class="tag future">conseil</span>
+                      </div>
+                    </summary>
+                    <div class="node-body">
+                      <ul>
+                        <li>Propose des retours critiques et un regard externe.</li>
+                        <li>Co-anime certains projets ou formations spécifiques.</li>
+                        <li>Ouvre des portes vers d’autres réseaux & structures.</li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <details class="org-node">
+                    <summary>
+                      <div class="node-pill community">C3</div>
+                      <div class="node-main">
+                        <div class="node-title">Cercle du public & des bénéficiaires</div>
+                        <div class="node-sub">Personnes touchées par les actions</div>
+                      </div>
+                      <div class="node-tags">
+                        <span class="tag">bénéficiaires</span>
+                        <span class="tag">feedback</span>
+                      </div>
+                    </summary>
+                    <div class="node-body">
+                      <ul>
+                        <li>Participe aux activités, ateliers, campagnes et projets.</li>
+                        <li>Peut donner son avis via des enquêtes, forums ou temps de parole dédiés.</li>
+                        <li>Alimente l’organisation en retours d’expérience concrets.</li>
+                      </ul>
+                    </div>
+                  </details>
+                </div>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <p class="footer-note">
+          Cette page ne montre que l’organigramme conceptuel. Tu peux l’adapter, renommer les pôles
+          et simplifier ou complexifier selon l’évolution de ton projet.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Boutons
+    const expandAllBtn = document.getElementById("expandAll");
+    const collapseAllBtn = document.getElementById("collapseAll");
+    const toggleModeBtn = document.getElementById("toggleMode");
+
+    const allNodes = Array.from(document.querySelectorAll("details.org-node"));
+
+    expandAllBtn.addEventListener("click", () => {
+      allNodes.forEach(d => d.open = true);
+    });
+
+    collapseAllBtn.addEventListener("click", () => {
+      // On garde le tout premier niveau ouvert pour ne pas tout fermer brutalement
+      allNodes.forEach((d, index) => {
+        if (index === 0) {
+          d.open = true;
+        } else {
+          d.open = false;
+        }
+      });
+    });
+
+    toggleModeBtn.addEventListener("click", () => {
+      document.body.classList.toggle("simple-mode");
+      const simple = document.body.classList.contains("simple-mode");
+      toggleModeBtn.classList.toggle("toggled", simple);
+      toggleModeBtn.innerHTML = simple
+        ? '<span class="icon">◎</span> Mode détaillé'
+        : '<span class="icon">◎</span> Mode simple';
+    });
+  </script>
+</body>
+</html>
