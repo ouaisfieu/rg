@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chroniques de la Vallée Pixelisée</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #0f172a;
+      --card: #020617;
+      --accent-enquete: #38bdf8;
+      --accent-social: #f97316;
+      --accent-epique: #22c55e;
+      --accent-matrix: #a855f7;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.6);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --radius-xl: 20px;
+      --shadow-soft: 0 20px 40px rgba(0,0,0,0.95);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.25), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.22), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle at 0 100%, rgba(248, 250, 252, 0.06), transparent 60%),
+        linear-gradient(rgba(15, 23, 42, 0.3) 1px, transparent 1px);
+      background-size: 100% 1px;
+      opacity: 0.7;
+      mix-blend-mode: soft-light;
+      z-index: 0;
+    }
+
+    a { color: #93c5fd; text-decoration: none; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.25), transparent 60%),
+        rgba(3, 7, 18, 0.96);
+      border-bottom: 1px solid rgba(30, 64, 175, 0.8);
+      padding: 10px 14px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-framed {
+      position: relative;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      background:
+        linear-gradient(135deg, #22c55e, #38bdf8, #f97316, #a855f7);
+      padding: 2px;
+      box-shadow:
+        0 0 0 1px #020617,
+        0 0 30px rgba(59, 130, 246, 0.9);
+    }
+
+    .logo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      background: radial-gradient(circle at 20% 20%, #0f172a, #020617);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-inner::before {
+      content: "";
+      position: absolute;
+      inset: 20% 10%;
+      border-radius: 10px;
+      border: 3px solid rgba(148, 163, 184, 0.5);
+      transform: skewY(-6deg);
+    }
+
+    .logo-character {
+      position: relative;
+      width: 22px;
+      height: 30px;
+      border-radius: 50% 50% 40% 40%;
+      background: #e5e7eb;
+      border: 2px solid #020617;
+      box-shadow: 0 0 0 2px #0f172a;
+    }
+
+    .logo-character::before {
+      content: "";
+      position: absolute;
+      inset: 20px 2px auto 2px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #020617;
+      background: #4ade80;
+    }
+
+    .logo-ring {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      border: 3px solid #fde047;
+      box-shadow: 0 0 14px rgba(250, 204, 21, 0.9);
+      transform: rotate(-18deg);
+      top: 4px;
+      right: -4px;
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .title-main {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .title-sub {
+      font-size: 0.78rem;
+      color: #e5e7eb;
+    }
+
+    .title-sub span {
+      color: #facc15;
+      font-weight: 500;
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 0.76rem;
+      color: var(--muted);
+      max-width: 280px;
+    }
+
+    .mode-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 3px;
+      justify-content: flex-end;
+    }
+
+    .mode-badge {
+      border-radius: 999px;
+      padding: 2px 7px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.95);
+    }
+
+    main {
+      flex: 1;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr);
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Left column: univers & scènes */
+    .panel {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 10px 11px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.3), transparent 60%),
+        radial-gradient(circle at 100% 80%, rgba(250, 204, 21, 0.15), transparent 55%);
+      opacity: 0.7;
+      mix-blend-mode: soft-light;
+    }
+
+    .panel-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    h2.section-title {
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    h2.section-title span.tag {
+      font-size: 0.7rem;
+      border-radius: 999px;
+      padding: 2px 7px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-family: var(--font-mono);
+      color: var(--muted);
+    }
+
+    .intro-text {
+      font-size: 0.86rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    .mode-switcher {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .mode-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--text);
+      font-size: 0.8rem;
+      padding: 4px 9px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      transition: background 0.15s, transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    }
+
+    .mode-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent-enquete);
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.85);
+    }
+
+    .mode-btn[data-mode="social"] .mode-dot { background: var(--accent-social); box-shadow: 0 0 8px rgba(249, 115, 22, 0.9); }
+    .mode-btn[data-mode="epique"] .mode-dot { background: var(--accent-epique); box-shadow: 0 0 8px rgba(34, 197, 94, 0.9); }
+    .mode-btn[data-mode="matrix"] .mode-dot { background: var(--accent-matrix); box-shadow: 0 0 8px rgba(168, 85, 247, 0.9); }
+
+    .mode-btn.active {
+      border-color: #e5e7eb;
+      background: rgba(15, 23, 42, 1);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.95);
+    }
+
+    .bubble-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .bubble {
+      font-size: 0.72rem;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      color: var(--muted);
+    }
+
+    .scene-grid {
+      margin-top: 4px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 6px;
+    }
+
+    .scene-card {
+      border-radius: 12px;
+      border: 1px solid rgba(51, 65, 85, 0.98);
+      background: #020617;
+      padding: 7px 7px;
+      font-size: 0.8rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.9);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    }
+
+    .scene-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(148, 163, 184, 0.18), transparent 60%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s;
+    }
+
+    .scene-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 38px rgba(0,0,0,0.95);
+      border-color: rgba(148, 163, 184, 0.95);
+    }
+
+    .scene-card:hover::before {
+      opacity: 1;
+    }
+
+    .scene-title {
+      font-size: 0.86rem;
+      margin-bottom: 2px;
+    }
+
+    .scene-mode {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      margin-bottom: 3px;
+    }
+
+    .scene-text {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .scene-tagline {
+      margin-top: 3px;
+      font-size: 0.75rem;
+      color: #e5e7eb;
+      font-style: italic;
+    }
+
+    .scene-pill {
+      position: absolute;
+      bottom: 5px;
+      right: 6px;
+      font-size: 0.7rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      font-family: var(--font-mono);
+      background: rgba(15,23,42,0.96);
+      color: var(--muted);
+    }
+
+    .scene-card.focused {
+      border-color: #e5e7eb;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.98);
+    }
+
+    .scene-card.focused::before {
+      opacity: 1;
+    }
+
+    .hint {
+      margin-top: 5px;
+      font-size: 0.73rem;
+      color: var(--muted);
+    }
+
+    /* Right column: personnages & ton projet */
+    .panel-characters::before {
+      background:
+        radial-gradient(circle at 100% 0, rgba(168, 85, 247, 0.28), transparent 60%),
+        radial-gradient(circle at 0 100%, rgba(56, 189, 248, 0.22), transparent 65%);
+    }
+
+    .characters-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 7px;
+      margin-top: 5px;
+    }
+
+    .char-card {
+      border-radius: 12px;
+      border: 1px solid rgba(51, 65, 85, 0.98);
+      background: #020617;
+      padding: 7px 7px;
+      font-size: 0.8rem;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.9);
+    }
+
+    .char-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 3px;
+    }
+
+    .char-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #38bdf8, #22c55e);
+      border: 2px solid #020617;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .char-avatar::before {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #e5e7eb, #cbd5f5);
+    }
+
+    .char-name {
+      font-size: 0.86rem;
+      font-weight: 500;
+    }
+
+    .char-role {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .char-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    .char-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+    }
+
+    .char-tag {
+      font-size: 0.7rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      color: var(--muted);
+    }
+
+    .your-project {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      border-radius: 11px;
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      padding: 7px 7px;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .your-project h3 {
+      font-size: 0.86rem;
+      margin-bottom: 3px;
+    }
+
+    .your-project ol {
+      margin-left: 16px;
+      margin-top: 3px;
+    }
+
+    .your-project li {
+      margin-bottom: 2px;
+    }
+
+    footer {
+      padding: 7px 12px 9px;
+      font-size: 0.74rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(30, 64, 175, 0.7);
+      background: rgba(3, 7, 18, 0.98);
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 720px) {
+      header { flex-direction: column; align-items: flex-start; }
+      .header-right { text-align: left; max-width: none; }
+      footer { flex-direction: column; }
+    }
+
+    /* Mode filters couleurs */
+    body.mode-enquete .panel { border-color: rgba(56, 189, 248, 0.9); }
+    body.mode-social .panel { border-color: rgba(249, 115, 22, 0.9); }
+    body.mode-epique .panel { border-color: rgba(34, 197, 94, 0.9); }
+    body.mode-matrix .panel { border-color: rgba(168, 85, 247, 0.9); }
+
+    body.mode-enquete .scene-card[data-mode="enquete"] { border-color: rgba(56, 189, 248, 0.9); }
+    body.mode-social .scene-card[data-mode="social"] { border-color: rgba(249, 115, 22, 0.9); }
+    body.mode-epique .scene-card[data-mode="epique"] { border-color: rgba(34, 197, 94, 0.9); }
+    body.mode-matrix .scene-card[data-mode="matrix"] { border-color: rgba(168, 85, 247, 0.9); }
+  </style>
+</head>
+<body class="mode-enquete">
+<header>
+  <div class="header-left">
+    <div class="logo-framed">
+      <div class="logo-inner">
+        <div class="logo-character"></div>
+        <div class="logo-ring"></div>
+      </div>
+    </div>
+    <div class="title-block">
+      <div class="title-main">Chroniques de la Vallée Pixelisée</div>
+      <div class="title-sub">
+        Enquête lumineuse, réalités sociales brutales, quête épique et glitchs numériques –
+        dans un monde <span>cartoon</span>.
+      </div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div>
+      Univers original inspiré :
+      <br />
+      d’un jeune reporter obstiné, de cinéma social belge, et d’anneaux de pouvoir remixés façon code vert.
+    </div>
+    <div class="mode-badges">
+      <span class="mode-badge"><span class="dot"></span> Mode : <span id="modeLabel">ENQUÊTE</span></span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Univers & scènes -->
+  <section class="panel">
+    <div class="panel-inner">
+      <h2 class="section-title">
+        Univers & scènes clés
+        <span class="tag">Pitch & ambiance</span>
+      </h2>
+      <p class="intro-text">
+        Bienvenue dans une vallée frontière : au-dessus, une cité médiévale colorée pleine de rumeurs ;
+        au-dessous, un ancien réseau de tunnels où circule un mystérieux code de lumière.
+        <br />
+        Tu y suis une petite équipe qui enquête sur des affaires très concrètes (travail, famille, territoire),
+        mais chaque détail banal semble relié à une grande légende numérique.
+      </p>
+
+      <div class="mode-switcher">
+        <button class="mode-btn active" data-mode="enquete">
+          <span class="mode-dot"></span> Enquête
+        </button>
+        <button class="mode-btn" data-mode="social">
+          <span class="mode-dot"></span> Social
+        </button>
+        <button class="mode-btn" data-mode="epique">
+          <span class="mode-dot"></span> Épique
+        </button>
+        <button class="mode-btn" data-mode="matrix">
+          <span class="mode-dot"></span> Matrixé
+        </button>
+      </div>
+
+      <div class="bubble-row">
+        <span class="bubble">Enquête : cadrages clairs, gags visuels, rythme BD.</span>
+        <span class="bubble">Social : caméra proche des visages, silences lourds.</span>
+        <span class="bubble">Épique : forêts, anneaux, portes anciennes.</span>
+        <span class="bubble">Matrix : pluie de pixels, bugs, échos de dialogues.</span>
+      </div>
+
+      <div class="scene-grid">
+        <article class="scene-card" data-mode="enquete">
+          <div class="scene-title">Scène 01 – Le mur des affiches disparues</div>
+          <div class="scene-mode">Mode : enquête cartoon</div>
+          <div class="scene-text">
+            Au marché de la vallée, un mur d’affiches d’annonces de travail a été recouvert
+            pendant la nuit par des flyers mystérieux, tous imprimés avec le même symbole
+            lumineux en forme d’anneau pixelisé.
+          </div>
+          <div class="scene-tagline">Une petite disparition… qui pointe vers une grande question.</div>
+          <div class="scene-pill">S01</div>
+        </article>
+
+        <article class="scene-card" data-mode="social">
+          <div class="scene-title">Scène 02 – La cuisine qui tremble</div>
+          <div class="scene-mode">Mode : réalisme social</div>
+          <div class="scene-text">
+            Dans un petit appartement au-dessus de la taverne, une famille hésite à tout quitter.
+            Le bruit régulier d’une forge numérique, au loin, fait vibrer les verres. 
+            La décision de partir ou rester devient le vrai combat.
+          </div>
+          <div class="scene-tagline">Pas de magie ici, seulement des choix difficiles.</div>
+          <div class="scene-pill">S02</div>
+        </article>
+
+        <article class="scene-card" data-mode="epique">
+          <div class="scene-title">Scène 03 – La passerelle des Échos</div>
+          <div class="scene-mode">Mode : épopée fantastique</div>
+          <div class="scene-text">
+            Une passerelle de pierre suspendue au-dessus d’un gouffre. Les protagonistes
+            doivent traverser, mais chaque pas fait résonner des souvenirs de la vallée :
+            revendications, chants, vie quotidienne, comme si le monde lui-même prenait la parole.
+          </div>
+          <div class="scene-tagline">Traverser la vallée, c’est traverser ce que chacun y a vécu.</div>
+          <div class="scene-pill">S03</div>
+        </article>
+
+        <article class="scene-card" data-mode="matrix">
+          <div class="scene-title">Scène 04 – Le tunnel codé</div>
+          <div class="scene-mode">Mode : glitch numérique</div>
+          <div class="scene-text">
+            Sous la ville, un couloir où tombent des gouttes de lumière verte.
+            Les ombres des personnages sont décalées, comme si le monde était mal calé.
+            Une voix mécanique répète des fragments de leurs propres dialogues.
+          </div>
+          <div class="scene-tagline">Quand le décor se met à commenter ce qui se passe.</div>
+          <div class="scene-pill">S04</div>
+        </article>
+      </div>
+
+      <p class="hint">
+        Clique sur une scène pour la mettre en avant.  
+        Change de mode (enquête / social / épique / matrixé) pour réfléchir à la façon dont tu veux
+        raconter ton histoire ou ta thèse dans ce type d’univers.
+      </p>
+    </div>
+  </section>
+
+  <!-- Personnages & TON projet -->
+  <section class="panel panel-characters">
+    <div class="panel-inner">
+      <h2 class="section-title">
+        Personnages & point de vue
+        <span class="tag">Qui regarde le monde ?</span>
+      </h2>
+      <p class="intro-text">
+        L’idée n’est pas de reprendre des héros connus, mais de créer ton propre trio :
+        un regard curieux, un regard cabossé par la réalité, un regard connecté aux légendes
+        (ou aux systèmes numériques).
+      </p>
+
+      <div class="characters-list">
+        <article class="char-card">
+          <div class="char-header">
+            <div class="char-avatar"></div>
+            <div>
+              <div class="char-name">Léon·ne – la personne qui note tout</div>
+              <div class="char-role">Rôle : observateur·rice / témoin</div>
+            </div>
+          </div>
+          <p class="char-desc">
+            Toujours avec un carnet ou une tablette, regarde le monde comme une série de cases.
+            Pose des questions naïves qui font mal. Se laisse surprendre par les détails absurdes.
+          </p>
+          <div class="char-tags">
+            <span class="char-tag">curiosité</span>
+            <span class="char-tag">humour discret</span>
+            <span class="char-tag">regard extérieur</span>
+          </div>
+        </article>
+
+        <article class="char-card">
+          <div class="char-header">
+            <div class="char-avatar" style="background:linear-gradient(135deg,#f97316,#ef4444);"></div>
+            <div>
+              <div class="char-name">Mara – celle qui n’a plus le temps</div>
+              <div class="char-role">Rôle : ancrage social</div>
+            </div>
+          </div>
+          <p class="char-desc">
+            Travaille, s’occupe des autres, se méfie des grandes histoires.
+            Quand une quête épique commence, elle demande : “ok, mais qui paie le loyer ?”.
+          </p>
+          <div class="char-tags">
+            <span class="char-tag">réalisme</span>
+            <span class="char-tag">colère douce</span>
+            <span class="char-tag">loyauté</span>
+          </div>
+        </article>
+
+        <article class="char-card">
+          <div class="char-header">
+            <div class="char-avatar" style="background:linear-gradient(135deg,#22c55e,#a855f7);"></div>
+            <div>
+              <div class="char-name">Orion – le gardien des histoires</div>
+              <div class="char-role">Rôle : lien avec la légende</div>
+            </div>
+          </div>
+          <p class="char-desc">
+            Connaît l’histoire de la vallée, des tunnels, des luttes passées.
+            Pour lui, chaque conflit social redit une vieille chanson épique,
+            mais la “magie” n’est qu’une autre façon de parler de pouvoir.
+          </p>
+          <div class="char-tags">
+            <span class="char-tag">mémoire</span>
+            <span class="char-tag">symboles</span>
+            <span class="char-tag">mythologie remixée</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="your-project">
+        <h3>Comment t’approprier ce site pour TON projet</h3>
+        <p>
+          Tu peux utiliser ce fichier comme base pour :
+        </p>
+        <ol>
+          <li>
+            Remplacer les textes des scènes par les tiens (en gardant l’idée des 4 modes :
+            enquête, social, épique, matrixé).
+          </li>
+          <li>
+            Renommer les personnages et adapter leurs rôles à ton sujet
+            (recherche, thèse, enquête de terrain, fiction…).
+          </li>
+          <li>
+            Transformer chaque scène en “chapitre” de ton travail
+            (un chapitre = une scène, un lieu, un conflit).
+          </li>
+          <li>
+            Plus tard, ajouter d’autres pages (ex : <code>episode1.html</code>,
+            <code>notes-de-recherche.html</code>) qui détaillent chaque partie.
+          </li>
+        </ol>
+        <p style="margin-top:4px;font-size:0.78rem;color:#9ca3af;">
+          Techniquement : tout tient dans ce fichier HTML.
+          Tu peux l’ouvrir, le modifier, le dupliquer, le mettre sur une clé USB ou sur un hébergement
+          statique (GitHub Pages, par exemple).
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>
+    “Chroniques de la Vallée Pixelisée” – maquette d’univers statique (HTML/CSS/JS) à mi-chemin entre BD d’aventure,
+    cinéma social et fantasy glitch.
+  </span>
+  <span>
+    Tu peux changer les textes, les scènes et les personnages pour en faire ton propre projet,
+    quel que soit le sujet.
+  </span>
+</footer>
+
+<script>
+  // Changement de mode (enquête / social / épique / matrixé)
+  const modeButtons = document.querySelectorAll(".mode-btn");
+  const modeLabel = document.getElementById("modeLabel");
+  const modeMap = {
+    enquete: "ENQUÊTE",
+    social: "SOCIAL",
+    epique: "ÉPIQUE",
+    matrix: "MATRIXÉ"
+  };
+
+  modeButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const mode = btn.dataset.mode;
+
+      // Classe sur le body
+      document.body.classList.remove("mode-enquete", "mode-social", "mode-epique", "mode-matrix");
+      document.body.classList.add("mode-" + mode);
+
+      // Boutons actifs
+      modeButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      // Label
+      modeLabel.textContent = modeMap[mode] || mode.toUpperCase();
+    });
+  });
+
+  // Focus d'une scène au clic
+  const sceneCards = document.querySelectorAll(".scene-card");
+  sceneCards.forEach(card => {
+    card.addEventListener("click", () => {
+      const isFocused = card.classList.contains("focused");
+      sceneCards.forEach(c => c.classList.remove("focused"));
+      if (!isFocused) {
+        card.classList.add("focused");
+      }
+    });
+  });
+</script>
+</body>
+</html>
