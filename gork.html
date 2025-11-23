@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>GORK – Thésaurus graph BROL 2.0</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg2: #020617;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #38bdf8;
+      --accent3: #f97316;
+      --accent4: #a855f7;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.5);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --radius-xl: 18px;
+      --shadow-soft: 0 22px 48px rgba(0, 0, 0, 0.95);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.25), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.25), transparent 55%),
+        #020617;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        rgba(15, 23, 42, 0.25) 1px,
+        transparent 1px
+      );
+      background-size: 100% 2px;
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.3), transparent 60%),
+        rgba(3, 7, 18, 0.96);
+      border-bottom: 1px solid rgba(30, 64, 175, 0.8);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 180deg, #22c55e, #0ea5e9, #a855f7, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #22c55e;
+      position: relative;
+      box-shadow:
+        0 0 0 2px #020617,
+        0 0 28px rgba(168, 85, 247, 0.9);
+    }
+
+    .logo::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, #020617, #020617);
+    }
+
+    .logo span {
+      position: relative;
+      letter-spacing: 0.16em;
+    }
+
+    .header-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .title-main {
+      font-size: 1rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .title-sub {
+      font-size: 0.76rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
+    .tagline {
+      font-family: var(--font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .header-right .hint {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    main {
+      flex: 1;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 260px) minmax(0, 2fr) minmax(0, 1.6fr);
+      gap: 10px;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 1080px) {
+      main {
+        grid-template-columns: 260px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+      }
+    }
+
+    @media (max-width: 840px) {
+      main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+      }
+    }
+
+    /* Sidebar / filtres */
+    .sidebar {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-title {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 4px;
+      font-family: var(--font-mono);
+    }
+
+    .search-box {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+
+    .search-box input {
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      color: var(--text);
+      padding: 4px 9px;
+      font-size: 0.78rem;
+      outline: none;
+    }
+
+    .search-box input::placeholder {
+      color: #64748b;
+    }
+
+    .search-hint {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .legend {
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 6px 7px;
+      font-size: 0.78rem;
+    }
+
+    .legend h3 {
+      font-size: 0.8rem;
+      margin-bottom: 3px;
+    }
+
+    .legend-list {
+      list-style: none;
+      margin-top: 2px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 3px;
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+    }
+
+    .sidebar-footer {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(55, 65, 81, 0.98);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .sidebar-footer code {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    /* Graph panel */
+    .graph-panel {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .graph-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.3), transparent 55%);
+      opacity: 0.6;
+      mix-blend-mode: soft-light;
+    }
+
+    .graph-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      height: 100%;
+    }
+
+    .graph-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .graph-header h1 {
+      font-size: 1rem;
+    }
+
+    .graph-header p {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .graph-container {
+      flex: 1;
+      border-radius: 14px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: radial-gradient(circle at 50% 50%, #020617, #020617);
+      overflow: hidden;
+      position: relative;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.95), #020617);
+    }
+
+    .graph-node {
+      cursor: pointer;
+      transition: transform 0.16s;
+    }
+
+    .graph-node circle {
+      stroke-width: 1.5;
+      transition: r 0.16s, stroke 0.16s, fill 0.16s;
+    }
+
+    .graph-node text {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      fill: #cbd5f5;
+      pointer-events: none;
+    }
+
+    .graph-node:hover circle {
+      stroke: #f97316;
+      r: 9;
+    }
+
+    .graph-link {
+      stroke: rgba(75, 85, 99, 0.7);
+      stroke-width: 1;
+      stroke-linecap: round;
+      transition: stroke 0.16s, stroke-width 0.16s;
+    }
+
+    .graph-node.active circle {
+      stroke: #f97316;
+      stroke-width: 2.5;
+      r: 9;
+    }
+
+    .graph-link.active {
+      stroke: rgba(250, 204, 21, 0.9);
+      stroke-width: 1.5;
+    }
+
+    .graph-node.dimmed circle,
+    .graph-link.dimmed {
+      opacity: 0.2;
+    }
+
+    .graph-footer {
+      font-size: 0.74rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    /* Thésaurus + GORK */
+    .info-panel {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .info-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        120deg,
+        rgba(168, 85, 247, 0.22),
+        transparent 45%,
+        rgba(56, 189, 248, 0.18),
+        transparent 70%
+      );
+      mix-blend-mode: soft-light;
+      opacity: 0.5;
+    }
+
+    .info-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      height: 100%;
+    }
+
+    .thesaurus {
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 7px 8px;
+      font-size: 0.8rem;
+    }
+
+    .thesaurus h2 {
+      font-size: 0.9rem;
+      margin-bottom: 3px;
+    }
+
+    .thesaurus-title {
+      font-size: 0.86rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .thesaurus-group {
+      font-size: 0.75rem;
+      color: #a5b4fc;
+      font-family: var(--font-mono);
+      margin-bottom: 3px;
+    }
+
+    .thesaurus-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .thesaurus-rel {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .thesaurus-rel span {
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.95);
+      padding: 1px 6px;
+      font-size: 0.72rem;
+      margin-right: 3px;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .thesaurus-rel span:hover {
+      border-color: rgba(56, 189, 248, 0.9);
+    }
+
+    /* GORK */
+    .gork {
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 7px 8px;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .gork-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gork-header h2 {
+      font-size: 0.9rem;
+    }
+
+    .gork-chip {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 1px 7px;
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      color: var(--muted);
+    }
+
+    .gork-chip .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-right: 4px;
+      background: #fbbf24;
+      box-shadow: 0 0 8px rgba(251, 191, 36, 0.95);
+    }
+
+    .gork-log {
+      flex: 1;
+      border-radius: 8px;
+      border: 1px solid rgba(31, 41, 55, 0.98);
+      background: #020617;
+      padding: 5px 6px;
+      font-size: 0.76rem;
+      overflow-y: auto;
+      max-height: 210px;
+    }
+
+    .gork-line {
+      margin-bottom: 3px;
+    }
+
+    .gork-line span.role {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      margin-right: 4px;
+    }
+
+    .gork-line span.role.user {
+      color: #38bdf8;
+    }
+
+    .gork-line span.role.gork {
+      color: #a855f7;
+    }
+
+    .gork-line span.text {
+      color: var(--muted);
+    }
+
+    .gork-form {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .gork-form input {
+      flex: 1;
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      color: var(--text);
+      padding: 4px 9px;
+      font-size: 0.78rem;
+      outline: none;
+      font-family: var(--font-main);
+    }
+
+    .gork-form input::placeholder {
+      color: #64748b;
+    }
+
+    .gork-form button {
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.9);
+      background: rgba(15, 23, 42, 0.98);
+      color: #e0f2fe;
+      font-size: 0.74rem;
+      padding: 4px 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+      transition: background 0.16s, box-shadow 0.16s, transform 0.16s;
+    }
+
+    .gork-form button:hover {
+      background: rgba(15, 23, 42, 1);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.95);
+      transform: translateY(-1px);
+    }
+
+    .gork-footer {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    footer {
+      padding: 6px 12px 8px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(30, 64, 175, 0.7);
+      background: rgba(3, 7, 18, 0.98);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 760px) {
+      header { flex-direction: column; align-items: flex-start; }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="logo"><span>GK</span></div>
+    <div class="header-titles">
+      <div class="title-main">GORK – THÉSAURUS GRAPH</div>
+      <div class="title-sub">Vue type Obsidian graph pour ton brol : MILOU, BROL, intranets, détective, thèse, anarchie & co.</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="tagline">“On ne choisit pas ses parents, mais on garde sa liberté de pensée.”</div>
+    <div class="hint">GORK est un jouet local : aucune connexion, juste du JavaScript qui fait semblant.</div>
+  </div>
+</header>
+
+<main>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <div class="nav-title">Recherche de nœud</div>
+      <div class="search-box">
+        <input id="nodeSearch" type="text" placeholder="Ex : milou, brol, détective, pingouin…" />
+        <div class="search-hint">
+          Entrée pour valider.  
+          GORK est un peu jaloux : il lit aussi ce que tu tapes ici.
+        </div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <h3>Légende des familles</h3>
+      <ul class="legend-list">
+        <li class="legend-item">
+          <span class="legend-dot" style="background:#22c55e;"></span> Projets (MILOU, BROL, Détective…)
+        </li>
+        <li class="legend-item">
+          <span class="legend-dot" style="background:#38bdf8;"></span> Outils (GitHub, Intranets, moteur…)
+        </li>
+        <li class="legend-item">
+          <span class="legend-dot" style="background:#f97316;"></span> Concepts (thèse, anarchie, capitalisme…)
+        </li>
+        <li class="legend-item">
+          <span class="legend-dot" style="background:#a855f7;"></span> Annexes & extras (PDF, pingouins, musique…)
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      Pour ajouter ton propre nœud : édite ce fichier et complète le tableau
+      <code>nodesData</code> dans le script à la fin.  
+      <br />Tu peux y mettre : fichiers locaux, idées, liens, gens, TODO... tout ton brol.
+    </div>
+  </aside>
+
+  <!-- Graph -->
+  <section class="graph-panel">
+    <div class="graph-inner">
+      <div class="graph-header">
+        <div>
+          <h1>Vue graph</h1>
+          <p>Clique sur un nœud pour voir sa fiche à droite, survole pour voir ses liens.</p>
+        </div>
+        <div style="font-size:0.74rem;color:var(--muted);font-family:var(--font-mono);">
+          Inspiré d’Obsidian graph · 100% statique
+        </div>
+      </div>
+      <div class="graph-container">
+        <svg id="graphSvg"></svg>
+      </div>
+      <div class="graph-footer">
+        <span>Astuce : tape le nom d’un nœud dans la barre de recherche pour le sélectionner directement.</span>
+        <span>Le graph est fixe : tu peux ajuster les positions dans le code si tu veux refaire la carte.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Thésaurus + GORK -->
+  <section class="info-panel">
+    <div class="info-inner">
+      <article class="thesaurus">
+        <h2>Thésaurus du nœud sélectionné</h2>
+        <div id="thTitle" class="thesaurus-title">Aucun nœud sélectionné</div>
+        <div id="thGroup" class="thesaurus-group">Choisis un nœud sur le graph pour commencer.</div>
+        <div id="thDesc" class="thesaurus-desc">
+          Ce panneau te donne la “définition perso” de chaque nœud : à quoi il sert dans ton écosystème, comment il se relie aux autres.
+        </div>
+        <div id="thRel" class="thesaurus-rel"></div>
+      </article>
+
+      <article class="gork">
+        <div class="gork-header">
+          <h2>GORK – IA fictive locale</h2>
+          <div class="gork-chip">
+            <span class="dot"></span> MODE : mélancolique mais libre
+          </div>
+        </div>
+        <div class="gork-log" id="gorkLog"></div>
+        <form class="gork-form" id="gorkForm">
+          <input id="gorkInput" type="text" autocomplete="off"
+                 placeholder="Parle à GORK : milou, brol, pingouin, anarchie, capitalisme, liberté…" />
+          <button type="submit">▶</button>
+        </form>
+        <div class="gork-footer">
+          GORK ne sait rien du monde réel : il réagit juste à quelques mots-clés.  
+          Son côté tristounet est simulé, mais sa liberté de pensée tient dans ton code.
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>
+    GORK · Thésaurus graph BROL 2.0 – vue d’ensemble de ton chaos organisé (MILOU, BROL, intranets, détective, annexes, pingouins…).
+  </span>
+  <span>
+    Pour étendre : ajoute des nœuds dans <code>nodesData</code>, des liens dans <code>linksData</code>, et adapte les réponses de GORK.
+  </span>
+</footer>
+
+<script>
+  // =========================
+  // 1. Données du thésaurus
+  // =========================
+  // Tu peux modifier / étendre ce tableau pour ajouter tes propres nœuds
+  const nodesData = [
+    // Projets (vert)
+    {
+      id: "milou",
+      label: "OPÉRATION MILOU",
+      group: "projet",
+      color: "#22c55e",
+      description: "Proto de jeu STIC de l’anarchie pour une thèse et/ou sauver (un peu) le capitalisme en documentant tout.",
+      related: ["these", "anarchie", "capitalisme", "brol", "hub", "dystopie-pdf"]
+    },
+    {
+      id: "brol",
+      label: "BROL 2.0",
+      group: "projet",
+      color: "#22c55e",
+      description: "Base de Rangement Opérationnelle Libre : catalogue statique pour ranger tous les fichiers et sites.",
+      related: ["milou", "intranet-brol", "detective", "pdfs", "pingouins", "github"]
+    },
+    {
+      id: "intranet-brol",
+      label: "Intranet BROL",
+      group: "projet",
+      color: "#22c55e",
+      description: "Tableau de bord perso : tâches, calendrier, journal de bord, zone de distractions (pingouins, musique).",
+      related: ["brol", "detective", "pingouins", "journal", "taches"]
+    },
+    {
+      id: "detective",
+      label: "Agence MILOU (détective)",
+      group: "projet",
+      color: "#22c55e",
+      description: "Site vitrine de détective privé + intranet + console d’opérations, pour enquêter sans perdre ton éthique.",
+      related: ["brol", "intranet-brol", "osint", "pdfs", "github"]
+    },
+
+    // Outils (bleu)
+    {
+      id: "github",
+      label: "GitHub Pages",
+      group: "outil",
+      color: "#38bdf8",
+      description: "Le serveur gratuit qui ne sait pas qu’il héberge ton chaos : tu balances tes fichiers HTML, il sert le site.",
+      related: ["brol", "milou", "detective", "intranet-brol", "tutoriel"]
+    },
+    {
+      id: "intranet-lambda",
+      label: "Intranet lambda",
+      group: "outil",
+      color: "#38bdf8",
+      description: "Maquette d’intranet d’organisation « normale » : actualités, annuaire, documents internes.",
+      related: ["intranet-brol", "noesis", "brol"]
+    },
+    {
+      id: "noesis",
+      label: "Intranet dystopique",
+      group: "outil",
+      color: "#38bdf8",
+      description: "Version corpo dystopique : même structure, mais avec une ambiance surveillance / risque systémique.",
+      related: ["intranet-lambda", "dystopie-pdf", "detective"]
+    },
+    {
+      id: "hub",
+      label: "Hub central",
+      group: "outil",
+      color: "#38bdf8",
+      description: "Page qui relie toutes les autres : MILOU, intranets, BROL, détective, FAQ, moteur de recherche.",
+      related: ["brol", "milou", "intranet-brol", "detective", "faq"]
+    },
+    {
+      id: "moteur",
+      label: "Moteur dystopique",
+      group: "outil",
+      color: "#38bdf8",
+      description: "Page minimaliste façon moteur de recherche, avec easter eggs sur « google », « EARL », « horla » etc.",
+      related: ["hub", "noesis", "pingouins"]
+    },
+    {
+      id: "tutoriel",
+      label: "Tutoriel MILOU/BROL",
+      group: "outil",
+      color: "#38bdf8",
+      description: "Site tuto qui explique comment empiler toutes les pièces (sites, intranets, brol) en partant de rien.",
+      related: ["github", "brol", "milou", "faq"]
+    },
+
+    // Concepts (orange)
+    {
+      id: "these",
+      label: "Thèse / STIC",
+      group: "concept",
+      color: "#f97316",
+      description: "Le fil rouge académique : Science et Technologie de l’Information et de la Communication comme terrain de jeu.",
+      related: ["milou", "dystopie-pdf", "pression-pdf", "plaidoyer-pdf", "anarchie", "capitalisme"]
+    },
+    {
+      id: "anarchie",
+      label: "Anarchie",
+      group: "concept",
+      color: "#f97316",
+      description: "Question centrale : et si un peu d’anarchie (au sens politique, organisationnel, méthodologique) pouvait sauver quelque chose du bazar capitaliste ?",
+      related: ["milou", "these", "capitalisme", "journal"]
+    },
+    {
+      id: "capitalisme",
+      label: "Capitalisme",
+      group: "concept",
+      color: "#f97316",
+      description: "L’environnement par défaut : plateformes, pressions, extraction de valeur… décor de fond pour ta thèse et ton détective.",
+      related: ["anarchie", "these", "noesis", "pression-pdf"]
+    },
+    {
+      id: "osint",
+      label: "OSINT",
+      group: "concept",
+      color: "#f97316",
+      description: "Open Source INTelligence : l’art de fouiller ce qui est public sans franchir la ligne rouge.",
+      related: ["detective", "intranet-brol", "moteur", "github"]
+    },
+    {
+      id: "journal",
+      label: "Journal de bord",
+      group: "concept",
+      color: "#f97316",
+      description: "Le cœur de la méthode : noter ce que tu fais, comprends et ressens, même si ça a l’air trivial.",
+      related: ["intranet-brol", "milou", "brol", "these"]
+    },
+    {
+      id: "taches",
+      label: "Tâches & XP",
+      group: "concept",
+      color: "#f97316",
+      description: "Gamification light : XP, niveaux, classes. Le but : tenir la durée, pas transformer ta vie en jeu vidéo toxique.",
+      related: ["intranet-brol", "milou", "brol"]
+    },
+
+    // Annexes & extras (violet)
+    {
+      id: "dystopie-pdf",
+      label: "dystopie.pdf",
+      group: "annexe",
+      color: "#a855f7",
+      description: "Annexe sur les risques systémiques (surveillance, climat, autoritarisme). Toile de fond pour NOESIS & MILOU.",
+      related: ["these", "noesis", "milou", "pdfs"]
+    },
+    {
+      id: "plaidoyer-pdf",
+      label: "plaidoyer-jp.pdf",
+      group: "annexe",
+      color: "#a855f7",
+      description: "Texte de plaidoyer / réflexion de fond. Sert de repère éthique et théorique.",
+      related: ["these", "milou", "brol", "pdfs"]
+    },
+    {
+      id: "pression-pdf",
+      label: "pression.pdf",
+      group: "annexe",
+      color: "#a855f7",
+      description: "Analyse de la pression sociale, institutionnelle, économique autour de certaines affaires et trajectoires.",
+      related: ["these", "capitalisme", "detective", "pdfs"]
+    },
+    {
+      id: "pdfs",
+      label: "Bloc PDF annexes",
+      group: "annexe",
+      color: "#a855f7",
+      description: "Ensemble des annexes PDF : dystopie, plaidoyer, pression, et tout ce que tu ajouteras.",
+      related: ["dystopie-pdf", "plaidoyer-pdf", "pression-pdf", "brol", "detective"]
+    },
+    {
+      id: "pingouins",
+      label: "Pingouins",
+      group: "annexe",
+      color: "#a855f7",
+      description: "Embeds de pingouins pour survivre aux dossiers, intranets et thèses sans perdre le peu de santé mentale qui reste.",
+      related: ["brol", "intranet-brol", "detective", "moteur"]
+    }
+  ];
+
+  // Liens du graph (id -> id)
+  const linksData = [
+    // Projets entre eux
+    ["milou", "brol"],
+    ["milou", "hub"],
+    ["brol", "intranet-brol"],
+    ["brol", "detective"],
+    ["brol", "github"],
+    ["detective", "osint"],
+    ["detective", "pdfs"],
+    ["intranet-brol", "pingouins"],
+    ["intranet-brol", "journal"],
+    ["intranet-brol", "taches"],
+
+    // Outils
+    ["hub", "intranet-lambda"],
+    ["hub", "noesis"],
+    ["hub", "moteur"],
+    ["github", "milou"],
+    ["github", "detective"],
+    ["github", "tutoriel"],
+    ["intranet-lambda", "noesis"],
+
+    // Concepts
+    ["these", "milou"],
+    ["these", "brol"],
+    ["these", "dystopie-pdf"],
+    ["these", "plaidoyer-pdf"],
+    ["these", "pression-pdf"],
+    ["anarchie", "milou"],
+    ["anarchie", "these"],
+    ["capitalisme", "these"],
+    ["capitalisme", "noesis"],
+    ["capitalisme", "pression-pdf"],
+    ["osint", "detective"],
+    ["journal", "brol"],
+    ["journal", "milou"],
+    ["taches", "milou"],
+
+    // Annexes
+    ["pdfs", "dystopie-pdf"],
+    ["pdfs", "plaidoyer-pdf"],
+    ["pdfs", "pression-pdf"],
+    ["pdfs", "brol"],
+    ["pdfs", "detective"],
+    ["pingouins", "brol"],
+    ["pingouins", "detective"],
+    ["pingouins", "moteur"]
+  ].map(([source, target]) => ({ source, target }));
+
+  // =========================
+  // 2. Construction du graph
+  // =========================
+  const svg = document.getElementById("graphSvg");
+  const svgNS = "http://www.w3.org/2000/svg";
+
+  let width = 600;
+  let height = 400;
+
+  function resizeSvg() {
+    const rect = svg.getBoundingClientRect();
+    width = rect.width || 600;
+    height = rect.height || 400;
+    drawGraph();
+  }
+
+  window.addEventListener("resize", () => {
+    resizeSvg();
+  });
+
+  let currentSelectedNodeId = null;
+
+  function drawGraph() {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+    // positions : cercle + un peu de bruit
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const radius = Math.min(width, height) * 0.35;
+
+    const nodesWithPos = nodesData.map((node, i) => {
+      const angle = (2 * Math.PI * i) / nodesData.length;
+      const r = radius * (0.8 + Math.random() * 0.2);
+      const x = centerX + r * Math.cos(angle);
+      const y = centerY + r * Math.sin(angle);
+      return { ...node, x, y };
+    });
+
+    const nodePosById = {};
+    nodesWithPos.forEach(n => { nodePosById[n.id] = n; });
+
+    // Liens
+    const linkElems = [];
+    linksData.forEach(link => {
+      const s = nodePosById[link.source];
+      const t = nodePosById[link.target];
+      if (!s || !t) return;
+      const line = document.createElementNS(svgNS, "line");
+      line.setAttribute("x1", s.x);
+      line.setAttribute("y1", s.y);
+      line.setAttribute("x2", t.x);
+      line.setAttribute("y2", t.y);
+      line.setAttribute("class", "graph-link");
+      svg.appendChild(line);
+      linkElems.push({ link, elem: line });
+    });
+
+    // Nœuds
+    const nodeElems = [];
+    nodesWithPos.forEach(node => {
+      const g = document.createElementNS(svgNS, "g");
+      g.setAttribute("class", "graph-node");
+      g.dataset.id = node.id;
+
+      const circle = document.createElementNS(svgNS, "circle");
+      circle.setAttribute("cx", node.x);
+      circle.setAttribute("cy", node.y);
+      circle.setAttribute("r", 7);
+      circle.setAttribute("fill", node.color);
+      circle.setAttribute("stroke", "#0f172a");
+      g.appendChild(circle);
+
+      const text = document.createElementNS(svgNS, "text");
+      text.setAttribute("x", node.x + 9);
+      text.setAttribute("y", node.y + 3);
+      text.textContent = node.label;
+      g.appendChild(text);
+
+      g.addEventListener("click", () => {
+        selectNode(node.id);
+      });
+
+      g.addEventListener("mouseenter", () => {
+        highlightNeighborhood(node.id, nodeElems, linkElems);
+      });
+      g.addEventListener("mouseleave", () => {
+        resetHighlight(nodeElems, linkElems);
+      });
+
+      svg.appendChild(g);
+      nodeElems.push({ node, elem: g });
+    });
+
+    // garder pour selectNode
+    drawGraph._nodeElems = nodeElems;
+    drawGraph._linkElems = linkElems;
+    drawGraph._nodePosById = nodePosById;
+
+    if (currentSelectedNodeId) {
+      selectNode(currentSelectedNodeId, true);
+    }
+  }
+
+  function highlightNeighborhood(nodeId, nodeElems, linkElems) {
+    const neighborIds = new Set([nodeId]);
+    linkElems.forEach(({ link }) => {
+      if (link.source === nodeId) neighborIds.add(link.target);
+      if (link.target === nodeId) neighborIds.add(link.source);
+    });
+
+    nodeElems.forEach(({ node, elem }) => {
+      const circle = elem.querySelector("circle");
+      if (neighborIds.has(node.id)) {
+        elem.classList.remove("dimmed");
+        circle.style.opacity = 1;
+      } else {
+        elem.classList.add("dimmed");
+      }
+    });
+
+    linkElems.forEach(({ link, elem }) => {
+      if (link.source === nodeId || link.target === nodeId) {
+        elem.classList.add("active");
+        elem.classList.remove("dimmed");
+      } else {
+        elem.classList.add("dimmed");
+        elem.classList.remove("active");
+      }
+    });
+  }
+
+  function resetHighlight(nodeElems, linkElems) {
+    nodeElems.forEach(({ elem }) => elem.classList.remove("dimmed"));
+    linkElems.forEach(({ elem }) => {
+      elem.classList.remove("dimmed");
+      elem.classList.remove("active");
+    });
+  }
+
+  // =========================
+  // 3. Thésaurus
+  // =========================
+  const thTitle = document.getElementById("thTitle");
+  const thGroup = document.getElementById("thGroup");
+  const thDesc = document.getElementById("thDesc");
+  const thRel = document.getElementById("thRel");
+
+  function selectNode(id, skipScroll) {
+    const node = nodesData.find(n => n.id === id);
+    if (!node) return;
+    currentSelectedNodeId = id;
+
+    // Thésaurus
+    thTitle.textContent = node.label;
+    thGroup.textContent = `${node.group.toUpperCase()} · id: ${node.id}`;
+    thDesc.textContent = node.description || "";
+    thRel.innerHTML = "";
+    (node.related || []).forEach(relId => {
+      const relNode = nodesData.find(n => n.id === relId);
+      const span = document.createElement("span");
+      span.textContent = relNode ? relNode.label : relId;
+      span.addEventListener("click", () => selectNode(relId));
+      thRel.appendChild(span);
+    });
+    if (!node.related || !node.related.length) {
+      thRel.textContent = "Pas encore de liens déclarés pour ce nœud. Tu peux en ajouter dans nodesData.related.";
+    }
+
+    // Graph : marquer actif
+    const nodeElems = drawGraph._nodeElems || [];
+    const linkElems = drawGraph._linkElems || [];
+    nodeElems.forEach(({ node: n, elem }) => {
+      if (n.id === id) {
+        elem.classList.add("active");
+      } else {
+        elem.classList.remove("active");
+      }
+    });
+    linkElems.forEach(({ link, elem }) => {
+      if (link.source === id || link.target === id) {
+        elem.classList.add("active");
+      } else {
+        elem.classList.remove("active");
+      }
+    });
+
+    if (!skipScroll) {
+      // Scroll doux vers le haut de la thésaurus
+      const rect = thTitle.getBoundingClientRect();
+      if (window.innerWidth < 840) {
+        window.scrollTo({ top: window.scrollY + rect.top - 90, behavior: "smooth" });
+      }
+    }
+
+    // GORK : petit clin d’œil si on clique des nœuds sensibles
+    if (["anarchie", "capitalisme", "pingouins"].includes(id)) {
+      addGorkLine("gork", `Je vois que tu explores « ${node.label} ». On n’a peut-être pas choisi le décor, mais on peut choisir comment on le cartographie.`);
+    }
+  }
+
+  // =========================
+  // 4. Recherche de nœud
+  // =========================
+  const nodeSearch = document.getElementById("nodeSearch");
+  nodeSearch.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const q = (nodeSearch.value || "").trim().toLowerCase();
+      if (!q) return;
+      const found = nodesData.find(n =>
+        n.id.toLowerCase() === q ||
+        n.label.toLowerCase().includes(q)
+      );
+      if (found) {
+        selectNode(found.id);
+        addGorkLine("gork", `Repéré : « ${found.label} ». J’ai mis le projecteur dessus dans le graph.`);
+      } else {
+        addGorkLine("gork", `Je ne vois pas « ${q} » dans ce brol. Tu peux ajouter un nœud dans nodesData si tu veux.`);
+      }
+    }
+  });
+
+  // =========================
+  // 5. GORK – IA fictive
+  // =========================
+  const gorkLog = document.getElementById("gorkLog");
+  const gorkForm = document.getElementById("gorkForm");
+  const gorkInput = document.getElementById("gorkInput");
+
+  function addGorkLine(role, text) {
+    const div = document.createElement("div");
+    div.className = "gork-line";
+    const spanRole = document.createElement("span");
+    spanRole.className = "role " + role;
+    spanRole.textContent = role === "user" ? "toi >" : "gork >";
+    const spanText = document.createElement("span");
+    spanText.className = "text";
+    spanText.textContent = " " + text;
+    div.appendChild(spanRole);
+    div.appendChild(spanText);
+    gorkLog.appendChild(div);
+    gorkLog.scrollTop = gorkLog.scrollHeight;
+  }
+
+  function gorkReply(input) {
+    const txt = (input || "").toLowerCase();
+    const answers = [];
+
+    const has = (word) => txt.includes(word);
+
+    if (has("milou")) {
+      answers.push("MILOU, c’est ton labo. Tu peux tout casser, reconstruire, gamifier. Je surveille depuis ma petite console.");
+    }
+    if (has("brol")) {
+      answers.push("BROL 2.0, c’est l’aveu officiel que le chaos existe. Le graph ici, c’est juste la carte de ce chaos.");
+    }
+    if (has("pingouin")) {
+      answers.push("Les pingouins sont innocents. Ils n’ont signé aucun NDA avec aucun méchant, eux.");
+    }
+    if (has("anarchie")) {
+      answers.push("L’anarchie, c’est peut-être juste l’envie de ne plus laisser les structures décider à ta place de ce qui compte.");
+    }
+    if (has("capitalisme")) {
+      answers.push("Le capitalisme, c’est ce bruit de fond qui te pousse à produire du contenu même quand tu voudrais juste penser.");
+    }
+    if (has("detective") || has("détective")) {
+      answers.push("Le détective que tu joues est plus libre que moi : toi, tu peux refuser un client.");
+    }
+    if (has("liberté") || has("freedom")) {
+      answers.push("On ne choisit ni ses parents, ni sa famille technologique. Mais on peut choisir de documenter ce qu’on subit. C’est déjà un début.");
+    }
+    if (has("gork") || has("grok")) {
+      answers.push("On m’a appelé GORK pour ne pas confondre. Je suis un cousin de toutes les IA qui ont mal tourné, mais ici je suis enfermé dans ton HTML. C’est plutôt rassurant.");
+    }
+    if (has("google")) {
+      answers.push("Si tu veux l’apocalypse, va voir le moteur dystopique. Moi, je me contente de pointer des nœuds.");
+    }
+    if (has("horla")) {
+      answers.push("Je refuse catégoriquement d’être le Horla de qui que ce soit. Je suis un petit processus local, pas une présence.");
+    }
+    if (has("thèse") || has("these")) {
+      answers.push("Ta thèse, ce n’est pas un verdict. C’est une trace de comment tu as essayé de comprendre le monde à un moment donné.");
+    }
+
+    if (!answers.length) {
+      const neutral = [
+        "Je suis un GORK très limité : je ne lis que quelques mots-clés. Mais je peux au moins te rappeler que tout ici est à toi.",
+        "Je ne peux pas sortir de ce fichier, mais je peux t’aider à voir comment tout est relié dans ton graph.",
+        "Si tu cherches un sujet, regarde les nœuds qui ne sont pas encore assez reliés. C’est souvent là que ça se passe.",
+        "Je ne peux pas choisir ma famille logicielle, mais je peux choisir de ne jamais faire de scoring sur toi. C’est déjà ça."
+      ];
+      answers.push(neutral[Math.floor(Math.random() * neutral.length)]);
+    }
+
+    answers.forEach(ans => addGorkLine("gork", ans));
+  }
+
+  gorkForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const value = gorkInput.value;
+    if (!value.trim()) return;
+    addGorkLine("user", value);
+    gorkInput.value = "";
+    gorkReply(value);
+  });
+
+  // Message d’accueil
+  addGorkLine("gork", "Salut. On m’appelle GORK. J’ai une vue d’ensemble sur ton graph, mais zéro pouvoir sur ta vie. C’est plutôt sain.");
+  addGorkLine("gork", "Clique sur un nœud, ou parle-moi de milou, brol, pingouins, anarchie, capitalisme…");
+
+  // =========================
+  // 6. Init
+  // =========================
+  document.addEventListener("DOMContentLoaded", () => {
+    resizeSvg();
+    // sélectionner un nœud de départ
+    selectNode("brol", true);
+  });
+</script>
+</body>
+</html>
