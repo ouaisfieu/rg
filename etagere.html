@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>ÉTAGÈRE ULTIME – Tous mes fichiers, tous formats</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #38bdf8;
+      --accent3: #f97316;
+      --accent4: #a855f7;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.6);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --radius-xl: 18px;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.95);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.2), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.2), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        rgba(15, 23, 42, 0.25) 1px,
+        transparent 1px
+      );
+      background-size: 100% 2px;
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.3), transparent 60%),
+        rgba(3,7,18,0.96);
+      border-bottom: 1px solid rgba(30,64,175,0.8);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.95);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      padding: 2px;
+      background: conic-gradient(from 180deg,
+        #22c55e, #38bdf8, #f97316, #a855f7, #22c55e
+      );
+      box-shadow:
+        0 0 0 1px #020617,
+        0 0 26px rgba(56,189,248,0.9);
+    }
+
+    .logo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background: radial-gradient(circle at 30% 20%, #0f172a, #020617);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #bbf7d0;
+    }
+
+    .header-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .title-main {
+      font-size: 1.05rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .title-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      max-width: 360px;
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 0.78rem;
+      color: var(--muted);
+      max-width: 260px;
+    }
+
+    .header-right strong { color: #e5e7eb; }
+
+    main {
+      flex: 1;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.2fr);
+      gap: 10px;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+      }
+    }
+
+    .panel {
+      background: rgba(3,7,18,0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 10px 11px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.3), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(168,85,247,0.2), transparent 60%);
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+    }
+
+    .panel-inner {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .panel h2 {
+      font-size: 0.96rem;
+      margin-bottom: 2px;
+    }
+
+    .small-muted {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) repeat(2, minmax(0, 0.7fr));
+      gap: 6px;
+      margin-top: 4px;
+      align-items: center;
+    }
+
+    @media (max-width: 720px) {
+      .controls {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .field label {
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    input[type="search"],
+    select {
+      border-radius: 999px;
+      border: 1px solid rgba(51,65,85,0.98);
+      background: rgba(15,23,42,0.98);
+      color: var(--text);
+      font-size: 0.8rem;
+      padding: 5px 9px;
+      font-family: var(--font-main);
+      outline: none;
+    }
+
+    input[type="search"]::placeholder {
+      color: #6b7280;
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    .picker-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .picker-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .btn-file {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(56,189,248,0.9);
+      background: rgba(15,23,42,0.98);
+      color: #e0f2fe;
+      font-size: 0.78rem;
+      padding: 5px 11px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+      overflow: hidden;
+    }
+
+    .btn-file:hover {
+      background: rgba(15,23,42,1);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.95);
+      transform: translateY(-1px);
+    }
+
+    .btn-file input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .pill-info {
+      font-size: 0.76rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      padding: 2px 7px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      padding: 2px 7px;
+      font-size: 0.74rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34,197,94,0.95);
+    }
+
+    .list {
+      margin-top: 6px;
+      border-radius: 13px;
+      border: 1px solid rgba(55,65,81,0.98);
+      background: #020617;
+      flex: 1;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .list-header,
+    .list-row {
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 0.9fr) minmax(0, 0.8fr) minmax(0, 0.7fr);
+      gap: 6px;
+      align-items: center;
+      font-size: 0.78rem;
+      padding: 5px 8px;
+    }
+
+    .list-header {
+      border-bottom: 1px solid rgba(31,41,55,0.98);
+      background: rgba(15,23,42,0.98);
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+
+    .list-body {
+      flex: 1;
+      overflow: auto;
+    }
+
+    .list-row {
+      border-bottom: 1px solid rgba(15,23,42,0.9);
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+
+    .list-row:nth-child(2n) {
+      background: rgba(15,23,42,0.7);
+    }
+
+    .list-row:hover {
+      background: rgba(30,64,175,0.5);
+    }
+
+    .list-row.active {
+      background: rgba(34,197,94,0.18);
+    }
+
+    .cell-main {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .file-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 5px;
+      background: #1f2937;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+    }
+
+    .file-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .kind-pill {
+      font-size: 0.72rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(75,85,99,0.9);
+      text-transform: lowercase;
+    }
+
+    .kind-doc    { border-color: rgba(59,130,246,0.9); color: #bfdbfe; }
+    .kind-image  { border-color: rgba(34,197,94,0.9); color: #bbf7d0; }
+    .kind-audio  { border-color: rgba(56,189,248,0.9); color: #bae6fd; }
+    .kind-video  { border-color: rgba(249,115,22,0.9); color: #fed7aa; }
+    .kind-pdf    { border-color: rgba(248,113,113,0.9); color: #fecaca; }
+    .kind-archive{ border-color: rgba(234,179,8,0.9); color: #fef9c3; }
+    .kind-other  { border-color: rgba(148,163,184,0.9); color: #e5e7eb; }
+
+    .fav-btn {
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #facc15;
+      font-size: 0.8rem;
+      cursor: pointer;
+      padding: 2px 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .fav-btn:hover {
+      border-color: rgba(250,204,21,0.7);
+      background: rgba(15,23,42,0.9);
+    }
+
+    .fav-btn span.star {
+      filter: drop-shadow(0 0 4px rgba(250,204,21,0.9));
+    }
+
+    .fav-btn.inactive {
+      color: var(--muted);
+    }
+
+    .fav-btn.inactive span.star {
+      filter: none;
+    }
+
+    /* PREVIEW PANEL */
+    .preview-panel {
+      background: rgba(3,7,18,0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .preview-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 100% 0, rgba(56,189,248,0.3), transparent 60%),
+        radial-gradient(circle at 0 100%, rgba(34,197,94,0.2), transparent 60%);
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+    }
+
+    .preview-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      height: 100%;
+    }
+
+    .preview-inner h2 {
+      font-size: 0.96rem;
+      margin-bottom: 2px;
+    }
+
+    .preview-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .preview-box {
+      border-radius: 12px;
+      border: 1px solid rgba(55,65,81,0.98);
+      background: #020617;
+      padding: 7px 7px;
+      font-size: 0.8rem;
+    }
+
+    .preview-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .preview-grid div span.label {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: #e5e7eb;
+    }
+
+    .preview-player {
+      margin-top: 4px;
+      border-radius: 10px;
+      border: 1px solid rgba(55,65,81,0.98);
+      background: #020617;
+      padding: 4px;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .preview-player iframe,
+    .preview-player img,
+    .preview-player video {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 8px;
+      object-fit: contain;
+      background: #020617;
+    }
+
+    .preview-player audio {
+      width: 100%;
+    }
+
+    .preview-actions {
+      margin-top: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      font-size: 0.78rem;
+      align-items: center;
+    }
+
+    .btn-link {
+      border-radius: 999px;
+      border: 1px solid rgba(56,189,248,0.9);
+      background: rgba(15,23,42,0.98);
+      color: #e0f2fe;
+      font-size: 0.76rem;
+      padding: 3px 8px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      text-decoration: none;
+    }
+
+    .btn-link:hover {
+      background: rgba(15,23,42,1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.95);
+    }
+
+    .preview-help {
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    .howto {
+      border-radius: 12px;
+      border: 1px solid rgba(55,65,81,0.98);
+      background: #020617;
+      padding: 7px 7px;
+      font-size: 0.78rem;
+      margin-top: 2px;
+    }
+
+    .howto ol {
+      margin-left: 16px;
+      margin-top: 2px;
+    }
+
+    .howto li {
+      margin-bottom: 2px;
+    }
+
+    .howto code {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      background: rgba(15,23,42,0.95);
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+
+    footer {
+      padding: 6px 12px 8px;
+      font-size: 0.74rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(30,64,175,0.7);
+      background: rgba(3,7,18,0.98);
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 720px) {
+      header { flex-direction: column; align-items: flex-start; }
+      .header-right { text-align: left; max-width: none; }
+      footer { flex-direction: column; }
+    }
+
+    .empty {
+      font-size: 0.8rem;
+      color: var(--muted);
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="logo">
+      <div class="logo-inner">ETG</div>
+    </div>
+    <div class="header-titles">
+      <div class="title-main">ÉTAGÈRE ULTIME</div>
+      <div class="title-sub">
+        Tous tes fichiers, tous formats confondus, dans le dossier que tu choisis.
+        Recherche, filtre, tri, favoris, prévisualisation.
+      </div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div>
+      <strong>Important :</strong> pour des raisons de sécurité,
+      aucun site ne peut fouiller tout ton ordinateur tout seul.
+      <br />Ici, tu choisis un dossier, et l’étagère s’occupe du reste.
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- PANEL GAUCHE : LISTE DES FICHIERS -->
+  <section class="panel">
+    <div class="panel-inner">
+      <div>
+        <h2>Tes fichiers (dans le dossier choisi)</h2>
+        <div class="small-muted">
+          Clique sur <strong>“Choisir un dossier complet”</strong> puis laisse l’étagère scanner.
+          Tous les formats sont acceptés : PDF, images, audio, vidéo, ZIP, docs, etc.
+        </div>
+
+        <div class="picker-row">
+          <label class="btn-file">
+            <span>📁 Choisir un dossier complet</span>
+            <input type="file" id="folderPicker" webkitdirectory multiple />
+          </label>
+          <span class="pill-info" id="folderInfo">Aucun dossier sélectionné.</span>
+        </div>
+
+        <div class="controls">
+          <div class="field">
+            <label for="searchInput">Recherche par nom</label>
+            <input type="search" id="searchInput" placeholder="Tape un morceau de nom de fichier…" />
+          </div>
+          <div class="field">
+            <label for="typeFilter">Filtrer par type</label>
+            <select id="typeFilter">
+              <option value="all">Tous les types</option>
+              <option value="doc">Documents (txt, doc, md…)</option>
+              <option value="pdf">PDF</option>
+              <option value="image">Images</option>
+              <option value="audio">Audio</option>
+              <option value="video">Vidéo</option>
+              <option value="archive">Archives (zip, rar…)</option>
+              <option value="other">Autres</option>
+              <option value="fav">Favoris uniquement</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="sortSelect">Trier</label>
+            <select id="sortSelect">
+              <option value="name-asc">Nom (A → Z)</option>
+              <option value="name-desc">Nom (Z → A)</option>
+              <option value="size-asc">Taille (petit → gros)</option>
+              <option value="size-desc">Taille (gros → petit)</option>
+              <option value="date-desc">Plus récents d’abord</option>
+              <option value="date-asc">Plus anciens d’abord</option>
+              <option value="type-asc">Type (A → Z)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top:4px;display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;">
+          <span class="badge">
+            <span class="badge-dot"></span>
+            <span id="filesSummary">0 fichier chargé.</span>
+          </span>
+          <span class="small-muted">
+            ⭐ Clique sur l’étoile pour marquer un fichier en “favori” (stocké seulement dans ton navigateur).
+          </span>
+        </div>
+      </div>
+
+      <div class="list">
+        <div class="list-header">
+          <div>Nom du fichier</div>
+          <div>Type</div>
+          <div>Taille</div>
+          <div>Modifié</div>
+        </div>
+        <div class="list-body" id="fileList">
+          <div class="empty">
+            Aucun fichier pour l’instant.  
+            Choisis un dossier avec le bouton en haut.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PANEL DROIT : PRÉVIEW + EXPLICATIONS -->
+  <section class="preview-panel">
+    <div class="preview-inner">
+      <section>
+        <h2>Prévisualisation / détails</h2>
+        <p class="preview-meta" id="previewIntro">
+          Clique sur un fichier dans la liste pour voir ses infos ici.
+        </p>
+
+        <div class="preview-box" id="previewBox" style="display:none;">
+          <div id="previewName" style="font-size:0.9rem;margin-bottom:3px;"></div>
+          <div class="preview-grid">
+            <div><span class="label">Type :</span> <span id="previewType"></span></div>
+            <div><span class="label">Catégorie :</span> <span id="previewKind"></span></div>
+            <div><span class="label">Taille :</span> <span id="previewSize"></span></div>
+            <div><span class="label">Modifié :</span> <span id="previewDate"></span></div>
+          </div>
+
+          <div class="preview-player" id="previewPlayer">
+            <span class="preview-help">Certains formats (images, audio, vidéo, PDF…) peuvent être prévisualisés ici.</span>
+          </div>
+
+          <div class="preview-actions">
+            <button type="button" class="fav-btn inactive" id="previewFavBtn">
+              <span class="star">★</span>
+              <span>Ajouter aux favoris</span>
+            </button>
+            <a href="#" class="btn-link" id="previewOpenLink" target="_blank" rel="noopener noreferrer">
+              Ouvrir / télécharger
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="howto">
+        <strong>Comment ça marche ? (explication intégrée)</strong>
+        <ol>
+          <li>
+            Tu enregistres ce fichier sous <code>etagere.html</code> dans un dossier.
+          </li>
+          <li>
+            Tu ouvres <code>etagere.html</code> dans ton navigateur
+            (double-clic depuis l’explorateur de fichiers).
+          </li>
+          <li>
+            Tu cliques sur <strong>“Choisir un dossier complet”</strong> et tu sélectionnes
+            le dossier que tu veux scanner (clé USB, projet, “Documents”, etc.).
+          </li>
+          <li>
+            Le navigateur liste tous les fichiers de ce dossier (et sous-dossiers) grâce à
+            <code>&lt;input type="file" webkitdirectory multiple&gt;</code>.
+          </li>
+          <li>
+            Tu peux :
+            <ul style="margin-left:16px;margin-top:2px;">
+              <li>rechercher par nom,</li>
+              <li>filtrer par type (PDF, images, audio, etc.),</li>
+              <li>trier par taille, date, nom, type,</li>
+              <li>marquer des favoris (⭐) – enregistrés dans ton navigateur (localStorage),</li>
+              <li>cliquer pour prévisualiser (image, audio, vidéo, PDF) dans le panneau de droite,</li>
+              <li>ouvrir/télécharger avec le bouton “Ouvrir / télécharger”.</li>
+            </ul>
+          </li>
+        </ol>
+        <p style="margin-top:3px;">
+          🛡️ <strong>Pourquoi je ne peux pas scanner tout le PC automatiquement ?</strong><br />
+          Parce que ton navigateur protège ta vie privée :
+          une page web n’a le droit de voir que les fichiers que <em>toi</em> tu lui donnes.
+          Ici, c’est toi qui choisis le dossier à chaque fois.
+        </p>
+      </section>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>
+    Étagère ultime – Vue locale de tes fichiers, tous formats, dans le dossier que tu choisis.
+  </span>
+  <span>
+    Tu peux dupliquer ce fichier, le mettre sur une clé USB, l’adapter à d’autres dossiers ou projets.
+  </span>
+</footer>
+
+<script>
+  const folderPicker   = document.getElementById("folderPicker");
+  const folderInfo     = document.getElementById("folderInfo");
+  const fileListEl     = document.getElementById("fileList");
+  const filesSummaryEl = document.getElementById("filesSummary");
+  const searchInput    = document.getElementById("searchInput");
+  const typeFilter     = document.getElementById("typeFilter");
+  const sortSelect     = document.getElementById("sortSelect");
+
+  const previewIntro   = document.getElementById("previewIntro");
+  const previewBox     = document.getElementById("previewBox");
+  const previewName    = document.getElementById("previewName");
+  const previewType    = document.getElementById("previewType");
+  const previewKind    = document.getElementById("previewKind");
+  const previewSize    = document.getElementById("previewSize");
+  const previewDate    = document.getElementById("previewDate");
+  const previewPlayer  = document.getElementById("previewPlayer");
+  const previewFavBtn  = document.getElementById("previewFavBtn");
+  const previewOpenLink= document.getElementById("previewOpenLink");
+
+  let allFiles = [];
+  let filtered = [];
+  let selectedIndex = null;
+  let favs = loadFavs();
+
+  function loadFavs() {
+    try {
+      const raw = localStorage.getItem("etagereFavs");
+      if (!raw) return {};
+      return JSON.parse(raw);
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function saveFavs() {
+    try {
+      localStorage.setItem("etagereFavs", JSON.stringify(favs));
+    } catch (_) {
+      // ignore quota errors
+    }
+  }
+
+  function detectKind(file) {
+    const type = file.type || "";
+    const name = file.name.toLowerCase();
+
+    if (type.startsWith("image/")) return "image";
+    if (type.startsWith("audio/")) return "audio";
+    if (type.startsWith("video/")) return "video";
+    if (type === "application/pdf" || name.endsWith(".pdf")) return "pdf";
+    if (name.match(/\.(doc|docx|odt|rtf|txt|md)$/)) return "doc";
+    if (name.match(/\.(xls|xlsx|ods|csv)$/)) return "doc";
+    if (name.match(/\.(ppt|pptx|odp)$/)) return "doc";
+    if (name.match(/\.(zip|rar|7z|tar|gz)$/)) return "archive";
+    return "other";
+  }
+
+  function formatSize(bytes) {
+    if (bytes == null) return "?";
+    const units = ["o","Ko","Mo","Go","To"];
+    let i = 0;
+    let val = bytes;
+    while (val >= 1024 && i < units.length - 1) {
+      val /= 1024;
+      i++;
+    }
+    return val.toFixed(i === 0 ? 0 : 1) + " " + units[i];
+  }
+
+  function formatDate(ms) {
+    if (!ms) return "?";
+    const d = new Date(ms);
+    if (isNaN(d.getTime())) return "?";
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  }
+
+  function typeLabel(kind) {
+    switch (kind) {
+      case "image": return "Image";
+      case "audio": return "Audio";
+      case "video": return "Vidéo";
+      case "pdf": return "PDF";
+      case "doc": return "Document";
+      case "archive": return "Archive";
+      default: return "Autre";
+    }
+  }
+
+  function iconChar(kind) {
+    switch (kind) {
+      case "image": return "🖼";
+      case "audio": return "🎧";
+      case "video": return "🎬";
+      case "pdf": return "📄";
+      case "doc": return "📄";
+      case "archive": return "📦";
+      default: return "📁";
+    }
+  }
+
+  function updateSummary() {
+    filesSummaryEl.textContent = `${filtered.length} fichier(s) affiché(s) sur ${allFiles.length}.`;
+  }
+
+  function applyFiltersAndSort() {
+    const q = searchInput.value.trim().toLowerCase();
+    const f = typeFilter.value;
+
+    filtered = allFiles.filter((fdata) => {
+      if (q && !fdata.name.toLowerCase().includes(q)) return false;
+      if (f === "fav") {
+        return !!favs[fdata.id];
+      }
+      if (f === "all") return true;
+      if (fdata.kind === f) return true;
+      if (f === "doc" && fdata.kind === "doc") return true;
+      return false;
+    });
+
+    const sortVal = sortSelect.value;
+    filtered.sort((a, b) => {
+      switch (sortVal) {
+        case "name-asc":  return a.name.localeCompare(b.name);
+        case "name-desc": return b.name.localeCompare(a.name);
+        case "size-asc":  return (a.size||0) - (b.size||0);
+        case "size-desc": return (b.size||0) - (a.size||0);
+        case "date-asc":  return (a.lastModified||0) - (b.lastModified||0);
+        case "date-desc": return (b.lastModified||0) - (a.lastModified||0);
+        case "type-asc":
+          if (a.kind === b.kind) return a.name.localeCompare(b.name);
+          return a.kind.localeCompare(b.kind);
+        default: return 0;
+      }
+    });
+
+    renderList();
+    updateSummary();
+  }
+
+  function renderList() {
+    fileListEl.innerHTML = "";
+    if (!filtered.length) {
+      fileListEl.innerHTML = '<div class="empty">Aucun fichier ne correspond à ces critères.</div>';
+      return;
+    }
+
+    filtered.forEach((fdata, idx) => {
+      const row = document.createElement("div");
+      row.className = "list-row";
+      row.dataset.index = idx;
+
+      const isFav = !!favs[fdata.id];
+      const favClass = isFav ? "fav-btn" : "fav-btn inactive";
+      const favLabel = isFav ? "Favori" : "Mettre en favori";
+
+      row.innerHTML = `
+        <div class="cell-main">
+          <div class="file-icon">${iconChar(fdata.kind)}</div>
+          <div class="file-name" title="${fdata.relativePath}">${fdata.name}</div>
+        </div>
+        <div>
+          <span class="kind-pill kind-${fdata.kind}">${typeLabel(fdata.kind)}</span>
+        </div>
+        <div>${formatSize(fdata.size)}</div>
+        <div style="display:flex;align-items:center;gap:4px;justify-content:space-between;">
+          <span>${formatDate(fdata.lastModified)}</span>
+          <button type="button" class="${favClass}" data-fav-id="${fdata.id}" onclick="toggleFavFromList(event, '${fdata.id}')">
+            <span class="star">★</span>
+          </button>
+        </div>
+      `;
+
+      row.addEventListener("click", (ev) => {
+        // éviter que le clic sur le bouton favori déclenche la sélection
+        if (ev.target.closest(".fav-btn")) return;
+        selectFile(idx);
+      });
+
+      fileListEl.appendChild(row);
+    });
+  }
+
+  function selectFile(idx) {
+    selectedIndex = idx;
+    const rows = fileListEl.querySelectorAll(".list-row");
+    rows.forEach(r => r.classList.remove("active"));
+    const row = fileListEl.querySelector(`.list-row[data-index="${idx}"]`);
+    if (row) row.classList.add("active");
+
+    const fdata = filtered[idx];
+    if (!fdata) return;
+    showPreview(fdata);
+  }
+
+  let currentPreviewUrl = null;
+
+  function showPreview(fdata) {
+    previewBox.style.display = "block";
+    previewIntro.textContent = "Tu peux prévisualiser le fichier et l’ouvrir/télécharger si besoin.";
+
+    previewName.textContent = fdata.relativePath;
+    previewType.textContent = fdata.type || "(type inconnu)";
+    previewKind.textContent = typeLabel(fdata.kind);
+    previewSize.textContent = formatSize(fdata.size);
+    previewDate.textContent = formatDate(fdata.lastModified);
+
+    if (currentPreviewUrl) {
+      URL.revokeObjectURL(currentPreviewUrl);
+      currentPreviewUrl = null;
+    }
+
+    previewPlayer.innerHTML = '<span class="preview-help">Prévisualisation non disponible pour ce format, mais tu peux l’ouvrir ou le télécharger.</span>';
+
+    const url = URL.createObjectURL(fdata.file);
+    currentPreviewUrl = url;
+    previewOpenLink.href = url;
+
+    if (fdata.kind === "image") {
+      const img = document.createElement("img");
+      img.src = url;
+      img.alt = fdata.name;
+      previewPlayer.innerHTML = "";
+      previewPlayer.appendChild(img);
+    } else if (fdata.kind === "audio") {
+      const audio = document.createElement("audio");
+      audio.controls = true;
+      audio.src = url;
+      previewPlayer.innerHTML = "";
+      previewPlayer.appendChild(audio);
+    } else if (fdata.kind === "video") {
+      const video = document.createElement("video");
+      video.controls = true;
+      video.src = url;
+      previewPlayer.innerHTML = "";
+      previewPlayer.appendChild(video);
+    } else if (fdata.kind === "pdf") {
+      const iframe = document.createElement("iframe");
+      iframe.src = url;
+      previewPlayer.innerHTML = "";
+      previewPlayer.appendChild(iframe);
+    }
+
+    updatePreviewFavBtn(fdata.id);
+  }
+
+  function updatePreviewFavBtn(id) {
+    const isFav = !!favs[id];
+    if (isFav) {
+      previewFavBtn.classList.remove("inactive");
+      previewFavBtn.querySelector("span.star").textContent = "★";
+      previewFavBtn.lastElementChild.textContent = "En favori";
+    } else {
+      previewFavBtn.classList.add("inactive");
+      previewFavBtn.querySelector("span.star").textContent = "☆";
+      previewFavBtn.lastElementChild.textContent = "Ajouter aux favoris";
+    }
+    previewFavBtn.onclick = () => toggleFav(id);
+  }
+
+  function toggleFav(id) {
+    if (favs[id]) {
+      delete favs[id];
+    } else {
+      favs[id] = true;
+    }
+    saveFavs();
+    applyFiltersAndSort();
+    if (selectedIndex != null) {
+      const fdata = filtered[selectedIndex];
+      if (fdata && fdata.id === id) {
+        updatePreviewFavBtn(id);
+      }
+    }
+  }
+
+  // appelé depuis le bouton dans la liste (via inline onclick)
+  function toggleFavFromList(event, id) {
+    event.stopPropagation();
+    toggleFav(id);
+  }
+  window.toggleFavFromList = toggleFavFromList; // exp pour inline handler
+
+  folderPicker.addEventListener("change", (e) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) {
+      folderInfo.textContent = "Aucun dossier sélectionné.";
+      allFiles = [];
+      filtered = [];
+      renderList();
+      updateSummary();
+      previewBox.style.display = "none";
+      previewIntro.textContent = "Clique sur un fichier dans la liste pour voir ses infos ici.";
+      return;
+    }
+
+    const first = files[0];
+    let base = "";
+    if (first.webkitRelativePath) {
+      const parts = first.webkitRelativePath.split("/");
+      parts.pop();
+      base = parts.join("/");
+    }
+
+    folderInfo.textContent = base ? `Dossier : ${base} (et sous-dossiers)` : "Dossier sélectionné.";
+
+    allFiles = files.map((file, index) => {
+      const relativePath = file.webkitRelativePath || file.name;
+      const kind = detectKind(file);
+      const id = relativePath + "|" + file.size + "|" + file.lastModified;
+      return {
+        id,
+        file,
+        name: file.name,
+        relativePath,
+        size: file.size,
+        type: file.type,
+        lastModified: file.lastModified,
+        kind
+      };
+    });
+
+    selectedIndex = null;
+    previewBox.style.display = "none";
+    previewIntro.textContent = "Clique sur un fichier dans la liste pour voir ses infos ici.";
+    if (currentPreviewUrl) {
+      URL.revokeObjectURL(currentPreviewUrl);
+      currentPreviewUrl = null;
+    }
+
+    applyFiltersAndSort();
+  });
+
+  searchInput.addEventListener("input", applyFiltersAndSort);
+  typeFilter.addEventListener("change", applyFiltersAndSort);
+  sortSelect.addEventListener("change", applyFiltersAndSort);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    applyFiltersAndSort();
+  });
+</script>
+</body>
+</html>
