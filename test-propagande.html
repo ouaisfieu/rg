@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Test de recrutement – Propagande par le fait & Projets citoyens</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      --bg: #050713;
+      --card: #0b1024;
+      --accent: #8bffb0;
+      --accent-soft: rgba(139, 255, 176, 0.18);
+      --accent-2: #d28bff;
+      --text-main: #f5f7ff;
+      --text-muted: #a4b1ff;
+      --danger: #ff4d7a;
+      --border: 1px solid rgba(145, 170, 255, 0.4);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 0 0, rgba(139,255,176,0.14), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(210,139,255,0.16), transparent 55%),
+        #050713;
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 1.2rem 0.8rem 1.7rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1100px;
+      background: radial-gradient(circle at 0 0, rgba(139,255,176,0.06), transparent 60%), #060819;
+      border-radius: 26px;
+      border: 1px solid rgba(145,170,255,0.45);
+      box-shadow: 0 0 35px rgba(0,0,0,0.85);
+      padding: 1.4rem 1rem 1.8rem;
+    }
+
+    @media (min-width: 768px) {
+      .page {
+        padding: 1.8rem 1.7rem 2rem;
+      }
+    }
+
+    header {
+      border-bottom: 1px solid rgba(145,170,255,0.45);
+      padding-bottom: 0.9rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .badge-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.2rem 0.8rem 0.2rem 0.4rem;
+      border-radius: 999px;
+      border: 1px solid rgba(139,255,176,0.85);
+      background: radial-gradient(circle at 0 0, rgba(139,255,176,0.26), transparent 65%);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(139,255,176,1);
+    }
+
+    .chip {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(210,139,255,0.85);
+      padding: 0.2rem 0.75rem;
+      color: var(--accent-2);
+      background: radial-gradient(circle at 100% 0, rgba(210,139,255,0.26), transparent 65%);
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 4vw, 2.3rem);
+      line-height: 1.05;
+      margin-bottom: 0.4rem;
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    .intro {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 820px;
+    }
+
+    .intro strong {
+      color: var(--text-main);
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .meta-tag {
+      border-radius: 999px;
+      border: 1px solid rgba(145,170,255,0.6);
+      padding: 0.18rem 0.6rem;
+    }
+
+    .meta-tag.level {
+      border-color: rgba(139,255,176,0.85);
+      color: var(--accent);
+    }
+
+    .alert {
+      margin-top: 0.85rem;
+      padding: 0.65rem 0.8rem;
+      border-radius: 16px;
+      border: 1px solid rgba(255,77,122,0.9);
+      background:
+        linear-gradient(120deg, rgba(255,77,122,0.18), transparent 60%),
+        radial-gradient(circle at 0 0, rgba(255,210,152,0.25), transparent 65%);
+      font-size: 0.82rem;
+      display: flex;
+      gap: 0.55rem;
+      align-items: flex-start;
+    }
+
+    .alert-icon {
+      font-family: "JetBrains Mono", ui-monospace;
+      font-size: 0.78rem;
+      color: var(--danger);
+      padding-top: 0.1rem;
+    }
+
+    .alert strong {
+      color: #ffd8e4;
+    }
+
+    /* Layout */
+    .layout {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+
+    @media (min-width: 980px) {
+      .layout {
+        grid-template-columns: minmax(0, 1.45fr) minmax(0, 1.1fr);
+      }
+    }
+
+    .card {
+      background:
+        radial-gradient(circle at 0 0, rgba(139,255,176,0.08), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(210,139,255,0.1), transparent 60%),
+        var(--card);
+      border-radius: var(--radius);
+      border: var(--border);
+      padding: 0.9rem 0.9rem 1.1rem;
+      font-size: 0.87rem;
+      color: var(--text-muted);
+    }
+
+    @media (min-width: 768px) {
+      .card {
+        padding: 1rem 1.05rem 1.2rem;
+      }
+    }
+
+    .card h2 {
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+      color: var(--text-main);
+    }
+
+    .card h3 {
+      font-size: 0.9rem;
+      margin-top: 0.7rem;
+      margin-bottom: 0.25rem;
+      color: var(--text-main);
+    }
+
+    .card p {
+      line-height: 1.55;
+    }
+
+    .note {
+      font-size: 0.78rem;
+      opacity: 0.9;
+      margin-top: 0.4rem;
+    }
+
+    /* Media embeds */
+    .media-block {
+      margin-top: 0.55rem;
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .media-block iframe,
+    .media-block embed {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid rgba(145,170,255,0.5);
+      min-height: 220px;
+      background: #02030a;
+    }
+
+    .media-caption {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* Galerie */
+    .gallery {
+      margin-top: 0.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.5rem;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 13px;
+      overflow: hidden;
+      border: 1px solid rgba(145,170,255,0.55);
+      background: linear-gradient(135deg, rgba(139,255,176,0.15), rgba(210,139,255,0.15));
+      min-height: 80px;
+      font-size: 0.78rem;
+      padding: 0.5rem;
+      display: flex;
+      align-items: flex-end;
+      color: #02030a;
+    }
+
+    .gallery-item span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .pill-diff {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 0.12rem 0.5rem;
+      font-size: 0.7rem;
+      border: 1px solid rgba(139,255,176,0.8);
+      color: var(--accent);
+      margin-left: 0.4rem;
+    }
+
+    .pill-diff.medium {
+      border-color: rgba(255,210,152,0.9);
+      color: #ffd88a;
+    }
+
+    .pill-diff.hard {
+      border-color: rgba(255,77,122,0.9);
+      color: #ff9bb4;
+    }
+
+    .question {
+      margin-top: 0.6rem;
+      padding-top: 0.5rem;
+      border-top: 1px dashed rgba(145,170,255,0.55);
+    }
+
+    .question-title {
+      font-size: 0.86rem;
+      color: var(--text-main);
+      margin-bottom: 0.2rem;
+    }
+
+    .question small {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .options {
+      margin-top: 0.4rem;
+      padding-left: 0.9rem;
+      font-size: 0.82rem;
+    }
+
+    .options label {
+      display: block;
+      margin-bottom: 0.18rem;
+      cursor: pointer;
+    }
+
+    textarea {
+      width: 100%;
+      margin-top: 0.35rem;
+      padding: 0.45rem 0.55rem;
+      border-radius: 10px;
+      border: 1px solid rgba(145,170,255,0.7);
+      background: #05081a;
+      color: var(--text-main);
+      font-size: 0.84rem;
+      resize: vertical;
+      min-height: 70px;
+      font-family: inherit;
+    }
+
+    .actions {
+      margin-top: 0.7rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid rgba(139,255,176,0.9);
+      background: radial-gradient(circle at 0 0, rgba(139,255,176,0.3), rgba(4,10,18,0.98));
+      color: #021308;
+      padding: 0.35rem 0.8rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .btn-ghost {
+      border-color: rgba(145,170,255,0.9);
+      background: rgba(4,7,24,0.98);
+      color: var(--text-main);
+    }
+
+    .result {
+      margin-top: 0.55rem;
+      border-radius: 12px;
+      border: 1px dashed rgba(145,170,255,0.7);
+      background: #05081a;
+      padding: 0.45rem 0.6rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .result strong {
+      color: var(--accent);
+    }
+
+    footer {
+      margin-top: 1.1rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    footer code {
+      border-radius: 999px;
+      border: 1px solid rgba(145,170,255,0.8);
+      padding: 0.18rem 0.6rem;
+      background: #05081b;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="badge-row">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          <span>Test de recrutement</span>
+          <span>Propagande par le fait</span>
+        </div>
+        <div class="chip">
+          Dossier croisé avec ton écosystème de projets
+        </div>
+      </div>
+
+      <h1>Test – <span>Propagande par le fait</span> & Cinquième pouvoir citoyen</h1>
+      <p class="intro">
+        Ce test vise à évaluer ta capacité à <strong>lire un dossier complexe</strong> sur la « propagande par le fait »,
+        à en saisir les <strong>enjeux historiques et politiques</strong>, et à les <strong>croiser avec ton propre projet</strong> :
+        veille citoyenne, jeux, sites, expérimentations pédagogiques, cinquième pouvoir non-marchand, etc.
+      </p>
+
+      <div class="meta">
+        <span class="meta-tag level">Niveau global : progressif (Débutant → Expert)</span>
+        <span class="meta-tag">Format : test de recrutement / auto-évaluation</span>
+        <span class="meta-tag">Support : lecture, analyse, projection dans tes sous-projets</span>
+      </div>
+
+      <div class="alert">
+        <div class="alert-icon">[!]</div>
+        <div>
+          <strong>Disclaimer :</strong> ce test ne te transforme pas en expert de l’anarchisme ni en terroriste amateur.
+          Il sert à <em>comprendre une stratégie historique</em>, à analyser pourquoi elle a été une impasse,
+          et à imaginer des équivalents <strong>non violents</strong> dans des projets citoyens contemporains.
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <!-- Colonne gauche : dossiers & questions factuelles / analytiques -->
+      <section class="card">
+        <h2>1. Dossiers de référence (à consulter avant / pendant le test)</h2>
+        <p>
+          Les questions qui suivent s’appuient sur les documents suivants.  
+          Tu peux les lire en entier ou par portions, l’important est de comprendre les
+          <strong>grandes idées</strong> et les <strong>tensions internes</strong>.
+        </p>
+
+        <div class="media-block">
+          <!-- Remplace les chemins si besoin selon ton hébergement (GitHub Pages, dl.ouaisfi.eu, etc.) -->
+          <embed src="/mnt/data/propaganda-chatgpt.pdf" type="application/pdf">
+          <span class="media-caption">
+            Dossier synthétique : <em>La propagande par le fait : origines, débats et héritages</em>.
+          </span>
+
+          <embed src="/mnt/data/propaganda-claude.pdf" type="application/pdf">
+          <span class="media-caption">
+            Dossier long : <em>La propagande par le fait : histoire, théorie et héritage d'une stratégie anarchiste</em>.
+          </span>
+        </div>
+
+        <h3>Ressources audio / vidéo (à adapter)</h3>
+        <div class="media-block">
+          <!-- Exemple d'extrait YouTube à remplacer par une vidéo pertinente -->
+          <iframe
+            src="https://www.youtube.com/embed/VIDEO_ID_A_REMPLACER"
+            title="Extrait vidéo sur l'anarchisme ou l'histoire des mouvements sociaux"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+          <span class="media-caption">
+            Remplace <code>VIDEO_ID_A_REMPLACER</code> par un extrait vidéo qui te semble pertinent (documentaire, cours, analyse).
+          </span>
+
+          <!-- Exemple de playlist Spotify à remplacer -->
+          <iframe
+            src="https://open.spotify.com/embed/playlist/PLAYLIST_ID_A_REMPLACER"
+            style="border-radius:12px;min-height:180px;"
+            frameborder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+          </iframe>
+          <span class="media-caption">
+            Remplace <code>PLAYLIST_ID_A_REMPLACER</code> par ta propre playlist (ambiances, musiques militantes, etc.).
+          </span>
+        </div>
+
+        <h3>Micro-galerie d’idées visuelles (à inventer / illustrer)</h3>
+        <div class="gallery">
+          <div class="gallery-item">
+            <span>Affiche d’époque sur la Commune / le mouvement ouvrier</span>
+          </div>
+          <div class="gallery-item">
+            <span>Une timeline stylisée des grands attentats revendiqués comme « propagande par le fait »</span>
+          </div>
+          <div class="gallery-item">
+            <span>Une carte mentale « violence d’État vs violence révolutionnaire »</span>
+          </div>
+          <div class="gallery-item">
+            <span>Un schéma comparant « attentat isolé » / « mouvement de masse »</span>
+          </div>
+        </div>
+
+        <p class="note">
+          Tu peux remplacer ces blocs par de vraies images (captures, schémas, mindmaps) une fois ton matériel visuel prêt.
+        </p>
+
+        <h2 style="margin-top:1.1rem;">2. Questions de compréhension du dossier</h2>
+
+        <div class="question">
+          <div class="question-title">
+            Q1. Définir la « propagande par le fait »<span class="pill-diff">Débutant</span>
+          </div>
+          <small>
+            En quelques phrases, résume ce que recouvre cette expression au XIXᵉ siècle
+            (objectifs, moyens, logique générale).
+          </small>
+          <textarea placeholder="Ta réponse ici…"></textarea>
+        </div>
+
+        <div class="question">
+          <div class="question-title">
+            Q2. Contexte social et politique<span class="pill-diff medium">Intermédiaire</span>
+          </div>
+          <small>Pourquoi cette stratégie apparaît-elle précisément dans ce contexte historique ?</small>
+          <div class="options">
+            <label>
+              <input type="radio" name="q2" value="a">
+              a) Parce que les anarchistes cherchaient surtout à choquer la bourgeoisie par goût du scandale.
+            </label>
+            <label>
+              <input type="radio" name="q2" value="b">
+              b) Parce que les conditions de vie (travail, répression, pauvreté) étaient perçues comme une violence permanente justifiant une contre-violence.
+            </label>
+            <label>
+              <input type="radio" name="q2" value="c">
+              c) Parce que les partis socialistes étaient déjà au pouvoir et demandaient de passer à autre chose.
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-title">
+            Q3. Débat interne chez les anarchistes<span class="pill-diff medium">Intermédiaire</span>
+          </div>
+          <small>
+            Résume le conflit entre les partisans de la propagande par le fait et ceux qui lui préfèrent d’autres stratégies.
+          </small>
+          <textarea placeholder="Qui s’oppose à qui, et sur quels arguments principaux ?"></textarea>
+        </div>
+
+        <div class="question">
+          <div class="question-title">
+            Q4. Bilan stratégique<span class="pill-diff hard">Avancé</span>
+          </div>
+          <small>
+            D’après les dossiers, la propagande par le fait est-elle un succès ou un échec stratégique ?
+            Argumente avec 2–3 éléments précis (effets sur l’État, sur les libertés, sur le mouvement lui-même).
+          </small>
+          <textarea placeholder="Réponse argumentée, avec exemples précis tirés du dossier."></textarea>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn" id="checkBasicBtn">
+            <span>▶</span> Vérifier les questions de base
+          </button>
+          <span class="note">
+            Ce bouton ne corrige pas tout, mais te rappelle les points clés si tu bloques.
+          </span>
+        </div>
+
+        <div class="result" id="basicResult">
+          Utilise les dossiers pour répondre. Si tu es totalement perdu sur les Q1–Q4, relis l’introduction,
+          la partie sur le contexte et la conclusion générale.
+        </div>
+      </section>
+
+      <!-- Colonne droite : analyse croisée avec ton projet / scoring de recrutement -->
+      <section class="card">
+        <h2>3. Analyse croisée avec ton projet et ses sous-projets</h2>
+        <p>
+          Ici, on quitte l’histoire pure pour passer en <strong>mode recrutement / positionnement</strong> :
+          comment tu traduis ces enseignements dans ton écosystème (veille citoyenne, jeux, sites, pédagogie, ARG, etc.) ?
+        </p>
+
+        <div class="question">
+          <div class="question-title">
+            Q5. Équivalents non violents aujourd’hui<span class="pill-diff medium">Intermédiaire</span>
+          </div>
+          <small>
+            Si on reprend l’idée de « faire école par l’exemple » sans la dimension violente,
+            quelles formes de « propagande par le fait non violente » pourrais-tu imaginer dans tes projets ?
+          </small>
+          <textarea placeholder="Ex. publication de dossiers, cartographie citoyenne, jeux sérieux, enquêtes locales, etc."></textarea>
+        </div>
+
+        <div class="question">
+          <div class="question-title">
+            Q6. Test de recrutement & éthique<span class="pill-diff hard">Avancé</span>
+          </div>
+          <small>
+            Tu conçois un test de recrutement (comme celui-ci) pour filtrer des profils.  
+            Comment éviter de reproduire, à ton échelle, la logique « lois scélérates » (répression aveugle) que tu as lue dans le dossier ?
+          </small>
+          <textarea placeholder="Réfléchis aux critères transparents, à la bienveillance, à la possibilité d’erreur, au droit à la contradiction…"></textarea>
+        </div>
+
+        <div class="question">
+          <div class="question-title">
+            Q7. Cinquième pouvoir & propagande par le fait<span class="pill-diff hard">Avancé</span>
+          </div>
+          <small>
+            Ton projet vise un « cinquième pouvoir citoyen » basé sur la veille, la documentation,
+            la pédagogie. Explique en quoi cette approche est l’exact inverse (ou une réappropriation critique)
+            de la propagande par le fait violente du XIXᵉ siècle.
+          </small>
+          <textarea placeholder="Tu peux parler de transparence, de non-violence, de mise en commun des savoirs, etc."></textarea>
+        </div>
+
+        <div class="question">
+          <div class="question-title">
+            Q8. Application concrète à un sous-projet<span class="pill-diff hard">Avancé / Expert</span>
+          </div>
+          <small>
+            Choisis un de tes sous-projets (jeu Godot, site Hugo, ARG, portail documentaire, etc.).  
+            Décris un module ou une mécanique inspirée du dossier (par contraste ou analogie) qui pourrait :
+          </small>
+          <ul class="options">
+            <li>montrer les dérives de la violence politique,</li>
+            <li>et valoriser les stratégies de transformation lente (éducation, organisation, entraide).</li>
+          </ul>
+          <textarea placeholder="Décris un cas d’usage concret : scène de jeu, page web, atelier, carte interactive…"></textarea>
+        </div>
+
+        <h2 style="margin-top:1rem;">4. Auto-positionnement « recrutement »</h2>
+        <p>
+          Ce test sert aussi à voir <strong>où tu te situes</strong> par rapport au projet global.  
+          Coche honnêtement ce qui te correspond le plus.
+        </p>
+
+        <div class="question">
+          <div class="question-title">
+            Q9. Ton profil pour le projet<span class="pill-diff">Débutant → Expert</span>
+          </div>
+          <div class="options">
+            <label>
+              <input type="radio" name="q9" value="curieux">
+              Je découvre ces sujets, je comprends l’essentiel, j’ai envie d’apprendre et de contribuer modestement.
+            </label>
+            <label>
+              <input type="radio" name="q9" value="analyste">
+              Je suis capable de faire des liens entre histoire, stratégie politique et outils numériques actuels.
+            </label>
+            <label>
+              <input type="radio" name="q9" value="architecte">
+              J’ai déjà une vision assez claire de comment transformer ces dossiers en dispositifs pédagogiques, jeux, sites ou outils pour d’autres.
+            </label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn" id="scoreBtn">
+            <span>★</span> Obtenir un retour de profil
+          </button>
+          <button type="button" class="btn btn-ghost" id="resetBtn">
+            <span>×</span> Reset du test
+          </button>
+        </div>
+
+        <div class="result" id="scoreResult">
+          Réponds d’abord à ton rythme. Quand tu te sens prêt·e, clique sur « Obtenir un retour de profil »
+          pour une lecture rapide de ta position dans le projet.
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Test de recrutement – Propagande par le fait & projets citoyens · Utilisation interne / pédagogique</span>
+      <code>test-propagande.html // à adapter, forker, versionner</code>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      // Petit rappel pour Q2 (sans donner la bonne réponse en clair)
+      const basicBtn = document.getElementById('checkBasicBtn');
+      const basicResult = document.getElementById('basicResult');
+      if (basicBtn && basicResult) {
+        basicBtn.addEventListener('click', () => {
+          basicResult.innerHTML =
+            "<strong>Pistes pour Q1–Q4 :</strong><br>" +
+            "- Q1 : pense « passer des idées aux actes », actions spectaculaires censées éduquer par l’exemple.<br>" +
+            "- Q2 : conditions de vie industrielles extrêmes, répression, absence de droits → contre-violence perçue comme légitime.<br>" +
+            "- Q3 : d’un côté les partisans de l’attentat individuel, de l’autre ceux qui misent sur syndicats, coopératives, éducation populaire.<br>" +
+            "- Q4 : échec stratégique global → renforcement de l’État, lois répressives, marginalisation du mouvement.";
+        });
+      }
+
+      // Auto-positionnement
+      const scoreBtn = document.getElementById('scoreBtn');
+      const scoreResult = document.getElementById('scoreResult');
+      const resetBtn = document.getElementById('resetBtn');
+
+      if (scoreBtn && scoreResult) {
+        scoreBtn.addEventListener('click', () => {
+          const q9 = document.querySelector('input[name="q9"]:checked');
+          if (!q9) {
+            scoreResult.innerHTML =
+              "Commence par répondre à la Q9 (profil). Tu peux aussi relire tes réponses aux Q5–Q8 pour voir ce qui se dégage.";
+            return;
+          }
+
+          let msg = "";
+          if (q9.value === "curieux") {
+            msg =
+              "<strong>Profil repéré :</strong> Curieux / Curieuse impliqué·e.<br>" +
+              "Tu es exactement le public de base du projet : quelqu’un qui veut comprendre sans forcément tout coder. " +
+              "Ta place naturelle : tests, lecture, retours critiques, participation aux ateliers.";
+          } else if (q9.value === "analyste") {
+            msg =
+              "<strong>Profil repéré :</strong> Analyste / passeur·se de sens.<br>" +
+              "Tu peux aider à traduire les dossiers en contenus pédagogiques, fiches, cartes mentales, articles, vidéos. " +
+              "Ta force : faire des ponts entre l’histoire, la politique, le numérique et la vie quotidienne.";
+          } else if (q9.value === "architecte") {
+            msg =
+              "<strong>Profil repéré :</strong> Architecte / concepteur·rice de systèmes.<br>" +
+              "Tu es placé·e tout en haut de la chaîne alimentaire du projet : conception de tests, de jeux, " +
+              "d’environnements web, de workflows de veille. Ton job : transformer ces dossiers en expériences complètes pour les autres.";
+          }
+
+          scoreResult.innerHTML = msg +
+            "<br><br><small>Rien n’est figé : tu peux évoluer d’un profil à l’autre en fonction de ce que tu apprends et des sous-projets que tu prends en main.</small>";
+        });
+      }
+
+      // Reset « visuel » du test (ne supprime pas les textes, juste les choix)
+      if (resetBtn && scoreResult && basicResult) {
+        resetBtn.addEventListener('click', () => {
+          document.querySelectorAll('input[type="radio"]').forEach(r => { r.checked = false; });
+          scoreResult.innerHTML =
+            "Réponds d’abord à ton rythme. Quand tu te sens prêt·e, clique sur « Obtenir un retour de profil » " +
+            "pour une lecture rapide de ta position dans le projet.";
+          basicResult.innerHTML =
+            "Utilise les dossiers pour répondre. Si tu es totalement perdu sur les Q1–Q4, relis l’introduction, " +
+            "la partie sur le contexte et la conclusion générale.";
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
