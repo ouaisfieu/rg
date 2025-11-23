@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Portail des Tests – L’Organisation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050712;
+      --bg-alt: #0b0f26;
+      --accent: #8bffb0;
+      --accent-2: #d28bff;
+      --text-main: #f5f7ff;
+      --text-muted: #a3b0ff;
+      --panel: rgba(9, 13, 42, 0.96);
+      --border-soft: 1px solid rgba(255, 255, 255, 0.1);
+      --radius: 20px;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;}
+
+    body{
+      background: radial-gradient(circle at top,#25307c 0,#050712 45%,#02020a 100%);
+      font-family:"Space Grotesk",sans-serif;
+      color:var(--text-main);
+      padding:1.2rem;
+    }
+
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+      padding:1.2rem;
+      background:linear-gradient(135deg,rgba(139,255,176,0.14),rgba(210,139,255,0.12));
+      border-radius:26px;
+      box-shadow:0 0 42px rgba(0,0,0,0.85);
+    }
+
+    h1{
+      font-size:clamp(1.8rem,4vw,2.4rem);
+      margin-bottom:0.6rem;
+    }
+
+    .subtitle{
+      color:var(--text-muted);
+      max-width:600px;
+      font-size:0.92rem;
+      margin-bottom:1.4rem;
+    }
+
+    .tests-grid{
+      display:grid;
+      gap:1rem;
+    }
+
+    @media(min-width:700px){
+      .tests-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+    }
+
+    @media(min-width:1000px){
+      .tests-grid{
+        grid-template-columns:repeat(3,minmax(0,1fr));
+      }
+    }
+
+    .test-card{
+      background:var(--panel);
+      border:var(--border-soft);
+      border-radius:var(--radius);
+      padding:1rem;
+      display:flex;
+      flex-direction:column;
+      gap:0.6rem;
+      box-shadow:0 0 18px rgba(0,0,0,0.7);
+      transition:0.25s ease-out;
+    }
+
+    .test-card:hover{
+      border-color:rgba(139,255,176,0.9);
+      box-shadow:0 0 24px rgba(139,255,176,0.5);
+      transform:translateY(-3px);
+    }
+
+    .test-title{
+      font-size:1.1rem;
+      font-weight:600;
+    }
+
+    .test-desc{
+      font-size:0.9rem;
+      color:var(--text-muted);
+    }
+
+    .test-meta{
+      font-size:0.75rem;
+      opacity:0.8;
+      font-family:"JetBrains Mono",monospace;
+    }
+
+    .btn{
+      display:inline-block;
+      margin-top:auto;
+      padding:0.45rem 0.8rem;
+      border-radius:999px;
+      border:1px solid rgba(140,180,255,0.7);
+      text-decoration:none;
+      font-size:0.82rem;
+      text-align:center;
+      transition:0.25s ease-out;
+      color:var(--text-main);
+      background:rgba(8,12,40,0.92);
+    }
+
+    .btn:hover{
+      border-color:var(--accent);
+      color:var(--accent);
+      box-shadow:0 0 14px rgba(139,255,176,0.6);
+      transform:translateY(-2px);
+    }
+
+    .section-title{
+      margin-top:2rem;
+      font-size:1.3rem;
+      border-left:4px solid var(--accent);
+      padding-left:0.6rem;
+      margin-bottom:0.7rem;
+    }
+
+    ul{
+      margin-left:1.4rem;
+      color:var(--text-muted);
+      font-size:0.9rem;
+    }
+
+    li{margin-bottom:0.4rem;}
+
+    /* Decoration globes */
+    .bg-orb{
+      position:fixed;
+      width:420px;
+      height:420px;
+      border-radius:999px;
+      filter:blur(90px);
+      opacity:0.55;
+      pointer-events:none;
+      z-index:-2;
+      background:radial-gradient(circle at 30% 20%,#8bffb0 0,transparent 60%);
+      top:-60px;
+      right:-120px;
+    }
+
+    .bg-orb.secondary{
+      background:radial-gradient(circle at 70% 80%,#d28bff 0,transparent 60%);
+      bottom:-80px;
+      left:-40px;
+      top:auto;
+      right:auto;
+      width:350px;
+      height:350px;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="bg-orb"></div>
+<div class="bg-orb secondary"></div>
+
+<div class="container">
+
+  <h1>Portail des Tests</h1>
+  <p class="subtitle">
+    Bienvenue dans la salle commune : un espace qui rassemble **toutes les évaluations**, du niveau débutant au niveau
+    avancé. Avant de passer un test, prends une minute pour lire les indications et choisir ton parcours.
+  </p>
+
+  <h2 class="section-title">Tests disponibles</h2>
+
+  <div class="tests-grid">
+
+    <!-- TEST 0 -->
+    <div class="test-card">
+      <div class="test-title">Test 0 – Préparation générale</div>
+      <div class="test-desc">Comprendre les règles, les risques, ton rôle dans l’expérience.  
+      Fait le lien avec la « carte 0 » de l’aventure.</div>
+      <div class="test-meta">Difficulté : ★☆☆ (Débutant)</div>
+      <a href="test-0.html" class="btn">Lancer le test</a>
+    </div>
+
+    <!-- TEST 1 -->
+    <div class="test-card">
+      <div class="test-title">Test 1 – Veille citoyenne</div>
+      <div class="test-desc">Analyse des enjeux démocratiques, rapport au pouvoir, lecture critique.  
+        Support : PDF, images, YouTube, Spotify.</div>
+      <div class="test-meta">Difficulté : ★★★ (Avancé)</div>
+      <a href="test-1.html" class="btn">Lancer le test</a>
+    </div>
+
+    <!-- Tu ajoutes ici tous les futurs tests -->
+    <div class="test-card">
+      <div class="test-title">Test X – À venir</div>
+      <div class="test-desc">Module en construction. Ce test apparaîtra automatiquement une fois prêt.</div>
+      <div class="test-meta">Difficulté : inconnue</div>
+      <a class="btn" style="opacity:0.4;pointer-events:none;">Bientôt</a>
+    </div>
+
+  </div>
+
+  <h2 class="section-title">Thématiques abordées</h2>
+
+  <ul>
+    <li>✔ Veille citoyenne & éducation permanente</li>
+    <li>✔ Intelligence collective & “Organisation”</li>
+    <li>✔ Analyse de documents (PDF, dossiers) :contentReference[oaicite:1]{index=1}</li>
+    <li>✔ Structure & organigramme Obsidian-like :contentReference[oaicite:2]{index=2}</li>
+    <li>✔ Lecture de rapports & synthèses stratégiques :contentReference[oaicite:3]{index=3}</li>
+    <li>✔ Gestion d’équipe, gouvernance & recrutement</li>
+    <li>✔ Culture numérique, enjeux techno & risques</li>
+    <li>✔ Capacités d’analyse, rigueur & autonomie</li>
+  </ul>
+
+  <h2 class="section-title">Comment ça se passe ?</h2>
+  <ul>
+    <li>Tu choisis ton test.</li>
+    <li>Chaque test contient : PDF embarqués, vidéo YouTube, playlist Spotify, images et quiz.</li>
+    <li>La difficulté est affichée clairement pour chaque question.</li>
+    <li>Tu progresses à ton rythme, sur navigateur uniquement.</li>
+    <li>Une fois un test réussi, tu débloques le suivant.</li>
+  </ul>
+
+</div>
+
+</body>
+</html>
