@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>L’Organisation – Société Anonyme Sociale (très Sérieuse)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050712;
+      --bg-alt: #0b0f26;
+      --accent: #8bffb0;
+      --accent-soft: rgba(139, 255, 176, 0.2);
+      --accent-2: #d28bff;
+      --accent-2-soft: rgba(210, 139, 255, 0.18);
+      --text-main: #f5f7ff;
+      --text-muted: #a3b0ff;
+      --border-soft: 1px solid rgba(255, 255, 255, 0.12);
+      --danger: #ff4b7b;
+      --radius: 18px;
+      --transition-fast: 0.16s ease-out;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #24307a 0, #050712 45%, #02030a 100%);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      padding: 1.4rem 1.2rem;
+      transition: background 0.3s ease-out;
+    }
+
+    @media (min-width: 900px) {
+      body {
+        padding: 2.2rem 3rem;
+      }
+    }
+
+    body.cryptic-mode {
+      background: radial-gradient(circle at top, #3b003b 0, #050712 45%, #000000 100%);
+    }
+
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.16;
+      background-image:
+        linear-gradient(to right, rgba(120, 130, 255, 0.25) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(120, 130, 255, 0.25) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mix-blend-mode: screen;
+      z-index: -3;
+    }
+
+    .bg-orb {
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 999px;
+      filter: blur(80px);
+      opacity: 0.55;
+      pointer-events: none;
+      z-index: -2;
+      background: radial-gradient(circle at 30% 20%, #8bffb0 0, transparent 55%);
+      top: -40px;
+      right: -120px;
+      transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    }
+
+    .bg-orb.secondary {
+      background: radial-gradient(circle at 70% 80%, #d28bff 0, transparent 55%);
+      width: 360px;
+      height: 360px;
+      bottom: -80px;
+      left: -40px;
+      top: auto;
+      right: auto;
+    }
+
+    body.cryptic-mode .bg-orb {
+      opacity: 0.3;
+      transform: scale(1.05);
+    }
+
+    main {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .page-frame {
+      border-radius: 26px;
+      background: linear-gradient(135deg, rgba(139, 255, 176, 0.1), rgba(210, 139, 255, 0.09));
+      padding: 1px;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
+    }
+
+    .page-inner {
+      border-radius: 25px;
+      background:
+        radial-gradient(circle at top left, rgba(139, 255, 176, 0.16), transparent 50%),
+        radial-gradient(circle at bottom right, rgba(210, 139, 255, 0.18), transparent 55%),
+        linear-gradient(145deg, var(--bg-alt), #050712);
+      padding: 1.6rem 1.4rem 1.9rem;
+    }
+
+    @media (min-width: 900px) {
+      .page-inner {
+        padding: 2rem 2.1rem 2.4rem;
+      }
+    }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-bottom: 1.6rem;
+    }
+
+    @media (min-width: 900px) {
+      .header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+    }
+
+    .title-block {
+      max-width: 560px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(7, 255, 161, 0.08);
+      border: 1px solid rgba(139, 255, 176, 0.8);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(139, 255, 176, 0.9);
+    }
+
+    h1 {
+      font-size: clamp(1.9rem, 4.4vw, 2.4rem);
+      line-height: 1.1;
+      margin-bottom: 0.35rem;
+    }
+
+    .org-code {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
+    .subtitle strong {
+      color: #ffffff;
+    }
+
+    .control-panel {
+      align-self: stretch;
+      max-width: 320px;
+      border-radius: 20px;
+      border: var(--border-soft);
+      background: rgba(5, 9, 34, 0.96);
+      padding: 0.8rem 0.9rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .control-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4rem;
+      color: #ffffff;
+    }
+
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .toggle-label {
+      font-size: 0.78rem;
+    }
+
+    .toggle {
+      width: 42px;
+      height: 22px;
+      border-radius: 999px;
+      padding: 2px;
+      background: rgba(140, 160, 255, 0.5);
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      transition: background var(--transition-fast);
+    }
+
+    .toggle-handle {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #050712;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+      transform: translateX(0);
+      transition: transform var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .toggle.on {
+      background: linear-gradient(135deg, #8bffb0, #d28bff);
+    }
+
+    .toggle.on .toggle-handle {
+      transform: translateX(18px);
+      background: #02030a;
+      box-shadow: 0 0 12px rgba(139, 255, 176, 0.8);
+    }
+
+    .control-note {
+      margin-top: 0.5rem;
+      font-size: 0.73rem;
+      color: var(--text-muted);
+    }
+
+    .control-note strong {
+      color: #ffffff;
+    }
+
+    /* REDACTABLE */
+    .redactable {
+      transition: color 0.2s ease-out, text-shadow 0.2s ease-out;
+    }
+
+    body.cryptic-mode .redactable {
+      color: transparent;
+      text-shadow:
+        0 0 6px rgba(0, 0, 0, 0.9),
+        0 0 10px rgba(10, 10, 10, 0.9);
+      position: relative;
+    }
+
+    body.cryptic-mode .redactable::after {
+      content: "█████████████████████████████";
+      position: absolute;
+      inset: 0;
+      color: #8bffb0;
+      font-family: "JetBrains Mono", monospace;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    /* GRID PRINCIPALE */
+    .main-grid {
+      display: grid;
+      gap: 1.2rem;
+      margin-bottom: 1.6rem;
+    }
+
+    @media (min-width: 900px) {
+      .main-grid {
+        grid-template-columns: 1.4fr 1fr;
+      }
+    }
+
+    .pillar {
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at top left, rgba(139, 255, 176, 0.16), transparent 50%),
+        radial-gradient(circle at bottom right, rgba(210, 139, 255, 0.16), transparent 50%),
+        rgba(7, 10, 36, 0.96);
+      border: var(--border-soft);
+      padding: 1rem 0.9rem;
+      box-shadow: 0 0 16px rgba(0, 0, 0, 0.8);
+      font-size: 0.84rem;
+    }
+
+    .pillar h2 {
+      font-size: 0.98rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .pillar p {
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .chip {
+      border-radius: 999px;
+      padding: 0.15rem 0.55rem;
+      font-size: 0.74rem;
+      border: 1px solid rgba(164, 188, 255, 0.8);
+      background: rgba(9, 13, 42, 0.96);
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #8bffb0, #33ffd1);
+    }
+
+    .chip.alert {
+      border-color: rgba(255, 132, 166, 0.95);
+      color: #ffb8c9;
+    }
+
+    .actions-grid {
+      display: grid;
+      gap: 0.8rem;
+      margin-top: 0.35rem;
+    }
+
+    @media (min-width: 700px) {
+      .actions-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .action-card {
+      border-radius: 18px;
+      border: 1px solid rgba(160, 184, 255, 0.8);
+      padding: 0.7rem 0.7rem 0.75rem;
+      background:
+        radial-gradient(circle at top, rgba(139, 255, 176, 0.15), transparent 60%),
+        rgba(7, 10, 36, 0.96);
+      box-shadow: 0 0 14px rgba(0, 0, 0, 0.7);
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .action-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(139, 255, 176, 0.95);
+      box-shadow: 0 0 18px rgba(139, 255, 176, 0.6);
+    }
+
+    .action-title {
+      font-size: 0.86rem;
+      font-weight: 600;
+    }
+
+    .action-text {
+      color: var(--text-muted);
+      flex: 1;
+    }
+
+    .action-link {
+      margin-top: 0.35rem;
+      font-size: 0.78rem;
+      text-decoration: none;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .action-link span.icon {
+      font-size: 0.9em;
+    }
+
+    /* DISCLAIMER */
+    .disclaimer {
+      margin-top: 1rem;
+      border-radius: 20px;
+      border: 1px dashed rgba(255, 200, 170, 0.9);
+      background: rgba(32, 14, 4, 0.9);
+      padding: 0.8rem 0.9rem;
+      font-size: 0.76rem;
+      color: #ffd8b5;
+    }
+
+    .disclaimer strong {
+      color: #ffffff;
+    }
+
+    .disclaimer ul {
+      margin-top: 0.4rem;
+      margin-left: 1rem;
+      list-style: square;
+    }
+
+    .disclaimer li + li {
+      margin-top: 0.2rem;
+    }
+
+    .footer-note {
+      margin-top: 0.8rem;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-align: right;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-orb"></div>
+  <div class="bg-orb secondary"></div>
+
+  <main>
+    <div class="page-frame">
+      <div class="page-inner">
+        <!-- HEADER -->
+        <header class="header">
+          <div class="title-block">
+            <div class="badge">
+              <div class="badge-dot"></div>
+              SOCIÉTÉ ANONYME SOCIALE (TRÈS SÉRIEUSE)
+            </div>
+            <h1>L’Organisation</h1>
+            <div class="org-code">Agence de renseignement citoyen qui ne dit pas son nom.</div>
+            <p class="subtitle">
+              Ce que tu vois ici est à la fois <strong>totalement sérieux</strong> et
+              volontairement <strong class="redactable">cryptique</strong>.
+              Le reste du dispositif est caché en pleine lumière.
+            </p>
+          </div>
+
+          <aside class="control-panel">
+            <div class="control-title">Panneau de transparence</div>
+            <div class="toggle-row">
+              <span class="toggle-label">Mode cryptique</span>
+              <div class="toggle" id="crypticToggle">
+                <div class="toggle-handle"></div>
+              </div>
+            </div>
+            <p class="control-note">
+              <strong>ON / OFF</strong> ne change pas la réalité de l’Organisation,
+              seulement la quantité de choses que tu peux lire sans effort.
+            </p>
+          </aside>
+        </header>
+
+        <!-- SECTION CENTRALE -->
+        <section class="main-grid" aria-label="Présentation de l’Organisation">
+          <div class="pillar">
+            <h2>Ce que l’Organisation admet officiellement</h2>
+            <p>
+              L’Organisation fonctionne comme une <span class="redactable">agence de renseignement citoyen,
+              d’éducation populaire et de veille stratégique</span>, en dehors des circuits habituels.
+            </p>
+            <p>
+              Elle observe les pouvoirs, cartographie les alliances, repère les failles
+              et conçoit des outils pour redonner du pouvoir d’agir à celles et ceux
+              qui n’ont normalement accès qu’aux miettes d’information.
+            </p>
+
+            <div class="chips">
+              <div class="chip">
+                <span class="chip-dot"></span>
+                <span>Neutre en apparence</span>
+              </div>
+              <div class="chip">
+                <span class="chip-dot"></span>
+                <span>Politique dans les usages</span>
+              </div>
+              <div class="chip alert">
+                <span class="chip-dot"></span>
+                <span>Tout est sérieux, même l’humour</span>
+              </div>
+            </div>
+
+            <div class="actions-grid">
+              <article class="action-card">
+                <div class="action-title">Voir l’organigramme vivant</div>
+                <p class="action-text">
+                  Explorer la structure idéale de l’Organisation : gouvernance,
+                  opérations, labs, cercles citoyens. Version “graph view” inspirée d’Obsidian.
+                </p>
+                <a class="action-link" href="organigramme-obs.html">
+                  <span class="icon">⇢</span> Ouvrir l’organigramme
+                </a>
+              </article>
+
+              <article class="action-card">
+                <div class="action-title">Rejoindre (ou pas) l’Organisation</div>
+                <p class="action-text">
+                  Consulter le plan de recrutement, les rôles disponibles et un guide honnête :
+                  <span class="redactable">venir chez nous</span> ou d’abord activer tes droits (ONEM, CPAS, mutuelle…).
+                </p>
+                <a class="action-link" href="recrutement-final.html">
+                  <span class="icon">⇢</span> Plan de recrutement & droits
+                </a>
+              </article>
+
+              <article class="action-card">
+                <div class="action-title">Accéder au dossier cryptique</div>
+                <p class="action-text">
+                  Entrer dans la partie la moins explicite du dispositif : tests, indices,
+                  documents, faux-semblants. Tout ce qui ne ressemble pas à une agence
+                  de renseignement alors que ça en a l’odeur.
+                </p>
+                <a class="action-link" href="bureau.html">
+                  <span class="icon">⇢</span> Bureau de l’Organisation
+                </a>
+              </article>
+            </div>
+          </div>
+
+          <div class="pillar">
+            <h2>Ce que l’Organisation ne nie pas</h2>
+            <p>
+              Il s’agit d’une <strong>Société Anonyme Sociale</strong> :
+              les personnes réelles sont protégées, les enjeux sociaux sont centraux,
+              et l’objectif est d’outiller celles et ceux qui vivent
+              <span class="redactable">le chômage, la maladie, la précarité, la fatigue démocratique</span>.
+            </p>
+            <p>
+              L’Organisation fonctionne comme une <strong>boîte noire pédagogique</strong> :
+              tu peux l’ouvrir, mais tu dois accepter de ne pas tout comprendre du premier coup.
+            </p>
+            <p>
+              Ce site est donc à la fois :
+            </p>
+            <ul style="margin:0.45rem 0 0 1rem;color:var(--text-muted);font-size:0.82rem;list-style:square;">
+              <li>un <strong>manual de survie</strong> dans les systèmes de droits sociaux ;</li>
+              <li>un <strong>plateau de jeu</strong> pour tests, mises en situation, recrutements bizarres ;</li>
+              <li>la façade publique d’une <strong>agence de renseignement qui ne dit pas son nom</strong>.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- DISCLAIMER -->
+        <section class="disclaimer" aria-label="Avertissement">
+          <strong>Important :</strong> quelques vérités non cryptées
+          <ul>
+            <li>L’Organisation n’est pas un service officiel, ne remplace pas l’ONEM, le CPAS, la mutuelle ou un·e juriste.</li>
+            <li>Tout ce qui ressemble à un jeu sert à aborder des sujets réels : droits sociaux, pouvoir d’agir, guerre narrative, etc.</li>
+            <li>Tout ce qui est cryptique ici est volontairement cryptique &mdash; y compris cette phrase.</li>
+            <li>Si tu es perdu·e, la bonne réaction n’est pas la paranoïa, mais la curiosité et, au besoin, un rendez-vous avec un service social.</li>
+          </ul>
+        </section>
+
+        <p class="footer-note">
+          L’Organisation te regarde moins que les plateformes commerciales, mais elle te respecte davantage.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const toggle = document.getElementById("crypticToggle");
+
+    toggle.addEventListener("click", () => {
+      toggle.classList.toggle("on");
+      document.body.classList.toggle("cryptic-mode");
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan de recrutement & orientation – Organisation citoyenne</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050712;
+      --bg-alt: #0b0f26;
+      --panel: #101632;
+      --accent: #8bffb0;
+      --accent-soft: rgba(139, 255, 176, 0.2);
+      --accent-2: #d28bff;
+      --accent-2-soft: rgba(210, 139, 255, 0.18);
+      --text-main: #f5f7ff;
+      --text-muted: #a3b0ff;
+      --danger: #ff4b7b;
+      --border-soft: 1px solid rgba(255, 255, 255, 0.12);
+      --radius: 18px;
+      --transition-fast: 0.16s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #24307a 0, #050712 45%, #02030a 100%);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      padding: 1.2rem;
+    }
+
+    @media (min-width: 900px) {
+      body {
+        padding: 2rem 3rem;
+      }
+    }
+
+    main {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.15;
+      background-image:
+        linear-gradient(to right, rgba(120, 130, 255, 0.25) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(120, 130, 255, 0.25) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mix-blend-mode: screen;
+      z-index: -3;
+    }
+
+    .bg-orb {
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 999px;
+      filter: blur(80px);
+      opacity: 0.55;
+      pointer-events: none;
+      z-index: -2;
+      background: radial-gradient(circle at 30% 20%, #8bffb0 0, transparent 55%);
+      top: -40px;
+      right: -120px;
+    }
+
+    .bg-orb.secondary {
+      background: radial-gradient(circle at 70% 80%, #d28bff 0, transparent 55%);
+      width: 360px;
+      height: 360px;
+      bottom: -80px;
+      left: -40px;
+      top: auto;
+      right: auto;
+    }
+
+    .page-frame {
+      border-radius: 26px;
+      background: linear-gradient(135deg, rgba(139, 255, 176, 0.08), rgba(210, 139, 255, 0.06));
+      padding: 1px;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
+    }
+
+    .page-inner {
+      border-radius: 25px;
+      background:
+        radial-gradient(circle at top left, rgba(139, 255, 176, 0.14), transparent 50%),
+        radial-gradient(circle at bottom right, rgba(210, 139, 255, 0.16), transparent 55%),
+        linear-gradient(145deg, var(--bg-alt), #050712);
+      padding: 1.4rem;
+    }
+
+    @media (min-width: 900px) {
+      .page-inner {
+        padding: 1.8rem 2rem 2.4rem;
+      }
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+    }
+
+    @media (min-width: 720px) {
+      .header {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+      }
+    }
+
+    .title-block {
+      max-width: 520px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(7, 255, 161, 0.1);
+      border: 1px solid rgba(139, 255, 176, 0.7);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(139, 255, 176, 0.9);
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 4vw, 2.2rem);
+      line-height: 1.1;
+      margin-bottom: 0.3rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 34rem;
+    }
+
+    .subtitle strong {
+      color: #ffffff;
+    }
+
+    .meta-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-radius: 999px;
+      border: var(--border-soft);
+      padding: 0.4rem 0.7rem;
+      background: rgba(7, 11, 36, 0.92);
+      backdrop-filter: blur(8px);
+    }
+
+    .meta-note strong {
+      color: #ffffff;
+    }
+
+    /* Toolbar filtres */
+    .filters {
+      margin-bottom: 1rem;
+      border-radius: 20px;
+      border: var(--border-soft);
+      padding: 0.7rem 0.8rem;
+      background: rgba(6, 10, 34, 0.88);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      font-size: 0.78rem;
+    }
+
+    @media (min-width: 720px) {
+      .filters {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .filters-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .filters-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .pill-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(159, 182, 255, 0.7);
+      background: rgba(9, 13, 40, 0.96);
+      color: var(--text-main);
+      font-size: 0.76rem;
+      padding: 0.25rem 0.7rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .pill-btn span.icon {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8em;
+    }
+
+    .pill-btn.active {
+      background: linear-gradient(135deg, #8bffb0, #d28bff);
+      border-color: transparent;
+      color: #02030a;
+      box-shadow: 0 0 16px rgba(139, 255, 176, 0.7);
+      transform: translateY(-1px);
+    }
+
+    .toggle-priority {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .toggle-priority input {
+      width: 14px;
+      height: 14px;
+      accent-color: #ff4b7b;
+    }
+
+    .toggle-priority span.emph {
+      color: #ffb8c9;
+      font-weight: 600;
+    }
+
+    /* Légende mini */
+    .legend-mini {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.4rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+    }
+
+    .legend-dot.gov { background: linear-gradient(135deg, #8bffb0, #33ffd1); }
+    .legend-dot.ops { background: linear-gradient(135deg, #d28bff, #ff8af5); }
+    .legend-dot.lab { background: linear-gradient(135deg, #ffd68b, #ff9a55); }
+    .legend-dot.community { background: linear-gradient(135deg, #7fd0ff, #8bffb0); }
+
+    /* Grid des rôles */
+    .roles-grid {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    @media (min-width: 720px) {
+      .roles-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1080px) {
+      .roles-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .role-card {
+      border-radius: var(--radius);
+      border: 1px solid rgba(158, 181, 255, 0.7);
+      background:
+        radial-gradient(circle at top left, rgba(139, 255, 176, 0.16), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(210, 139, 255, 0.15), transparent 55%),
+        rgba(9, 13, 42, 0.96);
+      box-shadow: 0 0 16px rgba(0, 0, 0, 0.8);
+      padding: 0.7rem 0.75rem 0.78rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), opacity 0.15s ease-out;
+    }
+
+    .role-card.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.97);
+    }
+
+    .role-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 22px rgba(139, 255, 176, 0.55);
+      border-color: rgba(139, 255, 176, 0.9);
+    }
+
+    .role-headline {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.6rem;
+    }
+
+    .role-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .role-code {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 999px;
+      border: 1px solid rgba(174, 196, 255, 0.9);
+      background: rgba(5, 8, 30, 0.96);
+      color: var(--text-muted);
+    }
+
+    .role-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .role-chip {
+      border-radius: 999px;
+      padding: 0.12rem 0.4rem;
+      border: 1px solid rgba(162, 185, 255, 0.75);
+      background: rgba(7, 11, 36, 0.95);
+    }
+
+    .role-chip.priority {
+      border-color: rgba(255, 155, 171, 0.95);
+      color: #ffb8c9;
+    }
+
+    .role-chip.phase {
+      border-style: dashed;
+      border-color: rgba(139, 255, 176, 0.85);
+      color: var(--accent);
+    }
+
+    .role-body {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .role-body p {
+      margin-bottom: 0.35rem;
+    }
+
+    .role-body ul {
+      list-style: square;
+      margin-left: 1rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .role-body li + li {
+      margin-top: 0.1rem;
+    }
+
+    .role-footer {
+      margin-top: 0.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .role-type-pill {
+      border-radius: 999px;
+      padding: 0.12rem 0.45rem;
+      font-size: 0.7rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: rgba(7, 10, 36, 0.95);
+      border: 1px solid rgba(147, 170, 255, 0.9);
+    }
+
+    .role-type-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+    }
+
+    .role-type-dot.gov { background: linear-gradient(135deg, #8bffb0, #33ffd1); }
+    .role-type-dot.ops { background: linear-gradient(135deg, #d28bff, #ff8af5); }
+    .role-type-dot.lab { background: linear-gradient(135deg, #ffd68b, #ff9a55); }
+    .role-type-dot.community { background: linear-gradient(135deg, #7fd0ff, #8bffb0); }
+
+    .role-gain {
+      text-align: right;
+      font-style: italic;
+      opacity: 0.9;
+    }
+
+    /* Section alternatives / droits */
+    .alt-section {
+      margin-top: 2rem;
+      padding-top: 1.4rem;
+      border-top: 1px dashed rgba(170, 190, 255, 0.6);
+    }
+
+    .alt-intro {
+      margin-bottom: 1rem;
+      max-width: 780px;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .alt-intro strong {
+      color: #ffffff;
+    }
+
+    .alt-grid {
+      display: grid;
+      gap: 1rem;
+      margin-top: 0.6rem;
+    }
+
+    @media (min-width: 900px) {
+      .alt-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .alt-card {
+      border-radius: 20px;
+      border: 1px solid rgba(163, 186, 255, 0.8);
+      background:
+        radial-gradient(circle at top left, rgba(139, 255, 176, 0.16), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(210, 139, 255, 0.16), transparent 60%),
+        rgba(7, 10, 34, 0.96);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      padding: 0.9rem 0.85rem 0.95rem;
+      font-size: 0.78rem;
+    }
+
+    .alt-card h3 {
+      font-size: 0.92rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .alt-card .alt-tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .alt-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.25rem;
+    }
+
+    .alt-table th,
+    .alt-table td {
+      border: 1px solid rgba(155, 178, 255, 0.5);
+      padding: 0.4rem 0.45rem;
+      vertical-align: top;
+    }
+
+    .alt-table th {
+      font-size: 0.75rem;
+      background: rgba(12, 16, 46, 0.95);
+      color: #ffffff;
+      text-align: left;
+    }
+
+    .alt-table td {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .alt-label-a {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .alt-label-b {
+      color: #ffb8c9;
+      font-weight: 600;
+    }
+
+    .alt-hint {
+      margin-top: 0.4rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    @media (max-width: 640px) {
+      .alt-table th,
+      .alt-table td {
+        font-size: 0.74rem;
+      }
+    }
+
+    .footer-note {
+      margin-top: 1.4rem;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-orb"></div>
+  <div class="bg-orb secondary"></div>
+
+  <main>
+    <div class="page-frame">
+      <div class="page-inner">
+        <header class="header">
+          <div class="title-block">
+            <div class="badge">
+              <div class="badge-dot"></div>
+              PLAN DE RECRUTEMENT & ORIENTATION
+            </div>
+            <h1>Postes à pourvoir & autres chemins possibles</h1>
+            <p class="subtitle">
+              Vue synthétique des <strong>rôles clés</strong> à recruter, par phase de déploiement,
+              <strong>et</strong> des alternatives pour activer tes droits sociaux si tu préfères
+              d’abord sécuriser ta situation.
+            </p>
+          </div>
+          <div class="meta-note">
+            Ce plan est pensé pour être <strong>évolutif</strong> :
+            tu peux renommer les rôles, fusionner des postes ou changer les priorités
+            en fonction de ton contexte réel. L’idée centrale : <strong>pas de bullshit</strong>
+            sur ce qu’on peut (ou pas) t’apporter.
+          </div>
+        </header>
+
+        <!-- FILTRES ROLES -->
+        <section class="filters" aria-label="Filtres du plan de recrutement">
+          <div class="filters-group">
+            <span class="filters-label">Phase</span>
+            <button class="pill-btn active" data-filter-phase="all">
+              <span class="icon">◎</span> Toutes
+            </button>
+            <button class="pill-btn" data-filter-phase="0">
+              <span class="icon">0</span> Phase&nbsp;0 · Immédiat
+            </button>
+            <button class="pill-btn" data-filter-phase="1">
+              <span class="icon">1</span> Phase&nbsp;1 · 0–6 mois
+            </button>
+            <button class="pill-btn" data-filter-phase="2">
+              <span class="icon">2</span> Phase&nbsp;2 · 6–18 mois
+            </button>
+          </div>
+
+          <div class="filters-group">
+            <span class="filters-label">Type</span>
+            <button class="pill-btn active" data-filter-type="all">
+              <span class="icon">◎</span> Tous
+            </button>
+            <button class="pill-btn" data-filter-type="gouvernance">Gouvernance</button>
+            <button class="pill-btn" data-filter-type="operations">Opérations</button>
+            <button class="pill-btn" data-filter-type="labs">Labs</button>
+            <button class="pill-btn" data-filter-type="communaute">Communauté</button>
+          </div>
+
+          <div class="filters-group">
+            <label class="toggle-priority">
+              <input type="checkbox" id="priorityOnly">
+              <span>Afficher seulement les rôles <span class="emph">priorité P1</span></span>
+            </label>
+          </div>
+        </section>
+
+        <!-- LÉGENDE -->
+        <div class="legend-mini">
+          <div class="legend-item">
+            <span class="legend-dot gov"></span>
+            <span>Gouvernance & cadre</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot ops"></span>
+            <span>Opérations & projets</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot lab"></span>
+            <span>Laboratoires & expérimentation</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot community"></span>
+            <span>Communauté élargie & alliés</span>
+          </div>
+        </div>
+
+        <!-- CARTES ROLES (identiques à la version précédente) -->
+        <section class="roles-grid" aria-label="Liste des rôles à recruter">
+          <!-- PHASE 0 -->
+          <article class="role-card"
+                   data-phase="0"
+                   data-type="gouvernance"
+                   data-priority="P1">
+            <div class="role-headline">
+              <div>
+                <div class="role-title">Conseil de pilotage (noyau fondateur)</div>
+                <div class="role-meta">
+                  <span class="role-chip">2–3 personnes</span>
+                  <span class="role-chip phase">Phase 0</span>
+                  <span class="role-chip priority">Priorité P1</span>
+                </div>
+              </div>
+              <span class="role-code">G1</span>
+            </div>
+            <div class="role-body">
+              <p>Petit cercle qui t’accompagne pour décider des orientations et éviter que tu portes tout seul la charge mentale.</p>
+              <ul>
+                <li>Co-définir la feuille de route du projet.</li>
+                <li>Arbitrer les priorités quand tout ne rentre pas.</li>
+                <li>Assurer un recul politique et stratégique.</li>
+              </ul>
+            </div>
+            <div class="role-footer">
+              <div class="role-type-pill">
+                <span class="role-type-dot gov"></span> Gouvernance
+              </div>
+              <div class="role-gain">Gagne : vision partagée & décisions assumées.</div>
+            </div>
+          </article>
+
+          <!-- PHASE 1 : ADMIN & OPS -->
+          <article class="role-card"
+                   data-phase="1"
+                   data-type="operations"
+                   data-priority="P1">
+            <div class="role-headline">
+              <div>
+                <div class="role-title">Référent·e Administration & Finances</div>
+                <div class="role-meta">
+                  <span class="role-chip">0,2–0,5 ETP ou équivalent</span>
+                  <span class="role-chip phase">Phase 1</span>
+                  <span class="role-chip priority">Priorité P1</span>
+                </div>
+              </div>
+              <span class="role-code">O1</span>
+            </div>
+            <div class="role-body">
+              <p>Assure le socle administratif et financier pour que ton projet reste légal, crédible et finançable.</p>
+              <ul>
+                <li>Suivi des dépenses, recettes et budgets simples.</li>
+                <li>Gestion de base des contrats, conventions, assurances.</li>
+                <li>Préparation des dossiers de subsides prioritaires.</li>
+              </ul>
+            </div>
+            <div class="role-footer">
+              <div class="role-type-pill">
+                <span class="role-type-dot ops"></span> Opérations
+              </div>
+              <div class="role-gain">Gagne : sérénité légale & financière.</div>
+            </div>
+          </article>
+
+          <article class="role-card"
+                   data-phase="1"
+                   data-type="operations"
+                   data-priority="P1">
+            <div class="role-headline">
+              <div>
+                <div class="role-title">Référent·e Animation & Pédagogie</div>
+                <div class="role-meta">
+                  <span class="role-chip">Co-animation avec toi</span>
+                  <span class="role-chip phase">Phase 1</span>
+                  <span class="role-chip priority">Priorité P1</span>
+                </div>
+              </div>
+              <span class="role-code">O2</span>
+            </div>
+            <div class="role-body">
+              <p>Conçoit et anime les ateliers, formations et tests qui incarnent ta démarche auprès des publics.</p>
+              <ul>
+                <li>Co-écriture de modules de formation et d’exercices.</li>
+                <li>Animation de groupes (présentiel / en ligne).</li>
+                <li>Capitalisation : fiches outils, guides, retours d’expérience.</li>
+              </ul>
+            </div>
+            <div class="role-footer">
+              <div class="role-type-pill">
+                <span class="role-type-dot ops"></span> Opérations
+              </div>
+              <div class="role-gain">Gagne : capacité à transmettre sans t’épuiser.</div>
+            </div>
+          </article>
+
+          <article class="role-card"
+                   data-phase="1"
+                   data-type="operations"
+                   data-priority="P1">
+            <div class="role-headline">
+              <div>
+                <div class="role-title">Référent·e Tech & Infrastructure</div>
+                <div class="role-meta">
+                  <span class="role-chip">Bénévole ou freelance</span>
+                  <span class="role-chip phase">Phase 1</span>
+                  <span class="role-chip priority">Priorité P1</span>
+                </div>
+              </div>
+              <span class="role-code">O4</span>
+            </div>
+            <div class="role-body">
+              <p>Pilote la partie web / outils pour que tes sites, tests en ligne et ressources soient accessibles et stables.</p>
+              <ul>
+                <li>Déploiement et maintenance basique (Hugo, Grav, GitHub Pages…)</li>
+                <li>Organisation des sauvegardes et des accès.</li>
+                <li>Support minimal aux autres membres sur les outils.</li>
+              </ul>
+            </div>
+            <div class="role-footer">
+              <div class="role-type-pill">
+                <span class="role-type-dot ops"></span> Opérations
+              </div>
+              <div class="role-gain">Gagne : tu ne passes plus tes nuits sur les bugs.</div>
+            </div>
+          </article>
+
+          <article class="role-card"
+                   data-phase="1"
+                   data-type="operations"
+                   data-priority="P1">
+            <div class="role-headline">
+              <div>
+                <div class="role-title">Cellule Veille & Intelligence citoyenne</div>
+                <div class="role-meta">
+                  <span class="role-chip">3–5 personnes</span>
+                  <span class="role-chip phase">Phase 1</span>
+                  <span class="role-chip priority">Priorité P1</span>
+                </div>
+              </div>
+              <span class="role-code">O3</span>
+            </div>
+            <div class="role-body">
+              <p>Groupe qui fouille les enjeux, collecte des infos et alimente tes contenus, tests et formations.</p>
+              <ul>
+                <li>Veille thématique (politique, social, techno…).</li>
+                <li>Synthèses lisibles pour le reste de l’équipe.</li>
+                <li>Propositions de sujets pour les labs & ateliers.</li>
+              </ul>
+            </div>
+            <div class="role-footer">
+              <div class="role-type-pill">
+                <span class="role-type-dot ops"></span> Opérations
+              </div>
+              <div class="role-gain">Gagne : matière fraîche & crédible en continu.</div>
+            </div>
+          </article>
+
+          <article class="role-card"
+                   data-phase="1"
+                   data-type="operations"
+                   data-priority="P2">
+            <div class="role-headline">
+              <div>
+                <div class="role-title">Pôle Alliances & Partenariats</div>
+                <div class="role-meta">
+                  <span class="role-chip">1 personne “réseau”</span>
+                  <span class="role-chip phase">Phase 1</span>
+                  <span class="role-chip">Priorité P2</span>
+                </div>
+              </div>
+              <span class="role-code">O5</span>
+            </div>
+            <div class="role-body">
+              <p>Construit des ponts avec d’autres asbl, collectifs, chercheurs, médias alternatifs, etc.</p>
+              <ul>
+                <li>Cartographier les alliés, partenaires potentiels et frictions.</li>
+                <li>Co-construire quelques projets pilotes avec des partenaires clés.</li>
+                <li>Représenter le projet dans des espaces externes.</li>
+              </ul>
+            </div>
+            <div class="role-footer">
+              <div class="role-type-pill">
+                <span class="role-type-dot ops"></span> Opérations
+              </div>
+              <div class="role-gain">Gagne : tu n’es plus seul dans ton coin.</div>
+            </div>
+          </article>
+
+          <!-- PHASE 1 : COMMUNAUTÉ -->
+          <article class="role-card"
+                   data-phase="1"
+                   data-type="communaute"
+                   data-priority="P2">
+            <div class="role-headline">
+              <div>
+                <div class="role-title">Cercle des membres actifs</div>
+                <div class="role-meta">
+                  <span class="role-chip">5–20 personnes</span>
+                  <span class="role-chip phase">Phase 1</span>
+                  <span class="role-chip">Priorité P2</span>
+                </div>
+              </div>
+              <span class="role-code">C1</span>
+            </div>
+            <div class="role-body">
+              <p>Noyau de celles et ceux qui “font” : groupes projets, cellules locales, etc.</p>
+              <ul>
+                <li>Porter les actions concrètes sur le terrain ou en ligne.</li>
+                <li>Remonter les besoins et les tensions au pilotage.</li>
+                <li>Tester les outils et méthodes avant diffusion large.</li>
+              </ul>
+            </div>
+            <div class="role-footer">
+              <div class="role-type-pill">
+                <span class="role-type-dot community"></span> Communauté
+              </div>
+              <div class="role-gain">Gagne : énergie collective & enracinement réel.</div>
+            </div>
+          </article>
+
+          <!-- PHASE 2 : LABS & GARDE-FOUS -->
+          <article class="role-card"
+                   data-phase="2"
+                   data-type="labs"
+                   data-priority="P2">
+            <div class="role-headline">
+              <div>
+                <div class="role-title">Lab Pédagogie & Jeux sérieux</div>
+                <div class="role-meta">
+                  <span class="role-chip">2–4 personnes</span>
+                  <span class="role-chip phase">Phase 2</span>
+                  <span class="role-chip">Priorité P2</span>
+                </div>
+              </div>
+              <span class="role-code">L1</span>
+            </div>
+            <div class="role-body">
+              <p>Atelier d’expérimentation pour tes tests, jeux de rôle politiques, ARG pédagogiques, etc.</p>
+              <ul>
+                <li>Imaginer et prototyper des formats ludiques et sérieux.</li>
+                <li>Tester ces formats avec de petits groupes pilotes.</li>
+                <li>Intégrer les meilleurs dans l’offre “officielle”.</li>
+              </ul>
+            </div>
+            <div class="role-footer">
+              <div class="role-type-pill">
+                <span class="role-type-dot lab"></span> Lab & expérimentation
+              </div>
+              <div class="role-gain">Gagne : créativité encadrée, pas juste du chaos.</div>
+            </div>
+          </article>
+
+          <article class="role-card"
+                   data-phase="2"
+                   data-type="labs"
+                   data-priority="P3">
+            <div class="role-headline">
+              <div>
+                <div class="role-title">Lab Numérique & IA</div>
+                <div class="role-meta">
+                  <span class="role-chip">1–3 profils geeks</span>
+                  <span class="role-chip phase">Phase 2</span>
+                  <span class="role-chip">Priorité P3</span>
+                </div>
+              </div>
+              <span class="role-code">L2</span>
+            </div>
+            <div class="role-body">
+              <p>Fabrique d’outils assistés par IA et d’automatisation légère, dans un cadre éthique.</p>
+              <ul>
+                <li>Prototyper des assistants, générateurs, outils de veille augmentée.</li>
+                <li>Documenter les risques et les limites (biais, dépendances…).</li>
+                <li>Proposer seulement ce qui est maîtrisé et utile au collectif.</li>
+              </ul>
+            </div>
+            <div class="role-footer">
+              <div class="role-type-pill">
+                <span class="role-type-dot lab"></span> Lab & expérimentation
+              </div>
+              <div class="role-gain">Gagne : puissance techno au service du fond.</div>
+            </div>
+          </article>
+
+          <article class="role-card"
+                   data-phase="2"
+                   data-type="labs"
+                   data-priority="P3">
+            <div class="role-headline">
+              <div>
+                <div class="role-title">Lab Terrains & Communautés locales</div>
+                <div class="role-meta">
+                  <span class="role-chip">2–3 pilotes locaux</span>
+                  <span class="role-chip phase">Phase 2</span>
+                  <span class="role-chip">Priorité P3</span>
+                </div>
+              </div>
+              <span class="role-code">L3</span>
+            </div>
+            <div class="role-body">
+              <p>Pilote des expérimentations in situ (quartiers, communes, réseaux associatifs).</p>
+              <ul>
+                <li>Lancer des projets pilotes sur des territoires concrets.</li>
+                <li>Tester la transférabilité de tes méthodes.</li>
+                <li>Faire remonter les apprentissages au niveau central.</li>
+              </ul>
+            </div>
+            <div class="role-footer">
+              <div class="role-type-pill">
+                <span class="role-type-dot lab"></span> Lab & expérimentation
+              </div>
+              <div class="role-gain">Gagne : ancrage de terrain & réalisme.</div>
+            </div>
+          </article>
+
+          <article class="role-card"
+                   data-phase="2"
+                   data-type="gouvernance"
+                   data-priority="P2">
+            <div class="role-headline">
+              <div>
+                <div class="role-title">Collège éthique & juridique</div>
+                <div class="role-meta">
+                  <span class="role-chip">2–3 personnes</span>
+                  <span class="role-chip phase">Phase 2</span>
+                  <span class="role-chip">Priorité P2</span>
+                </div>
+              </div>
+              <span class="role-code">G1b</span>
+            </div>
+            <div class="role-body">
+              <p>Instance qui veille sur l’éthique, la protection des publics et la conformité juridique minimale.</p>
+              <ul>
+                <li>Relire les dispositifs sensibles (tests, collecte de données…).</li>
+                <li>Établir une charte éthique compréhensible par tous.</li>
+                <li>Proposer un protocole de gestion des incidents.</li>
+              </ul>
+            </div>
+            <div class="role-footer">
+              <div class="role-type-pill">
+                <span class="role-type-dot gov"></span> Gouvernance
+              </div>
+              <div class="role-gain">Gagne : tu restes du bon côté de la barrière.</div>
+            </div>
+          </article>
+
+          <article class="role-card"
+                   data-phase="2"
+                   data-type="gouvernance"
+                   data-priority="P3">
+            <div class="role-headline">
+              <div>
+                <div class="role-title">Comité de contrôle citoyen</div>
+                <div class="role-meta">
+                  <span class="role-chip">5–7 personnes externes</span>
+                  <span class="role-chip phase">Phase 2</span>
+                  <span class="role-chip">Priorité P3</span>
+                </div>
+              </div>
+              <span class="role-code">G2</span>
+            </div>
+            <div class="role-body">
+              <p>Petit contre-pouvoir qui vérifie que l’organisation ne trahit pas ses promesses.</p>
+              <ul>
+                <li>Auditer les grandes décisions et leurs impacts.</li>
+                <li>Donner un retour critique indépendant.</li>
+                <li>Publier une synthèse annuelle lisible.</li>
+              </ul>
+            </div>
+            <div class="role-footer">
+              <div class="role-type-pill">
+                <span class="role-type-dot gov"></span> Gouvernance
+              </div>
+              <div class="role-gain">Gagne : crédibilité et auto-surveillance saine.</div>
+            </div>
+          </article>
+
+          <article class="role-card"
+                   data-phase="2"
+                   data-type="communaute"
+                   data-priority="P3">
+            <div class="role-headline">
+              <div>
+                <div class="role-title">Cercle des alliés & experts</div>
+                <div class="role-meta">
+                  <span class="role-chip">Réseau élargi</span>
+                  <span class="role-chip phase">Phase 2</span>
+                  <span class="role-chip">Priorité P3</span>
+                </div>
+              </div>
+              <span class="role-code">C2</span>
+            </div>
+            <div class="role-body">
+              <p>Personnes ressources (académiques, praticiens, techniciens, militants) qui apportent un regard externe.</p>
+              <ul>
+                <li>Challenger les hypothèses du projet.</li>
+                <li>Co-animer des temps forts, conférences, séminaires.</li>
+                <li>Ouvrir des portes vers d’autres sphères.</li>
+              </ul>
+            </div>
+            <div class="role-footer">
+              <div class="role-type-pill">
+                <span class="role-type-dot community"></span> Communauté
+              </div>
+              <div class="role-gain">Gagne : cerveau collectif augmenté.</div>
+            </div>
+          </article>
+
+          <article class="role-card"
+                   data-phase="2"
+                   data-type="communaute"
+                   data-priority="P3">
+            <div class="role-headline">
+              <div>
+                <div class="role-title">Cercle du public & des bénéficiaires</div>
+                <div class="role-meta">
+                  <span class="role-chip">Participants récurrents</span>
+                  <span class="role-chip phase">Phase 2</span>
+                  <span class="role-chip">Priorité P3</span>
+                </div>
+              </div>
+              <span class="role-code">C3</span>
+            </div>
+            <div class="role-body">
+              <p>Groupe de personnes qui reviennent régulièrement et qui nourrissent le projet par leurs retours.</p>
+              <ul>
+                <li>Participer aux ateliers et tests pilotes.</li>
+                <li>Donner un feedback honnête sur ce qui aide ou non.</li>
+                <li>Co-construire certains contenus à partir de leur réalité.</li>
+              </ul>
+            </div>
+            <div class="role-footer">
+              <div class="role-type-pill">
+                <span class="role-type-dot community"></span> Communauté
+              </div>
+              <div class="role-gain">Gagne : tu restes collé aux besoins réels.</div>
+            </div>
+          </article>
+        </section>
+
+        <!-- SECTION ALTERNATIVES / DROITS -->
+        <section class="alt-section" aria-label="Alternatives : rejoindre l’organisation ou activer ses droits">
+          <h2 style="font-size:1.1rem; margin-bottom:0.4rem;">Hésiter, c’est normal : on te montre toutes les options</h2>
+          <p class="alt-intro">
+            Rejoindre une organisation comme celle-ci, ce n’est pas neutre : tu as peut-être perdu ton boulot,
+            tu es en maladie, tu n’as (presque) plus de revenus, tu sors des études, etc.
+            Pour chaque situation, il existe <strong>deux chemins possibles</strong> :
+            <br><br>
+            <strong>Piste A</strong> : s’engager ici, dans un des rôles du plan de recrutement.<br>
+            <strong>Piste B</strong> : activer ou consolider tes <strong>droits sociaux</strong> (ONEM, mutuelle, CPAS, etc.).<br><br>
+            L’idée : que tu choisisses en <strong>connaissance de cause</strong>, pas sous pression.
+          </p>
+
+          <div class="alt-grid">
+            <!-- 1. Perte de job -->
+            <article class="alt-card">
+              <h3>Tu viens de perdre ton job (licenciement / fin de contrat)</h3>
+              <div class="alt-tag">Chômage, transition, reconversion</div>
+              <table class="alt-table">
+                <thead>
+                  <tr>
+                    <th class="alt-label-a">Piste A – S’engager ici</th>
+                    <th class="alt-label-b">Piste B – Activer d’abord tes droits</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      Tu rejoins l’équipe dans un rôle type : Cellule Veille (O3),
+                      Animation & Pédagogie (O2) ou Tech & Infrastructure (O4),
+                      en mode bénévole ou petite contribution rémunérée si un jour c’est possible.
+                    </td>
+                    <td>
+                      Tu t’inscris comme <strong>demandeur d’emploi</strong> (Actiris / Forem / VDAB),
+                      tu demandes tes <strong>allocations de chômage</strong> (ONEM via syndicat/CAPAC)
+                      et tu regardes les formations possibles.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Pour :</strong><br>
+                      • Tu restes actif·ve, tu ne “t’éteins” pas après le licenciement.<br>
+                      • Tu transformes colère/frustration en projet collectif.<br>
+                      • Tu développes des compétences concrètes (veille, pédagogie, web) utiles sur ton CV.
+                    </td>
+                    <td>
+                      <strong>Pour :</strong><br>
+                      • Tu sécurises rapidement <strong>un revenu</strong>.<br>
+                      • Tu gardes du temps pour te poser, te former, digérer le choc.<br>
+                      • Tu peux accéder à des accompagnements officiels.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Contre :</strong><br>
+                      • Au départ, aucune garantie de salaire stable.<br>
+                      • Risque de te surcharger si tu comptes là-dessus pour survivre.<br>
+                      • C’est émotionnellement intense (enjeux de société, précarité…).
+                    </td>
+                    <td>
+                      <strong>Contre :</strong><br>
+                      • Démarches lourdes, administratives, parfois stressantes.<br>
+                      • On attend beaucoup de toi pour “prouver” ta recherche d’emploi.<br>
+                      • Tu peux te sentir géré·e plus qu’accompagné·e.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="alt-hint">
+                Recommandation honnête : si ta situation financière est tendue, <strong>Piste B d’abord,
+                Piste A en complément</strong>. Sinon, tu peux combiner les deux en restant lucide sur ta charge.
+              </p>
+            </article>
+
+            <!-- 2. Maladie / incapacité -->
+            <article class="alt-card">
+              <h3>Tu es en maladie ou en incapacité de travail</h3>
+              <div class="alt-tag">Santé, mutuelle, reprise éventuelle</div>
+              <table class="alt-table">
+                <thead>
+                  <tr>
+                    <th class="alt-label-a">Piste A – S’engager ici (tout petit pas)</th>
+                    <th class="alt-label-b">Piste B – Consolider ta santé & tes droits</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      Tu contribues à ton rythme : relecture, écriture, veille light,
+                      tests ponctuels, depuis chez toi. Rôles possibles : Veille (O3),
+                      Lab Pédagogie (L1), Cercle des membres actifs (C1).
+                    </td>
+                    <td>
+                      Tu te focalises sur ta <strong>mutuelle</strong>, ton <strong>médecin</strong>,
+                      éventuellement une reconnaissance de handicap/incapacité,
+                      et tu sécurises tes <strong>indemnités</strong>.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Pour :</strong><br>
+                      • Tu gardes un lien social et intellectuel.<br>
+                      • Tu peux tester une reprise d’activité sans pression de productivité.<br>
+                      • Tu mets ton vécu au cœur d’un projet qui parle de vulnérabilité réelle.
+                    </td>
+                    <td>
+                      <strong>Pour :</strong><br>
+                      • Tu stabilises ta santé (priorité absolue).<br>
+                      • Tu mets ton énergie là où elle est vitale : soins, démarches, adaptations.<br>
+                      • Tu évites que l’engagement devienne un facteur de rechute.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Contre :</strong><br>
+                      • Risque de culpabiliser si tu as des “jours sans”.<br>
+                      • Tentation de t’investir plus que ce que ton corps/ta tête supportent.<br>
+                      • Difficulté à poser des limites si le collectif n’est pas cadré.
+                    </td>
+                    <td>
+                      <strong>Contre :</strong><br>
+                      • Démarches avec la mutuelle parfois lourdes/frustrantes.<br>
+                      • Impression de n’être réduit·e qu’à un dossier médical.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="alt-hint">
+                Recommandation honnête : <strong>Piste B d’abord</strong>. Puis Piste A
+                <strong>uniquement si</strong> ça t’aide à aller mieux, pas l’inverse.
+              </p>
+            </article>
+
+            <!-- 3. Grande précarité -->
+            <article class="alt-card">
+              <h3>Tu n’as (presque) plus de revenus / grande précarité</h3>
+              <div class="alt-tag">Survie, CPAS, sécurité minimale</div>
+              <table class="alt-table">
+                <thead>
+                  <tr>
+                    <th class="alt-label-a">Piste A – S’engager ici (risqué seul)</th>
+                    <th class="alt-label-b">Piste B – CPAS & aides sociales</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      Tu t’investis comme membre actif (C1) ou sur des rôles opérationnels,
+                      en espérant qu’un jour une partie puisse être rémunérée.
+                    </td>
+                    <td>
+                      Tu vas au <strong>CPAS</strong> de ta commune pour demander un
+                      <strong>revenu d’intégration</strong> ou une aide équivalente,
+                      et des aides ponctuelles (factures, loyer, nourriture…).
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Pour :</strong><br>
+                      • Tu reprends du pouvoir d’agir, tu n’es pas “juste assisté·e”.<br>
+                      • Tu construis une expérience et un réseau politique / social.<br>
+                      • Tu mets du sens sur une période très dure.
+                    </td>
+                    <td>
+                      <strong>Pour :</strong><br>
+                      • Tu t’assures un <strong>filet de sécurité</strong> minimal.<br>
+                      • Tu peux bénéficier d’un accompagnement social global.<br>
+                      • Tu ne fais pas reposer ta survie sur un projet encore en construction.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Contre :</strong><br>
+                      • On ne peut pas être ta solution principale de revenu.<br>
+                      • Risque d’épuisement massif si tu comptes sur nous pour survivre.<br>
+                      • Frustration énorme possible si on ne peut pas te salarier.
+                    </td>
+                    <td>
+                      <strong>Contre :</strong><br>
+                      • Démarches parfois intrusives / humiliantes.<br>
+                      • Sentiment d’être contrôlé·e plutôt qu’aidé·e.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="alt-hint">
+                Recommandation honnête : en mode survie, <strong>Piste B est prioritaire</strong>.
+                La Piste A ne peut venir qu’en plus, jamais à la place.
+              </p>
+            </article>
+
+            <!-- 4. Fin d'études -->
+            <article class="alt-card">
+              <h3>Tu sors des études / jeune diplômé·e</h3>
+              <div class="alt-tag">Insertion, premier CV, stage d’insertion</div>
+              <table class="alt-table">
+                <thead>
+                  <tr>
+                    <th class="alt-label-a">Piste A – Terrain d’apprentissage ici</th>
+                    <th class="alt-label-b">Piste B – Stage d’insertion & accompagnement</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      Tu t’impliques dans un ou plusieurs pôles (Veille, Pédago, Tech, Labs),
+                      tu apprends en faisant et tu construis un portfolio concret.
+                    </td>
+                    <td>
+                      Tu t’inscris comme <strong>demandeur d’emploi</strong>,
+                      tu passes par le <strong>stage d’insertion</strong> (ex “stage d’attente”),
+                      et tu explores propositions d’emploi / formations.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Pour :</strong><br>
+                      • Tu accumules de l’expérience réelle rapidement.<br>
+                      • Tu construis un profil atypique (veille citoyenne, jeux sérieux…).<br>
+                      • Tu testes ce que tu aimes vraiment.
+                    </td>
+                    <td>
+                      <strong>Pour :</strong><br>
+                      • Tu construis tes droits aux allocations (insertion/chômage).<br>
+                      • Tu peux accéder à des offres plus “classiques”.<br>
+                      • Tu bénéficies de dispositifs jeunesse spécifiques.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Contre :</strong><br>
+                      • Si tu ne fais que A sans B, tu risques d’avoir zéro droit plus tard.<br>
+                      • Aucune garantie de poste payé à la clé.<br>
+                      • Possible confusion entre engagement militant et “emploi”.
+                    </td>
+                    <td>
+                      <strong>Contre :</strong><br>
+                      • Parcours très normé, pas toujours aligné avec tes envies.<br>
+                      • On peut te pousser vers des métiers “en pénurie” qui ne te parlent pas.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="alt-hint">
+                Recommandation honnête : idéalement <strong>Piste A + Piste B</strong> :
+                tu actives B pour tes droits, et A comme laboratoire d’apprentissage.
+              </p>
+            </article>
+
+            <!-- 5. Tu bosses déjà mais tu souffres -->
+            <article class="alt-card">
+              <h3>Tu bosses déjà, mais tu es en souffrance / tu veux bouger</h3>
+              <div class="alt-tag">Épuisement, sens, reconversion douce</div>
+              <table class="alt-table">
+                <thead>
+                  <tr>
+                    <th class="alt-label-a">Piste A – Engagement ici comme laboratoire</th>
+                    <th class="alt-label-b">Piste B – Droits dans ton boulot actuel</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      Tu t’impliques à côté de ton job (Cercle C1, Veille, Lab),
+                      pour tester d’autres manières de travailler et respirer.
+                    </td>
+                    <td>
+                      Tu explores avec ton <strong>employeur / syndicat / médecin</strong> les
+                      <strong>congés possibles</strong>, aménagements, formations, voire un changement de poste.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Pour :</strong><br>
+                      • Tu ne restes pas enfermé·e dans ton job actuel.<br>
+                      • Tu prépares une éventuelle reconversion.<br>
+                      • Tu mets du sens politiquement sur ce que tu vis au travail.
+                    </td>
+                    <td>
+                      <strong>Pour :</strong><br>
+                      • Tu utilises les droits que tu as déjà (congés, protections…).<br>
+                      • Tu évites de rajouter une couche de fatigue “militante”.<br>
+                      • Tu peux négocier un aménagement raisonnable.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Contre :</strong><br>
+                      • Risque de surcharge (boulot + engagement intense).<br>
+                      • Tu peux importer ta fatigue dans le collectif.<br>
+                      • Difficile de tenir sur la durée sans ajuster ta charge.
+                    </td>
+                    <td>
+                      <strong>Contre :</strong><br>
+                      • Parfois, l’entreprise ne bouge pas malgré les droits.<br>
+                      • Sentiment de “faire des demandes dans le vide”.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="alt-hint">
+                Recommandation honnête : Piste A seulement si tu as encore un peu de
+                <strong>marge mentale</strong>. Sinon, Piste B d’abord.
+              </p>
+            </article>
+
+            <!-- 6. Tu veux devenir indépendant·e -->
+            <article class="alt-card">
+              <h3>Tu veux devenir indépendant·e / lancer ton projet</h3>
+              <div class="alt-tag">Entrepreneuriat, collectif vs solo</div>
+              <table class="alt-table">
+                <thead>
+                  <tr>
+                    <th class="alt-label-a">Piste A – Construire avec le collectif</th>
+                    <th class="alt-label-b">Piste B – Statut d’indépendant·e classique</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      Tu co-construis un projet collectif (asbl de fait, éducation populaire, veille),
+                      où ton activité s’inscrit dans un écosystème plutôt que tout seul.
+                    </td>
+                    <td>
+                      Tu passes par une <strong>caisse d’assurances sociales</strong>,
+                      tu regardes les aides à la création d’activité
+                      et les règles ONEM si tu es chômeur·euse.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Pour :</strong><br>
+                      • Tu ne pars pas isolé·e, tu t’adosses à un collectif.<br>
+                      • Tu peux tester tes idées dans les Labs avant de les “vendre”.<br>
+                      • Tu mutualises une partie des risques et des outils.
+                    </td>
+                    <td>
+                      <strong>Pour :</strong><br>
+                      • Tu as un cadre clair (statut, cotisations, obligations).<br>
+                      • Tu peux facturer à ton nom, construire ta propre activité.<br>
+                      • Tu entres dans les circuits classiques de soutien aux indépendants.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Contre :</strong><br>
+                      • Il faut une distinction nette entre bénévolat, collectif, activité rémunérée.<br>
+                      • Le cadre légal associatif demande du travail et du temps.<br>
+                      • Tout le monde n’a pas envie d’être “collectif” tout le temps.
+                    </td>
+                    <td>
+                      <strong>Contre :</strong><br>
+                      • Tu es très exposé·e (risque économique, paperasse).<br>
+                      • Si tu es chômeur·euse, interactions délicates avec l’ONEM possible.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="alt-hint">
+                Recommandation honnête : <strong>Piste B pour le cadre</strong>,
+                <strong>Piste A pour le collectif</strong>. Ici, on peut être une base politique & pédagogique,
+                pas une chambre de commerce.
+              </p>
+            </article>
+
+            <!-- 7. Charges de famille -->
+            <article class="alt-card">
+              <h3>Tu as de grosses charges de famille / enfants à charge</h3>
+              <div class="alt-tag">Temps, charge mentale, aides familiales</div>
+              <table class="alt-table">
+                <thead>
+                  <tr>
+                    <th class="alt-label-a">Piste A – Engagement mesuré ici</th>
+                    <th class="alt-label-b">Piste B – Optimiser d’abord les aides “famille”</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      Tu participes de façon très modulable : projets ponctuels,
+                      contributions écrites, pas d’obligation de présence régulière.
+                    </td>
+                    <td>
+                      Tu vérifies tes <strong>allocations familiales</strong>, compléments possibles,
+                      aides scolaires/loisirs, et recours au <strong>CPAS</strong> si nécessaire.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Pour :</strong><br>
+                      • Tu gardes un espace à toi, en dehors des responsabilités familiales.<br>
+                      • Tu peux amener ta réalité de parent dans les contenus.<br>
+                      • Tu montres à tes enfants un engagement concret.
+                    </td>
+                    <td>
+                      <strong>Pour :</strong><br>
+                      • Tu sécurises ton équilibre familial (finances, garde).<br>
+                      • Tu évites que l’engagement te mette encore plus dans le rouge.<br>
+                      • Tu peux bénéficier d’aides ciblées (logement, énergie…).
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Contre :</strong><br>
+                      • Le temps est ta ressource la plus rare.<br>
+                      • Tu peux vite culpabiliser de ne “pas en faire assez”.<br>
+                      • Risque de collision avec les urgences familiales.
+                    </td>
+                    <td>
+                      <strong>Contre :</strong><br>
+                      • Démarches parfois lourdes et chronophages.<br>
+                      • Parfois, peu de lisibilité sur ce à quoi tu as droit.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="alt-hint">
+                Recommandation honnête : <strong>Piste B en priorité</strong>,
+                Piste A seulement si ça te fait du bien et reste réaliste en temps.
+              </p>
+            </article>
+
+            <!-- 8. Handicap / longue durée -->
+            <article class="alt-card">
+              <h3>Tu es en situation de handicap / maladie de longue durée</h3>
+              <div class="alt-tag">Reconnaissance, adaptations, pouvoir d’agir</div>
+              <table class="alt-table">
+                <thead>
+                  <tr>
+                    <th class="alt-label-a">Piste A – Contribution adaptée ici</th>
+                    <th class="alt-label-b">Piste B – Reconnaissance & adaptations officielles</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      Tu participes à ce que tu peux, quand tu peux, avec des aménagements
+                      (horaires, tâches, outils). On s’adapte à ton rythme.
+                    </td>
+                    <td>
+                      Tu fais reconnaître ton handicap / incapacité, tu actives les
+                      <strong>aides associées</strong> (allocations, aménagements raisonnables,
+                      soutien spécifique).
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Pour :</strong><br>
+                      • Tu ne te réduis pas à un dossier administratif.<br>
+                      • Tu contribues à une réflexion politique sur le handicap / la santé.<br>
+                      • Tu peux choisir des formes d’engagement compatibles avec ta réalité.
+                    </td>
+                    <td>
+                      <strong>Pour :</strong><br>
+                      • Tu sécurises un socle matériel plus stable.<br>
+                      • Tu peux exiger des adaptations là où tu te formes / travailles.<br>
+                      • Tu entres dans des dispositifs dédiés (accompagnement spécialisé).
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Contre :</strong><br>
+                      • Encore une couche de plus sur ta fatigue si le cadre est flou.<br>
+                      • Risque de te sentir obligé·e de “tenir” le collectif.<br>
+                      • Besoin absolu d’un respect strict de tes limites.
+                    </td>
+                    <td>
+                      <strong>Contre :</strong><br>
+                      • Parcours institutionnel parfois épuisant.<br>
+                      • Délais longs, incompréhensions possibles.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="alt-hint">
+                Recommandation honnête : <strong>Piste B en priorité</strong>.
+                Piste A seulement si le collectif montre qu’il peut vraiment respecter tes limites.
+              </p>
+            </article>
+          </div>
+
+          <p class="footer-note">
+            Ce plan ne remplace pas un avis juridique ou social. Il sert à te
+            <strong>orienter</strong> : à chaque rôle ici correspond aussi une autre
+            porte possible “vers qui de droit”.
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const phaseButtons = document.querySelectorAll("[data-filter-phase]");
+    const typeButtons = document.querySelectorAll("[data-filter-type]");
+    const priorityCheckbox = document.getElementById("priorityOnly");
+    const roleCards = document.querySelectorAll(".role-card");
+
+    let activePhase = "all";
+    let activeType = "all";
+    let priorityOnly = false;
+
+    function updateFilters() {
+      roleCards.forEach(card => {
+        const phase = card.getAttribute("data-phase");
+        const type = card.getAttribute("data-type");
+        const priority = card.getAttribute("data-priority");
+
+        let visible = true;
+
+        if (activePhase !== "all" && phase !== activePhase) {
+          visible = false;
+        }
+
+        if (activeType !== "all" && type !== activeType) {
+          visible = false;
+        }
+
+        if (priorityOnly && priority !== "P1") {
+          visible = false;
+        }
+
+        card.classList.toggle("hidden", !visible);
+      });
+    }
+
+    phaseButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        phaseButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activePhase = btn.getAttribute("data-filter-phase");
+        updateFilters();
+      });
+    });
+
+    typeButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        typeButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeType = btn.getAttribute("data-filter-type");
+        updateFilters();
+      });
+    });
+
+    priorityCheckbox.addEventListener("change", () => {
+      priorityOnly = priorityCheckbox.checked;
+      updateFilters();
+    });
+  </script>
+</body>
+</html>

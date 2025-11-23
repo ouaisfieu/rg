@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Portail des tests de recrutement – L’Organisation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #050712;
+      --bg-alt: #0b0f26;
+      --panel: #0c1229;
+      --panel-soft: rgba(12, 18, 41, 0.9);
+      --accent: #8bffb0;
+      --accent-soft: rgba(139, 255, 176, 0.2);
+      --accent-2: #d28bff;
+      --accent-2-soft: rgba(210, 139, 255, 0.2);
+      --danger: #ff4d7a;
+      --text-main: #f5f7ff;
+      --text-muted: #9ea7d9;
+      --border-subtle: rgba(120, 140, 220, 0.4);
+      --shadow-soft: 0 22px 45px rgba(0, 0, 0, 0.75);
+      --radius-xl: 18px;
+      --radius-pill: 999px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at 15% 0%, rgba(139, 255, 176, 0.08), transparent 55%),
+        radial-gradient(circle at 85% 100%, rgba(210, 139, 255, 0.12), transparent 55%),
+        #02030a;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      padding: 1.25rem 0.75rem 1.75rem;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 1120px;
+      background: linear-gradient(135deg, rgba(17, 26, 70, 0.96), rgba(6, 10, 35, 0.98));
+      border-radius: 28px;
+      border: 1px solid rgba(145, 170, 255, 0.3);
+      box-shadow: var(--shadow-soft);
+      padding: 1.1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 720px) {
+      .shell {
+        padding: 1.5rem 1.75rem 1.75rem;
+      }
+    }
+
+    .scanline {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.03),
+        rgba(255, 255, 255, 0.03) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      mix-blend-mode: soft-light;
+    }
+
+    .grid-layout {
+      position: relative;
+      display: grid;
+      gap: 1.1rem;
+    }
+
+    @media (min-width: 960px) {
+      .grid-layout {
+        grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.25fr);
+        align-items: flex-start;
+      }
+    }
+
+    header {
+      position: relative;
+      padding-bottom: 0.8rem;
+      margin-bottom: 0.9rem;
+      border-bottom: 1px solid rgba(120, 140, 220, 0.45);
+    }
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      border-radius: var(--radius-pill);
+      padding: 0.18rem 0.6rem 0.18rem 0.24rem;
+      border: 1px solid rgba(139, 255, 176, 0.8);
+      background: radial-gradient(circle at 0% 0%, rgba(139, 255, 176, 0.24), transparent 55%);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(139, 255, 176, 1);
+    }
+
+    .badge span:last-child {
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .mode-chip {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(210, 139, 255, 0.8);
+      padding: 0.18rem 0.7rem;
+      background: radial-gradient(circle at 100% 0%, rgba(210, 139, 255, 0.22), transparent 55%);
+      color: var(--accent-2);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .mode-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(210, 139, 255, 0.9);
+      box-shadow: 0 0 8px rgba(210, 139, 255, 1);
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 4vw, 2.2rem);
+      line-height: 1.1;
+      margin-bottom: 0.25rem;
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 580px;
+    }
+
+    .subtitle strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .warn-banner {
+      margin-top: 0.8rem;
+      border-radius: 14px;
+      padding: 0.65rem 0.75rem;
+      border: 1px solid rgba(255, 77, 122, 0.7);
+      background:
+        linear-gradient(120deg, rgba(255, 77, 122, 0.1), transparent 55%),
+        radial-gradient(circle at 0% 0%, rgba(255, 208, 124, 0.2), transparent 60%);
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+      font-size: 0.8rem;
+    }
+
+    .warn-icon {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.75rem;
+      padding-top: 0.05rem;
+      color: var(--danger);
+    }
+
+    .warn-text strong {
+      color: #ffd1e0;
+    }
+
+    .warn-text a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-decoration-style: dotted;
+    }
+
+    /* Colonne gauche : mode d'emploi + index thématiques */
+    .col-main {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .panel {
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at 0 0, rgba(139, 255, 176, 0.04), transparent 55%),
+                  radial-gradient(circle at 100% 100%, rgba(210, 139, 255, 0.08), transparent 55%),
+                  var(--panel-soft);
+      border: 1px solid var(--border-subtle);
+      padding: 0.8rem 0.85rem;
+    }
+
+    @media (min-width: 720px) {
+      .panel {
+        padding: 0.9rem 1rem;
+      }
+    }
+
+    .panel h2 {
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .panel h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .panel p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .panel p strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .steps {
+      margin-top: 0.55rem;
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 0.55rem;
+      align-items: flex-start;
+    }
+
+    .step-index {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(139, 255, 176, 0.85);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-family: "JetBrains Mono", monospace;
+      color: var(--accent);
+      box-shadow: 0 0 12px rgba(139, 255, 176, 0.6);
+      background: rgba(5, 7, 18, 0.9);
+    }
+
+    .step-body {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .step-body strong {
+      color: var(--text-main);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.55rem;
+    }
+
+    .pill {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 172, 255, 0.7);
+      background: rgba(8, 12, 40, 0.9);
+      color: var(--text-muted);
+      font-family: "JetBrains Mono", monospace;
+      white-space: nowrap;
+    }
+
+    .pill[data-type="soft"] {
+      border-color: rgba(139, 255, 176, 0.7);
+      background: rgba(10, 22, 30, 0.95);
+      color: var(--accent);
+    }
+
+    /* Index thématique */
+    .topics-list {
+      margin-top: 0.55rem;
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    .topic-item {
+      border-radius: 12px;
+      padding: 0.5rem 0.55rem;
+      background: rgba(3, 7, 24, 0.9);
+      border: 1px dashed rgba(124, 147, 244, 0.6);
+    }
+
+    .topic-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .topic-title {
+      font-size: 0.85rem;
+    }
+
+    .topic-tag {
+      font-size: 0.68rem;
+      font-family: "JetBrains Mono", monospace;
+      padding: 0.12rem 0.45rem;
+      border-radius: var(--radius-pill);
+      background: rgba(210, 139, 255, 0.16);
+      border: 1px solid rgba(210, 139, 255, 0.7);
+      color: var(--accent-2);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .topic-body {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* Colonne droite : hub des pages */
+    .col-side {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .hub-grid {
+      margin-top: 0.35rem;
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    @media (min-width: 540px) {
+      .hub-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1120px) {
+      .hub-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .hub-card {
+      border-radius: 16px;
+      padding: 0.6rem 0.65rem;
+      background: radial-gradient(circle at 0 0, rgba(139, 255, 176, 0.08), transparent 55%),
+                  rgba(6, 10, 40, 0.95);
+      border: 1px solid rgba(135, 160, 255, 0.55);
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hub-chip-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .hub-phase {
+      font-size: 0.68rem;
+      font-family: "JetBrains Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+    }
+
+    .hub-phase span {
+      opacity: 0.6;
+      margin-right: 0.2rem;
+    }
+
+    .hub-status {
+      font-size: 0.66rem;
+      font-family: "JetBrains Mono", monospace;
+      padding: 0.12rem 0.5rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(139, 255, 176, 0.7);
+      background: rgba(5, 30, 30, 0.95);
+      color: var(--accent);
+    }
+
+    .hub-status.soon {
+      border-color: rgba(210, 139, 255, 0.7);
+      background: rgba(26, 6, 45, 0.9);
+      color: var(--accent-2);
+    }
+
+    .hub-title {
+      font-size: 0.92rem;
+    }
+
+    .hub-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .hub-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-top: 0.25rem;
+    }
+
+    .hub-links a {
+      font-size: 0.75rem;
+      padding: 0.26rem 0.55rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 172, 255, 0.8);
+      background: rgba(7, 10, 40, 0.96);
+      color: var(--text-main);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    }
+
+    .hub-links a span {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+    }
+
+    .hub-links a:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.7);
+      border-color: var(--accent);
+    }
+
+    /* Footer mini */
+    .meta-footer {
+      margin-top: 0.5rem;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .meta-footer code {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      background: rgba(6, 10, 35, 0.9);
+      border-radius: 999px;
+      padding: 0.16rem 0.5rem;
+      border: 1px solid rgba(110, 132, 220, 0.7);
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="scanline"></div>
+
+    <div class="grid-layout">
+      <!-- COLONNE GAUCHE -->
+      <div class="col-main">
+        <header>
+          <div class="top-row">
+            <div class="badge">
+              <span class="badge-dot"></span>
+              <span>Portail</span>
+              <span>Test de recrutement</span>
+            </div>
+            <div class="mode-chip">
+              <span class="mode-dot"></span>
+              <span>Mobile first</span>
+            </div>
+          </div>
+
+          <h1>Bienvenue dans le <span>parcours de recrutement</span> de l’Organisation</h1>
+          <p class="subtitle">
+            Ici, tu trouves la <strong>page d’accueil</strong> de tous les tests, cartes et rapports.
+            L’idée n’est pas de te piéger, mais de t’aider à voir si un des rôles (ou aucun)
+            correspond à <strong>ta réalité, tes limites et tes envies</strong>.
+          </p>
+
+          <div class="warn-banner">
+            <div class="warn-icon">[!]</div>
+            <div class="warn-text">
+              <strong>Important&nbsp;:</strong> tu restes toujours libre.
+              Le test n’a <strong>aucune valeur officielle</strong>, il ne remplace pas un suivi médical,
+              social ou administratif. Si tu es en situation fragile, garde en tête que ceci reste
+              une <em>expérience pédagogique et citoyenne</em>, pas une promesse de job magique.
+              Commencer par la <a href="carte-0.html">Carte&nbsp;0</a> est fortement recommandé.
+            </div>
+          </div>
+        </header>
+
+        <!-- MODE D’EMPLOI -->
+        <section class="panel" aria-label="Mode d’emploi du parcours">
+          <h2>Comment utiliser ce parcours&nbsp;?</h2>
+          <p>
+            Tu peux tout faire d’un coup, ou avancer <strong>à ton rythme</strong>. Chaque page est une
+            <strong>carte</strong> ou une <strong>phase de test</strong>. L’objectif&nbsp;:
+            t’aider à clarifier où tu en es, ce que tu veux, et si l’Organisation est un bon terrain
+            d’expérimentation (ou pas du tout).
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-index">1</div>
+              <div class="step-body">
+                <strong>Lire les avertissements & le décor général.</strong><br />
+                Carte&nbsp;0, présentation de l’Organisation, organigramme, rapport d’avancement…
+                Ça te donne le ton et les règles de la partie.
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-index">2</div>
+              <div class="step-body">
+                <strong>Passer par la préparation au test.</strong><br />
+                On y parle de ta situation réelle (chômage, maladie, burn-out, études, etc.) et de ce
+                que tu veux <em>vraiment</em> tester ici, sans blabla RH.
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-index">3</div>
+              <div class="step-body">
+                <strong>Choisir les tests thématiques à ton rythme.</strong><br />
+                Certains porteront sur le <strong>travail</strong>, d’autres sur la
+                <strong>démocratie</strong>, l’<strong>information</strong>, la
+                <strong>guerre hybride / narrative</strong>, ou encore ton
+                <strong>pouvoir d’agir</strong> dans tout ce bazar.
+              </div>
+            </div>
+          </div>
+
+          <div class="pill-row">
+            <div class="pill" data-type="soft">Pour tous publics (Monsieur & Madame Tout-le-monde)</div>
+            <div class="pill">Pas de scoring caché</div>
+            <div class="pill">Résultats stockés dans ton navigateur, pas chez nous</div>
+          </div>
+        </section>
+
+        <!-- INDEX THÉMATIQUES GLOBAL -->
+        <section class="panel" aria-label="Index des thématiques du test">
+          <h2>Les grandes thématiques qui vont suivre</h2>
+          <p>
+            Les pages de test à venir seront organisées par <strong>thèmes transversaux</strong>.
+            Tu pourras en faire un, plusieurs, ou juste picorer dedans.
+          </p>
+
+          <div class="topics-list">
+            <div class="topic-item">
+              <div class="topic-head">
+                <div class="topic-title"><strong>1. Toi, le travail et ta situation réelle</strong></div>
+                <div class="topic-tag">Phase&nbsp;0 + auto-bilan</div>
+              </div>
+              <div class="topic-body">
+                Clarifier ton point de départ&nbsp;: santé, revenus, contraintes familiales, envies,
+                peurs, marge de manœuvre. Objectif&nbsp;: <strong>stopper l’auto-mensonge</strong> avant
+                d’imaginer un rôle dans l’Organisation ou ailleurs.
+              </div>
+            </div>
+
+            <div class="topic-item">
+              <div class="topic-head">
+                <div class="topic-title"><strong>2. Pouvoirs, contre-pouvoirs & cinquième pouvoir citoyen</strong></div>
+                <div class="topic-tag">Démocratie & Belgique</div>
+              </div>
+              <div class="topic-body">
+                Comprendre comment fonctionnent vraiment les <strong>partis, syndicats, médias,
+                associations</strong>, et où peut se loger une
+                <strong>intelligence citoyenne collective</strong> qui ne soit ni naïve, ni cynique.
+              </div>
+            </div>
+
+            <div class="topic-item">
+              <div class="topic-head">
+                <div class="topic-title"><strong>3. Information, guerre hybride & guerre narrative</strong></div>
+                <div class="topic-tag">Conflits modernes</div>
+              </div>
+              <div class="topic-body">
+                Voir comment on peut <strong>manipuler un pays sans tirer un coup de feu</strong> :
+                guerre de l’information, campagnes de désinfo, récits toxiques qui fracturent une
+                société… et comment un citoyen lambda peut s’en protéger (un peu).
+              </div>
+            </div>
+
+            <div class="topic-item">
+              <div class="topic-head">
+                <div class="topic-title"><strong>4. Intelligence économique & intelligence non marchande</strong></div>
+                <div class="topic-tag">Veille & stratégie</div>
+              </div>
+              <div class="topic-body">
+                Comment les États et les entreprises utilisent la <strong>veille stratégique</strong>,
+                et comment des petites structures (assos, collectifs, toi avec ton PC) peuvent
+                développer une <strong>intelligence non marchande</strong> en mode citoyen.
+              </div>
+            </div>
+
+            <div class="topic-item">
+              <div class="topic-head">
+                <div class="topic-title"><strong>5. Numérique, plateformes & nouvelles formes de travail</strong></div>
+                <div class="topic-tag">Sociologie numérique</div>
+              </div>
+              <div class="topic-body">
+                Télétravail, ubérisation, IA, réseaux sociaux… tout ce qui change ton rapport au
+                travail, au chômage, à la visibilité de ta parole, et à la manière de t’organiser avec
+                d’autres sans te faire broyer.
+              </div>
+            </div>
+
+            <div class="topic-item">
+              <div class="topic-head">
+                <div class="topic-title"><strong>6. Capitalisme, économie “intelligente” ou “stupide”</strong></div>
+                <div class="topic-tag">Échanges & modèles alternatifs</div>
+              </div>
+              <div class="topic-body">
+                Ce que l’économie actuelle fait aux gens et à la planète, et
+                <strong>ce qu’on peut bricoler à côté</strong> : coopératives, communs, monnaies
+                locales, entraide plutôt que “chacun pour soi”.
+              </div>
+            </div>
+
+            <div class="topic-item">
+              <div class="topic-head">
+                <div class="topic-title"><strong>7. Empouvoirement individuel & pouvoir d’agir collectif</strong></div>
+                <div class="topic-tag">Passer à l’action</div>
+              </div>
+              <div class="topic-body">
+                Comment ne pas rester coincé dans la lucidité dépressive : transformer ce que tu
+                apprends ici en <strong>petits mouvements concrets</strong>, seul·e ou à plusieurs,
+                avec ou sans l’Organisation.
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- COLONNE DROITE : HUB DES PAGES -->
+      <aside class="col-side" aria-label="Accès rapide aux pages du parcours">
+        <section class="panel">
+          <h2>Portail des pages déjà disponibles</h2>
+          <p>
+            Ce bloc te sert de <strong>tableau de bord</strong>. Chaque carte renvoie vers une page
+            existante (ou une zone “à venir”) du parcours.
+          </p>
+
+          <div class="hub-grid">
+            <!-- Carte 0 -->
+            <article class="hub-card">
+              <div class="hub-chip-row">
+                <div class="hub-phase"><span>Phase</span>−1 — Carte 0</div>
+                <div class="hub-status">Recommandé en premier</div>
+              </div>
+              <div class="hub-title"><strong>Avant de lancer la partie</strong></div>
+              <div class="hub-desc">
+                Avertissements, risques, ce que tu acceptes (ou pas) en continuant, et ce que
+                l’Organisation n’est <strong>pas</strong>. Si tu dois lire une seule page avant tout, c’est celle-là.
+              </div>
+              <div class="hub-links">
+                <a href="carte-0.html">
+                  <span>&gt;</span> Ouvrir la Carte 0
+                </a>
+              </div>
+            </article>
+
+            <!-- Préparation au test -->
+            <article class="hub-card">
+              <div class="hub-chip-row">
+                <div class="hub-phase"><span>Phase</span>0 — Préparation</div>
+                <div class="hub-status">Page active</div>
+              </div>
+              <div class="hub-title"><strong>Préparation au test de recrutement</strong></div>
+              <div class="hub-desc">
+                Auto-bilan guidé : ta situation, tes besoins, tes limites, ce que tu attends (ou
+                redoutes) de ce test. C’est le filtre de base avant d’aller plus loin.
+              </div>
+              <div class="hub-links">
+                <a href="phase-0.html">
+                  <span>&gt;</span> Ouvrir la préparation
+                </a>
+              </div>
+            </article>
+
+            <!-- Présentation de l’Organisation -->
+            <article class="hub-card">
+              <div class="hub-chip-row">
+                <div class="hub-phase"><span>Phase</span>A — Décor</div>
+                <div class="hub-status">Page active</div>
+              </div>
+              <div class="hub-title"><strong>Qui est l’Organisation&nbsp;?</strong></div>
+              <div class="hub-desc">
+                Présentation officielle (et un peu cryptique) : ce qu’on fait, ce qu’on prétend être,
+                ce qu’on cache à peine. Idéal pour sentir si tu as envie de fuir… ou pas.
+              </div>
+              <div class="hub-links">
+                <a href="about.html">
+                  <span>&gt;</span> Page “L’Organisation”
+                </a>
+                <a href="organigramme-obs.html">
+                  <span>&gt;</span> Organigramme interactif
+                </a>
+              </div>
+            </article>
+
+            <!-- Plan de recrutement / Bureau -->
+            <article class="hub-card">
+              <div class="hub-chip-row">
+                <div class="hub-phase"><span>Phase</span>B — Recrutement</div>
+                <div class="hub-status">Page active</div>
+              </div>
+              <div class="hub-title"><strong>Plan de recrutement & postes vacants</strong></div>
+              <div class="hub-desc">
+                Vue d’ensemble des rôles possibles (bureau, cellules, terrains plus ou moins louches)
+                et des chemins d’entrée officiels ou officieux.
+              </div>
+              <div class="hub-links">
+                <a href="recrutement.html">
+                  <span>&gt;</span> Plan de recrutement
+                </a>
+                <a href="bureau.html">
+                  <span>&gt;</span> Version “bureau très sérieux”
+                </a>
+              </div>
+            </article>
+
+            <!-- Rapport d’avancement -->
+            <article class="hub-card">
+              <div class="hub-chip-row">
+                <div class="hub-phase"><span>Phase</span>C — Méta</div>
+                <div class="hub-status">Page active</div>
+              </div>
+              <div class="hub-title"><strong>Rapport d’avancement du projet</strong></div>
+              <div class="hub-desc">
+                Où en est vraiment l’Organisation ? Ce qui existe, ce qui est en chantier, ce qui reste
+                volontairement flou. Utile pour ne pas sur-interpréter ce test.
+              </div>
+              <div class="hub-links">
+                <a href="etdonc.html">
+                  <span>&gt;</span> Consulter le rapport
+                </a>
+              </div>
+            </article>
+
+            <!-- Tests thématiques à venir -->
+            <article class="hub-card">
+              <div class="hub-chip-row">
+                <div class="hub-phase"><span>Phase</span>1→ …</div>
+                <div class="hub-status soon">En construction</div>
+              </div>
+              <div class="hub-title"><strong>Tests thématiques</strong></div>
+              <div class="hub-desc">
+                Future série de tests basés sur différents dossiers : démocratie belge, veille
+                citoyenne, guerres hybride/narrative, information, économie, pouvoir d’agir, etc.
+              </div>
+              <div class="hub-links">
+                <a href="#themes">
+                  <span>#</span> Voir l’index des thématiques
+                </a>
+                <a href="#todo">
+                  <span>…</span> Emplacements à compléter
+                </a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel" id="themes">
+          <h3>Résumé express des thèmes (pour la suite)</h3>
+          <p style="font-size:0.8rem;">
+            Quand les pages de test seront prêtes, tu retrouveras ici les liens directs vers&nbsp;:
+          </p>
+          <ul style="margin-top:0.4rem; padding-left:1rem; font-size:0.78rem; color:var(--text-muted); line-height:1.5;">
+            <li>Un test “<strong>où j’en suis</strong>” (travail, santé, système).</li>
+            <li>Un test “<strong>pouvoirs & contre-pouvoirs</strong>” façon Belgique inside.</li>
+            <li>Un test “<strong>guerre de l’info / guerre narrative</strong>”.</li>
+            <li>Un test “<strong>intelligence économique & non marchande</strong>”.</li>
+            <li>Un test “<strong>numérique, plateformes & travail</strong>”.</li>
+            <li>Un test “<strong>économie intelligente / stupide</strong>”.</li>
+            <li>Un test “<strong>pouvoir d’agir et prochaines étapes concrètes</strong>”.</li>
+          </ul>
+        </section>
+
+        <div class="meta-footer" id="todo">
+          <span>
+            Cette page sert de <strong>carte 0 bis</strong> : un hub à compléter au fur et à mesure.
+          </span>
+          <code>// version&nbsp;proto – à hacker plus tard</code>
+        </div>
+      </aside>
+    </div>
+  </div>
+</body>
+</html>
