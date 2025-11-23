@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Préparation au test de recrutement – L’Organisation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #050712;
+      --bg-alt: #0b0f26;
+      --panel: #0c1229;
+      --accent: #8bffb0;
+      --accent-soft: rgba(139, 255, 176, 0.15);
+      --accent-2: #d28bff;
+      --accent-2-soft: rgba(210, 139, 255, 0.18);
+      --text-main: #f5f7ff;
+      --text-muted: #a3b0ff;
+      --border-soft: 1px solid rgba(255, 255, 255, 0.12);
+      --danger: #ff4b7b;
+      --warn: #ffd68b;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --transition-fast: 0.18s ease-out;
+      --transition-med: 0.26s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #26307f 0, #050712 45%, #02020a 100%);
+      color: var(--text-main);
+      overflow-x: hidden;
+    }
+
+    /* BACKGROUND FX */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.14;
+      background-image:
+        linear-gradient(to right, rgba(120, 130, 255, 0.3) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(120, 130, 255, 0.3) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mix-blend-mode: screen;
+      z-index: -3;
+    }
+
+    .bg-orb {
+      position: fixed;
+      width: 460px;
+      height: 460px;
+      border-radius: 999px;
+      filter: blur(90px);
+      opacity: 0.55;
+      pointer-events: none;
+      z-index: -2;
+      background: radial-gradient(circle at 30% 20%, #8bffb0 0, transparent 60%);
+      top: -60px;
+      right: -150px;
+      transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    }
+
+    .bg-orb.secondary {
+      background: radial-gradient(circle at 70% 80%, #d28bff 0, transparent 60%);
+      width: 380px;
+      height: 380px;
+      bottom: -90px;
+      left: -60px;
+      top: auto;
+      right: auto;
+    }
+
+    /* SHELL */
+    .shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1.5rem 1.2rem 2.1rem;
+    }
+
+    @media (min-width: 900px) {
+      .shell {
+        padding: 2.2rem 2.2rem 2.8rem;
+      }
+    }
+
+    .page-frame {
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(166, 190, 255, 0.85);
+      background:
+        radial-gradient(circle at top left, rgba(139, 255, 176, 0.18), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(210, 139, 255, 0.18), transparent 60%),
+        rgba(6, 10, 38, 0.98);
+      box-shadow: 0 0 26px rgba(0, 0, 0, 0.9);
+      padding: 1.5rem 1.3rem 1.9rem;
+    }
+
+    @media (min-width: 900px) {
+      .page-frame {
+        padding: 1.9rem 1.9rem 2.3rem;
+      }
+    }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-bottom: 1.4rem;
+    }
+
+    @media (min-width: 900px) {
+      .header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+    }
+
+    .title-block {
+      max-width: 560px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(7, 255, 161, 0.08);
+      border: 1px solid rgba(139, 255, 176, 0.8);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(139, 255, 176, 0.9);
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 4vw, 2.1rem);
+      line-height: 1.1;
+      margin-bottom: 0.3rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+      max-width: 540px;
+    }
+
+    .subtitle strong {
+      color: #ffffff;
+    }
+
+    .meta-panel {
+      max-width: 320px;
+      border-radius: var(--radius-md);
+      border: var(--border-soft);
+      background: rgba(5, 9, 34, 0.96);
+      padding: 0.9rem 0.85rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .meta-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #ffffff;
+      margin-bottom: 0.4rem;
+    }
+
+    .meta-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .meta-label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.75;
+    }
+
+    .meta-value {
+      text-align: right;
+    }
+
+    .meta-note {
+      margin-top: 0.4rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .meta-note strong {
+      color: #ffffff;
+    }
+
+    /* LAYOUT SECTIONS */
+    .grid {
+      display: grid;
+      gap: 1rem;
+      margin-top: 0.4rem;
+    }
+
+    @media (min-width: 900px) {
+      .grid {
+        grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      }
+    }
+
+    .panel {
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(164, 188, 255, 0.75);
+      background: rgba(8, 12, 42, 0.98);
+      padding: 0.9rem 0.85rem 1rem;
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.75);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .panel h2 {
+      font-size: 1rem;
+      margin-bottom: 0.35rem;
+      color: #ffffff;
+    }
+
+    .panel p + p {
+      margin-top: 0.35rem;
+    }
+
+    .tagline {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .steps {
+      display: grid;
+      gap: 0.5rem;
+      margin-top: 0.3rem;
+    }
+
+    .step {
+      border-radius: 14px;
+      border: 1px solid rgba(160, 184, 255, 0.75);
+      padding: 0.45rem 0.55rem;
+      background: rgba(6, 10, 40, 0.96);
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 0.5rem;
+      align-items: flex-start;
+      font-size: 0.82rem;
+    }
+
+    .step-index {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(139, 255, 176, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
+
+    .step-body strong {
+      color: #ffffff;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.35rem;
+    }
+
+    .chip {
+      border-radius: 999px;
+      padding: 0.15rem 0.55rem;
+      font-size: 0.74rem;
+      border: 1px solid rgba(164, 188, 255, 0.8);
+      color: var(--text-muted);
+      background: rgba(9, 13, 43, 0.96);
+    }
+
+    .chip.important {
+      border-color: rgba(255, 132, 166, 0.95);
+      color: #ffb8c9;
+    }
+
+    .chip.ok {
+      border-color: rgba(139, 255, 176, 0.95);
+      color: var(--accent);
+    }
+
+    /* SELF CHECK */
+    .selfcheck-panel {
+      margin-top: 0.6rem;
+      border-radius: 18px;
+      border: 1px solid rgba(166, 190, 255, 0.85);
+      background:
+        radial-gradient(circle at top left, rgba(139, 255, 176, 0.18), transparent 55%),
+        rgba(8, 12, 42, 0.96);
+      padding: 0.8rem 0.75rem 0.9rem;
+      font-size: 0.82rem;
+    }
+
+    .selfcheck-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.6rem;
+      align-items: center;
+      margin-bottom: 0.4rem;
+    }
+
+    .selfcheck-title {
+      font-size: 0.9rem;
+      color: #ffffff;
+    }
+
+    .selfcheck-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .options {
+      display: grid;
+      gap: 0.4rem;
+      margin-top: 0.3rem;
+    }
+
+    .option {
+      border-radius: 999px;
+      border: 1px solid rgba(150, 174, 255, 0.75);
+      background: rgba(6, 10, 40, 0.96);
+      padding: 0.28rem 0.5rem;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+      cursor: pointer;
+      transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .option span.label {
+      flex: 1;
+    }
+
+    .option span.badge {
+      border-radius: 999px;
+      padding: 0.12rem 0.4rem;
+      font-size: 0.72rem;
+      border: 1px solid rgba(164, 188, 255, 0.8);
+      color: var(--text-muted);
+      background: rgba(5, 9, 32, 0.96);
+    }
+
+    .option.active {
+      background: linear-gradient(135deg, #8bffb0, #d28bff);
+      border-color: transparent;
+      color: #02030a;
+      box-shadow: 0 0 14px rgba(139, 255, 176, 0.85);
+      transform: translateY(-1px);
+    }
+
+    .option.active span.badge {
+      border-color: rgba(12, 18, 52, 0.95);
+      background: rgba(5, 9, 26, 0.95);
+      color: #f5f5ff;
+    }
+
+    .selfcheck-result {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      border-radius: 14px;
+      border: 1px solid rgba(164, 188, 255, 0.8);
+      background: rgba(6, 10, 38, 0.98);
+      padding: 0.45rem 0.55rem;
+      color: var(--text-muted);
+    }
+
+    .selfcheck-result strong {
+      color: #ffffff;
+    }
+
+    .selfcheck-result.good {
+      border-color: rgba(139, 255, 176, 0.9);
+      background: rgba(5, 30, 20, 0.98);
+      color: var(--accent);
+    }
+
+    .selfcheck-result.caution {
+      border-color: rgba(255, 214, 139, 0.9);
+      background: rgba(42, 30, 8, 0.98);
+      color: #ffe0a3;
+    }
+
+    .selfcheck-result.warning {
+      border-color: rgba(255, 132, 166, 0.95);
+      background: rgba(45, 10, 18, 0.98);
+      color: #ffb8c9;
+    }
+
+    /* PRE-TEST INFO */
+    .info-list {
+      margin-top: 0.35rem;
+      margin-left: 1rem;
+      font-size: 0.83rem;
+    }
+
+    .info-list li + li {
+      margin-top: 0.2rem;
+    }
+
+    .links-grid {
+      display: grid;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .link-card {
+      border-radius: 999px;
+      border: 1px solid rgba(164, 188, 255, 0.8);
+      background: rgba(9, 13, 43, 0.97);
+      padding: 0.3rem 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+      text-decoration: none;
+      color: var(--text-muted);
+      transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
+      font-size: 0.8rem;
+    }
+
+    .link-card span.icon {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.82em;
+    }
+
+    .link-card strong {
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    .link-card:hover {
+      background: rgba(139, 255, 176, 0.12);
+      border-color: rgba(139, 255, 176, 0.95);
+      color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 0 12px rgba(139, 255, 176, 0.75);
+    }
+
+    /* CTA FINAL */
+    .cta-panel {
+      margin-top: 1.1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(166, 190, 255, 0.9);
+      background:
+        radial-gradient(circle at top right, rgba(139, 255, 176, 0.22), transparent 60%),
+        rgba(6, 10, 42, 0.98);
+      padding: 0.85rem 0.8rem 0.9rem;
+      font-size: 0.85rem;
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    @media (min-width: 720px) {
+      .cta-panel {
+        grid-template-columns: minmax(0, 1.5fr) auto;
+        align-items: center;
+      }
+    }
+
+    .cta-panel p {
+      color: var(--text-muted);
+    }
+
+    .cta-panel p strong {
+      color: #ffffff;
+    }
+
+    .cta-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      justify-content: flex-start;
+    }
+
+    .btn-main,
+    .btn-secondary {
+      border-radius: 999px;
+      padding: 0.45rem 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      border: 1px solid rgba(160, 184, 255, 0.75);
+      text-decoration: none;
+      transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast), color var(--transition-fast);
+    }
+
+    .btn-main span.icon,
+    .btn-secondary span.icon {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.9em;
+    }
+
+    .btn-main {
+      border: none;
+      background: linear-gradient(135deg, #8bffb0, #d28bff);
+      color: #02030a;
+      font-weight: 600;
+      box-shadow: 0 0 16px rgba(139, 255, 176, 0.85);
+    }
+
+    .btn-main:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 20px rgba(139, 255, 176, 1);
+    }
+
+    .btn-secondary {
+      background: rgba(9, 13, 43, 0.98);
+      color: var(--text-muted);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(139, 255, 176, 0.12);
+      border-color: rgba(139, 255, 176, 0.95);
+      color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 0 12px rgba(139, 255, 176, 0.75);
+    }
+
+    .footer-note {
+      margin-top: 0.8rem;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      text-align: right;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-orb"></div>
+  <div class="bg-orb secondary"></div>
+
+  <div class="shell">
+    <div class="page-frame">
+      <!-- HEADER -->
+      <header class="header">
+        <div class="title-block">
+          <div class="badge">
+            <span class="badge-dot"></span>
+            Préparation au test de recrutement
+          </div>
+          <h1>Avant de commencer&nbsp;: faisons le point</h1>
+          <p class="subtitle">
+            Ce test sert à voir si un des rôles de l’Organisation peut
+            <strong>vraiment</strong> te convenir, à toi, personne réelle,
+            qui arrive avec ta vie, tes galères et tes envies.
+            Ici, on ne te vend pas du rêve : on vérifie que ça a du sens pour toi.
+          </p>
+        </div>
+
+        <aside class="meta-panel">
+          <div class="meta-title">À propos de ce test</div>
+          <div class="meta-item">
+            <span class="meta-label">Public</span>
+            <span class="meta-value">Monsieur/Madame tout le monde</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Durée</span>
+            <span class="meta-value">≈ 10 à 20 minutes</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Objectif</span>
+            <span class="meta-value">Voir si un rôle de l’Organisation te correspond</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Issue</span>
+            <span class="meta-value">Soit “un rôle possible”, soit “autre piste à explorer”</span>
+          </div>
+          <p class="meta-note">
+            <strong>Important :</strong> ce test n’est pas un examen scolaire
+            ni un entretien d’embauche. Il sert aussi à dire honnêtement
+            “l’Organisation n’est pas ce qu’il te faut pour l’instant”.
+          </p>
+        </aside>
+      </header>
+
+      <!-- GRID -->
+      <section class="grid" aria-label="Préparation au test">
+        <!-- PARTIE GAUCHE -->
+        <article class="panel">
+          <h2>1. À quoi sert ce test (et à quoi il ne sert pas)</h2>
+          <p class="tagline">
+            L’idée est simple : t’aider à répondre à trois questions :
+          </p>
+          <div class="steps">
+            <div class="step">
+              <div class="step-index">1</div>
+              <div class="step-body">
+                <strong>Où en suis-je dans ma vie aujourd’hui&nbsp;?</strong><br>
+                Par exemple&nbsp;: chômage, maladie, boulot qui épuise, reprise d’études,
+                parent débordé, envie de bouger, etc.
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-index">2</div>
+              <div class="step-body">
+                <strong>De quoi j’ai vraiment besoin maintenant&nbsp;?</strong><br>
+                Revenu stable, cadre, collectif, temps pour souffler, projet qui a du sens,
+                test sans obligation derrière, etc.
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-index">3</div>
+              <div class="step-body">
+                <strong>Est-ce que l’Organisation est un bon endroit pour ça&nbsp;?</strong><br>
+                Ou est-ce que, pour le moment, c’est plutôt vers l’ONEM, le CPAS,
+                la mutuelle, une autre asbl ou une formation qu’il faudrait te tourner.
+              </div>
+            </div>
+          </div>
+
+          <div class="chips">
+            <span class="chip ok">Si tu ne sais pas encore, tu es au bon endroit.</span>
+            <span class="chip important">Le test ne remplacera jamais tes droits sociaux.</span>
+          </div>
+
+          <div class="selfcheck-panel">
+            <div class="selfcheck-header">
+              <div>
+                <div class="selfcheck-title">Mini auto-diagnostic</div>
+                <div class="selfcheck-label">
+                  Sélectionne ce qui te ressemble le plus aujourd’hui.
+                </div>
+              </div>
+            </div>
+            <div class="options" id="selfcheckOptions">
+              <button class="option" data-type="urgence">
+                <span class="label">Je suis en grande galère (financière, santé, logement…).</span>
+                <span class="badge">Survie d’abord</span>
+              </button>
+              <button class="option" data-type="reconstruction">
+                <span class="label">Je suis fragile mais j’ai un minimum de stabilité.</span>
+                <span class="badge">Reconstruire doucement</span>
+              </button>
+              <button class="option" data-type="exploration">
+                <span class="label">Je suis curieux·se, j’ai envie d’explorer et de m’impliquer.</span>
+                <span class="badge">Explorer</span>
+              </button>
+              <button class="option" data-type="boulot">
+                <span class="label">J’ai déjà un boulot, mais j’ai besoin de sens / d’air.</span>
+                <span class="badge">À côté du boulot</span>
+              </button>
+            </div>
+            <div class="selfcheck-result" id="selfcheckResult">
+              Choisis une option ci-dessus pour voir notre recommandation
+              avant de lancer le test.
+            </div>
+          </div>
+        </article>
+
+        <!-- PARTIE DROITE -->
+        <article class="panel">
+          <h2>2. Ce que le test va (et ne va pas) te demander</h2>
+          <p>
+            Pour Monsieur et Madame tout le monde, le test reste lisible.
+            Il ne nécessite ni diplôme, ni “culture politique” avancée,
+            ni maîtrise de jargon technique.
+          </p>
+
+          <ul class="info-list">
+            <li>On va te poser des <strong>questions concrètes</strong> sur ta situation, ce que tu aimes, ce qui te pèse.</li>
+            <li>Tu verras des <strong>situations de la vraie vie</strong> et tu indiqueras comment tu réagirais.</li>
+            <li>On te proposera des <strong>pistes de rôles possibles</strong>, ou bien d’autres pistes hors de l’Organisation.</li>
+          </ul>
+
+          <p style="margin-top:0.4rem;">
+            En revanche, le test&nbsp;<strong>ne</strong>&nbsp;va pas :
+          </p>
+          <ul class="info-list">
+            <li>te “noter” comme à l’école ;</li>
+            <li>t’obliger à t’engager à la fin ;</li>
+            <li>te couper de tes droits sociaux si tu réponds “mal” ;</li>
+            <li>te juger sur ton orthographe, ton vocabulaire ou ton CV.</li>
+          </ul>
+
+          <div class="selfcheck-panel" style="margin-top:0.7rem;">
+            <div class="selfcheck-header">
+              <div>
+                <div class="selfcheck-title">Si tu préfères commencer par les bases</div>
+                <div class="selfcheck-label">
+                  Tu peux aussi prendre un détour avant de faire le test.
+                </div>
+              </div>
+            </div>
+            <div class="links-grid">
+              <a class="link-card" href="recrutement-final.html">
+                <span><strong>Voir les rôles possibles</strong> – &nbsp;Plan de recrutement</span>
+                <span class="icon">⇢</span>
+              </a>
+              <a class="link-card" href="rapport-organisation.html">
+                <span><strong>Comprendre le projet en détail</strong> – &nbsp;Rapport d’avancement</span>
+                <span class="icon">⇢</span>
+              </a>
+              <a class="link-card" href="organigramme-obs.html">
+                <span><strong>Explorer la structure</strong> – &nbsp;Organigramme vivant</span>
+                <span class="icon">◎</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- SECTION DROITS & LIMITES -->
+      <section class="panel" style="margin-top:1rem;">
+        <h2>3. Tes droits, tes limites, ton rythme</h2>
+        <p>
+          L’Organisation n’est <strong>pas</strong> un service social, mais elle refuse de faire comme si
+          les droits sociaux n’existaient pas. Concrètement :
+        </p>
+        <ul class="info-list">
+          <li>Si tu es au chômage, le test peut t’aider à formuler un projet, mais ne remplace pas l’ONEM ni ton syndicat.</li>
+          <li>Si tu es en maladie ou en incapacité, ta santé et ta mutuelle restent prioritaires sur toute forme d’engagement.</li>
+          <li>Si tu es en grande précarité, le CPAS et les services sociaux restent les interlocuteurs principaux.</li>
+          <li>Si tu as déjà un boulot, le test t’aide à réfléchir à <em>comment</em> t’engager sans exploser en plein vol.</li>
+        </ul>
+        <p style="margin-top:0.4rem;">
+          Le test ne te demandera <strong>jamais</strong> de renoncer à tes droits, ni de te mettre en danger,
+          même pour “la bonne cause”.
+        </p>
+      </section>
+
+      <!-- CTA FINAL -->
+      <section class="cta-panel">
+        <div>
+          <p>
+            Si ce que tu viens de lire te parle, tu peux lancer le test en restant libre de dire
+            “stop”, “pas maintenant” ou “ce n’est pas pour moi”.
+          </p>
+          <p style="margin-top:0.25rem;">
+            <strong>Tu n’as rien à prouver</strong> ici. On essaie juste de vérifier calmement
+            si un bout de l’Organisation peut être un endroit utile pour toi, maintenant ou plus tard.
+          </p>
+        </div>
+        <div class="cta-buttons">
+          <a class="btn-main" href="test-recrutement.html" id="startTestBtn">
+            <span class="icon">▶</span> Commencer le test
+          </a>
+          <a class="btn-secondary" href="index.html">
+            <span class="icon">↩</span> Retour à l’accueil
+          </a>
+        </div>
+      </section>
+
+      <p class="footer-note">
+        Si tu hésites, ce n’est pas un problème : revenir plus tard, c’est déjà une décision.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Self-check logic
+    const options = document.querySelectorAll(".option");
+    const result = document.getElementById("selfcheckResult");
+    const startBtn = document.getElementById("startTestBtn");
+
+    function updateResult(type) {
+      result.classList.remove("good", "caution", "warning");
+      let text = "";
+      let cls = "";
+
+      if (type === "urgence") {
+        cls = "warning";
+        text = "<strong>Notre recommandation :</strong> si tu es en mode survie (finance, santé, logement...), \
+commence par tes droits sociaux (CPAS, mutuelle, ONEM, services de proximité). \
+Tu peux faire le test par curiosité, mais ne mise pas sur l’Organisation pour régler une urgence vitale.";
+      } else if (type === "reconstruction") {
+        cls = "caution";
+        text = "<strong>Notre recommandation :</strong> le test peut être utile, mais en douceur. \
+Tu peux t’arrêter à tout moment. Ton objectif principal reste de stabiliser ta situation, pas de t’ajouter une pression en plus.";
+      } else if (type === "exploration") {
+        cls = "good";
+        text = "<strong>Notre recommandation :</strong> tu es en bonne position pour faire le test à fond. \
+Tu peux explorer les rôles, voir ce qui te parle et réfléchir à comment t’impliquer, maintenant ou plus tard.";
+      } else if (type === "boulot") {
+        cls = "good";
+        text = "<strong>Notre recommandation :</strong> fais le test en pensant à une question simple : \
+“Qu’est-ce que je peux raisonnablement ajouter à ma vie sans me cramer ?”. \
+L’Organisation doit rester un plus, pas une source de burn-out.";
+      } else {
+        text = "Choisis une option ci-dessus pour voir notre recommandation avant de lancer le test.";
+      }
+
+      result.innerHTML = text;
+      if (cls) result.classList.add(cls);
+    }
+
+    options.forEach(opt => {
+      opt.addEventListener("click", () => {
+        options.forEach(o => o.classList.remove("active"));
+        opt.classList.add("active");
+        const type = opt.getAttribute("data-type");
+        updateResult(type);
+      });
+    });
+  </script>
+</body>
+</html>
