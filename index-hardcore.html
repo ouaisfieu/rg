@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>L’Organisation – Page Démo Hardcore</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Facultatif : polices en ligne (si hors-ligne, le navigateur tombera sur la police système) -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050712;
+      --panel: #0a0f26;
+      --panel-soft: rgba(9, 13, 42, 0.96);
+      --accent: #8bffb0;
+      --accent-soft: rgba(139, 255, 176, 0.22);
+      --accent-2: #d28bff;
+      --accent-2-soft: rgba(210, 139, 255, 0.22);
+      --danger: #ff4d7a;
+      --text-main: #f5f7ff;
+      --text-muted: #a3b0ff;
+      --border-soft: 1px solid rgba(145, 170, 255, 0.45);
+      --radius: 22px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 10% 0%, rgba(139, 255, 176, 0.1), transparent 50%),
+        radial-gradient(circle at 90% 100%, rgba(210, 139, 255, 0.12), transparent 55%),
+        #050712;
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 1.2rem 0.8rem 1.7rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    body.mr-robot {
+      background: radial-gradient(circle at 10% 0, rgba(0,255,0,0.2), transparent 55%), #000;
+      color: #0f0;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 1120px;
+      background: linear-gradient(135deg, rgba(16, 22, 58, 0.96), rgba(5, 8, 27, 0.98));
+      border-radius: 28px;
+      border: 1px solid rgba(145, 170, 255, 0.35);
+      box-shadow: 0 0 42px rgba(0, 0, 0, 0.85);
+      padding: 1.3rem 1rem 1.6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .shell {
+        padding: 1.7rem 1.7rem 1.9rem;
+      }
+    }
+
+    .scanline {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.04),
+        rgba(255, 255, 255, 0.04) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      mix-blend-mode: soft-light;
+    }
+
+    header {
+      position: relative;
+      margin-bottom: 1.2rem;
+      border-bottom: 1px solid rgba(145, 170, 255, 0.45);
+      padding-bottom: 0.85rem;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.7rem;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.2rem 0.7rem 0.2rem 0.3rem;
+      border-radius: 999px;
+      border: 1px solid rgba(139, 255, 176, 0.9);
+      background: radial-gradient(circle at 0 0, rgba(139, 255, 176, 0.28), transparent 60%);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(139, 255, 176, 1);
+    }
+
+    .mode-chip {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      border-radius: 999px;
+      border: 1px solid rgba(210, 139, 255, 0.9);
+      padding: 0.2rem 0.7rem;
+      background: radial-gradient(circle at 100% 0, rgba(210, 139, 255, 0.25), transparent 60%);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: var(--accent-2);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .mode-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(210, 139, 255, 0.9);
+      box-shadow: 0 0 8px rgba(210, 139, 255, 1);
+    }
+
+    .hero-title {
+      font-size: clamp(1.9rem, 4.3vw, 2.5rem);
+      line-height: 1.1;
+      margin-bottom: 0.3rem;
+    }
+
+    .hero-title span {
+      color: var(--accent);
+    }
+
+    .hero-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 720px;
+    }
+
+    .hero-subtitle strong {
+      color: var(--text-main);
+    }
+
+    .hero-meta {
+      margin-top: 0.65rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .pill {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      border-radius: 999px;
+      padding: 0.18rem 0.7rem;
+      border: 1px solid rgba(148, 172, 255, 0.85);
+      background: rgba(5, 8, 28, 0.96);
+    }
+
+    .pill-accent {
+      border-color: rgba(139, 255, 176, 0.9);
+      background: rgba(4, 15, 14, 0.96);
+      color: var(--accent);
+    }
+
+    .warn {
+      margin-top: 0.9rem;
+      border-radius: 16px;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid rgba(255, 77, 122, 0.9);
+      background:
+        linear-gradient(120deg, rgba(255, 77, 122, 0.18), transparent 60%),
+        radial-gradient(circle at 0 0, rgba(255, 210, 152, 0.26), transparent 65%);
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+      font-size: 0.82rem;
+    }
+
+    .warn-icon {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+      color: var(--danger);
+      padding-top: 0.1rem;
+    }
+
+    .warn-text strong {
+      color: #ffd8e4;
+    }
+
+    .layout {
+      margin-top: 1.2rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 1024px) {
+      .layout {
+        grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.2fr);
+      }
+    }
+
+    .panel {
+      background:
+        radial-gradient(circle at 0 0, rgba(139, 255, 176, 0.08), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(210, 139, 255, 0.1), transparent 60%),
+        var(--panel-soft);
+      border-radius: var(--radius);
+      border: var(--border-soft);
+      padding: 0.95rem 0.95rem 1.05rem;
+      margin-bottom: 0.9rem;
+    }
+
+    @media (min-width: 768px) {
+      .panel {
+        padding: 1.05rem 1.1rem 1.15rem;
+      }
+    }
+
+    .panel h2 {
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .panel h3 {
+      font-size: 0.9rem;
+      margin-top: 0.8rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .panel p {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .panel p strong {
+      color: var(--text-main);
+    }
+
+    .list {
+      margin-top: 0.4rem;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      padding-left: 1.1rem;
+    }
+
+    .list li {
+      margin-bottom: 0.25rem;
+    }
+
+    .mode-switch {
+      margin-top: 0.7rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .mode-btn {
+      font-size: 0.8rem;
+      padding: 0.32rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 172, 255, 0.9);
+      background: rgba(6, 9, 32, 0.96);
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      transition: 0.15s ease-out;
+    }
+
+    .mode-btn span {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+      opacity: 0.85;
+    }
+
+    .mode-btn.active {
+      border-color: rgba(139, 255, 176, 0.95);
+      background: radial-gradient(circle at 0 0, rgba(139, 255, 176, 0.28), rgba(5, 8, 24, 0.96));
+      color: #04150c;
+      box-shadow: 0 0 16px rgba(139, 255, 176, 0.7);
+    }
+
+    .mode-expl {
+      margin-top: 0.5rem;
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      border-radius: 14px;
+      padding: 0.55rem 0.65rem;
+      border: 1px dashed rgba(148, 172, 255, 0.7);
+      background: rgba(5, 8, 24, 0.9);
+    }
+
+    /* Buttons & inputs */
+    .btn {
+      font-size: 0.8rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(139, 255, 176, 0.95);
+      background: radial-gradient(circle at 0 0, rgba(139, 255, 176, 0.28), rgba(4, 10, 18, 0.96));
+      color: #041308;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-weight: 600;
+      transition: 0.15s ease-out;
+    }
+
+    .btn:hover {
+      box-shadow: 0 0 14px rgba(139, 255, 176, 0.7);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      border-color: rgba(148, 172, 255, 0.9);
+      background: rgba(5, 8, 26, 0.96);
+      color: var(--text-main);
+    }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      margin-bottom: 0.1rem;
+      color: var(--text-muted);
+    }
+
+    input[type="text"], textarea, select {
+      width: 100%;
+      font-size: 0.85rem;
+      padding: 0.35rem 0.5rem;
+      border-radius: 10px;
+      border: 1px solid rgba(145, 170, 255, 0.85);
+      background: rgba(3, 6, 22, 0.96);
+      color: var(--text-main);
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      resize: vertical;
+      min-height: 2.1rem;
+    }
+
+    textarea {
+      min-height: 3.2rem;
+    }
+
+    .field-row {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    @media (min-width: 600px) {
+      .field-row.two {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
+      }
+    }
+
+    .instance-preview {
+      margin-top: 0.5rem;
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      border-radius: 12px;
+      padding: 0.5rem 0.6rem;
+      background: rgba(3, 7, 20, 0.96);
+      border: 1px dashed rgba(139, 255, 176, 0.7);
+    }
+
+    .instance-preview strong {
+      color: var(--accent);
+    }
+
+    .checklist {
+      margin-top: 0.7rem;
+      padding: 0.7rem 0.75rem;
+      border-radius: 16px;
+      background: rgba(5, 8, 28, 0.96);
+      border: 1px solid rgba(145, 170, 255, 0.75);
+      font-size: 0.83rem;
+      color: var(--text-muted);
+    }
+
+    .checklist-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: var(--text-main);
+    }
+
+    .checkitem {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.35rem;
+      margin-top: 0.25rem;
+    }
+
+    .checkitem input[type="checkbox"] {
+      margin-top: 0.13rem;
+      accent-color: #8bffb0;
+    }
+
+    .checkitem span {
+      font-size: 0.8rem;
+    }
+
+    .checklist-note {
+      margin-top: 0.35rem;
+      font-size: 0.75rem;
+      opacity: 0.85;
+    }
+
+    /* Konami / rabbit hole */
+    .rabbit {
+      display: none;
+      margin-top: 0.7rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 16px;
+      border: 1px solid rgba(139, 255, 176, 0.9);
+      background:
+        radial-gradient(circle at 0 0, rgba(139, 255, 176, 0.22), transparent 70%),
+        rgba(4, 10, 18, 0.96);
+      font-size: 0.83rem;
+    }
+
+    .rabbit.visible {
+      display: block;
+    }
+
+    .rabbit-title {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: var(--accent);
+    }
+
+    .rabbit small {
+      display: block;
+      margin-top: 0.3rem;
+      font-size: 0.74rem;
+      opacity: 0.9;
+    }
+
+    /* Voight-Kampff */
+    .vk-question {
+      margin-top: 0.5rem;
+      font-size: 0.84rem;
+      color: var(--text-main);
+    }
+
+    .vk-options {
+      margin-top: 0.25rem;
+      padding-left: 0.9rem;
+      font-size: 0.8rem;
+    }
+
+    .vk-options label {
+      color: var(--text-muted);
+    }
+
+    .vk-result {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      border-radius: 12px;
+      padding: 0.45rem 0.55rem;
+      background: rgba(3, 7, 20, 0.96);
+      border: 1px dashed rgba(145, 170, 255, 0.7);
+      color: var(--text-muted);
+    }
+
+    .vk-result strong {
+      color: var(--accent);
+    }
+
+    /* QR cascade (simulé) */
+    .qr-grid {
+      margin-top: 0.6rem;
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .qr-block {
+      width: 90px;
+      height: 90px;
+      border-radius: 10px;
+      border: 1px solid rgba(145, 170, 255, 0.8);
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(139, 255, 176, 0.2),
+        rgba(139, 255, 176, 0.2) 4px,
+        rgba(5, 8, 26, 0.95) 4px,
+        rgba(5, 8, 26, 0.95) 8px
+      );
+      position: relative;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0.3rem;
+      cursor: pointer;
+    }
+
+    .qr-block.visible {
+      display: flex;
+    }
+
+    .qr-block span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .qr-block::after {
+      content: "";
+      position: absolute;
+      inset: 7px;
+      border-radius: 6px;
+      border: 1px dashed rgba(5, 8, 28, 0.9);
+    }
+
+    /* Glitch title in MR ROBOT mode */
+    .glitch {
+      position: relative;
+      display: inline-block;
+    }
+
+    body.mr-robot .glitch {
+      animation: glitch-skew 1.2s infinite alternate;
+    }
+
+    body.mr-robot .glitch::before,
+    body.mr-robot .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      overflow: hidden;
+      clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+    }
+
+    body.mr-robot .glitch::before {
+      left: 2px;
+      text-shadow: -2px 0 red;
+      animation: glitch-1 1.2s infinite linear alternate-reverse;
+    }
+
+    body.mr-robot .glitch::after {
+      left: -2px;
+      text-shadow: 2px 0 blue;
+      animation: glitch-2 1s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-1 {
+      0% { clip-path: polygon(0 0,100% 0,100% 40%,0 40%); }
+      50% { clip-path: polygon(0 60%,100% 60%,100% 100%,0 100%); }
+      100% { clip-path: polygon(0 30%,100% 20%,100% 70%,0 80%); }
+    }
+
+    @keyframes glitch-2 {
+      0% { clip-path: polygon(0 10%,100% 0,100% 50%,0 40%); }
+      50% { clip-path: polygon(0 60%,100% 60%,100% 95%,0 85%); }
+      100% { clip-path: polygon(0 30%,100% 20%,100% 70%,0 80%); }
+    }
+
+    @keyframes glitch-skew {
+      0% { transform: skew(0deg); }
+      50% { transform: skew(1deg,-1deg); }
+      100% { transform: skew(-1deg,1deg); }
+    }
+
+    footer {
+      margin-top: 1.1rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+    }
+
+    footer code {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 172, 255, 0.9);
+      background: rgba(6, 9, 28, 0.96);
+    }
+
+    /* Red Pill overlay */
+    .redpill-overlay {
+      position: fixed;
+      inset: 0;
+      background: #020305;
+      color: #0f0;
+      z-index: 9999;
+      padding: 0.7rem;
+      overflow: auto;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      line-height: 1.4;
+    }
+
+    .redpill-overlay pre {
+      white-space: pre;
+    }
+
+    .redpill-bar {
+      position: sticky;
+      top: 0;
+      background: #020305;
+      padding-bottom: 0.4rem;
+    }
+
+    .redpill-bar button {
+      background: transparent;
+      border: 1px solid #0f0;
+      color: #0f0;
+      border-radius: 999px;
+      padding: 0.18rem 0.7rem;
+      font-size: 0.7rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="scanline"></div>
+
+    <header>
+      <div class="top-row">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          <span>Prototype</span>
+          <span>Page Démo Hardcore</span>
+        </div>
+        <div class="mode-chip">
+          <span class="mode-dot"></span>
+          <span>HTML / CSS / JS Only</span>
+        </div>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="glitch" data-text="L’Organisation">L’Organisation</span> – Page de Démo Unique
+      </h1>
+      <p class="hero-subtitle">
+        Cette page rassemble en une seule interface tout ce qu’on peut faire avec du HTML+CSS+JS&nbsp;:
+        <strong>Konami Code, mode Mr Robot, Red Pill, test Voight-Kampff, générateur d’Organisation façon Fondation,
+        QR-cascade, checklist d’architecte</strong>… Le but du jeu, pour les plus courageux, est de créer
+        <strong>leur propre instance</strong> à partir de cet exemple.
+      </p>
+
+      <div class="hero-meta">
+        <div class="pill pill-accent">But : devenir Architecte</div>
+        <div class="pill">Mode : offline-friendly</div>
+        <div class="pill">Support : clé USB / GitHub Pages</div>
+      </div>
+
+      <div class="warn">
+        <div class="warn-icon">[!]</div>
+        <div class="warn-text">
+          <strong>Rappel :</strong> tout ceci est un dispositif fictif et pédagogique.  
+          Tu n’es pas en train de rejoindre une vraie agence de renseignement.
+          Tu apprends à te fabriquer tes propres outils, récits et interfaces.
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <!-- COLONNE GAUCHE : MODES, INSTANCE, KONAMI, QR -->
+      <section class="panel">
+        <h2>Modes de jeu & instance personnelle</h2>
+        <p>
+          Tu peux rester en <strong>mode Observateur</strong> (tu explores) ou passer en
+          <strong>mode Architecte</strong> (tu réécris, tu forks, tu bricoles).
+          Cette page est à la fois un exemple et un terrain d’expérimentation.
+        </p>
+
+        <div class="mode-switch">
+          <button type="button" class="mode-btn active" data-mode="observateur">
+            <span>●</span> Observateur
+          </button>
+          <button type="button" class="mode-btn" data-mode="architecte">
+            <span>▲</span> Architecte
+          </button>
+          <button type="button" class="mode-btn" id="mrRobotBtn">
+            <span>MR</span> Mode Mr Robot
+          </button>
+          <button type="button" class="mode-btn" id="redPillBtn">
+            <span>RP</span> Red Pill
+          </button>
+        </div>
+
+        <div class="mode-expl" id="modeExpl">
+          En <strong>mode Observateur</strong>, tu explores la page telle qu’elle est : démos, tests, gadgets.
+          Tu peux simplement t’en inspirer ou la garder comme vitrine.
+        </div>
+
+        <div class="checklist">
+          <div class="checklist-title">Checklist Créateur / Créatrice</div>
+          <div class="checkitem">
+            <input type="checkbox" id="c1">
+            <span>Tu comprends à quoi servent les sections : modes, générateur, test, QR, easter eggs.</span>
+          </div>
+          <div class="checkitem">
+            <input type="checkbox" id="c2">
+            <span>Tu peux expliquer ce que tu gardes, ce que tu modifies, ce que tu supprimes.</span>
+          </div>
+          <div class="checkitem">
+            <input type="checkbox" id="c3">
+            <span>Tu sais renommer ce fichier et l’adapter pour ton propre projet, ta propre “Organisation”.</span>
+          </div>
+          <div class="checkitem">
+            <input type="checkbox" id="c4">
+            <span>Tu as déjà une ou deux idées de tests ou de ressources à ajouter.</span>
+          </div>
+          <div class="checkitem">
+            <input type="checkbox" id="c5">
+            <span>Tu as repéré au moins un easter egg dans le code ou dans la page.</span>
+          </div>
+          <div class="checklist-note">
+            La checklist est stockée dans ton navigateur (via <code>localStorage</code>), rien ne sort de ta machine.
+          </div>
+        </div>
+
+        <h3>Konami Code & Lapin Blanc</h3>
+        <p>
+          Tu peux déclencher un mode caché en tapant le <strong>Konami Code</strong> au clavier&nbsp;:
+          <code>↑ ↑ ↓ ↓ ← → ← → B A</code> (sur le clavier, pas sur l’écran).
+        </p>
+
+        <div class="rabbit" id="rabbitHole">
+          <div class="rabbit-title">🐇 Tu as suivi le Lapin Blanc</div>
+          <p>
+            Bravo. Tu viens de prouver que tu savais qu’un jeu pouvait se cacher derrière l’interface.  
+            Utilise ce comportement dans tes propres projets : un code secret peut ouvrir un espace
+            réservé à celles et ceux qui prennent le temps d’explorer.
+          </p>
+          <small>// ASTUCE : dans ta propre instance, tu peux déclencher autre chose (thème caché, message, lien, etc.).</small>
+        </div>
+
+        <h3>QR-Cascade (simulée, hors-ligne)</h3>
+        <p>
+          Ici, pas de vrai QR dynamique : tout est simulé. L’idée est de montrer un
+          <strong>enchaînement de “codes”</strong> qui mènent d’un indice à un autre, façon jeu de piste.
+          Clique sur le premier bloc pour déclencher la cascade.
+        </p>
+
+        <div class="qr-grid">
+          <div class="qr-block visible" id="qr1">
+            <span>QR #1<br>“Scanne-moi”</span>
+          </div>
+          <div class="qr-block" id="qr2">
+            <span>QR #2<br>“Ce n’était qu’un faux”</span>
+          </div>
+          <div class="qr-block" id="qr3">
+            <span>QR #3<br>“La vraie info est dans ton index.html”</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- COLONNE DROITE : GENERATEUR, VOIGHT-KAMPFF, DEFI HARDCORE -->
+      <aside class="panel">
+        <h2>Générateur Fondation & Test Voight-Kampff</h2>
+        <p>
+          Cette partie te montre comment tu peux mélanger références SF, générateurs aléatoires et mini-tests
+          pour créer une ambiance à la <em>Blade Runner</em> / <em>Fondation</em> / <em>Matrix</em>.
+        </p>
+
+        <h3>🔮 Générateur d’Organisation façon Fondation</h3>
+        <div class="field-row two">
+          <div>
+            <label for="seedInput">Mot-clé (optionnel)</label>
+            <input type="text" id="seedInput" placeholder="Ex. quartier, commune, asbl, météo, archives…">
+          </div>
+          <div>
+            <label>Nom généré</label>
+            <div class="instance-preview" id="fondationName">
+              Clique sur « Générer » pour créer un nom d’Organisation.
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:0.45rem;display:flex;gap:0.4rem;flex-wrap:wrap;">
+          <button type="button" class="btn" id="generateNameBtn">
+            <span>∞</span> Générer un nom
+          </button>
+          <button type="button" class="btn btn-ghost" id="lockNameBtn">
+            <span>★</span> Verrouiller pour ton projet
+          </button>
+        </div>
+
+        <h3>🧪 Mini-test Voight-Kampff (empathie & fiction)</h3>
+        <form id="vkForm" style="margin-top:0.4rem;">
+          <div class="vk-question">
+            1️⃣ On brûle un livre dans une ruelle. Qu’est-ce que tu fais ?
+          </div>
+          <div class="vk-options">
+            <label><input type="radio" name="q1" value="e"> Tu sauves ce que tu peux et tu lis ce qu’il reste.</label><br>
+            <label><input type="radio" name="q1" value="n"> Tu filmes pour “documenter”.</label><br>
+            <label><input type="radio" name="q1" value="c"> Tu t’en fiches, tu dois rentrer.</label>
+          </div>
+
+          <div class="vk-question">
+            2️⃣ Un robot te dit qu’il rêve de moutons électriques. Tu réponds quoi ?
+          </div>
+          <div class="vk-options">
+            <label><input type="radio" name="q2" value="e"> Tu lui demandes de te raconter un de ses rêves.</label><br>
+            <label><input type="radio" name="q2" value="n"> Tu demandes s’il a accepté les cookies.</label><br>
+            <label><input type="radio" name="q2" value="c"> Tu cherches le bouton OFF.</label>
+          </div>
+
+          <div class="vk-question">
+            3️⃣ Tu apprends que ton meilleur ami est un PNJ. Tu fais quoi ?
+          </div>
+          <div class="vk-options">
+            <label><input type="radio" name="q3" value="e"> Tu restes ami, de toute façon ça marchait bien.</label><br>
+            <label><input type="radio" name="q3" value="n"> Tu veux “hacker” ses paramètres.</label><br>
+            <label><input type="radio" name="q3" value="c"> Tu le remplaces par une IA plus efficace.</label>
+          </div>
+
+          <div style="margin-top:0.5rem;display:flex;gap:0.4rem;flex-wrap:wrap;">
+            <button type="submit" class="btn">
+              <span>▶</span> Analyser tes réponses
+            </button>
+            <button type="button" class="btn btn-ghost" id="resetVkBtn">
+              <span>×</span> Reset
+            </button>
+          </div>
+        </form>
+
+        <div class="vk-result" id="vkResult">
+          Tes réponses ne servent pas à te juger. Elles peuvent juste t’aider à voir si tu penches plus du côté
+          “humain empathique”, “observateur ironique” ou “cyborg pragmatique”.
+        </div>
+
+        <h3>🔥 Défi Hardcore Références Cultes</h3>
+        <p>
+          Tu peux considérer que tu as vraiment relevé le défi si ta propre instance d’index.html inclut :
+        </p>
+        <ul class="list">
+          <li>✔ Au moins une référence claire à <em>Matrix</em>, <em>Blade Runner</em>, <em>Mr Robot</em> ou <em>1984</em>.</li>
+          <li>✔ Un mode caché (comme le Konami Code) qui fait autre chose que sur cette page.</li>
+          <li>✔ Un texte qui parle de toi / votre collectif, pas seulement de “L’Organisation”.</li>
+          <li>✔ Une partie que seul·e toi (ou votre groupe) comprend vraiment.</li>
+        </ul>
+        <p style="margin-top:0.75rem;font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--accent);">
+          // YOU ARE NOT YOUR DEVICE.<br>
+          // YOU ARE WHAT YOU DÉCIDE TO BUILD WITH IT.
+        </p>
+      </aside>
+    </main>
+
+    <footer>
+      <span>Page démonstration – tout-en-un · Tu peux la copier, la fork, la dépecer pour ton propre usage.</span>
+      <code>index-hardcore.html // prototype</code>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      // MODE (observateur / architecte)
+      const modeButtons = document.querySelectorAll('.mode-btn[data-mode]');
+      const modeExpl = document.getElementById('modeExpl');
+
+      const modeText = {
+        observateur: "En mode Observateur, tu explores simplement ce qui existe déjà : démos, tests, gadgets. Tu regardes comment c’est fait, sans obligation de tout comprendre, et tu laisses infuser.",
+        architecte: "En mode Architecte, tu regardes chaque section comme un bloc de Lego : tu peux le déplacer, le copier, le supprimer, ou t’en inspirer pour autre chose. L’objectif final : ton propre index.html, à ton nom, pour ton projet."
+      };
+
+      function setMode(mode) {
+        modeButtons.forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.mode === mode);
+        });
+        if (modeExpl) {
+          modeExpl.textContent = "";
+          modeExpl.innerHTML = modeText[mode] || "";
+        }
+        try {
+          localStorage.setItem('demo_mode', mode);
+        } catch (e) {}
+      }
+
+      modeButtons.forEach(btn => {
+        btn.addEventListener('click', () => setMode(btn.dataset.mode));
+      });
+
+      // MR ROBOT mode
+      const mrRobotBtn = document.getElementById('mrRobotBtn');
+      if (mrRobotBtn) {
+        mrRobotBtn.addEventListener('click', () => {
+          document.body.classList.toggle('mr-robot');
+        });
+      }
+
+      // RED PILL overlay (affiche le code de la page)
+      const redPillBtn = document.getElementById('redPillBtn');
+      let redPillActive = false;
+
+      function escapeHTML(str) {
+        return str
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      function toggleRedPill() {
+        if (redPillActive) {
+          const overlay = document.querySelector('.redpill-overlay');
+          if (overlay) overlay.remove();
+          redPillActive = false;
+          return;
+        }
+
+        const html = document.documentElement.outerHTML;
+        const overlay = document.createElement('div');
+        overlay.className = 'redpill-overlay';
+
+        const bar = document.createElement('div');
+        bar.className = 'redpill-bar';
+        bar.innerHTML = '<button type="button" id="closeRedPill">Revenir à la simulation</button>';
+        overlay.appendChild(bar);
+
+        const pre = document.createElement('pre');
+        pre.innerHTML = escapeHTML(html);
+        overlay.appendChild(pre);
+
+        document.body.appendChild(overlay);
+        redPillActive = true;
+
+        document.getElementById('closeRedPill').addEventListener('click', toggleRedPill);
+      }
+
+      if (redPillBtn) {
+        redPillBtn.addEventListener('click', toggleRedPill);
+      }
+
+      // Checklist persistence
+      const checkIds = ['c1','c2','c3','c4','c5'];
+      function saveChecklist() {
+        const state = {};
+        checkIds.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) state[id] = el.checked;
+        });
+        try {
+          localStorage.setItem('demo_checklist', JSON.stringify(state));
+        } catch (e) {}
+      }
+      function loadChecklist() {
+        try {
+          const raw = localStorage.getItem('demo_checklist');
+          if (!raw) return;
+          const state = JSON.parse(raw);
+          checkIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el && Object.prototype.hasOwnProperty.call(state, id)) {
+              el.checked = !!state[id];
+            }
+          });
+        } catch (e) {}
+      }
+      checkIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('change', saveChecklist);
+      });
+
+      // Konami Code
+      const konamiSequence = [38,38,40,40,37,39,37,39,66,65];
+      let konamiBuffer = [];
+      const rabbitHole = document.getElementById('rabbitHole');
+
+      function unlockKonami() {
+        if (!rabbitHole) return;
+        if (!rabbitHole.classList.contains('visible')) {
+          rabbitHole.classList.add('visible');
+          console.log("%cKonami Code détecté. Lapin blanc débloqué.", "color:#8bffb0");
+        }
+      }
+
+      window.addEventListener('keydown', (e) => {
+        konamiBuffer.push(e.keyCode);
+        if (konamiBuffer.length > konamiSequence.length) {
+          konamiBuffer.shift();
+        }
+        if (konamiSequence.every((code, idx) => konamiBuffer[idx] === code)) {
+          unlockKonami();
+        }
+      });
+
+      // QR cascade
+      const qr1 = document.getElementById('qr1');
+      const qr2 = document.getElementById('qr2');
+      const qr3 = document.getElementById('qr3');
+
+      if (qr1) {
+        qr1.addEventListener('click', () => {
+          if (qr2) qr2.classList.add('visible');
+        });
+      }
+      if (qr2) {
+        qr2.addEventListener('click', () => {
+          if (qr3) qr3.classList.add('visible');
+        });
+      }
+      if (qr3) {
+        qr3.addEventListener('click', () => {
+          alert("Message final : la prochaine étape est dans TA version de la page, pas dans celle-ci.");
+        });
+      }
+
+      // Générateur Fondation
+      const seedInput = document.getElementById('seedInput');
+      const fondationName = document.getElementById('fondationName');
+      const generateNameBtn = document.getElementById('generateNameBtn');
+      const lockNameBtn = document.getElementById('lockNameBtn');
+
+      const prefixes = [
+        "Cellule", "Bureau", "Observatoire", "Chambre", "Fondation", "Atelier",
+        "Collectif", "Secteur", "Confrérie", "Unité", "Section"
+      ];
+      const cores = [
+        "des Archives", "des Systèmes Complexes", "de la Veille Citoyenne", "du Cinquième Pouvoir",
+        "des Récits Hybrides", "de l'InfraPolitique", "du Réel Augmenté",
+        "de l'Économie Imaginaire", "de l'Éducation Permanente", "des Communaux Numériques"
+      ];
+      const suffixes = [
+        "Bruxelles", "2042", "Suburbia", "Hors-Cadre", "En Exil", "En Veille",
+        "Latente", "Non-Marchande", "Hybride", "Autonome"
+      ];
+
+      function randomFrom(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+      }
+
+      function generateName() {
+        let seed = (seedInput && seedInput.value.trim()) || "";
+        let prefix = randomFrom(prefixes);
+        let core = randomFrom(cores);
+        let suffix = randomFrom(suffixes);
+        let name = prefix + " " + core + " – " + suffix;
+        if (seed) {
+          name += " // " + seed;
+        }
+        if (fondationName) {
+          fondationName.innerHTML = "<strong>" + name.replace(/</g,"&lt;") + "</strong>";
+        }
+      }
+
+      if (generateNameBtn) generateNameBtn.addEventListener('click', generateName);
+
+      if (lockNameBtn) {
+        lockNameBtn.addEventListener('click', () => {
+          if (!fondationName) return;
+          try {
+            localStorage.setItem('demo_fondation_name', fondationName.textContent || "");
+          } catch (e) {}
+          fondationName.innerHTML += "<br><small>Nom verrouillé pour cette machine. Tu peux l’utiliser comme base de ton projet.</small>";
+        });
+      }
+
+      // Charger éventuel nom verrouillé
+      (function loadFondationName() {
+        if (!fondationName) return;
+        try {
+          const stored = localStorage.getItem('demo_fondation_name');
+          if (stored) {
+            fondationName.innerHTML = "<strong>" + stored.replace(/</g,"&lt;") + "</strong><br><small>(nom chargé depuis cette machine)</small>";
+          }
+        } catch (e) {}
+      })();
+
+      // Mini-test Voight-Kampff
+      const vkForm = document.getElementById('vkForm');
+      const vkResult = document.getElementById('vkResult');
+      const resetVkBtn = document.getElementById('resetVkBtn');
+
+      function analyseVK(e) {
+        e.preventDefault();
+        if (!vkResult) return;
+        const data = new FormData(vkForm);
+        let scoreE = 0, scoreN = 0, scoreC = 0;
+
+        ['q1','q2','q3'].forEach(q => {
+          const v = data.get(q);
+          if (v === 'e') scoreE++;
+          else if (v === 'n') scoreN++;
+          else if (v === 'c') scoreC++;
+        });
+
+        let type = "indéterminé";
+        let text = "";
+
+        if (scoreE >= 2) {
+          type = "profil empathique";
+          text = "Tu penches clairement du côté de l’humain qui refuse de réduire les autres (et les IA) à des outils jetables.";
+        } else if (scoreN >= 2) {
+          type = "profil observateur ironique";
+          text = "Tu regardes le système avec distance. Ni cynique total, ni naïf : tu observes, tu documentes, tu commentes.";
+        } else if (scoreC >= 2) {
+          type = "profil cyborg pragmatique";
+          text = "Tu coupes vite, tu tranches vite. Ça peut être utile, mais pense à garder un peu de marge pour l’imprévu et la fragilité.";
+        } else {
+          type = "mixte";
+          text = "Tu sembles osciller entre plusieurs postures. C’est souvent une bonne nouvelle : tu peux changer de mode selon la situation.";
+        }
+
+        vkResult.innerHTML = "<strong>Résultat :</strong> " + type + ". " + text +
+          "<br><br><small>Ce test n’a aucune valeur clinique ni psychologique. Il sert juste de miroir ludique.</small>";
+      }
+
+      if (vkForm) {
+        vkForm.addEventListener('submit', analyseVK);
+      }
+
+      if (resetVkBtn) {
+        resetVkBtn.addEventListener('click', () => {
+          if (!vkForm || !vkResult) return;
+          vkForm.reset();
+          vkResult.innerHTML = "Tes réponses ne servent pas à te juger. Elles peuvent juste t’aider à voir si tu penches plus du côté “humain empathique”, “observateur ironique” ou “cyborg pragmatique”.";
+        });
+      }
+
+      // INIT : charger mode + checklist
+      (function init() {
+        let storedMode = null;
+        try {
+          storedMode = localStorage.getItem('demo_mode');
+        } catch (e) {}
+        if (storedMode && (storedMode === 'observateur' || storedMode === 'architecte')) {
+          setMode(storedMode);
+        } else {
+          setMode('observateur');
+        }
+        loadChecklist();
+      })();
+    })();
+  </script>
+
+  <!--
+    Easter egg commentaire :
+    The cake is a lie.
+    Si tu lis ceci, tu es déjà en Mode Architecte.
+  -->
+</body>
+</html>
