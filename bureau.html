@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plan de recrutement & orientation – Organisation citoyenne</title>
+  <title>Plan de recrutement – Organisation citoyenne</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
@@ -108,7 +108,7 @@
 
     @media (min-width: 900px) {
       .page-inner {
-        padding: 1.8rem 2rem 2.4rem;
+        padding: 1.8rem 2rem 2.2rem;
       }
     }
 
@@ -448,112 +448,8 @@
       opacity: 0.9;
     }
 
-    /* Section alternatives / droits */
-    .alt-section {
-      margin-top: 2rem;
-      padding-top: 1.4rem;
-      border-top: 1px dashed rgba(170, 190, 255, 0.6);
-    }
-
-    .alt-intro {
-      margin-bottom: 1rem;
-      max-width: 780px;
-      font-size: 0.86rem;
-      color: var(--text-muted);
-    }
-
-    .alt-intro strong {
-      color: #ffffff;
-    }
-
-    .alt-grid {
-      display: grid;
-      gap: 1rem;
-      margin-top: 0.6rem;
-    }
-
-    @media (min-width: 900px) {
-      .alt-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    .alt-card {
-      border-radius: 20px;
-      border: 1px solid rgba(163, 186, 255, 0.8);
-      background:
-        radial-gradient(circle at top left, rgba(139, 255, 176, 0.16), transparent 60%),
-        radial-gradient(circle at bottom right, rgba(210, 139, 255, 0.16), transparent 60%),
-        rgba(7, 10, 34, 0.96);
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-      padding: 0.9rem 0.85rem 0.95rem;
-      font-size: 0.78rem;
-    }
-
-    .alt-card h3 {
-      font-size: 0.92rem;
-      margin-bottom: 0.35rem;
-    }
-
-    .alt-card .alt-tag {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      margin-bottom: 0.5rem;
-    }
-
-    .alt-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 0.25rem;
-    }
-
-    .alt-table th,
-    .alt-table td {
-      border: 1px solid rgba(155, 178, 255, 0.5);
-      padding: 0.4rem 0.45rem;
-      vertical-align: top;
-    }
-
-    .alt-table th {
-      font-size: 0.75rem;
-      background: rgba(12, 16, 46, 0.95);
-      color: #ffffff;
-      text-align: left;
-    }
-
-    .alt-table td {
-      font-size: 0.76rem;
-      color: var(--text-muted);
-    }
-
-    .alt-label-a {
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    .alt-label-b {
-      color: #ffb8c9;
-      font-weight: 600;
-    }
-
-    .alt-hint {
-      margin-top: 0.4rem;
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      font-style: italic;
-    }
-
-    @media (max-width: 640px) {
-      .alt-table th,
-      .alt-table td {
-        font-size: 0.74rem;
-      }
-    }
-
     .footer-note {
-      margin-top: 1.4rem;
+      margin-top: 1rem;
       font-size: 0.7rem;
       color: var(--text-muted);
       text-align: right;
@@ -572,24 +468,21 @@
           <div class="title-block">
             <div class="badge">
               <div class="badge-dot"></div>
-              PLAN DE RECRUTEMENT & ORIENTATION
+              PLAN DE RECRUTEMENT – PROTOTYPE
             </div>
-            <h1>Postes à pourvoir & autres chemins possibles</h1>
+            <h1>Postes à pourvoir dans l'organisation</h1>
             <p class="subtitle">
-              Vue synthétique des <strong>rôles clés</strong> à recruter, par phase de déploiement,
-              <strong>et</strong> des alternatives pour activer tes droits sociaux si tu préfères
-              d’abord sécuriser ta situation.
+              Vue synthétique des <strong>rôles clés</strong> à recruter, par phase de déploiement :
+              on part de la réalité (peu de moyens, multi-casquettes) et on construit
+              une équipe <strong>viable</strong> puis <strong>renforcée</strong>.
             </p>
           </div>
           <div class="meta-note">
-            Ce plan est pensé pour être <strong>évolutif</strong> :
-            tu peux renommer les rôles, fusionner des postes ou changer les priorités
-            en fonction de ton contexte réel. L’idée centrale : <strong>pas de bullshit</strong>
-            sur ce qu’on peut (ou pas) t’apporter.
+            Ce plan est pensé pour être <strong>évolutif</strong> : tu peux renommer les rôles, fusionner
+            des postes ou changer les priorités en fonction de ton contexte réel.
           </div>
         </header>
 
-        <!-- FILTRES ROLES -->
         <section class="filters" aria-label="Filtres du plan de recrutement">
           <div class="filters-group">
             <span class="filters-label">Phase</span>
@@ -626,7 +519,6 @@
           </div>
         </section>
 
-        <!-- LÉGENDE -->
         <div class="legend-mini">
           <div class="legend-item">
             <span class="legend-dot gov"></span>
@@ -646,9 +538,9 @@
           </div>
         </div>
 
-        <!-- CARTES ROLES (identiques à la version précédente) -->
         <section class="roles-grid" aria-label="Liste des rôles à recruter">
           <!-- PHASE 0 -->
+
           <article class="role-card"
                    data-phase="0"
                    data-type="gouvernance"
@@ -681,6 +573,7 @@
           </article>
 
           <!-- PHASE 1 : ADMIN & OPS -->
+
           <article class="role-card"
                    data-phase="1"
                    data-type="operations"
@@ -836,7 +729,8 @@
             </div>
           </article>
 
-          <!-- PHASE 1 : COMMUNAUTÉ -->
+          <!-- PHASE 1 : COMMUNAUTÉ / MEMBRES -->
+
           <article class="role-card"
                    data-phase="1"
                    data-type="communaute"
@@ -869,6 +763,7 @@
           </article>
 
           <!-- PHASE 2 : LABS & GARDE-FOUS -->
+
           <article class="role-card"
                    data-phase="2"
                    data-type="labs"
@@ -962,6 +857,8 @@
             </div>
           </article>
 
+          <!-- PHASE 2 : GARDE-FOUS GOUVERNANCE -->
+
           <article class="role-card"
                    data-phase="2"
                    data-type="gouvernance"
@@ -1023,6 +920,8 @@
               <div class="role-gain">Gagne : crédibilité et auto-surveillance saine.</div>
             </div>
           </article>
+
+          <!-- PHASE 2 : COMMUNAUTÉ ÉLARGIE -->
 
           <article class="role-card"
                    data-phase="2"
@@ -1087,493 +986,10 @@
           </article>
         </section>
 
-        <!-- SECTION ALTERNATIVES / DROITS -->
-        <section class="alt-section" aria-label="Alternatives : rejoindre l’organisation ou activer ses droits">
-          <h2 style="font-size:1.1rem; margin-bottom:0.4rem;">Hésiter, c’est normal : on te montre toutes les options</h2>
-          <p class="alt-intro">
-            Rejoindre une organisation comme celle-ci, ce n’est pas neutre : tu as peut-être perdu ton boulot,
-            tu es en maladie, tu n’as (presque) plus de revenus, tu sors des études, etc.
-            Pour chaque situation, il existe <strong>deux chemins possibles</strong> :
-            <br><br>
-            <strong>Piste A</strong> : s’engager ici, dans un des rôles du plan de recrutement.<br>
-            <strong>Piste B</strong> : activer ou consolider tes <strong>droits sociaux</strong> (ONEM, mutuelle, CPAS, etc.).<br><br>
-            L’idée : que tu choisisses en <strong>connaissance de cause</strong>, pas sous pression.
-          </p>
-
-          <div class="alt-grid">
-            <!-- 1. Perte de job -->
-            <article class="alt-card">
-              <h3>Tu viens de perdre ton job (licenciement / fin de contrat)</h3>
-              <div class="alt-tag">Chômage, transition, reconversion</div>
-              <table class="alt-table">
-                <thead>
-                  <tr>
-                    <th class="alt-label-a">Piste A – S’engager ici</th>
-                    <th class="alt-label-b">Piste B – Activer d’abord tes droits</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      Tu rejoins l’équipe dans un rôle type : Cellule Veille (O3),
-                      Animation & Pédagogie (O2) ou Tech & Infrastructure (O4),
-                      en mode bénévole ou petite contribution rémunérée si un jour c’est possible.
-                    </td>
-                    <td>
-                      Tu t’inscris comme <strong>demandeur d’emploi</strong> (Actiris / Forem / VDAB),
-                      tu demandes tes <strong>allocations de chômage</strong> (ONEM via syndicat/CAPAC)
-                      et tu regardes les formations possibles.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Pour :</strong><br>
-                      • Tu restes actif·ve, tu ne “t’éteins” pas après le licenciement.<br>
-                      • Tu transformes colère/frustration en projet collectif.<br>
-                      • Tu développes des compétences concrètes (veille, pédagogie, web) utiles sur ton CV.
-                    </td>
-                    <td>
-                      <strong>Pour :</strong><br>
-                      • Tu sécurises rapidement <strong>un revenu</strong>.<br>
-                      • Tu gardes du temps pour te poser, te former, digérer le choc.<br>
-                      • Tu peux accéder à des accompagnements officiels.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Contre :</strong><br>
-                      • Au départ, aucune garantie de salaire stable.<br>
-                      • Risque de te surcharger si tu comptes là-dessus pour survivre.<br>
-                      • C’est émotionnellement intense (enjeux de société, précarité…).
-                    </td>
-                    <td>
-                      <strong>Contre :</strong><br>
-                      • Démarches lourdes, administratives, parfois stressantes.<br>
-                      • On attend beaucoup de toi pour “prouver” ta recherche d’emploi.<br>
-                      • Tu peux te sentir géré·e plus qu’accompagné·e.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <p class="alt-hint">
-                Recommandation honnête : si ta situation financière est tendue, <strong>Piste B d’abord,
-                Piste A en complément</strong>. Sinon, tu peux combiner les deux en restant lucide sur ta charge.
-              </p>
-            </article>
-
-            <!-- 2. Maladie / incapacité -->
-            <article class="alt-card">
-              <h3>Tu es en maladie ou en incapacité de travail</h3>
-              <div class="alt-tag">Santé, mutuelle, reprise éventuelle</div>
-              <table class="alt-table">
-                <thead>
-                  <tr>
-                    <th class="alt-label-a">Piste A – S’engager ici (tout petit pas)</th>
-                    <th class="alt-label-b">Piste B – Consolider ta santé & tes droits</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      Tu contribues à ton rythme : relecture, écriture, veille light,
-                      tests ponctuels, depuis chez toi. Rôles possibles : Veille (O3),
-                      Lab Pédagogie (L1), Cercle des membres actifs (C1).
-                    </td>
-                    <td>
-                      Tu te focalises sur ta <strong>mutuelle</strong>, ton <strong>médecin</strong>,
-                      éventuellement une reconnaissance de handicap/incapacité,
-                      et tu sécurises tes <strong>indemnités</strong>.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Pour :</strong><br>
-                      • Tu gardes un lien social et intellectuel.<br>
-                      • Tu peux tester une reprise d’activité sans pression de productivité.<br>
-                      • Tu mets ton vécu au cœur d’un projet qui parle de vulnérabilité réelle.
-                    </td>
-                    <td>
-                      <strong>Pour :</strong><br>
-                      • Tu stabilises ta santé (priorité absolue).<br>
-                      • Tu mets ton énergie là où elle est vitale : soins, démarches, adaptations.<br>
-                      • Tu évites que l’engagement devienne un facteur de rechute.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Contre :</strong><br>
-                      • Risque de culpabiliser si tu as des “jours sans”.<br>
-                      • Tentation de t’investir plus que ce que ton corps/ta tête supportent.<br>
-                      • Difficulté à poser des limites si le collectif n’est pas cadré.
-                    </td>
-                    <td>
-                      <strong>Contre :</strong><br>
-                      • Démarches avec la mutuelle parfois lourdes/frustrantes.<br>
-                      • Impression de n’être réduit·e qu’à un dossier médical.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <p class="alt-hint">
-                Recommandation honnête : <strong>Piste B d’abord</strong>. Puis Piste A
-                <strong>uniquement si</strong> ça t’aide à aller mieux, pas l’inverse.
-              </p>
-            </article>
-
-            <!-- 3. Grande précarité -->
-            <article class="alt-card">
-              <h3>Tu n’as (presque) plus de revenus / grande précarité</h3>
-              <div class="alt-tag">Survie, CPAS, sécurité minimale</div>
-              <table class="alt-table">
-                <thead>
-                  <tr>
-                    <th class="alt-label-a">Piste A – S’engager ici (risqué seul)</th>
-                    <th class="alt-label-b">Piste B – CPAS & aides sociales</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      Tu t’investis comme membre actif (C1) ou sur des rôles opérationnels,
-                      en espérant qu’un jour une partie puisse être rémunérée.
-                    </td>
-                    <td>
-                      Tu vas au <strong>CPAS</strong> de ta commune pour demander un
-                      <strong>revenu d’intégration</strong> ou une aide équivalente,
-                      et des aides ponctuelles (factures, loyer, nourriture…).
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Pour :</strong><br>
-                      • Tu reprends du pouvoir d’agir, tu n’es pas “juste assisté·e”.<br>
-                      • Tu construis une expérience et un réseau politique / social.<br>
-                      • Tu mets du sens sur une période très dure.
-                    </td>
-                    <td>
-                      <strong>Pour :</strong><br>
-                      • Tu t’assures un <strong>filet de sécurité</strong> minimal.<br>
-                      • Tu peux bénéficier d’un accompagnement social global.<br>
-                      • Tu ne fais pas reposer ta survie sur un projet encore en construction.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Contre :</strong><br>
-                      • On ne peut pas être ta solution principale de revenu.<br>
-                      • Risque d’épuisement massif si tu comptes sur nous pour survivre.<br>
-                      • Frustration énorme possible si on ne peut pas te salarier.
-                    </td>
-                    <td>
-                      <strong>Contre :</strong><br>
-                      • Démarches parfois intrusives / humiliantes.<br>
-                      • Sentiment d’être contrôlé·e plutôt qu’aidé·e.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <p class="alt-hint">
-                Recommandation honnête : en mode survie, <strong>Piste B est prioritaire</strong>.
-                La Piste A ne peut venir qu’en plus, jamais à la place.
-              </p>
-            </article>
-
-            <!-- 4. Fin d'études -->
-            <article class="alt-card">
-              <h3>Tu sors des études / jeune diplômé·e</h3>
-              <div class="alt-tag">Insertion, premier CV, stage d’insertion</div>
-              <table class="alt-table">
-                <thead>
-                  <tr>
-                    <th class="alt-label-a">Piste A – Terrain d’apprentissage ici</th>
-                    <th class="alt-label-b">Piste B – Stage d’insertion & accompagnement</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      Tu t’impliques dans un ou plusieurs pôles (Veille, Pédago, Tech, Labs),
-                      tu apprends en faisant et tu construis un portfolio concret.
-                    </td>
-                    <td>
-                      Tu t’inscris comme <strong>demandeur d’emploi</strong>,
-                      tu passes par le <strong>stage d’insertion</strong> (ex “stage d’attente”),
-                      et tu explores propositions d’emploi / formations.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Pour :</strong><br>
-                      • Tu accumules de l’expérience réelle rapidement.<br>
-                      • Tu construis un profil atypique (veille citoyenne, jeux sérieux…).<br>
-                      • Tu testes ce que tu aimes vraiment.
-                    </td>
-                    <td>
-                      <strong>Pour :</strong><br>
-                      • Tu construis tes droits aux allocations (insertion/chômage).<br>
-                      • Tu peux accéder à des offres plus “classiques”.<br>
-                      • Tu bénéficies de dispositifs jeunesse spécifiques.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Contre :</strong><br>
-                      • Si tu ne fais que A sans B, tu risques d’avoir zéro droit plus tard.<br>
-                      • Aucune garantie de poste payé à la clé.<br>
-                      • Possible confusion entre engagement militant et “emploi”.
-                    </td>
-                    <td>
-                      <strong>Contre :</strong><br>
-                      • Parcours très normé, pas toujours aligné avec tes envies.<br>
-                      • On peut te pousser vers des métiers “en pénurie” qui ne te parlent pas.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <p class="alt-hint">
-                Recommandation honnête : idéalement <strong>Piste A + Piste B</strong> :
-                tu actives B pour tes droits, et A comme laboratoire d’apprentissage.
-              </p>
-            </article>
-
-            <!-- 5. Tu bosses déjà mais tu souffres -->
-            <article class="alt-card">
-              <h3>Tu bosses déjà, mais tu es en souffrance / tu veux bouger</h3>
-              <div class="alt-tag">Épuisement, sens, reconversion douce</div>
-              <table class="alt-table">
-                <thead>
-                  <tr>
-                    <th class="alt-label-a">Piste A – Engagement ici comme laboratoire</th>
-                    <th class="alt-label-b">Piste B – Droits dans ton boulot actuel</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      Tu t’impliques à côté de ton job (Cercle C1, Veille, Lab),
-                      pour tester d’autres manières de travailler et respirer.
-                    </td>
-                    <td>
-                      Tu explores avec ton <strong>employeur / syndicat / médecin</strong> les
-                      <strong>congés possibles</strong>, aménagements, formations, voire un changement de poste.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Pour :</strong><br>
-                      • Tu ne restes pas enfermé·e dans ton job actuel.<br>
-                      • Tu prépares une éventuelle reconversion.<br>
-                      • Tu mets du sens politiquement sur ce que tu vis au travail.
-                    </td>
-                    <td>
-                      <strong>Pour :</strong><br>
-                      • Tu utilises les droits que tu as déjà (congés, protections…).<br>
-                      • Tu évites de rajouter une couche de fatigue “militante”.<br>
-                      • Tu peux négocier un aménagement raisonnable.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Contre :</strong><br>
-                      • Risque de surcharge (boulot + engagement intense).<br>
-                      • Tu peux importer ta fatigue dans le collectif.<br>
-                      • Difficile de tenir sur la durée sans ajuster ta charge.
-                    </td>
-                    <td>
-                      <strong>Contre :</strong><br>
-                      • Parfois, l’entreprise ne bouge pas malgré les droits.<br>
-                      • Sentiment de “faire des demandes dans le vide”.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <p class="alt-hint">
-                Recommandation honnête : Piste A seulement si tu as encore un peu de
-                <strong>marge mentale</strong>. Sinon, Piste B d’abord.
-              </p>
-            </article>
-
-            <!-- 6. Tu veux devenir indépendant·e -->
-            <article class="alt-card">
-              <h3>Tu veux devenir indépendant·e / lancer ton projet</h3>
-              <div class="alt-tag">Entrepreneuriat, collectif vs solo</div>
-              <table class="alt-table">
-                <thead>
-                  <tr>
-                    <th class="alt-label-a">Piste A – Construire avec le collectif</th>
-                    <th class="alt-label-b">Piste B – Statut d’indépendant·e classique</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      Tu co-construis un projet collectif (asbl de fait, éducation populaire, veille),
-                      où ton activité s’inscrit dans un écosystème plutôt que tout seul.
-                    </td>
-                    <td>
-                      Tu passes par une <strong>caisse d’assurances sociales</strong>,
-                      tu regardes les aides à la création d’activité
-                      et les règles ONEM si tu es chômeur·euse.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Pour :</strong><br>
-                      • Tu ne pars pas isolé·e, tu t’adosses à un collectif.<br>
-                      • Tu peux tester tes idées dans les Labs avant de les “vendre”.<br>
-                      • Tu mutualises une partie des risques et des outils.
-                    </td>
-                    <td>
-                      <strong>Pour :</strong><br>
-                      • Tu as un cadre clair (statut, cotisations, obligations).<br>
-                      • Tu peux facturer à ton nom, construire ta propre activité.<br>
-                      • Tu entres dans les circuits classiques de soutien aux indépendants.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Contre :</strong><br>
-                      • Il faut une distinction nette entre bénévolat, collectif, activité rémunérée.<br>
-                      • Le cadre légal associatif demande du travail et du temps.<br>
-                      • Tout le monde n’a pas envie d’être “collectif” tout le temps.
-                    </td>
-                    <td>
-                      <strong>Contre :</strong><br>
-                      • Tu es très exposé·e (risque économique, paperasse).<br>
-                      • Si tu es chômeur·euse, interactions délicates avec l’ONEM possible.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <p class="alt-hint">
-                Recommandation honnête : <strong>Piste B pour le cadre</strong>,
-                <strong>Piste A pour le collectif</strong>. Ici, on peut être une base politique & pédagogique,
-                pas une chambre de commerce.
-              </p>
-            </article>
-
-            <!-- 7. Charges de famille -->
-            <article class="alt-card">
-              <h3>Tu as de grosses charges de famille / enfants à charge</h3>
-              <div class="alt-tag">Temps, charge mentale, aides familiales</div>
-              <table class="alt-table">
-                <thead>
-                  <tr>
-                    <th class="alt-label-a">Piste A – Engagement mesuré ici</th>
-                    <th class="alt-label-b">Piste B – Optimiser d’abord les aides “famille”</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      Tu participes de façon très modulable : projets ponctuels,
-                      contributions écrites, pas d’obligation de présence régulière.
-                    </td>
-                    <td>
-                      Tu vérifies tes <strong>allocations familiales</strong>, compléments possibles,
-                      aides scolaires/loisirs, et recours au <strong>CPAS</strong> si nécessaire.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Pour :</strong><br>
-                      • Tu gardes un espace à toi, en dehors des responsabilités familiales.<br>
-                      • Tu peux amener ta réalité de parent dans les contenus.<br>
-                      • Tu montres à tes enfants un engagement concret.
-                    </td>
-                    <td>
-                      <strong>Pour :</strong><br>
-                      • Tu sécurises ton équilibre familial (finances, garde).<br>
-                      • Tu évites que l’engagement te mette encore plus dans le rouge.<br>
-                      • Tu peux bénéficier d’aides ciblées (logement, énergie…).
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Contre :</strong><br>
-                      • Le temps est ta ressource la plus rare.<br>
-                      • Tu peux vite culpabiliser de ne “pas en faire assez”.<br>
-                      • Risque de collision avec les urgences familiales.
-                    </td>
-                    <td>
-                      <strong>Contre :</strong><br>
-                      • Démarches parfois lourdes et chronophages.<br>
-                      • Parfois, peu de lisibilité sur ce à quoi tu as droit.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <p class="alt-hint">
-                Recommandation honnête : <strong>Piste B en priorité</strong>,
-                Piste A seulement si ça te fait du bien et reste réaliste en temps.
-              </p>
-            </article>
-
-            <!-- 8. Handicap / longue durée -->
-            <article class="alt-card">
-              <h3>Tu es en situation de handicap / maladie de longue durée</h3>
-              <div class="alt-tag">Reconnaissance, adaptations, pouvoir d’agir</div>
-              <table class="alt-table">
-                <thead>
-                  <tr>
-                    <th class="alt-label-a">Piste A – Contribution adaptée ici</th>
-                    <th class="alt-label-b">Piste B – Reconnaissance & adaptations officielles</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      Tu participes à ce que tu peux, quand tu peux, avec des aménagements
-                      (horaires, tâches, outils). On s’adapte à ton rythme.
-                    </td>
-                    <td>
-                      Tu fais reconnaître ton handicap / incapacité, tu actives les
-                      <strong>aides associées</strong> (allocations, aménagements raisonnables,
-                      soutien spécifique).
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Pour :</strong><br>
-                      • Tu ne te réduis pas à un dossier administratif.<br>
-                      • Tu contribues à une réflexion politique sur le handicap / la santé.<br>
-                      • Tu peux choisir des formes d’engagement compatibles avec ta réalité.
-                    </td>
-                    <td>
-                      <strong>Pour :</strong><br>
-                      • Tu sécurises un socle matériel plus stable.<br>
-                      • Tu peux exiger des adaptations là où tu te formes / travailles.<br>
-                      • Tu entres dans des dispositifs dédiés (accompagnement spécialisé).
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <strong>Contre :</strong><br>
-                      • Encore une couche de plus sur ta fatigue si le cadre est flou.<br>
-                      • Risque de te sentir obligé·e de “tenir” le collectif.<br>
-                      • Besoin absolu d’un respect strict de tes limites.
-                    </td>
-                    <td>
-                      <strong>Contre :</strong><br>
-                      • Parcours institutionnel parfois épuisant.<br>
-                      • Délais longs, incompréhensions possibles.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <p class="alt-hint">
-                Recommandation honnête : <strong>Piste B en priorité</strong>.
-                Piste A seulement si le collectif montre qu’il peut vraiment respecter tes limites.
-              </p>
-            </article>
-          </div>
-
-          <p class="footer-note">
-            Ce plan ne remplace pas un avis juridique ou social. Il sert à te
-            <strong>orienter</strong> : à chaque rôle ici correspond aussi une autre
-            porte possible “vers qui de droit”.
-          </p>
-        </section>
+        <p class="footer-note">
+          Tu peux transformer chaque carte en “fiche de poste” publique ou interne, ou lier ce plan
+          à ta page de recrutement principale avec des boutons “Je candidate”.
+        </p>
       </div>
     </div>
   </main>

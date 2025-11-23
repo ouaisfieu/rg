@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Rapport d’avancement – L’Organisation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #050712;
+      --bg-alt: #0b0f26;
+      --panel: #0c1229;
+      --accent: #8bffb0;
+      --accent-soft: rgba(139, 255, 176, 0.15);
+      --accent-2: #d28bff;
+      --accent-2-soft: rgba(210, 139, 255, 0.18);
+      --text-main: #f5f7ff;
+      --text-muted: #a3b0ff;
+      --border-soft: 1px solid rgba(255, 255, 255, 0.12);
+      --danger: #ff4b7b;
+      --warn: #ffd68b;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --transition-fast: 0.18s ease-out;
+      --transition-med: 0.26s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #26307f 0, #050712 45%, #02020a 100%);
+      color: var(--text-main);
+      overflow-x: hidden;
+    }
+
+    /* BACKGROUND FX */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.14;
+      background-image:
+        linear-gradient(to right, rgba(120, 130, 255, 0.3) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(120, 130, 255, 0.3) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mix-blend-mode: screen;
+      z-index: -3;
+    }
+
+    .bg-orb {
+      position: fixed;
+      width: 460px;
+      height: 460px;
+      border-radius: 999px;
+      filter: blur(90px);
+      opacity: 0.55;
+      pointer-events: none;
+      z-index: -2;
+      background: radial-gradient(circle at 30% 20%, #8bffb0 0, transparent 60%);
+      top: -60px;
+      right: -150px;
+      transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    }
+
+    .bg-orb.secondary {
+      background: radial-gradient(circle at 70% 80%, #d28bff 0, transparent 60%);
+      width: 380px;
+      height: 380px;
+      bottom: -90px;
+      left: -60px;
+      top: auto;
+      right: auto;
+    }
+
+    /* TOP PROGRESS BAR */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 100%;
+      background: rgba(10, 10, 26, 0.9);
+      z-index: 20;
+      overflow: hidden;
+    }
+
+    .progress-bar-inner {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #8bffb0, #d28bff, #8bffb0);
+      box-shadow: 0 0 12px rgba(139, 255, 176, 0.7);
+      transition: width 0.1s linear;
+    }
+
+    /* LAYOUT */
+    .shell {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 1.5rem 1.2rem 2rem;
+      display: grid;
+      gap: 1.1rem;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    @media (min-width: 1024px) {
+      .shell {
+        grid-template-columns: 270px minmax(0, 1fr);
+        padding: 2rem 2.2rem 2.8rem;
+      }
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      position: sticky;
+      top: 3.3rem;
+      align-self: flex-start;
+      border-radius: var(--radius-lg);
+      border: var(--border-soft);
+      background:
+        radial-gradient(circle at top left, rgba(139, 255, 176, 0.16), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(210, 139, 255, 0.18), transparent 60%),
+        rgba(6, 10, 36, 0.96);
+      box-shadow: 0 0 22px rgba(0, 0, 0, 0.85);
+      padding: 1.1rem 1rem 1.2rem;
+      backdrop-filter: blur(14px);
+    }
+
+    @media (max-width: 1023px) {
+      .sidebar {
+        position: static;
+      }
+    }
+
+    .side-title {
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .side-main {
+      font-size: 1.02rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .side-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .badge-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      border-radius: 999px;
+      padding: 0.14rem 0.52rem;
+      font-size: 0.7rem;
+      border: 1px solid rgba(139, 255, 176, 0.8);
+      color: var(--accent);
+      background: rgba(7, 255, 161, 0.08);
+      margin-bottom: 0.4rem;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(139, 255, 176, 0.9);
+    }
+
+    .side-nav {
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(160, 184, 255, 0.6);
+      background: rgba(8, 12, 42, 0.98);
+      padding: 0.6rem 0.55rem;
+      margin-bottom: 0.8rem;
+      max-height: 430px;
+      overflow-y: auto;
+    }
+
+    .side-nav-header {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .toc-list {
+      list-style: none;
+      font-size: 0.78rem;
+    }
+
+    .toc-item {
+      margin-bottom: 0.12rem;
+    }
+
+    .toc-link {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      text-decoration: none;
+      color: var(--text-muted);
+      padding: 0.22rem 0.4rem;
+      border-radius: 999px;
+      transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+      cursor: pointer;
+    }
+
+    .toc-link span.idx {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.75em;
+      opacity: 0.7;
+    }
+
+    .toc-link:hover {
+      background: rgba(139, 255, 176, 0.12);
+      color: var(--accent);
+      transform: translateX(2px);
+    }
+
+    .toc-link.active {
+      background: linear-gradient(135deg, #8bffb0, #d28bff);
+      color: #02030a;
+      font-weight: 600;
+      box-shadow: 0 0 14px rgba(139, 255, 176, 0.7);
+    }
+
+    .toc-link.active span.idx {
+      opacity: 1;
+    }
+
+    .side-actions {
+      display: grid;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+    }
+
+    .btn-ghost,
+    .btn-solid {
+      border-radius: 999px;
+      padding: 0.4rem 0.65rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      font-size: 0.76rem;
+      border: 1px solid rgba(160, 184, 255, 0.75);
+      background: rgba(9, 13, 43, 0.96);
+      color: var(--text-main);
+      transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast), color var(--transition-fast);
+    }
+
+    .btn-ghost span.icon,
+    .btn-solid span.icon {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.85em;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(139, 255, 176, 0.14);
+      border-color: rgba(139, 255, 176, 0.9);
+      transform: translateY(-1px);
+      box-shadow: 0 0 10px rgba(139, 255, 176, 0.6);
+      color: var(--accent);
+    }
+
+    .btn-solid {
+      border: none;
+      background: linear-gradient(135deg, #8bffb0, #d28bff);
+      color: #02030a;
+      font-weight: 600;
+      box-shadow: 0 0 16px rgba(139, 255, 176, 0.8);
+    }
+
+    .btn-solid:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 20px rgba(139, 255, 176, 0.95);
+    }
+
+    /* MAIN CONTENT */
+    .main-panel {
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(164, 188, 255, 0.7);
+      background:
+        radial-gradient(circle at top left, rgba(139, 255, 176, 0.18), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(210, 139, 255, 0.18), transparent 60%),
+        rgba(6, 10, 37, 0.98);
+      box-shadow: 0 0 28px rgba(0, 0, 0, 0.9);
+      padding: 1.4rem 1.3rem 1.7rem;
+      overflow: hidden;
+    }
+
+    @media (min-width: 900px) {
+      .main-panel {
+        padding: 1.7rem 1.7rem 2.1rem;
+      }
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.2rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .meta-label {
+      font-family: "JetBrains Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.7rem;
+      opacity: 0.7;
+    }
+
+    .meta-value {
+      font-weight: 500;
+    }
+
+    .report-title {
+      font-size: clamp(1.45rem, 3vw, 1.7rem);
+      margin-bottom: 0.3rem;
+    }
+
+    .report-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.9rem;
+      max-width: 720px;
+    }
+
+    .badge-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .badge-pill {
+      border-radius: 999px;
+      padding: 0.15rem 0.65rem;
+      font-size: 0.7rem;
+      border: 1px solid rgba(164, 188, 255, 0.8);
+      color: var(--text-muted);
+      background: rgba(9, 13, 43, 0.96);
+    }
+
+    .badge-pill.critical {
+      border-color: rgba(255, 132, 166, 0.9);
+      color: #ffb8c9;
+    }
+
+    .badge-pill.opportunity {
+      border-color: rgba(139, 255, 176, 0.9);
+      color: var(--accent);
+    }
+
+    /* VIEW TOGGLE */
+    .view-toggle {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 0.2rem;
+      border: 1px solid rgba(168, 188, 255, 0.8);
+      background: rgba(6, 9, 32, 0.95);
+      margin-bottom: 1rem;
+      font-size: 0.75rem;
+    }
+
+    .view-btn {
+      padding: 0.22rem 0.7rem;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.75rem;
+      transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .view-btn span.icon {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.85em;
+    }
+
+    .view-btn.active {
+      background: linear-gradient(135deg, #8bffb0, #d28bff);
+      color: #02030a;
+      box-shadow: 0 0 14px rgba(139, 255, 176, 0.8);
+      transform: translateY(-1px);
+    }
+
+    /* SECTIONS */
+    .section {
+      margin-bottom: 1.2rem;
+      padding: 0.85rem 0.8rem;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(160, 184, 255, 0.4);
+      background: rgba(8, 12, 42, 0.9);
+      position: relative;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.6rem;
+      align-items: baseline;
+      margin-bottom: 0.3rem;
+      cursor: pointer;
+    }
+
+    .section-title {
+      font-size: 0.98rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .section-index {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+      opacity: 0.9;
+    }
+
+    .section-toggle-icon {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      transition: transform var(--transition-med), color var(--transition-fast);
+    }
+
+    .section.collapsed .section-toggle-icon {
+      transform: rotate(-90deg);
+      color: var(--text-muted);
+    }
+
+    .section-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .section-body {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+      line-height: 1.4;
+      max-height: 900px;
+      overflow: hidden;
+      transition: max-height var(--transition-med), opacity var(--transition-med), transform var(--transition-med);
+    }
+
+    .section.collapsed .section-body {
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+
+    .section-body p + p {
+      margin-top: 0.4rem;
+    }
+
+    .section-body ul {
+      margin-top: 0.35rem;
+      margin-left: 1.1rem;
+    }
+
+    .section-body li + li {
+      margin-top: 0.2rem;
+    }
+
+    .subheading {
+      margin-top: 0.5rem;
+      font-size: 0.86rem;
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    /* TABLES & GRIDS */
+    .table-like {
+      margin-top: 0.4rem;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(164, 188, 255, 0.7);
+      overflow: hidden;
+      font-size: 0.8rem;
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: 1.6fr 2fr;
+      border-bottom: 1px solid rgba(130, 150, 240, 0.4);
+    }
+
+    .table-row:last-child {
+      border-bottom: none;
+    }
+
+    .table-cell {
+      padding: 0.45rem 0.55rem;
+    }
+
+    .table-cell.header {
+      background: rgba(12, 18, 52, 0.98);
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .pill-risk {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      border-radius: 999px;
+      padding: 0.12rem 0.55rem;
+      font-size: 0.72rem;
+      border: 1px solid rgba(255, 132, 166, 0.9);
+      color: #ffb8c9;
+      background: rgba(40, 8, 14, 0.9);
+    }
+
+    .pill-risk[data-level="Élevé"] {
+      border-color: rgba(255, 75, 123, 0.95);
+      background: rgba(55, 7, 18, 0.95);
+    }
+
+    .pill-risk[data-level="Moyen"] {
+      border-color: rgba(255, 214, 139, 0.9);
+      background: rgba(43, 30, 7, 0.95);
+      color: #ffe2a4;
+    }
+
+    .pill-risk[data-level="Faible"] {
+      border-color: rgba(139, 255, 176, 0.9);
+      background: rgba(5, 32, 20, 0.95);
+      color: var(--accent);
+    }
+
+    .roadmap-grid {
+      display: grid;
+      gap: 0.7rem;
+      margin-top: 0.4rem;
+    }
+
+    @media (min-width: 700px) {
+      .roadmap-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .roadmap-card {
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(160, 184, 255, 0.7);
+      padding: 0.55rem 0.55rem 0.6rem;
+      background: rgba(8, 12, 46, 0.98);
+      font-size: 0.8rem;
+    }
+
+    .roadmap-phase {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .roadmap-title {
+      font-size: 0.85rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .roadmap-list {
+      margin-left: 1rem;
+    }
+
+    .roadmap-list li + li {
+      margin-top: 0.15rem;
+    }
+
+    .footer-note {
+      margin-top: 0.7rem;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      text-align: right;
+      font-style: italic;
+    }
+
+    /* RESPONSIVE TWEAKS */
+    @media (max-width: 640px) {
+      .section {
+        padding: 0.75rem 0.7rem;
+      }
+      .table-row {
+        grid-template-columns: 1.7fr 2.3fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        color: #000000;
+      }
+      .bg-grid,
+      .bg-orb,
+      .sidebar,
+      .progress-bar {
+        display: none !important;
+      }
+      .shell {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 0;
+      }
+      .main-panel {
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        background: #ffffff;
+        color: #000000;
+      }
+      .section {
+        background: #ffffff;
+        border-color: #cccccc;
+      }
+      .section-body {
+        max-height: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .view-toggle {
+        display: none;
+      }
+      .btn-ghost,
+      .btn-solid {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-orb"></div>
+  <div class="bg-orb secondary"></div>
+
+  <div class="progress-bar">
+    <div class="progress-bar-inner" id="progressBar"></div>
+  </div>
+
+  <div class="shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="badge-inline">
+        <span class="badge-dot"></span>
+        RAPPORT D’AVANCEMENT
+      </div>
+      <div class="side-title">L’Organisation</div>
+      <div class="side-main">Société Anonyme Sociale</div>
+      <p class="side-sub">
+        Rapport structuré sur l’état réel du projet : vision, organisation,
+        productions, ressources, risques et feuille de route.
+      </p>
+
+      <div class="side-nav">
+        <div class="side-nav-header">Sommaire interactif</div>
+        <ul class="toc-list" id="toc">
+          <li class="toc-item">
+            <button class="toc-link active" data-target="s1">
+              <span class="idx">01</span> Contexte général
+            </button>
+          </li>
+          <li class="toc-item">
+            <button class="toc-link" data-target="s2">
+              <span class="idx">02</span> Avancement organisationnel
+            </button>
+          </li>
+          <li class="toc-item">
+            <button class="toc-link" data-target="s3">
+              <span class="idx">03</span> Productions & livrables
+            </button>
+          </li>
+          <li class="toc-item">
+            <button class="toc-link" data-target="s4">
+              <span class="idx">04</span> Ressources humaines
+            </button>
+          </li>
+          <li class="toc-item">
+            <button class="toc-link" data-target="s5">
+              <span class="idx">05</span> Risques & opportunités
+            </button>
+          </li>
+          <li class="toc-item">
+            <button class="toc-link" data-target="s6">
+              <span class="idx">06</span> Feuille de route (12 mois)
+            </button>
+          </li>
+          <li class="toc-item">
+            <button class="toc-link" data-target="s7">
+              <span class="idx">07</span> Conclusion
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="side-actions">
+        <button class="btn-solid" id="expandAll">
+          <span class="icon">++</span> Tout développer
+        </button>
+        <button class="btn-ghost" id="collapseAll">
+          <span class="icon">--</span> Tout réduire
+        </button>
+        <button class="btn-ghost" id="printReport">
+          <span class="icon">⎙</span> Version imprimable
+        </button>
+        <a class="btn-ghost" href="organigramme-obs.html">
+          <span class="icon">◎</span> Organigramme vivant
+        </a>
+        <a class="btn-ghost" href="recrutement-final.html">
+          <span class="icon">⇢</span> Plan de recrutement
+        </a>
+        <a class="btn-ghost" href="bureau.html">
+          <span class="icon">■</span> Bureau de l’Organisation
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-panel" id="mainPanel">
+      <div class="meta-row">
+        <div class="meta-item">
+          <span class="meta-label">Période</span>
+          <span class="meta-value">Avril 2024 → Novembre 2025</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Version</span>
+          <span class="meta-value">1.0 – Document de référence interne</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Statut</span>
+          <span class="meta-value">Prototype avancé, en structuration</span>
+        </div>
+      </div>
+
+      <h1 class="report-title">Rapport d’avancement – L’Organisation</h1>
+      <p class="report-subtitle">
+        Ce rapport présente l’état réel de l’Organisation : contexte, structuration, productions,
+        besoins en ressources humaines, risques, opportunités et feuille de route sur 12 mois.
+        Document utilisable en interne, en comité de pilotage ou en discussion avec des partenaires.
+      </p>
+
+      <div class="badge-strip">
+        <span class="badge-pill critical">Point critique : charge concentrée sur une seule personne</span>
+        <span class="badge-pill opportunity">Opportunité : niche pédagogique inoccupée</span>
+        <span class="badge-pill">Statut : Société Anonyme Sociale (concept)</span>
+      </div>
+
+      <div class="view-toggle" aria-label="Changer le niveau de détail">
+        <button class="view-btn active" data-view="synthese">
+          <span class="icon">≡</span> Vue synthèse
+        </button>
+        <button class="view-btn" data-view="detail">
+          <span class="icon">☰</span> Vue détaillée
+        </button>
+      </div>
+
+      <!-- SECTION 1 -->
+      <section class="section" id="s1" data-section>
+        <div class="section-header">
+          <div class="section-title">
+            <span class="section-index">01</span>
+            <span>Contexte général</span>
+          </div>
+          <div class="section-meta">
+            Nature du projet & enjeux sociétaux
+          </div>
+          <span class="section-toggle-icon">▼</span>
+        </div>
+        <div class="section-body" data-synthese="true">
+          <p>
+            L’Organisation se positionne comme une entité sociale innovante qui combine
+            <strong>éducation citoyenne</strong>, <strong>analyse critique</strong> et
+            <strong>production d’outils pédagogiques avancés</strong>. Elle fonctionne
+            comme une structure autonome, multi-projets, distribuée.
+          </p>
+          <p>
+            Elle s’appuie massivement sur les outils libres et/ou gratuits
+            (Hugo, Grav, GitHub Pages, Godot, etc.), sur la veille stratégique
+            et sur des dispositifs pédagogiques interactifs adaptés au grand public
+            comme aux professionnels.
+          </p>
+
+          <h3 class="subheading">Enjeux sociétaux adressés</h3>
+          <ul>
+            <li>Éducation permanente / éducation populaire en Belgique.</li>
+            <li>Fracture numérique et accès aux outils critiques.</li>
+            <li>Compréhension des systèmes institutionnels et de leurs effets.</li>
+            <li>Autodéfense intellectuelle face aux récits dominants.</li>
+            <li>Empowerment des publics fragilisés (chômage, maladie, précarité…).</li>
+            <li>Guerre narrative, désinformation, cadrage médiatique.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 2 -->
+      <section class="section" id="s2" data-section>
+        <div class="section-header">
+          <div class="section-title">
+            <span class="section-index">02</span>
+            <span>Avancement organisationnel</span>
+          </div>
+          <div class="section-meta">
+            Organigramme, plan de recrutement, gouvernance
+          </div>
+          <span class="section-toggle-icon">▼</span>
+        </div>
+        <div class="section-body" data-synthese="true">
+          <h3 class="subheading">2.1 Organigramme idéal</h3>
+          <p>
+            L’Organisation dispose d’un <strong>organigramme complet</strong> structuré en
+            pôles (Gouvernance, Opérations, Labs, Communauté), visualisé sous forme de
+            “graph view” interactive. Cette carte structurelle permet de :
+          </p>
+          <ul>
+            <li>clarifier les responsabilités et les flux d’information ;</li>
+            <li>anticiper les rôles à créer / consolider ;</li>
+            <li>servir de support au recrutement et à l’onboarding.</li>
+          </ul>
+          <p>
+            Livrable associé : <em>organigramme-obs.html</em> (version interactive).
+          </p>
+
+          <h3 class="subheading">2.2 Plan de recrutement</h3>
+          <p>
+            Un plan de recrutement détaillé identifie 17 rôles, classés par phase (0 → 2)
+            et par priorité (P1 → P3). Chaque rôle est décrit en termes de missions,
+            compétences attendues, marge de manœuvre et articulation avec les dispositifs
+            socio-institutionnels (ONEM, CPAS, mutuelles, insertion, etc.).
+          </p>
+          <p>
+            Livrable associé : <em>recrutement-final.html</em>.
+          </p>
+
+          <h3 class="subheading">2.3 Gouvernance et cercles</h3>
+          <p>
+            La gouvernance est pensée en <strong>cercles</strong> :
+          </p>
+          <ul>
+            <li>cercle de pilotage (orientation stratégique, phase 0) ;</li>
+            <li>cercle des membres actifs (opérations & terrain, en constitution) ;</li>
+            <li>labs (innovation & prototypage, phases 1 → 2) ;</li>
+            <li>cercle éthique (contrôle & garde-fous, phase 2) ;</li>
+            <li>cercle du public (retour des bénéficiaires, continu).</li>
+          </ul>
+          <p>
+            La gouvernance reste souple mais documentée, afin de rendre possible
+            des audits et des évaluations externes.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 3 -->
+      <section class="section" id="s3" data-section>
+        <div class="section-header">
+          <div class="section-title">
+            <span class="section-index">03</span>
+            <span>Productions & livrables</span>
+          </div>
+          <div class="section-meta">
+            Web, pédagogie, technologie
+          </div>
+          <span class="section-toggle-icon">▼</span>
+        </div>
+        <div class="section-body" data-synthese="true">
+          <h3 class="subheading">3.1 Avancement web</h3>
+          <p><strong>Réalisé :</strong></p>
+          <ul>
+            <li>Page d’accueil “L’Organisation”.</li>
+            <li>Organigramme interactif (graph view).</li>
+            <li>Interface de recrutement & orientation (rôles / droits sociaux).</li>
+            <li>Canevas de pages pour tests interactifs et parcours documentaires.</li>
+            <li>Intégration multimédia (PDF, Spotify, YouTube) en responsive.</li>
+            <li>Thèmes visuels sombres/néon mobile-first.</li>
+          </ul>
+          <p><strong>En cours :</strong></p>
+          <ul>
+            <li>Consolidation du portail documentaire.</li>
+            <li>Déploiement multi-plateformes (GitHub Pages + Vercel, etc.).</li>
+          </ul>
+
+          <h3 class="subheading">3.2 Avancement pédagogique</h3>
+          <p><strong>Livrables produits :</strong></p>
+          <ul>
+            <li>Séries de tests (niveaux 1 à 3) pour différents publics.</li>
+            <li>Modules d’analyse critique (guerre narrative, institutions, etc.).</li>
+            <li>Documentation de dossiers thématiques et annexes.</li>
+            <li>Parcours didactiques progressifs, adaptables.</li>
+            <li>Outil de type “boussole de valeurs” pour se situer.</li>
+          </ul>
+          <p><strong>Avancement global :</strong></p>
+          <ul>
+            <li>≈ 60 % des contenus principaux sont écrits ou en brouillon avancé.</li>
+            <li>≈ 30 % nécessitent mise en forme, découpe ou réécriture.</li>
+            <li>≈ 10 % restent à concevoir ou à valider.</li>
+          </ul>
+
+          <h3 class="subheading">3.3 Avancement technologique</h3>
+          <p><strong>Réalisé :</strong></p>
+          <ul>
+            <li>Prototypes interactifs (jeux narratifs, interfaces tests, etc.).</li>
+            <li>Composants HTML/CSS/JS réutilisables (cartes, modales, filtres).</li>
+            <li>Templates responsives pour pages thématiques et portails.</li>
+          </ul>
+          <p><strong>En cours :</strong></p>
+          <ul>
+            <li>Architecture “multivers” en Godot pour expériences pédagogiques avancées.</li>
+            <li>Structure modulaire pour futurs jeux sérieux connectés au site.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 4 -->
+      <section class="section" id="s4" data-section>
+        <div class="section-header">
+          <div class="section-title">
+            <span class="section-index">04</span>
+            <span>Ressources humaines</span>
+          </div>
+          <div class="section-meta">
+            Postes critiques, importantes et stratégiques
+          </div>
+          <span class="section-toggle-icon">▼</span>
+        </div>
+        <div class="section-body" data-synthese="true">
+          <h3 class="subheading">4.1 Postes critiques (Priorité P1)</h3>
+          <div class="table-like">
+            <div class="table-row">
+              <div class="table-cell header">Rôle</div>
+              <div class="table-cell header">Statut</div>
+            </div>
+            <div class="table-row">
+              <div class="table-cell">Référent·e Administration & Finances</div>
+              <div class="table-cell">Vacant – besoin urgent (<span class="pill-risk" data-level="Élevé">Critique</span>)</div>
+            </div>
+            <div class="table-row">
+              <div class="table-cell">Animation & Pédagogie</div>
+              <div class="table-cell">Semi-couvert – renfort à recruter</div>
+            </div>
+            <div class="table-row">
+              <div class="table-cell">Cellule Veille (3–5 personnes)</div>
+              <div class="table-cell">Partiellement couverte – noyau à élargir</div>
+            </div>
+            <div class="table-row">
+              <div class="table-cell">Tech & Infrastructure</div>
+              <div class="table-cell">Partiellement couvert – besoin de backup</div>
+            </div>
+          </div>
+
+          <h3 class="subheading">4.2 Postes importants (Priorité P2)</h3>
+          <ul>
+            <li>Pôle Alliances & Partenariats.</li>
+            <li>Cercle des membres actifs (enracinement du projet).</li>
+            <li>Lab Pédagogique (prototypage et capitalisation des méthodes).</li>
+          </ul>
+
+          <h3 class="subheading">4.3 Postes stratégiques (Priorité P3)</h3>
+          <ul>
+            <li>Comité éthique & juridique (garde-fous).</li>
+            <li>Cercle d’experts & alliés (regards externes).</li>
+            <li>Lab IA (outillage assisté, encadré éthiquement).</li>
+            <li>Lab terrains locaux (tests in situ, collectivités locales).</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 5 -->
+      <section class="section" id="s5" data-section>
+        <div class="section-header">
+          <div class="section-title">
+            <span class="section-index">05</span>
+            <span>Risques & opportunités</span>
+          </div>
+          <div class="section-meta">
+            Cartographie des points de vigilance
+          </div>
+          <span class="section-toggle-icon">▼</span>
+        </div>
+        <div class="section-body" data-synthese="true">
+          <h3 class="subheading">5.1 Risques internes</h3>
+          <div class="table-like">
+            <div class="table-row">
+              <div class="table-cell header">Risque</div>
+              <div class="table-cell header">Description & niveau</div>
+            </div>
+            <div class="table-row">
+              <div class="table-cell">Charge mentale</div>
+              <div class="table-cell">
+                Concentration de la responsabilité sur une seule personne.
+                <span class="pill-risk" data-level="Élevé">Élevé</span>
+              </div>
+            </div>
+            <div class="table-row">
+              <div class="table-cell">Dépendance à 1 personne</div>
+              <div class="table-cell">
+                Gouvernance fragile si indisponibilité ou retrait.
+                <span class="pill-risk" data-level="Élevé">Élevé</span>
+              </div>
+            </div>
+            <div class="table-row">
+              <div class="table-cell">Sur-engagement de publics précaires</div>
+              <div class="table-cell">
+                Risque d’instrumentalisation ou de surcharge des personnes fragiles.
+                <span class="pill-risk" data-level="Élevé">Élevé</span>
+              </div>
+            </div>
+            <div class="table-row">
+              <div class="table-cell">Dispersion</div>
+              <div class="table-cell">
+                Multiplication de prototypes sans consolidation suffisante.
+                <span class="pill-risk" data-level="Moyen">Moyen</span>
+              </div>
+            </div>
+            <div class="table-row">
+              <div class="table-cell">Documentation</div>
+              <div class="table-cell">
+                Documentation parfois en retard sur les avancées réelles.
+                <span class="pill-risk" data-level="Moyen">Moyen</span>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="subheading">5.2 Risques externes</h3>
+          <div class="table-like">
+            <div class="table-row">
+              <div class="table-cell header">Risque</div>
+              <div class="table-cell header">Description & niveau</div>
+            </div>
+            <div class="table-row">
+              <div class="table-cell">Incompréhension institutionnelle</div>
+              <div class="table-cell">
+                Projet atypique, difficile à classer dans les grilles standard.
+                <span class="pill-risk" data-level="Moyen">Moyen</span>
+              </div>
+            </div>
+            <div class="table-row">
+              <div class="table-cell">Alignement juridique</div>
+              <div class="table-cell">
+                Zone grise (asbl de fait, “Société Anonyme Sociale” conceptuelle).
+                <span class="pill-risk" data-level="Moyen">Moyen</span>
+              </div>
+            </div>
+            <div class="table-row">
+              <div class="table-cell">Financement</div>
+              <div class="table-cell">
+                Absence de modèle économique stabilisé à ce stade.
+                <span class="pill-risk" data-level="Élevé">Élevé</span>
+              </div>
+            </div>
+            <div class="table-row">
+              <div class="table-cell">Exposition publique</div>
+              <div class="table-cell">
+                Risque d’interprétation, de malentendus médiatiques.
+                <span class="pill-risk" data-level="Faible">Faible–Moyen</span>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="subheading">5.3 Opportunités</h3>
+          <ul>
+            <li>Traction croissante autour de l’éducation permanente et de l’OSINT citoyen.</li>
+            <li>Coût technologique maîtrisé grâce aux outils statiques et open source.</li>
+            <li>Possibilité de partenariats avec associations, communes, écoles, universités.</li>
+            <li>Niche pédagogique encore peu occupée (guerre narrative + empowerment + jeu sérieux).</li>
+            <li>Approche modulaire réutilisable dans de multiples contextes (local, sectoriel, thématique).</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 6 -->
+      <section class="section" id="s6" data-section>
+        <div class="section-header">
+          <div class="section-title">
+            <span class="section-index">06</span>
+            <span>Feuille de route (12 mois)</span>
+          </div>
+          <div class="section-meta">
+            Phases 0 → 2 et jalons clés
+          </div>
+          <span class="section-toggle-icon">▼</span>
+        </div>
+        <div class="section-body" data-synthese="true">
+          <p>
+            La feuille de route est structurée sur 12 mois, en trois phases,
+            avec l’objectif de passer de “prototype avancé” à “structure fonctionnelle”.
+          </p>
+
+          <div class="roadmap-grid">
+            <article class="roadmap-card">
+              <div class="roadmap-phase">0 → 3 mois</div>
+              <div class="roadmap-title">Phase 0 → 1 : stabilisation du cœur</div>
+              <ul class="roadmap-list">
+                <li>Recruter la cellule veille (2–3 personnes actives).</li>
+                <li>Finaliser au moins 3 tests pédagogiques complets.</li>
+                <li>Stabiliser un premier portail documentaire utilisable.</li>
+                <li>Sécuriser le rôle Tech & Infrastructure (backup minimal).</li>
+              </ul>
+            </article>
+
+            <article class="roadmap-card">
+              <div class="roadmap-phase">3 → 6 mois</div>
+              <div class="roadmap-title">Phase 1 : ouverture & partenariats</div>
+              <ul class="roadmap-list">
+                <li>Lancer 2 partenariats pilotes (asbl, écoles, communes…).</li>
+                <li>Mettre en place le Lab Pédagogique (méthodes + capitalisation).</li>
+                <li>Documenter et formaliser les principaux canevas d’atelier.</li>
+              </ul>
+            </article>
+
+            <article class="roadmap-card">
+              <div class="roadmap-phase">6 → 12 mois</div>
+              <div class="roadmap-title">Phase 2 : garde-fous & terrain</div>
+              <ul class="roadmap-list">
+                <li>Installer le comité éthique & juridique.</li>
+                <li>Lancer le Lab IA dans un cadre maîtrisé.</li>
+                <li>Conduire des expérimentations de terrain (quartiers, publics ciblés).</li>
+                <li>Publier une “version 1” publique stabilisée de l’Organisation.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 7 -->
+      <section class="section" id="s7" data-section>
+        <div class="section-header">
+          <div class="section-title">
+            <span class="section-index">07</span>
+            <span>Conclusion</span>
+          </div>
+          <div class="section-meta">
+            Synthèse stratégique
+          </div>
+          <span class="section-toggle-icon">▼</span>
+        </div>
+        <div class="section-body" data-synthese="true">
+          <p>
+            L’Organisation se trouve à un stade de <strong>prototype avancé</strong> :
+          </p>
+          <ul>
+            <li>architecture organisationnelle claire ;</li>
+            <li>outils web concrets et déjà fonctionnels ;</li>
+            <li>vision pédagogique forte et différenciante ;</li>
+            <li>positionnement unique dans le paysage citoyen et associatif.</li>
+          </ul>
+          <p>
+            Le point critique principal reste la <strong>concentration de la charge</strong> sur
+            une seule personne. Avec :
+          </p>
+          <ul>
+            <li>2 recrutements en priorité P1 (administration/finance & animation/pédagogie),</li>
+            <li>1 partenariat structurant,</li>
+            <li>1 lab pleinement opérationnel,</li>
+          </ul>
+          <p>
+            l’Organisation peut raisonnablement passer de “prototype” à
+            <strong>structure stable et fonctionnelle dans l’année</strong>.
+          </p>
+          <p>
+            Ce rapport peut servir de base :
+          </p>
+          <ul>
+            <li>à un conseil de pilotage,</li>
+            <li>à des discussions avec des partenaires associatifs,</li>
+            <li>à la préparation de dossiers pour des financements publics ou privés,</li>
+            <li>à un audit externe limité (ex. évaluation de projet).</li>
+          </ul>
+        </div>
+      </section>
+
+      <p class="footer-note">
+        Ce document ne remplace pas un audit juridique ou financier complet,
+        mais fournit une vue fidèle et consolidée de l’avancement à date.
+      </p>
+    </main>
+  </div>
+
+  <script>
+    // Smooth scroll + TOC active state
+    const tocLinks = document.querySelectorAll(".toc-link");
+    const sections = document.querySelectorAll("[data-section]");
+    const mainPanel = document.getElementById("mainPanel");
+    const progressBar = document.getElementById("progressBar");
+
+    tocLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        const targetId = link.getAttribute("data-target");
+        const target = document.getElementById(targetId);
+        if (target) {
+          const rect = target.getBoundingClientRect();
+          const offset = rect.top + window.pageYOffset - 90;
+          window.scrollTo({ top: offset, behavior: "smooth" });
+        }
+      });
+    });
+
+    function updateActiveToc() {
+      let activeId = null;
+      let minDelta = Infinity;
+      sections.forEach(sec => {
+        const rect = sec.getBoundingClientRect();
+        const delta = Math.abs(rect.top - 100);
+        if (delta < minDelta) {
+          minDelta = delta;
+          activeId = sec.id;
+        }
+      });
+      tocLinks.forEach(link => {
+        link.classList.toggle("active", link.getAttribute("data-target") === activeId);
+      });
+    }
+
+    function updateProgressBar() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressBar.style.width = progress + "%";
+    }
+
+    window.addEventListener("scroll", () => {
+      updateActiveToc();
+      updateProgressBar();
+    });
+
+    // Expand / collapse sections
+    sections.forEach(sec => {
+      const header = sec.querySelector(".section-header");
+      header.addEventListener("click", (e) => {
+        // éviter conflit si on clique sur un lien interne, mais ici tout le header est toggle
+        if (e.target.closest(".view-btn")) return;
+        sec.classList.toggle("collapsed");
+      });
+    });
+
+    document.getElementById("expandAll").addEventListener("click", () => {
+      sections.forEach(sec => sec.classList.remove("collapsed"));
+    });
+
+    document.getElementById("collapseAll").addEventListener("click", () => {
+      sections.forEach(sec => sec.classList.add("collapsed"));
+    });
+
+    // Print
+    document.getElementById("printReport").addEventListener("click", () => {
+      window.print();
+    });
+
+    // View toggle (synthèse vs détail)
+    const viewButtons = document.querySelectorAll(".view-btn");
+    let currentView = "synthese";
+
+    viewButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const view = btn.getAttribute("data-view");
+        if (view === currentView) return;
+        currentView = view;
+        viewButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        if (view === "synthese") {
+          // synthèse → toutes les sections ouvertes, mais comportement normal
+          sections.forEach(sec => sec.classList.remove("collapsed"));
+        } else {
+          // détail → tout ouvert, et on encourage lecture intégrale (pas d’effet technique supplémentaire ici)
+          sections.forEach(sec => sec.classList.remove("collapsed"));
+        }
+      });
+    });
+
+    // Initial state
+    updateActiveToc();
+    updateProgressBar();
+  </script>
+</body>
+</html>
