@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fan club non officiel · Présence et Action Culturelles (PAC)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Preuve de concept d'un fan club non officiel lié à Présence et Action Culturelles (PAC), pour imaginer un projet local à Auderghem." />
+  <style>
+    :root {
+      --pac-red: #e30613;
+      --pac-yellow: #f6b712;
+      --pac-blue: #005b9f;
+      --pac-grey: #333333;
+      --pac-light: #f8f8f8;
+      --pac-border: #e0e0e0;
+      --pac-radius: 12px;
+      --pac-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: #ffffff;
+      color: var(--pac-grey);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--pac-blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    header {
+      border-bottom: 4px solid var(--pac-red);
+      background: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.5rem;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--pac-red);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+
+    .brand-text {
+      line-height: 1.2;
+    }
+
+    .brand-text strong {
+      font-size: 1rem;
+    }
+
+    .brand-text small {
+      display: block;
+      font-size: 0.78rem;
+      color: #777777;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      font-size: 0.9rem;
+    }
+
+    nav a {
+      color: #555555;
+      font-weight: 500;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 0.2rem;
+    }
+
+    nav a:hover {
+      border-color: var(--pac-red);
+      text-decoration: none;
+      color: #000;
+    }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: 1px solid #cccccc;
+      border-radius: 4px;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 820px) {
+      nav {
+        display: none;
+        position: absolute;
+        right: 1.5rem;
+        top: 56px;
+        background: #ffffff;
+        border: 1px solid var(--pac-border);
+        border-radius: 8px;
+        box-shadow: var(--pac-shadow);
+        flex-direction: column;
+        padding: 0.6rem 0.8rem;
+      }
+
+      nav.open {
+        display: flex;
+      }
+
+      .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+    }
+
+    main {
+      padding-bottom: 3rem;
+    }
+
+    section {
+      padding: 2.5rem 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.96rem;
+      color: #666666;
+      max-width: 700px;
+      margin-bottom: 1.6rem;
+    }
+
+    /* Hero */
+    .hero {
+      background: var(--pac-light);
+      border-bottom: 1px solid #ececec;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.3fr);
+      gap: 2.2rem;
+      align-items: center;
+      padding: 2.3rem 0;
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #777;
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-kicker span.dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--pac-red);
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 3vw, 2.6rem);
+      line-height: 1.15;
+      margin-bottom: 0.7rem;
+      color: var(--pac-grey);
+    }
+
+    .hero-title span {
+      color: var(--pac-red);
+    }
+
+    .hero-lead {
+      font-size: 0.98rem;
+      color: #555555;
+      max-width: 540px;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.55rem 1.1rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      background: none;
+      text-decoration: none;
+      transition: background 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out, box-shadow 150ms ease-out;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--pac-red);
+      color: #ffffff;
+      border-color: var(--pac-red);
+      box-shadow: 0 4px 12px rgba(227, 6, 19, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: #bf0410;
+      border-color: #bf0410;
+      text-decoration: none;
+    }
+
+    .btn-outline {
+      border-color: #cccccc;
+      color: #333333;
+      background: #ffffff;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--pac-blue);
+      color: var(--pac-blue);
+      text-decoration: none;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+      color: #777777;
+    }
+
+    .hero-meta span {
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid #dddddd;
+      background: #ffffff;
+    }
+
+    .hero-panel {
+      background: #ffffff;
+      border-radius: var(--pac-radius);
+      border: 1px solid var(--pac-border);
+      box-shadow: var(--pac-shadow);
+      padding: 1.4rem 1.4rem 1.1rem;
+      font-size: 0.92rem;
+    }
+
+    .hero-panel h2 {
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+      color: var(--pac-grey);
+    }
+
+    .hero-panel ul {
+      list-style: none;
+      margin-top: 0.6rem;
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    .hero-panel li::before {
+      content: "▸";
+      color: var(--pac-red);
+      margin-right: 0.4rem;
+    }
+
+    .hero-panel-footer {
+      margin-top: 0.9rem;
+      padding-top: 0.7rem;
+      border-top: 1px solid #eeeeee;
+      font-size: 0.8rem;
+      color: #777;
+    }
+
+    .hero-tagline {
+      font-weight: 600;
+      color: var(--pac-red);
+    }
+
+    /* Grilles & cartes */
+    .two-cols {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.5fr);
+      gap: 1.8rem;
+    }
+
+    @media (max-width: 900px) {
+      .two-cols {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: var(--pac-radius);
+      border: 1px solid var(--pac-border);
+      padding: 1.2rem 1.3rem 1.1rem;
+      box-shadow: var(--pac-shadow);
+      font-size: 0.94rem;
+    }
+
+    .card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+      color: var(--pac-grey);
+    }
+
+    .card p {
+      color: #555555;
+      margin-bottom: 0.6rem;
+    }
+
+    .card ul {
+      margin-top: 0.4rem;
+      padding-left: 1.1rem;
+      color: #555555;
+      font-size: 0.9rem;
+    }
+
+    .card ul li + li {
+      margin-top: 0.25rem;
+    }
+
+    .pill {
+      display: inline-block;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #999999;
+      margin-bottom: 0.4rem;
+    }
+
+    .activities-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.2rem;
+    }
+
+    @media (max-width: 960px) {
+      .activities-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .activities-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .activity-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--pac-red);
+      margin-bottom: 0.2rem;
+    }
+
+    .tag-row {
+      margin-top: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .tag {
+      border-radius: 999px;
+      border: 1px solid #dddddd;
+      padding: 0.1rem 0.55rem;
+      font-size: 0.78rem;
+      color: #666;
+      background: #fafafa;
+    }
+
+    /* Timeline */
+    .timeline {
+      margin-top: 0.8rem;
+      border-left: 3px solid var(--pac-red);
+      padding-left: 1rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .timeline-item + .timeline-item {
+      margin-top: 0.6rem;
+    }
+
+    .timeline-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #999;
+      margin-bottom: 0.1rem;
+    }
+
+    /* Contact & footer */
+    .contact-list {
+      list-style: none;
+      font-size: 0.92rem;
+    }
+
+    .contact-list li + li {
+      margin-top: 0.4rem;
+    }
+
+    .note {
+      font-size: 0.8rem;
+      color: #777777;
+      margin-top: 0.6rem;
+    }
+
+    footer {
+      background: #f5f5f5;
+      border-top: 1px solid #e0e0e0;
+      padding: 1.5rem 0 2rem;
+      font-size: 0.82rem;
+      color: #666;
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.8rem;
+    }
+
+    .footer-block {
+      max-width: 360px;
+    }
+
+    .non-official-banner {
+      position: fixed;
+      bottom: 0.8rem;
+      left: 0.8rem;
+      right: 0.8rem;
+      max-width: 420px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 999px;
+      border: 1px solid var(--pac-red);
+      padding: 0.45rem 0.9rem;
+      font-size: 0.78rem;
+      color: #555;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    .non-official-banner strong {
+      color: var(--pac-red);
+    }
+
+    @media (max-width: 480px) {
+      .non-official-banner {
+        border-radius: 10px;
+        font-size: 0.76rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">PAC</div>
+        <div class="brand-text">
+          <strong>Fan club non officiel</strong>
+          <small>Présence et Action Culturelles · « Agir par la culture »</small>
+        </div>
+      </div>
+
+      <button class="nav-toggle" aria-label="Ouvrir le menu" id="navToggle">
+        Menu ☰
+      </button>
+
+      <nav id="mainNav">
+        <a href="#accueil">Accueil</a>
+        <a href="#mouvement">Le mouvement</a>
+        <a href="#auderghem">Projet Auderghem</a>
+        <a href="#activites">Activités</a>
+        <a href="#liens">Liens avec PAC</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" id="accueil">
+      <div class="container">
+        <div class="hero-inner">
+          <div>
+            <div class="hero-kicker">
+              <span class="dot"></span>
+              <span>Preuve de concept · fan club non officiel</span>
+            </div>
+            <h1 class="hero-title">
+              Un fan club local pour<br>
+              <span>Présence et Action Culturelles</span>.
+            </h1>
+            <p class="hero-lead">
+              Ce site statique est une <strong>démo</strong> : il montre à quoi pourrait ressembler
+              un fan club non officiel qui s’inspire du site <strong>pac-g.be</strong>:contentReference[oaicite:0]{index=0}
+              et prépare le terrain pour un projet à <strong>Auderghem</strong>.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#auderghem" class="btn btn-primary">
+                Voir le projet pour Auderghem
+              </a>
+              <a href="https://www.pac-g.be/" class="btn btn-outline" target="_blank" rel="noopener">
+                Aller sur pac-g.be
+              </a>
+            </div>
+
+            <div class="hero-meta">
+              <span>Éducation permanente · culture · citoyenneté</span>
+              <span>Objectif&nbsp;: un local d’essai à Auderghem</span>
+            </div>
+          </div>
+
+          <aside class="hero-panel" aria-label="Résumé du fan club">
+            <h2>Ce que propose le fan club</h2>
+            <p>
+              Un petit groupe de habitantes et habitants qui veulent
+              <strong>agir par la culture</strong> en lien avec l’univers de PAC.
+            </p>
+            <ul>
+              <li>Tester des activités inspirées des formations, campagnes et expositions PAC.</li>
+              <li>Documenter ce qui fonctionne localement (public, méthodes, besoins).</li>
+              <li>Préparer une base solide pour une collaboration officielle.</li>
+            </ul>
+            <div class="hero-panel-footer">
+              <div class="hero-tagline">
+                Nous ne parlons pas « au nom » de PAC, nous travaillons
+                dans son sillage.
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Le mouvement PAC -->
+    <section id="mouvement">
+      <div class="container">
+        <div class="pill">Le mouvement</div>
+        <h2 class="section-title">Présence et Action Culturelles, en quelques mots.</h2>
+        <p class="section-subtitle">
+          PAC est un mouvement d’éducation permanente et populaire reconnu en Fédération
+          Wallonie-Bruxelles. Il développe des actions où culture, justice sociale et
+          citoyenneté critique sont indissociables.:contentReference[oaicite:1]{index=1}
+        </p>
+
+        <div class="two-cols">
+          <div class="card">
+            <h3>Ce que nous retenons pour un fan club</h3>
+            <ul>
+              <li>La culture comme levier d’émancipation et de débat.</li>
+              <li>Un ancrage territorial fort : régionales, sections locales, événements.</li>
+              <li>Des thématiques récurrentes : égalité, écologie, démocratie, mémoire.</li>
+            </ul>
+            <p class="note">
+              Le fan club se situe dans cette continuité, mais reste un
+              <strong>collectif autonome et non officiel</strong>.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Ce que le fan club ne fait pas</h3>
+            <ul>
+              <li>Pas de prises de position publiques au nom de PAC.</li>
+              <li>Pas de confusion d’identité : le site renvoie vers pac-g.be pour toute info officielle.</li>
+              <li>Pas de gestion « parallèle » de formations ou de campagnes.</li>
+            </ul>
+            <p class="note">
+              Toute reconnaissance ou mise à disposition de local se discute
+              avec PAC et/ou la commune, de manière transparente.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projet Auderghem -->
+    <section id="auderghem">
+      <div class="container">
+        <div class="pill">Projet local</div>
+        <h2 class="section-title">Auderghem comme terrain d’expérimentation.</h2>
+        <p class="section-subtitle">
+          L’idée : utiliser Auderghem comme « laboratoire PAC », en lien avec les actus,
+          formations et campagnes déjà portées par le mouvement à l’échelle de la
+          Wallonie et de Bruxelles.:contentReference[oaicite:2]{index=2}
+        </p>
+
+        <div class="two-cols" style="margin-top:1.2rem;">
+          <div class="card">
+            <h3>Objectifs du fan club à Auderghem</h3>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-label">Étape 1</div>
+                Lancer quelques activités tests (ciné-débat, atelier d’expression, balade
+                de quartier) dans des lieux déjà disponibles.
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-label">Étape 2</div>
+                Constituer un noyau d’animation (3–6 personnes) et une petite charte locale.
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-label">Étape 3</div>
+                Présenter le bilan à PAC + commune et demander un <strong>local d’essai</strong>
+                pour 6 à 12 mois.
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>En pratique, ce que l’on propose</h3>
+            <ul>
+              <li>Programmer 4 à 6 activités sur un semestre, inspirées de la grille PAC.</li>
+              <li>Inviter des relais locaux (écoles, maisons de quartier, bibliothèques).</li>
+              <li>Documenter ce qui se passe (photos, synthèses, retours des participant·es).</li>
+              <li>Mettre toutes ces ressources à disposition de PAC et des partenaires.</li>
+            </ul>
+            <p class="note">
+              Cette page sert de support de discussion, pas d’annonce publique.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Activités -->
+    <section id="activites">
+      <div class="container">
+        <div class="pill">Nos idées d’activités</div>
+        <h2 class="section-title">Quelques formats directement activables.</h2>
+        <p class="section-subtitle">
+          Ces propositions restent légères à organiser, mais sont suffisamment claires
+          pour être discutées avec PAC et la commune dès une première rencontre.
+        </p>
+
+        <div class="activities-grid">
+          <article class="card">
+            <div class="activity-label">Ciné-débat</div>
+            <h3>« Agir par la culture » en images</h3>
+            <p>
+              Projection d’un film ou documentaire, suivie d’un débat animé par un duo
+              habitant·e / association. Synthèse affichée dans le quartier et envoyée
+              à PAC comme retour du terrain.
+            </p>
+            <div class="tag-row">
+              <span class="tag">Projection</span>
+              <span class="tag">Débat</span>
+              <span class="tag">Partenariat local</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="activity-label">Atelier</div>
+            <h3>Atelier d’expression « Dire pour agir – version Auderghem »</h3>
+            <p>
+              Adaptation d’un atelier d’expression inspiré des formations PAC,
+              centré sur une question locale : logement, mobilité, écologie, mémoire
+              du quartier…
+            </p>
+            <div class="tag-row">
+              <span class="tag">Expression</span>
+              <span class="tag">Éducation permanente</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="activity-label">Balade</div>
+            <h3>Cartographie sensible d’Auderghem</h3>
+            <p>
+              Parcours urbain qui mêle observations, récits de vie et enjeux sociaux.
+              Les traces récoltées (sons, photos, textes) nourrissent une mini-expo
+              ou un podcast local.
+            </p>
+            <div class="tag-row">
+              <span class="tag">Espace public</span>
+              <span class="tag">Intergénérationnel</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="activity-label">Rencontre</div>
+            <h3>Café des initiatives</h3>
+            <p>
+              Soirée où chaque collectif dispose de 3 minutes pour présenter une
+              action coup de cœur. Le fan club anime la rencontre et collecte les
+              pistes de collaborations.
+            </p>
+            <div class="tag-row">
+              <span class="tag">Réseau local</span>
+              <span class="tag">Convivialité</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="activity-label">Jeunesse</div>
+            <h3>Mini-podcast de quartier</h3>
+            <p>
+              Des jeunes réalisent une courte série audio sur « ce que PAC pourrait
+              faire chez nous ». Écoute publique + échange avec les adultes.
+            </p>
+            <div class="tag-row">
+              <span class="tag">Jeunes</span>
+              <span class="tag">Médias</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="activity-label">Lecture & débat</div>
+            <h3>Zoom sur une campagne PAC</h3>
+            <p>
+              Lecture partagée d’un texte ou d’un outil issu du site officiel
+              (campagne, expo, formation) et discussion sur son adaptation locale.
+            </p>
+            <div class="tag-row">
+              <span class="tag">Campagnes</span>
+              <span class="tag">Expos</span>
+              <span class="tag">Formations</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Liens avec PAC -->
+    <section id="liens">
+      <div class="container">
+        <div class="pill">Écosystème PAC</div>
+        <h2 class="section-title">Un fan club branché sur le site officiel.</h2>
+        <p class="section-subtitle">
+          Ce prototype s’inspire directement de la structure et du ton de pac-g.be :
+          accueil, régionales, actualités, campagnes, formations, expositions, shop,
+          presse…
+        </p>
+
+        <div class="two-cols">
+          <div class="card">
+            <h3>Pages vers lesquelles renvoyer systématiquement</h3>
+            <ul>
+              <li><strong>Site officiel :</strong> <a href="https://www.pac-g.be/" target="_blank" rel="noopener">www.pac-g.be</a></li>
+              <li><strong>Régionales :</strong> pour orienter les personnes vers la structure existante la plus proche.</li>
+              <li><strong>Actualités & campagnes :</strong> pour ne pas recréer une communication parallèle.</li>
+              <li><strong>Formations :</strong> les offres officielles restent centralisées sur le site.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Comment présenter le fan club</h3>
+            <p>
+              « Nous sommes un collectif de citoyen·nes qui se reconnaissent dans les
+              valeurs de Présence et Action Culturelles. Ce fan club est <strong>non officiel</strong> :
+              il vise à expérimenter des activités locales et à nourrir le mouvement,
+              sans parler en son nom. »
+            </p>
+            <p class="note">
+              Formulation à ajuster avec PAC si le projet avance, afin de rester
+              parfaitement aligné avec leurs attentes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="container">
+        <div class="pill">Contacts & mentions</div>
+        <h2 class="section-title">Qui contacter et comment utiliser cette page.</h2>
+        <p class="section-subtitle">
+          Cette page est prévue pour être montrée en petit comité (PAC, commune,
+          partenaires locaux) comme support de discussion, pas comme site public
+          tant qu’aucun accord n’est pris.
+        </p>
+
+        <div class="two-cols">
+          <div class="card">
+            <h3>Contact du fan club (exemple)</h3>
+            <ul class="contact-list">
+              <li><strong>Collectif :</strong> Fan club non officiel PAC – Auderghem</li>
+              <li><strong>Email :</strong> <em>à définir (ex. pac-auderghem@…)</em></li>
+              <li><strong>Canaux :</strong> liste de diffusion + groupe de messagerie (Signal, Mattermost…)</li>
+            </ul>
+            <p class="note">
+              À adapter avec les personnes qui porteront réellement le projet.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Coordonnées officielles (rappel)</h3>
+            <p>
+              Extrait du site pac-g.be (à vérifier et mettre à jour si besoin) :
+            </p>
+            <p>
+              <strong>Présence et Action Culturelles</strong><br>
+              Siège général<br>
+              Rue Lambert Crickx 5<br>
+              1070 Bruxelles
+            </p>
+            <p class="note">
+              Pour toute question officielle concernant PAC, ses régionales,
+              formations ou campagnes, c’est vers ces coordonnées et vers le site
+              officiel qu’il faut renvoyer.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-block">
+        Site statique (HTML seul), pensé pour tourner sur une clé USB ou un
+        hébergement ultra simple. À utiliser comme <strong>preuve de concept</strong>.
+      </div>
+      <div class="footer-block">
+        Mention utile : « Ce site n’est ni validé ni géré par PAC. Il est proposé
+        comme base de discussion à adapter ou à supprimer à la demande du mouvement. »
+      </div>
+    </div>
+  </footer>
+
+  <div class="non-official-banner">
+    <strong>Fan club non officiel.</strong>
+    Prototype inspiré de pac-g.be, destiné à une présentation à PAC et/ou à la commune d’Auderghem.
+  </div>
+
+  <script>
+    // Menu mobile
+    const navToggle = document.getElementById('navToggle');
+    const mainNav = document.getElementById('mainNav');
+
+    navToggle.addEventListener('click', () => {
+      mainNav.classList.toggle('open');
+    });
+
+    // Fermer le menu mobile après clic sur un lien
+    mainNav.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('open');
+      });
+    });
+  </script>
+</body>
+</html>
