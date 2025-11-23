@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>L’Organisation – Index & Défi d’Instance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050712;
+      --panel: #0a0f26;
+      --panel-soft: rgba(9, 13, 42, 0.96);
+      --accent: #8bffb0;
+      --accent-soft: rgba(139, 255, 176, 0.22);
+      --accent-2: #d28bff;
+      --accent-2-soft: rgba(210, 139, 255, 0.22);
+      --danger: #ff4d7a;
+      --text-main: #f5f7ff;
+      --text-muted: #a3b0ff;
+      --border-soft: 1px solid rgba(145, 170, 255, 0.45);
+      --radius: 22px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 10% 0%, rgba(139, 255, 176, 0.1), transparent 50%),
+        radial-gradient(circle at 90% 100%, rgba(210, 139, 255, 0.12), transparent 55%),
+        #050712;
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 1.2rem 0.8rem 1.7rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 1120px;
+      background: linear-gradient(135deg, rgba(16, 22, 58, 0.96), rgba(5, 8, 27, 0.98));
+      border-radius: 28px;
+      border: 1px solid rgba(145, 170, 255, 0.35);
+      box-shadow: 0 0 42px rgba(0, 0, 0, 0.85);
+      padding: 1.3rem 1rem 1.6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .shell {
+        padding: 1.7rem 1.7rem 1.9rem;
+      }
+    }
+
+    .scanline {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.2;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.04),
+        rgba(255, 255, 255, 0.04) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      mix-blend-mode: soft-light;
+    }
+
+    header {
+      position: relative;
+      margin-bottom: 1.2rem;
+      border-bottom: 1px solid rgba(145, 170, 255, 0.45);
+      padding-bottom: 0.85rem;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.7rem;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.2rem 0.7rem 0.2rem 0.3rem;
+      border-radius: 999px;
+      border: 1px solid rgba(139, 255, 176, 0.9);
+      background: radial-gradient(circle at 0 0, rgba(139, 255, 176, 0.28), transparent 60%);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(139, 255, 176, 1);
+    }
+
+    .mode-chip {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      border-radius: 999px;
+      border: 1px solid rgba(210, 139, 255, 0.9);
+      padding: 0.2rem 0.7rem;
+      background: radial-gradient(circle at 100% 0, rgba(210, 139, 255, 0.25), transparent 60%);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: var(--accent-2);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .mode-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(210, 139, 255, 0.9);
+      box-shadow: 0 0 8px rgba(210, 139, 255, 1);
+    }
+
+    .hero-title {
+      font-size: clamp(1.9rem, 4.3vw, 2.5rem);
+      line-height: 1.1;
+      margin-bottom: 0.3rem;
+    }
+
+    .hero-title span {
+      color: var(--accent);
+    }
+
+    .hero-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 720px;
+    }
+
+    .hero-subtitle strong {
+      color: var(--text-main);
+    }
+
+    .hero-meta {
+      margin-top: 0.65rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .pill {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      border-radius: 999px;
+      padding: 0.18rem 0.7rem;
+      border: 1px solid rgba(148, 172, 255, 0.85);
+      background: rgba(5, 8, 28, 0.96);
+    }
+
+    .pill-accent {
+      border-color: rgba(139, 255, 176, 0.9);
+      background: rgba(4, 15, 14, 0.96);
+      color: var(--accent);
+    }
+
+    .warn {
+      margin-top: 0.9rem;
+      border-radius: 16px;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid rgba(255, 77, 122, 0.9);
+      background:
+        linear-gradient(120deg, rgba(255, 77, 122, 0.18), transparent 60%),
+        radial-gradient(circle at 0 0, rgba(255, 210, 152, 0.26), transparent 65%);
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+      font-size: 0.82rem;
+    }
+
+    .warn-icon {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+      color: var(--danger);
+      padding-top: 0.1rem;
+    }
+
+    .warn-text strong {
+      color: #ffd8e4;
+    }
+
+    /* Layout */
+    .layout {
+      margin-top: 1.2rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 960px) {
+      .layout {
+        grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.2fr);
+      }
+    }
+
+    .panel {
+      background:
+        radial-gradient(circle at 0 0, rgba(139, 255, 176, 0.08), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(210, 139, 255, 0.1), transparent 60%),
+        var(--panel-soft);
+      border-radius: var(--radius);
+      border: var(--border-soft);
+      padding: 0.95rem 0.95rem 1.05rem;
+    }
+
+    @media (min-width: 768px) {
+      .panel {
+        padding: 1.05rem 1.1rem 1.15rem;
+      }
+    }
+
+    .panel h2 {
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .panel p {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .panel p strong {
+      color: var(--text-main);
+    }
+
+    .list {
+      margin-top: 0.5rem;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      padding-left: 1.1rem;
+    }
+
+    .list li {
+      margin-bottom: 0.25rem;
+    }
+
+    /* Mode toggle */
+    .mode-switch {
+      margin-top: 0.7rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .mode-btn {
+      font-size: 0.8rem;
+      padding: 0.32rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 172, 255, 0.9);
+      background: rgba(6, 9, 32, 0.96);
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      transition: 0.15s ease-out;
+    }
+
+    .mode-btn span {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+      opacity: 0.85;
+    }
+
+    .mode-btn.active {
+      border-color: rgba(139, 255, 176, 0.95);
+      background: radial-gradient(circle at 0 0, rgba(139, 255, 176, 0.28), rgba(5, 8, 24, 0.96));
+      color: #04150c;
+      box-shadow: 0 0 16px rgba(139, 255, 176, 0.7);
+    }
+
+    .mode-expl {
+      margin-top: 0.5rem;
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      border-radius: 14px;
+      padding: 0.55rem 0.65rem;
+      border: 1px dashed rgba(148, 172, 255, 0.7);
+      background: rgba(5, 8, 24, 0.9);
+    }
+
+    /* Instance generator */
+    .instance-card {
+      margin-top: 0.7rem;
+      padding: 0.7rem 0.75rem;
+      border-radius: 16px;
+      background: rgba(5, 8, 28, 0.96);
+      border: 1px solid rgba(148, 172, 255, 0.75);
+    }
+
+    .instance-grid {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    @media (min-width: 600px) {
+      .instance-grid {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
+      }
+    }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      margin-bottom: 0.1rem;
+      color: var(--text-muted);
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      font-size: 0.85rem;
+      padding: 0.35rem 0.5rem;
+      border-radius: 10px;
+      border: 1px solid rgba(145, 170, 255, 0.85);
+      background: rgba(3, 6, 22, 0.96);
+      color: var(--text-main);
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      resize: vertical;
+      min-height: 2.1rem;
+    }
+
+    textarea {
+      min-height: 3.2rem;
+    }
+
+    .instance-actions {
+      margin-top: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      align-items: center;
+    }
+
+    .btn {
+      font-size: 0.8rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(139, 255, 176, 0.95);
+      background: radial-gradient(circle at 0 0, rgba(139, 255, 176, 0.28), rgba(4, 10, 18, 0.96));
+      color: #041308;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-weight: 600;
+      transition: 0.15s ease-out;
+    }
+
+    .btn:hover {
+      box-shadow: 0 0 14px rgba(139, 255, 176, 0.7);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      border-color: rgba(148, 172, 255, 0.9);
+      background: rgba(5, 8, 26, 0.96);
+      color: var(--text-main);
+    }
+
+    .instance-preview {
+      margin-top: 0.5rem;
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      border-radius: 12px;
+      padding: 0.5rem 0.6rem;
+      background: rgba(3, 7, 20, 0.96);
+      border: 1px dashed rgba(139, 255, 176, 0.7);
+    }
+
+    .instance-preview strong {
+      color: var(--accent);
+    }
+
+    /* Checklist */
+    .checklist {
+      margin-top: 0.7rem;
+      padding: 0.7rem 0.75rem;
+      border-radius: 16px;
+      background: rgba(5, 8, 28, 0.96);
+      border: 1px solid rgba(145, 170, 255, 0.75);
+      font-size: 0.83rem;
+      color: var(--text-muted);
+    }
+
+    .checklist-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: var(--text-main);
+    }
+
+    .checkitem {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.35rem;
+      margin-top: 0.25rem;
+    }
+
+    .checkitem input[type="checkbox"] {
+      margin-top: 0.13rem;
+      accent-color: #8bffb0;
+    }
+
+    .checkitem span {
+      font-size: 0.8rem;
+    }
+
+    .checklist-note {
+      margin-top: 0.35rem;
+      font-size: 0.75rem;
+      opacity: 0.85;
+    }
+
+    /* Links panel */
+    .links-grid {
+      margin-top: 0.65rem;
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .link-card {
+      border-radius: 16px;
+      padding: 0.6rem 0.65rem;
+      background: rgba(5, 8, 26, 0.96);
+      border: 1px solid rgba(145, 170, 255, 0.75);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .link-card strong {
+      color: var(--text-main);
+    }
+
+    .link-row {
+      margin-top: 0.35rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .link-btn {
+      font-size: 0.8rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(139, 255, 176, 0.9);
+      background: radial-gradient(circle at 0 0, rgba(139, 255, 176, 0.25), rgba(4, 10, 18, 0.96));
+      color: #041308;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: 0.15s ease-out;
+    }
+
+    .link-btn span {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+    }
+
+    .link-btn:hover {
+      box-shadow: 0 0 14px rgba(139, 255, 176, 0.7);
+      transform: translateY(-1px);
+    }
+
+    .link-btn.alt {
+      border-color: rgba(148, 172, 255, 0.9);
+      background: rgba(6, 9, 32, 0.96);
+      color: var(--text-main);
+    }
+
+    footer {
+      margin-top: 1.1rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+    }
+
+    footer code {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 172, 255, 0.9);
+      background: rgba(6, 9, 28, 0.96);
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="scanline"></div>
+
+    <header>
+      <div class="top-row">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          <span>Index</span>
+          <span>Défi d’instance</span>
+        </div>
+        <div class="mode-chip">
+          <span class="mode-dot"></span>
+          <span>HTML only</span>
+        </div>
+      </div>
+
+      <h1 class="hero-title">L’Organisation – <span>Index général & Défi</span></h1>
+      <p class="hero-subtitle">
+        Ce fichier <strong>index.html</strong> est la table de mixage du projet.  
+        Il te montre tout ce qui existe déjà (SAS, tests, organigrammes…) et te propose un défi&nbsp;:
+        <strong>créer ta propre instance du jeu</strong> sous la forme d’un <code>index.html</code> surpuissant,
+        qui tient dans une clé USB ou sur un simple dépôt GitHub.
+      </p>
+
+      <div class="hero-meta">
+        <div class="pill pill-accent">Objectif&nbsp;: autonomie maximale</div>
+        <div class="pill">Technos&nbsp;: HTML / CSS / JS pur</div>
+        <div class="pill">Mode&nbsp;: hors-ligne compatible</div>
+      </div>
+
+      <div class="warn">
+        <div class="warn-icon">[!]</div>
+        <div class="warn-text">
+          <strong>Important :</strong> ce dispositif est une expérimentation pédagogique et critique.
+          Tu ne postules à rien, tu ne signes rien, tu ne donnes aucune donnée sensible.
+          Le “jeu” sert à mieux comprendre le pouvoir, l’information, la technique – et à te fabriquer
+          tes propres outils, pas à te recruter.
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <!-- COLONNE GAUCHE : ATTRAIT & DÉFI -->
+      <section class="panel" aria-label="Pourquoi créer sa propre instance">
+        <h2>Pourquoi c’est intéressant de créer ta propre instance&nbsp;?</h2>
+        <p>
+          Derrière le côté “agence secrète” et le folklore, il y a un vrai enjeu&nbsp;:
+          <strong>reprendre la main sur tes outils et tes récits</strong>.
+          En créant ton propre <code>index.html</code>, tu deviens l’architecte de ton interface,
+          pas seulement un utilisateur perdu dans les menus des autres.
+        </p>
+        <ul class="list">
+          <li><strong>Techniquement :</strong> tu apprends à jongler avec HTML / CSS / JS sans framework.</li>
+          <li><strong>Politiquement :</strong> tu testes ce que ça fait de “mettre en scène” un pouvoir, un organigramme, un recrutement.</li>
+          <li><strong>Pédagogiquement :</strong> tu fais de ce dispositif un outil pour toi, ta bande, ton asbl, ton quartier.</li>
+          <li><strong>Psychologiquement :</strong> tu passes du mode “spectateur de plateforme” au mode “fabriquant de monde”.</li>
+        </ul>
+
+        <div class="mode-switch" aria-label="Choix du mode de visite">
+          <button type="button" class="mode-btn active" data-mode="observateur">
+            <span>●</span> Mode Observateur
+          </button>
+          <button type="button" class="mode-btn" data-mode="architecte">
+            <span>▲</span> Mode Architecte
+          </button>
+        </div>
+
+        <div class="mode-expl" id="modeExpl">
+          En <strong>Mode Observateur</strong>, tu explores simplement ce qui existe déjà&nbsp;:
+          <em>SAS</em>, page de recrutement, tests, organigramme.  
+          Tu regardes, tu lis, tu testes. Rien à coder, pas de pression.
+        </div>
+
+        <div class="instance-card">
+          <div class="instance-grid">
+            <div>
+              <label for="instanceName">Nom de ton instance (ex. “Cellule de veille du 2042”, “Bureau des insomniaques”)</label>
+              <input type="text" id="instanceName" placeholder="Tape ici le nom de TON Organisation…">
+            </div>
+            <div>
+              <label for="instanceSlogan">Slogan / mantra de ton jeu</label>
+              <textarea id="instanceSlogan" placeholder="Ex. « On lit les rapports pour que d’autres n’aient pas à le faire. »"></textarea>
+            </div>
+          </div>
+          <div class="instance-actions">
+            <button type="button" class="btn" id="saveInstanceBtn">
+              <span>✔</span> Sauvegarder dans ce navigateur
+            </button>
+            <button type="button" class="btn btn-ghost" id="resetInstanceBtn">
+              <span>×</span> Effacer
+            </button>
+            <span style="font-size:0.78rem;color:var(--text-muted);">
+              (Rien n’est envoyé sur un serveur, tout reste dans <code>localStorage</code>.)
+            </span>
+          </div>
+          <div class="instance-preview" id="instancePreview">
+            Quand tu auras choisi un nom et un slogan, ta future instance s’affichera ici.
+          </div>
+        </div>
+
+        <div class="checklist">
+          <div class="checklist-title">Checklist – Ce que ta propre version d’index.html pourrait inclure</div>
+
+          <div class="checkitem">
+            <input type="checkbox" id="chkLayout">
+            <label for="chkLayout"><span>Un layout clair qui présente toutes tes pages (SAS, tests, pages spéciales, annexes…)</span></label>
+          </div>
+          <div class="checkitem">
+            <input type="checkbox" id="chkThematiques">
+            <label for="chkThematiques"><span>Un index thématique (citoyenneté, numérique, guerre info, économie, santé mentale…)</span></label>
+          </div>
+          <div class="checkitem">
+            <input type="checkbox" id="chkMedia">
+            <label for="chkMedia"><span>Des blocs multimédias : PDF, images, extraits YouTube, playlists, liens externes utiles.</span></label>
+          </div>
+          <div class="checkitem">
+            <input type="checkbox" id="chkTests">
+            <label for="chkTests"><span>Un hub de tests et de quiz (comme <code>test-index.html</code>, mais à ta sauce).</span></label>
+          </div>
+          <div class="checkitem">
+            <input type="checkbox" id="chkStory">
+            <label for="chkStory"><span>Une micro-histoire : qui est ton Organisation ? d’où elle parle ? que veut-elle faire ?</span></label>
+          </div>
+          <div class="checkitem">
+            <input type="checkbox" id="chkMode">
+            <label for="chkMode"><span>Un switch de mode : chill / gore / hardcore / bisounours / terminal – au moins visuel, voire narratif.</span></label>
+          </div>
+
+          <div class="checklist-note">
+            Tu peux cocher ce que tu veux intégrer.  
+            La checklist est stockée localement (dans le même navigateur) pour suivre ta progression de créateur ou créatrice.
+          </div>
+        </div>
+      </section>
+
+      <!-- COLONNE DROITE : PARCOURS & LIENS -->
+      <aside class="panel" aria-label="Parcours conseillé et liens">
+        <h2>Parcours conseillé & fichiers existants</h2>
+        <p>
+          Si tu découvres le projet pour la première fois, tu peux suivre ce chemin&nbsp;:
+          <strong>SAS → Portail → Carte 0 → Organigramme → Recrutement → Tests</strong>.
+          Tous les fichiers sont déjà là, ton défi sera de les ré-arranger pour ton propre usage.
+        </p>
+
+        <div class="links-grid">
+          <article class="link-card">
+            <strong>1. Entrer dans le SAS</strong>
+            <p>
+              C’est la porte d’entrée “in-universe”. Elle t’emmène vers toutes les zones :
+              présentation, carte 0, phase 0, bureau, organigramme, recrutement, tests…
+            </p>
+            <div class="link-row">
+              <a href="SAS.html" class="link-btn">
+                <span>&gt;</span> Ouvrir le SAS
+              </a>
+            </div>
+          </article>
+
+          <article class="link-card">
+            <strong>2. Explorer le Portail & la Carte 0</strong>
+            <p>
+              Le portail explique l’Organisation, la carte 0 pose les conditions du jeu, la phase 0 prépare la suite.
+            </p>
+            <div class="link-row">
+              <a href="portail-0.html" class="link-btn alt">
+                <span>&gt;</span> Portail général
+              </a>
+              <a href="carte-0.html" class="link-btn alt">
+                <span>0</span> Carte 0
+              </a>
+              <a href="phase-0.html" class="link-btn alt">
+                <span>φ</span> Phase 0
+              </a>
+              <a href="etdonc.html" class="link-btn alt">
+                <span>?</span> Et donc…
+              </a>
+            </div>
+          </article>
+
+          <article class="link-card">
+            <strong>3. Voir l’Organisation de l’intérieur</strong>
+            <p>
+              Le bureau et l’organigramme donnent une vision interne, façon “graph view” ou “intranet d’agence”.
+            </p>
+            <div class="link-row">
+              <a href="bureau.html" class="link-btn alt">
+                <span>#</span> Bureau / QG
+              </a>
+              <a href="organigramme-obs.html" class="link-btn alt">
+                <span>◎</span> Organigramme
+              </a>
+              <a href="about.html" class="link-btn alt">
+                <span>i</span> À propos
+              </a>
+            </div>
+          </article>
+
+          <article class="link-card">
+            <strong>4. Recrutement & tests</strong>
+            <p>
+              Zone “d’évaluation” : mise en situation, avertissements, tests documentaires (PDF, vidéos, quiz…).
+            </p>
+            <div class="link-row">
+              <a href="recrutement.html" class="link-btn">
+                <span>&gt;</span> Page recrutement
+              </a>
+              <a href="test-index.html" class="link-btn alt">
+                <span>◎</span> Index des tests
+              </a>
+              <a href="test-0.html" class="link-btn alt">
+                <span>0</span> Test 0
+              </a>
+              <a href="test-1.html" class="link-btn alt">
+                <span>1</span> Test 1
+              </a>
+            </div>
+          </article>
+
+          <article class="link-card">
+            <strong>5. Toi, maintenant : relever le défi</strong>
+            <p>
+              L’idée est simple : récupérer tout ça, le comprendre, et en faire <strong>ta version</strong>.
+              Tu peux forker le repo, copier ce dossier sur une clé USB, le modifier, le réduire, l’augmenter.
+              Tant que ça tient dans un <code>index.html</code> que tu comprends, tu as gagné.
+            </p>
+            <div class="link-row">
+              <a href="README.html" class="link-btn alt">
+                <span>R</span> Lire la démarche (si tu en génères une version HTML)
+              </a>
+              <!-- Tu peux remplacer # par l’URL GitHub réel -->
+              <a href="#" class="link-btn alt">
+                <span>GH</span> Voir le dépôt GitHub
+              </a>
+            </div>
+          </article>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <span>L’Organisation – Index & défi d’instance autonome · Fichier autonome hors-ligne compatible</span>
+      <code>index.html // à forker, tordre, réécrire</code>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      // Mode switch
+      const modeButtons = document.querySelectorAll('.mode-btn');
+      const modeExpl = document.getElementById('modeExpl');
+
+      const modeText = {
+        observateur: "En \u003cstrong\u003eMode Observateur\u003c/strong\u003e, tu explores simplement ce qui existe déjà : \u003cem\u003eSAS\u003c/em\u003e, page de recrutement, tests, organigramme. Tu regardes, tu lis, tu testes. Rien à coder, pas de pression.",
+        architecte: "En \u003cstrong\u003eMode Architecte\u003c/strong\u003e, tu regardes chaque fichier comme un composant. Tu te demandes : « qu’est-ce que je garde, qu’est-ce que je supprime, qu’est-ce que j’ajoute ? ». Ton objectif final : un \u003ccode\u003eindex.html\u003c/code\u003e qui te ressemble, techniquement et politiquement."
+      };
+
+      function setMode(mode) {
+        modeButtons.forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.mode === mode);
+        });
+        if (modeExpl) {
+          modeExpl.innerHTML = modeText[mode] || '';
+        }
+        try {
+          localStorage.setItem('org_mode', mode);
+        } catch (e) {}
+      }
+
+      modeButtons.forEach(btn => {
+        btn.addEventListener('click', () => setMode(btn.dataset.mode));
+      });
+
+      // Instance generator
+      const nameInput = document.getElementById('instanceName');
+      const sloganInput = document.getElementById('instanceSlogan');
+      const saveBtn = document.getElementById('saveInstanceBtn');
+      const resetBtn = document.getElementById('resetInstanceBtn');
+      const preview = document.getElementById('instancePreview');
+
+      function updatePreview() {
+        const name = nameInput.value.trim();
+        const slogan = sloganInput.value.trim();
+        if (!name && !slogan) {
+          preview.textContent = "Quand tu auras choisi un nom et un slogan, ta future instance s’affichera ici.";
+          return;
+        }
+
+        let html = "Ton Organisation personnelle pourrait s’appeler ";
+        if (name) {
+          html += "<strong>« " + name.replace(/</g, "&lt;") + " »</strong>";
+        } else {
+          html += "<strong>(nom à définir)</strong>";
+        }
+        if (slogan) {
+          html += " et avoir pour mantra : « " + slogan.replace(/</g, "&lt;") + " ».";
+        } else {
+          html += " et tu peux encore ajouter un mantra pour fixer l’intention.";
+        }
+        preview.innerHTML = html;
+      }
+
+      function saveInstance() {
+        try {
+          const data = {
+            name: nameInput.value || "",
+            slogan: sloganInput.value || ""
+          };
+          localStorage.setItem('org_instance', JSON.stringify(data));
+        } catch (e) {}
+        updatePreview();
+      }
+
+      function resetInstance() {
+        nameInput.value = "";
+        sloganInput.value = "";
+        try {
+          localStorage.removeItem('org_instance');
+        } catch (e) {}
+        updatePreview();
+      }
+
+      if (saveBtn) saveBtn.addEventListener('click', saveInstance);
+      if (resetBtn) resetBtn.addEventListener('click', resetInstance);
+      if (nameInput) nameInput.addEventListener('input', updatePreview);
+      if (sloganInput) sloganInput.addEventListener('input', updatePreview);
+
+      // Checklist persistence
+      const checklistIds = ['chkLayout', 'chkThematiques', 'chkMedia', 'chkTests', 'chkStory', 'chkMode'];
+
+      function saveChecklist() {
+        const state = {};
+        checklistIds.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            state[id] = !!el.checked;
+          }
+        });
+        try {
+          localStorage.setItem('org_checklist', JSON.stringify(state));
+        } catch (e) {}
+      }
+
+      function loadChecklist() {
+        try {
+          const raw = localStorage.getItem('org_checklist');
+          if (!raw) return;
+          const state = JSON.parse(raw);
+          checklistIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el && Object.prototype.hasOwnProperty.call(state, id)) {
+              el.checked = !!state[id];
+            }
+          });
+        } catch (e) {}
+      }
+
+      checklistIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('change', saveChecklist);
+        }
+      });
+
+      // Initialisation
+      (function init() {
+        // Mode
+        let storedMode = null;
+        try {
+          storedMode = localStorage.getItem('org_mode');
+        } catch (e) {}
+        if (storedMode && (storedMode === 'observateur' || storedMode === 'architecte')) {
+          setMode(storedMode);
+        }
+
+        // Instance
+        try {
+          const raw = localStorage.getItem('org_instance');
+          if (raw) {
+            const data = JSON.parse(raw);
+            if (data && typeof data === 'object') {
+              if (data.name && nameInput) nameInput.value = data.name;
+              if (data.slogan && sloganInput) sloganInput.value = data.slogan;
+            }
+          }
+        } catch (e) {}
+        updatePreview();
+
+        // Checklist
+        loadChecklist();
+      })();
+    })();
+  </script>
+</body>
+</html>
