@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>NOESIS / internal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #020617;
+      --accent: #22c55e;
+      --accent2: #0ea5e9;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.4);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background: var(--bg-soft);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    a { color: inherit; }
+
+    .page {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 700px;
+      text-align: center;
+    }
+
+    .logo {
+      font-family: var(--font-mono);
+      font-size: 2.2rem;
+      letter-spacing: 0.18em;
+      margin-bottom: 4px;
+    }
+
+    .slogan {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #020617;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 6px 12px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+    }
+
+    .search-icon {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 0.9rem;
+      outline: none;
+      font-family: var(--font-main);
+    }
+
+    .search-input::placeholder {
+      color: #6b7280;
+    }
+
+    .hint-row {
+      margin-top: 8px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      text-align: left;
+    }
+
+    .hint-keywords span {
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 3px 7px;
+      margin-right: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .hint-keywords span:hover {
+      border-color: rgba(34, 197, 94, 0.8);
+      color: #bbf7d0;
+    }
+
+    .results {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .result-card {
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #020617;
+      padding: 8px 9px;
+      margin-bottom: 10px;
+      font-size: 0.84rem;
+    }
+
+    .result-title {
+      font-size: 0.9rem;
+      margin-bottom: 3px;
+    }
+
+    .result-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+      font-family: var(--font-mono);
+    }
+
+    .result-snippet {
+      font-size: 0.8rem;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .result-tags {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .result-actions {
+      margin-top: 6px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: transparent;
+      color: var(--text);
+      font-size: 0.75rem;
+      padding: 4px 9px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn:hover {
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #bbf7d0;
+    }
+
+    .btn-primary {
+      border-color: rgba(34, 197, 94, 0.9);
+    }
+
+    .code-block {
+      margin-top: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      background: #020617;
+      border-radius: 8px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 6px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .small {
+      font-size: 0.74rem;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.92);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal {
+      width: min(90vw, 860px);
+      max-height: 90vh;
+      background: #020617;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+    }
+
+    .modal-title {
+      font-family: var(--font-mono);
+    }
+
+    .modal-close {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .modal-body {
+      padding: 8px 10px;
+      overflow: auto;
+      font-size: 0.82rem;
+    }
+
+    .modal-body iframe,
+    .modal-body object {
+      width: 100%;
+      height: 65vh;
+      border: none;
+      background: #020617;
+    }
+
+    /* Quiz */
+    .quiz-question {
+      margin-bottom: 10px;
+      padding: 6px 6px 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: #020617;
+    }
+
+    .quiz-question h4 {
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+    }
+
+    .quiz-options label {
+      display: block;
+      font-size: 0.8rem;
+      margin-bottom: 3px;
+      cursor: pointer;
+    }
+
+    .quiz-question.correct {
+      border-color: rgba(34, 197, 94, 0.9);
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.4);
+    }
+
+    .quiz-question.wrong {
+      border-color: rgba(239, 68, 68, 0.9);
+      box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.4);
+    }
+
+    .quiz-explanation {
+      margin-top: 4px;
+      font-size: 0.77rem;
+      color: var(--muted);
+      border-top: 1px dashed rgba(55, 65, 81, 0.9);
+      padding-top: 3px;
+    }
+
+    .quiz-explanation strong {
+      color: #bbf7d0;
+    }
+
+    .quiz-result {
+      margin-top: 8px;
+      font-size: 0.8rem;
+    }
+
+    footer {
+      padding: 6px 10px 8px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-align: center;
+      border-top: 1px solid rgba(31, 41, 55, 0.9);
+    }
+
+    footer a {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      .logo { font-size: 1.8rem; }
+      .hint-row { font-size: 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <div class="shell">
+    <div class="logo">NOESIS</div>
+    <div class="slogan">Don't be evil, just do it.</div>
+
+    <form class="search-box" id="searchForm">
+      <span class="search-icon">⌕</span>
+      <input
+        class="search-input"
+        id="searchInput"
+        type="text"
+        autocomplete="off"
+        placeholder="Tapez une requête interne (ex : surveillance, IA, annexe, faq, quiz)…"
+      />
+    </form>
+
+    <div class="hint-row">
+      <div class="hint-keywords">
+        <span data-q="surveillance">surveillance</span>
+        <span data-q="IA">IA</span>
+        <span data-q="autoritarisme">autoritarisme</span>
+        <span data-q="climat">climat</span>
+        <span data-q="annexe">annexe</span>
+        <span data-q="faq">faq</span>
+        <span data-q="quiz">quiz</span>
+      </div>
+      <div>
+        <span class="small">Interface hermétique. Tout est derrière la barre de recherche.</span>
+      </div>
+    </div>
+
+    <div class="results" id="results"></div>
+  </div>
+</div>
+
+<footer>
+  <span>Page minimale. Moteur interne complet. Aucun appel serveur.</span><br />
+  <span>Astuce : cliquez sur <a id="footerFaq">faq</a> ou tapez « faq » dans la barre.</span>
+</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle"></div>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+  // CONFIG : le PDF d’annexe doit être à côté de ce fichier
+  const ANNEX_URL = "dystopie.pdf";
+
+  // Base de "documents" internes (contenu réaliste/dystopique)
+  const corpus = [
+    {
+      id: "surveillance",
+      type: "article",
+      title: "Surveillance de masse : du discours sécuritaire à la société de notation",
+      meta: "Note interne / Surveillance / Dérives 2020+",
+      tags: ["surveillance", "big brother", "caméras", "IA", "crédit social"],
+      keywords: ["surveillance", "big brother", "caméra", "reconnaissance faciale", "chine", "crédit social"],
+      snippet:
+        "Caméras « intelligentes », reconnaissance faciale, scoring social : la frontière entre sécurité et contrôle systémique s’efface.",
+      detail:
+        "Les systèmes de vidéosurveillance couplés à l’intelligence artificielle se banalisent : villes « sûres », frontières automatisées, scoring comportemental. La Chine a généralisé un maillage massif de caméras, combiné à des dispositifs de crédit social et de profilage ethnique. Dans les régimes autoritaires, la surveillance sert au contrôle social ; dans les démocraties, elle est justifiée par la sécurité ou la santé publique, avec un risque de glissement progressif si les contre-pouvoirs restent faibles."
+    },
+    {
+      id: "ia",
+      type: "article",
+      title: "IA de gouvernance : quand l’algorithme devient guichet unique et juge de paix",
+      meta: "Note interne / IA / Gouvernance",
+      tags: ["IA", "biais", "fraude sociale", "police prédictive"],
+      keywords: ["ia", "algorithme", "biais", "police prédictive", "fraude", "allocations", "toeslagen"],
+      snippet:
+        "Scoring fiscal automatisé, reconnaissance faciale policière, justice prédictive : l’IA ne remplace pas l’État, elle rigidifie ses réflexes.",
+      detail:
+        "Dans plusieurs pays, des algorithmes ont détecté des « fraudes » massives là où il n’y avait que des erreurs administratives. Aux Pays-Bas, un système de détection de fraude aux allocations a ciblé des milliers de familles sur des critères bancals, les plongeant dans la ruine avant que la justice ne reconnaisse l’ampleur de l’erreur. Ailleurs, des logiciels de reconnaissance faciale ont conduit à des arrestations injustifiées, principalement de personnes racisées. L’illusion d’objectivité masque des biais puissants et la difficulté à contester des décisions automatiques."
+    },
+    {
+      id: "autoritarisme",
+      type: "article",
+      title: "Autoritarisme du XXIe siècle : moins de bottes, plus d’algorithmes",
+      meta: "Synthèse / Démocratie en recul",
+      tags: ["autoritarisme", "digital", "répression"],
+      keywords: ["autoritarisme", "dictature", "répression", "protestation", "lois d'exception"],
+      snippet:
+        "Lois d’exception prolongées, censure légale, traque numérique des opposants : la bascule autoritaire passe souvent par le droit.",
+      detail:
+        "Les coups d’État classiques coexistent avec des dérives plus lentes : constitutions modifiées pour prolonger des mandats, lois « anti-fake news » utilisées pour emprisonner des journalistes, traque numérique des opposants. Les régimes autoritaires apprennent à utiliser la bureaucratie et les technologies pour neutraliser la contestation avant même qu’elle ne soit visible dans la rue."
+    },
+    {
+      id: "climat",
+      type: "article",
+      title: "Climat, migrations et tentations éco-autoritaires",
+      meta: "Note interne / Environnement / Risques politiques",
+      tags: ["climat", "écofascisme", "réfugiés climatiques"],
+      keywords: ["climat", "écofascisme", "migration", "réfugiés", "ressources"],
+      snippet:
+        "Crises climatiques, déplacements forcés, tensions sur les ressources : le terrain est prêt pour des discours écofascistes qui désignent des populations « en trop ».",
+      detail:
+        "Les catastrophes environnementales déplacent déjà des millions de personnes, alimentant des tensions sociales. Des mouvances extrémistes recyclent le vocabulaire écologique pour désigner des groupes ethniques ou des migrants comme menace principale. Dans des scénarios extrêmes, des régimes pourraient restreindre brutalement les libertés au nom de l’urgence écologique : rationnements autoritaires, frontières militarisées, hiérarchisation implicite des vies à préserver."
+    },
+    {
+      id: "annexe",
+      type: "annexe",
+      title: "Annexe complète : rapport sur les dérives dystopiques actuelles",
+      meta: "Document PDF / Base théorique",
+      tags: ["pdf", "annexe", "rapport complet"],
+      keywords: ["annexe", "rapport", "pdf", "dystopie"],
+      snippet:
+        "Version longue : surveillance, contrôle de l’information, libertés civiles, IA, biotechnologies, autoritarisme, climat.",
+      detail:
+        "L’annexe compile des cas documentés de dérives contemporaines : généralisation des technologies de surveillance, lois d’exception, criminalisation de la contestation, dérives de l’IA dans la justice ou les prestations sociales, risques biotechnologiques et effondrement environnemental. C’est la matrice de ce moteur interne et du quiz.",
+      embed: { kind: "pdf", url: ANNEX_URL }
+    },
+    {
+      id: "faq",
+      type: "faq",
+      title: "FAQ : brancher d’autres documents sur ce moteur interne",
+      meta: "Guide technique / Intégration de contenu",
+      tags: ["faq", "intégration", "docs"],
+      keywords: ["faq", "aide", "intégrer", "documents", "pdf", "youtube", "image", "spotify"],
+      snippet:
+        "Ce moteur est 100 % statique. Tout se joue dans la constante « corpus » et dans quelques fonctions de rendu.",
+      detail:
+        "Pour ajouter des documents ou fonctionnalités, modifiez le tableau « corpus » ci-dessous : chaque objet représente un résultat possible.\n\nChamps principaux :\n- id : identifiant interne unique\n- type : article, annexe, media, faq, quiz…\n- title / meta : titre + courte description\n- tags / keywords : mots-clés pour la recherche\n- snippet : aperçu court dans les résultats\n- detail : texte complet affiché en modale\n- embed (optionnel) : { kind, url } pour ouvrir un PDF, une image ou une vidéo dans une modale.\n\nLa recherche est volontairement simple : si la requête contient un mot-clé ou une partie du titre, l’entrée remonte. Pour changer la logique, modifiez la fonction search()."
+    },
+    {
+      id: "faq-tech",
+      type: "faq",
+      title: "Comment ajouter PDF, images, YouTube, playlists…",
+      meta: "Exemples d’entrées corpus",
+      tags: ["faq", "embed", "exemples"],
+      keywords: ["pdf", "image", "youtube", "spotify", "playlist", "intégrer"],
+      snippet:
+        "Tout ce que le navigateur sait afficher peut être branché dans une modale via « embed ».",
+      detail:
+        "Exemples :\n\n1) Ajouter un autre PDF local :\n{\n  id: \"memo-ai\",\n  type: \"annexe\",\n  title: \"Mémo interne IA\",\n  meta: \"PDF / interne\",\n  tags: [\"pdf\", \"IA\"],\n  keywords: [\"memo\", \"IA\"],\n  snippet: \"Note technique sur les risques IA.\",\n  detail: \"Version longue du mémo IA.\",\n  embed: { kind: \"pdf\", url: \"memo-ia.pdf\" }\n}\n\n2) Ajouter une image (schéma, carte d’acteurs) :\n{\n  id: \"schema-acteurs\",\n  type: \"media\",\n  title: \"Cartographie d’acteurs – exemple\",\n  meta: \"Image locale\",\n  tags: [\"image\", \"cartographie\"],\n  keywords: [\"schéma\", \"cartographie\"],\n  snippet: \"Schéma d’exemple pour illustrer une note.\",\n  detail: \"Cette image peut être un organigramme, une carte d’acteurs, etc.\",\n  embed: { kind: \"image\", url: \"schemas/acteurs.png\" }\n}\n\n3) Intégrer une vidéo YouTube (si connexion) :\n{\n  id: \"yt-surveillance\",\n  type: \"media\",\n  title: \"Présentation vidéo – Surveillance et libertés\",\n  meta: \"YouTube / externe\",\n  tags: [\"youtube\", \"video\"],\n  keywords: [\"youtube\", \"video\", \"surveillance\"],\n  snippet: \"Conférence publique sur la surveillance.\",\n  detail: \"Vidéo à ouvrir en contexte sécurisé.\",\n  embed: { kind: \"youtube\", url: \"https://www.youtube.com/embed/XXXXXXXX\" }\n}\n\n4) Playlist (Spotify, etc.) : même principe, embed.kind = \"spotify\" et URL d’embed. Le reste du site ne change pas."
+    },
+    {
+      id: "quiz",
+      type: "quiz",
+      title: "Quiz : avez-vous vraiment lu l’annexe ?",
+      meta: "Évaluation / 8 questions",
+      tags: ["quiz", "annexe", "dystopie"],
+      keywords: ["quiz", "test", "evaluation", "annexe"],
+      snippet:
+        "Huit questions sur la surveillance, l’IA, l’autoritarisme et le climat, avec corrections commentées.",
+      detail:
+        "Les réponses s’appuient sur les exemples et tendances décrits dans l’annexe. Ce quiz sert de prétexte pour revisiter les points clés et mesurer ce qui a été retenu."
+    }
+  ];
+
+  // Quiz enrichi : questions + explications
+  const quizQuestions = [
+    {
+      q: "1. Quel pays est cité comme exemple emblématique de combinaison caméras, crédit social et profilage ethnique ?",
+      options: ["États-Unis", "Chine", "Brésil", "Norvège"],
+      answer: 1,
+      explanation:
+        "La Chine est souvent citée comme exemple de société hyper-surveillée combinant caméras, systèmes de crédit social et profilage d’ethnies minoritaires."
+    },
+    {
+      q: "2. Quel scandale a mis en lumière l’usage d’un logiciel espion contre des journalistes et militants dans de nombreux pays ?",
+      options: ["WikiLeaks", "Pegasus", "Cambridge Analytica", "XKeyscore"],
+      answer: 1,
+      explanation:
+        "Le scandale Pegasus a révélé l’ampleur de l’utilisation d’un logiciel espion commercial pour cibler opposants, journalistes et avocats dans divers pays."
+    },
+    {
+      q: "3. Dans quel pays un algorithme de détection de fraude sociale a-t-il plongé des milliers de familles dans la misère avant d’être reconnu comme abusif ?",
+      options: ["Pays-Bas", "Canada", "Grèce", "Afrique du Sud"],
+      answer: 0,
+      explanation:
+        "Aux Pays-Bas, le scandale des allocations familiales a montré comment un système automatisé pouvait faire dérailler tout un pan de la protection sociale."
+    },
+    {
+      q: "4. Comment les lois d’exception peuvent-elles contribuer à une dérive autoritaire ?",
+      options: [
+        "En étant systématiquement abrogées à la fin de la crise",
+        "En étant prolongées ou normalisées une fois l’urgence passée",
+        "En rendant toutes les institutions plus transparentes",
+        "En supprimant la police"
+      ],
+      answer: 1,
+      explanation:
+        "Le risque est que des mesures temporaires deviennent permanentes : l’état d’exception se mue en état normal, avec moins de garanties pour les libertés."
+    },
+    {
+      q: "5. Quel est un risque majeur des systèmes de police prédictive basés sur l’IA ?",
+      options: [
+        "Ils empêchent toute erreur humaine",
+        "Ils rendent automatiquement la justice plus équitable",
+        "Ils renforcent la surveillance de quartiers déjà sur-surveillés",
+        "Ils abolissent la détention provisoire"
+      ],
+      answer: 2,
+      explanation:
+        "Les systèmes de police prédictive ont tendance à renvoyer la police vers les mêmes quartiers, reproduisant et amplifiant les biais existants."
+    },
+    {
+      q: "6. Quel scénario illustre une dérive éco-autoritaire ou écofasciste ?",
+      options: [
+        "Investir dans les transports en commun",
+        "Taxer les grandes fortunes pour financer la transition",
+        "Accuser des migrants d’être la principale menace pour la planète",
+        "Rénover les bâtiments publics"
+      ],
+      answer: 2,
+      explanation:
+        "L’écofascisme recycle le discours écologique pour cibler des populations comme « problème » central, plutôt que les systèmes économiques et industriels."
+    },
+    {
+      q: "7. Pourquoi ce moteur interne est-il pensé pour fonctionner en local, sans envoi de données ?",
+      options: [
+        "Pour empêcher toute modification du code",
+        "Pour réduire la surface d’attaque et garder le contrôle des données",
+        "Pour contourner les lois sur la protection des données",
+        "Parce que les serveurs sont trop chers"
+      ],
+      answer: 1,
+      explanation:
+        "Un moteur statique, utilisé hors-ligne ou en environnement fermé, limite les fuites d’information et garde le contrôle entre les mains de celles et ceux qui le déploient."
+    },
+    {
+      q: "8. Que devrait faire une équipe après avoir lu l’annexe et passé ce quiz ?",
+      options: [
+        "Conclure que tout est perdu",
+        "Se limiter à regarder des séries dystopiques",
+        "Identifier ses propres risques et construire des scénarios d’action",
+        "Ignorer les signaux faibles"
+      ],
+      answer: 2,
+      explanation:
+        "L’objectif n’est pas de se résigner, mais de transformer ces constats en cartographies de risques, scénarios et plans d’action concrets."
+    }
+  ];
+
+  const searchForm = document.getElementById("searchForm");
+  const searchInput = document.getElementById("searchInput");
+  const resultsEl = document.getElementById("results");
+  const modalOverlay = document.getElementById("modalOverlay");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalBody = document.getElementById("modalBody");
+  const modalClose = document.getElementById("modalClose");
+
+  function normalize(str) {
+    return (str || "").toLowerCase();
+  }
+
+  function search(query) {
+    const q = normalize(query);
+    if (!q) return [];
+
+    const results = corpus.filter(item => {
+      const ks = (item.keywords || []).map(normalize);
+      const inKw = ks.some(k => q.includes(k));
+      const inTitle = normalize(item.title).includes(q);
+      return inKw || inTitle;
+    });
+
+    // petits easter eggs
+    if (q === "google") {
+      results.unshift({
+        id: "egg-google",
+        type: "article",
+        title: "Requête externe non autorisée",
+        meta: "Contrôle de périmètre",
+        tags: ["échec", "externe"],
+        snippet:
+          "Ce moteur ne résout pas vos requêtes vers l’extérieur. Vous avez déjà vu ce que ça donne.",
+        detail:
+          "Ici, aucune fuite vers des services tiers non maîtrisés. Tout ce qui est interrogé se trouve dans ce fichier, ou dans les documents que vous y rattachez. Si vous cherchez une sortie, c’est sans doute que vous n’avez pas encore ouvert l’annexe."
+      });
+    }
+
+    if (q.trim() === "earl") {
+      results.unshift({
+        id: "egg-earl",
+        type: "article",
+        title: "Réponse pseudo-aléatoire générée",
+        meta: "Bot interne",
+        tags: ["ia", "humour sec"],
+        snippet:
+          "E.A.R.L. déclare ne pas être responsable de ce que vous lui faites écrire. Mais il prend la mission.",
+        detail:
+          "Ce moteur peut être alimenté par une IA tant que la logique reste : 1 fichier, 0 backend, 100% maîtrisé par vous. Demandez à E.A.R.L. de régénérer ce corpus avec vos propres documents, questions et scénarios, puis remplacez simplement la constante « corpus »."
+      });
+    }
+
+    return results;
+  }
+
+  function renderResults(results, query) {
+    resultsEl.innerHTML = "";
+    if (!query) {
+      resultsEl.innerHTML =
+        '<div class="result-card small">Tapez un mot-clé (surveillance, IA, annexe, faq, quiz…) pour interroger l’intranet.</div>';
+      return;
+    }
+    if (!results.length) {
+      resultsEl.innerHTML =
+        '<div class="result-card small">Aucun résultat pour « ' +
+        query +
+        ' ».<br />Essayez : <code>surveillance</code>, <code>IA</code>, <code>autoritarisme</code>, <code>climat</code>, <code>annexe</code>, <code>faq</code>, <code>quiz</code>.</div>';
+      return;
+    }
+
+    results.forEach(item => {
+      const card = document.createElement("article");
+      card.className = "result-card";
+
+      const title = document.createElement("div");
+      title.className = "result-title";
+      title.textContent = item.title;
+
+      const meta = document.createElement("div");
+      meta.className = "result-meta";
+      meta.textContent = item.meta || "";
+
+      const snippet = document.createElement("div");
+      snippet.className = "result-snippet";
+      snippet.textContent = item.snippet || "";
+
+      const tags = document.createElement("div");
+      tags.className = "result-tags";
+      tags.textContent = (item.tags || []).map(t => "#" + t).join("  ");
+
+      card.appendChild(title);
+      card.appendChild(meta);
+      card.appendChild(snippet);
+      card.appendChild(tags);
+
+      const actions = document.createElement("div");
+      actions.className = "result-actions";
+
+      const btnDetail = document.createElement("button");
+      btnDetail.className = "btn btn-primary";
+      btnDetail.textContent = "Ouvrir le détail";
+      btnDetail.addEventListener("click", () => openDetail(item));
+      actions.appendChild(btnDetail);
+
+      if (item.embed && item.embed.kind) {
+        const btnEmbed = document.createElement("button");
+        btnEmbed.className = "btn";
+        btnEmbed.textContent = "Ouvrir dans une modale";
+        btnEmbed.addEventListener("click", () => openEmbed(item));
+        actions.appendChild(btnEmbed);
+      }
+
+      if (item.type === "quiz") {
+        const btnQuiz = document.createElement("button");
+        btnQuiz.className = "btn";
+        btnQuiz.textContent = "Lancer le quiz";
+        btnQuiz.addEventListener("click", openQuiz);
+        actions.appendChild(btnQuiz);
+      }
+
+      if (item.type === "faq" && item.id === "faq") {
+        const code = document.createElement("div");
+        code.className = "code-block";
+        code.textContent =
+          "Astuce :\n- Ajoutez vos propres entrées dans le tableau « corpus ».\n- Mettez vos PDF / images à côté de ce fichier ou dans un sous-dossier.\n- Utilisez le champ « embed » pour ouvrir le contenu en modale.";
+        card.appendChild(code);
+      }
+
+      card.appendChild(actions);
+      resultsEl.appendChild(card);
+    });
+  }
+
+  function openDetail(item) {
+    modalTitle.textContent = item.title;
+    const body = document.createElement("div");
+    const p = document.createElement("p");
+    p.textContent = item.detail || item.snippet || "";
+    body.appendChild(p);
+    modalBody.innerHTML = "";
+    modalBody.appendChild(body);
+    showModal();
+  }
+
+  function openEmbed(item) {
+    modalTitle.textContent = item.title;
+    modalBody.innerHTML = "";
+
+    const kind = item.embed.kind;
+    const url = item.embed.url;
+
+    if (kind === "pdf") {
+      const obj = document.createElement("object");
+      obj.data = url;
+      obj.type = "application/pdf";
+      obj.textContent =
+        "Impossible d’afficher le PDF. Ouvrez-le directement : " + url;
+      modalBody.appendChild(obj);
+    } else if (kind === "image") {
+      const img = document.createElement("img");
+      img.src = url;
+      img.alt = item.title;
+      img.style.maxWidth = "100%";
+      img.style.maxHeight = "65vh";
+      modalBody.appendChild(img);
+    } else if (kind === "youtube") {
+      const iframe = document.createElement("iframe");
+      iframe.src = url;
+      iframe.allow =
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      iframe.allowFullscreen = true;
+      modalBody.appendChild(iframe);
+    } else if (kind === "spotify") {
+      const iframe = document.createElement("iframe");
+      iframe.src = url;
+      iframe.allow = "autoplay; clipboard-write; encrypted-media";
+      modalBody.appendChild(iframe);
+    } else {
+      const p = document.createElement("p");
+      p.textContent = "Type d’intégration non reconnu.";
+      modalBody.appendChild(p);
+    }
+
+    showModal();
+  }
+
+  function openQuiz() {
+    modalTitle.textContent = "Quiz sur l’annexe dystopique";
+    modalBody.innerHTML = "";
+
+    const form = document.createElement("div");
+
+    quizQuestions.forEach((q, idx) => {
+      const block = document.createElement("div");
+      block.className = "quiz-question";
+      block.dataset.index = idx;
+
+      const title = document.createElement("h4");
+      title.textContent = q.q;
+      block.appendChild(title);
+
+      const opts = document.createElement("div");
+      opts.className = "quiz-options";
+
+      q.options.forEach((opt, i) => {
+        const lab = document.createElement("label");
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "q" + idx;
+        radio.value = i;
+        lab.appendChild(radio);
+        lab.appendChild(document.createTextNode(" " + opt));
+        opts.appendChild(lab);
+      });
+
+      block.appendChild(opts);
+      form.appendChild(block);
+    });
+
+    const btn = document.createElement("button");
+    btn.className = "btn btn-primary";
+    btn.textContent = "Corriger";
+
+    const result = document.createElement("div");
+    result.className = "quiz-result";
+
+    btn.addEventListener("click", () => {
+      // reset styles & explications
+      const blocks = modalBody.querySelectorAll(".quiz-question");
+      blocks.forEach(b => {
+        b.classList.remove("correct", "wrong");
+        const oldExp = b.querySelector(".quiz-explanation");
+        if (oldExp) oldExp.remove();
+      });
+
+      let score = 0;
+
+      quizQuestions.forEach((q, idx) => {
+        const block = modalBody.querySelector('.quiz-question[data-index="' + idx + '"]');
+        const radios = block.querySelectorAll('input[name="q' + idx + '"]');
+
+        let selectedIndex = null;
+        radios.forEach(r => {
+          if (r.checked) selectedIndex = Number(r.value);
+        });
+
+        const explanationDiv = document.createElement("div");
+        explanationDiv.className = "quiz-explanation";
+
+        if (selectedIndex === q.answer) {
+          score++;
+          block.classList.add("correct");
+          explanationDiv.innerHTML =
+            "<strong>Correct.</strong> " + q.explanation;
+        } else {
+          block.classList.add("wrong");
+          const correctLabel = q.options[q.answer];
+          explanationDiv.innerHTML =
+            "<strong>Réponse attendue :</strong> " +
+            correctLabel +
+            ". " +
+            q.explanation;
+        }
+
+        block.appendChild(explanationDiv);
+      });
+
+      const total = quizQuestions.length;
+      let feedback;
+      const ratio = score / total;
+
+      if (ratio <= 0.25) {
+        feedback =
+          "Score : " +
+          score +
+          " / " +
+          total +
+          ". Vous avez probablement survolé l’annexe, ou vous testez le moteur au hasard. À relire à tête reposée.";
+      } else if (ratio <= 0.5) {
+        feedback =
+          "Score : " +
+          score +
+          " / " +
+          total +
+          ". Quelques signaux ont été captés, mais beaucoup d’angles morts subsistent. L’annexe peut servir de base pour un atelier.";
+      } else if (ratio <= 0.75) {
+        feedback =
+          "Score : " +
+          score +
+          " / " +
+          total +
+          ". Vous avez retenu l’essentiel des tendances dystopiques décrites. Reste à appliquer ces grilles de lecture à votre propre contexte.";
+      } else {
+        feedback =
+          "Score : " +
+          score +
+          " / " +
+          total +
+          ". Lecture solide. Vous pouvez utiliser ce quiz comme support de discussion et aider d’autres personnes à se repérer dans l’annexe.";
+      }
+
+      result.textContent = feedback;
+    });
+
+    form.appendChild(btn);
+    form.appendChild(result);
+    modalBody.appendChild(form);
+    showModal();
+  }
+
+  function showModal() {
+    modalOverlay.style.display = "flex";
+  }
+
+  function hideModal() {
+    modalOverlay.style.display = "none";
+  }
+
+  // Events
+  searchForm.addEventListener("submit", e => {
+    e.preventDefault();
+    const q = searchInput.value.trim();
+    const res = search(q);
+    renderResults(res, q);
+  });
+
+  document.querySelectorAll(".hint-keywords span").forEach(span => {
+    span.addEventListener("click", () => {
+      const q = span.getAttribute("data-q") || "";
+      searchInput.value = q;
+      const res = search(q);
+      renderResults(res, q);
+    });
+  });
+
+  document.getElementById("footerFaq").addEventListener("click", () => {
+    const q = "faq";
+    searchInput.value = q;
+    const res = search(q);
+    renderResults(res, q);
+  });
+
+  modalClose.addEventListener("click", hideModal);
+  modalOverlay.addEventListener("click", e => {
+    if (e.target === modalOverlay) hideModal();
+  });
+
+  // État initial
+  renderResults([], "");
+</script>
+</body>
+</html>
