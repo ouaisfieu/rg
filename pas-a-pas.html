@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Par où commencer ? – Guide pas à pas débutant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #38bdf8;
+      --accent3: #f97316;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.6);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --shadow-soft: 0 20px 40px rgba(0,0,0,0.95);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.25), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.22), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        rgba(15, 23, 42, 0.3) 1px,
+        transparent 1px
+      );
+      background-size: 100% 1px;
+      opacity: 0.7;
+      mix-blend-mode: soft-light;
+      z-index: 0;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.3), transparent 60%),
+        rgba(3, 7, 18, 0.96);
+      border-bottom: 1px solid rgba(30, 64, 175, 0.8);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.95);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 180deg, #22c55e, #0ea5e9, #f97316, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #22c55e;
+      position: relative;
+      box-shadow:
+        0 0 0 2px #020617,
+        0 0 24px rgba(56, 189, 248, 0.9);
+    }
+
+    .logo::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, #020617, #020617);
+    }
+
+    .logo span {
+      position: relative;
+      letter-spacing: 0.08em;
+    }
+
+    .header-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .title-main {
+      font-size: 1.05rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .title-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 0.78rem;
+      color: var(--muted);
+      max-width: 260px;
+    }
+
+    .header-right strong {
+      color: #e5e7eb;
+    }
+
+    main {
+      flex: 1;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr);
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+      }
+    }
+
+    .panel {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 10px 11px;
+    }
+
+    .panel h2 {
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      border-radius: 999px;
+      padding: 2px 7px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-family: var(--font-mono);
+      color: var(--muted);
+    }
+
+    .intro-text {
+      font-size: 0.86rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .step-card {
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 7px 8px;
+      font-size: 0.85rem;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.9);
+    }
+
+    .step-title {
+      font-size: 0.9rem;
+      margin-bottom: 3px;
+    }
+
+    .step-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 3px;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 0.83rem;
+      cursor: pointer;
+    }
+
+    .option-label input {
+      margin-top: 2px;
+    }
+
+    .option-main {
+      font-weight: 500;
+    }
+
+    .option-sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .hint {
+      font-size: 0.76rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .tiny {
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    /* Right panel: résultat */
+    .result-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .result-title {
+      font-size: 0.95rem;
+    }
+
+    .status-pill {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 2px 7px;
+      font-size: 0.72rem;
+      font-family: var(--font-mono);
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34,197,94,0.95);
+    }
+
+    .result-body {
+      font-size: 0.86rem;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 6px;
+    }
+
+    .result-highlight {
+      font-size: 0.9rem;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .result-plan {
+      border-radius: 11px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 6px 7px;
+      font-size: 0.83rem;
+      margin-bottom: 5px;
+    }
+
+    .result-plan h3 {
+      font-size: 0.86rem;
+      margin-bottom: 3px;
+    }
+
+    .result-plan ol {
+      margin-left: 16px;
+      margin-top: 2px;
+    }
+
+    .result-plan li {
+      margin-bottom: 2px;
+    }
+
+    .file-pill {
+      display: inline-block;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 1px 7px;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      margin-right: 3px;
+      margin-bottom: 2px;
+    }
+
+    .code-block {
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      background: #020617;
+      border-radius: 8px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      padding: 5px 7px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #e5e7eb;
+    }
+
+    .quick-links {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    footer {
+      padding: 6px 12px 8px;
+      font-size: 0.76rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(30, 64, 175, 0.7);
+      background: rgba(3, 7, 18, 0.98);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 720px) {
+      header { flex-direction: column; align-items: flex-start; }
+      .header-right { text-align: left; max-width: none; }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="logo"><span>PP</span></div>
+    <div class="header-titles">
+      <div class="title-main">Par où commencer ?</div>
+      <div class="title-sub">
+        Petit guide pas à pas pour choisir ton point de départ parmi tous tes fichiers et prototypes.
+      </div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div>
+      Tu as beaucoup de choses (BROL, intranet, GROK, univers cartoon, détective…)  
+      et tu te demandes : <strong>je commence où aujourd’hui ?</strong>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- COLONNE GAUCHE : questions -->
+  <section class="panel">
+    <h2>
+      Étapes 1 & 2 – On clarifie
+      <span class="badge">tu coches, le site te propose un plan</span>
+    </h2>
+    <p class="intro-text">
+      Tu n’as pas besoin de tout utiliser en même temps.
+      On va juste choisir : <strong>ton niveau</strong> + <strong>ton besoin du moment</strong>.
+    </p>
+
+    <div class="steps-list">
+      <!-- Étape 1 -->
+      <article class="step-card">
+        <div class="step-title">Étape 1 – Où tu en es avec les sites ?</div>
+        <div class="step-sub">Choisis la phrase qui te ressemble le plus.</div>
+        <div class="options" id="step1">
+          <label class="option-label">
+            <input type="radio" name="level" value="debutant-total" />
+            <div>
+              <div class="option-main">Je n’ai jamais vraiment fait de site.</div>
+              <div class="option-sub">Je ne suis pas sûr·e de comprendre ce qu’est un fichier HTML.</div>
+            </div>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="level" value="debutant-simple" />
+            <div>
+              <div class="option-main">Je sais ouvrir un fichier .html dans mon navigateur.</div>
+              <div class="option-sub">Je peux copier-coller un modèle et changer un peu le texte.</div>
+            </div>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="level" value="intermediaire" />
+            <div>
+              <div class="option-main">J’ai déjà plusieurs fichiers (BROL, intranet, etc.).</div>
+              <div class="option-sub">Je suis un peu perdu·e entre tout, mais ce n’est pas totalement nouveau.</div>
+            </div>
+          </label>
+        </div>
+        <p class="hint">
+          Tu peux changer ton choix autant que tu veux. Le résultat à droite se mettra à jour.
+        </p>
+      </article>
+
+      <!-- Étape 2 -->
+      <article class="step-card">
+        <div class="step-title">Étape 2 – De quoi tu as besoin là maintenant ?</div>
+        <div class="step-sub">Pas “en théorie”, mais vraiment aujourd’hui.</div>
+        <div class="options" id="step2">
+          <label class="option-label">
+            <input type="radio" name="need" value="site-ultra-simple" />
+            <div>
+              <div class="option-main">Un petit site perso ultra simple.</div>
+              <div class="option-sub">Juste un sujet, un texte, quelques idées. Pour me lancer sans pression.</div>
+            </div>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="need" value="organiser-fichiers" />
+            <div>
+              <div class="option-main">Organiser tous mes fichiers et documents.</div>
+              <div class="option-sub">J’ai des PDFs, images, notes… je veux un “BROL 2.0” utilisable.</div>
+            </div>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="need" value="univers-narratif" />
+            <div>
+              <div class="option-main">Construire un univers (Tintin + Dardenne + Seigneur des Anneaux + Matrix cartoon).</div>
+              <div class="option-sub">Je veux raconter quelque chose, chapitre par chapitre.</div>
+            </div>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="need" value="site-metier" />
+            <div>
+              <div class="option-main">Un site “métier” sérieux (détective privé, agence, etc.).</div>
+              <div class="option-sub">Une vitrine + un peu d’intranet pour bosser.</div>
+            </div>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="need" value="relier-ensemble" />
+            <div>
+              <div class="option-main">Relier tout l’ensemble (hub, GROK, thésaurus).</div>
+              <div class="option-sub">J’ai déjà plusieurs choses et je veux les voir comme un système cohérent.</div>
+            </div>
+          </label>
+        </div>
+        <p class="hint">
+          Si tu hésites entre plusieurs, choisis celui qui te ferait le plus de bien cette semaine.
+        </p>
+      </article>
+
+      <article class="step-card">
+        <div class="step-title">Étape 3 – Tu peux revenir ici quand tu veux</div>
+        <div class="step-sub">
+          Ce fichier <code>pas-a-pas.html</code> est juste une boussole.
+        </div>
+        <p class="tiny">
+          Tu peux l’ouvrir à chaque fois que tu te sens perdu·e :
+          tu coches ton humeur du moment, et tu as un point de départ concret.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- COLONNE DROITE : résultat -->
+  <section class="panel">
+    <div class="result-header">
+      <div class="result-title">Résultat – Ton prochain pas concret</div>
+      <div class="status-pill">
+        <span class="dot"></span>
+        <span id="statusText">En attente de tes choix…</span>
+      </div>
+    </div>
+
+    <div id="resultContent">
+      <p class="result-body">
+        Coche d’abord :
+        <br />• une réponse à l’étape 1 (ton niveau),
+        <br />• une réponse à l’étape 2 (ton besoin du moment).
+        <br />Je t’afficherai ici : <strong>le fichier à ouvrir en premier</strong>
+        + <strong>2 ou 3 actions très simples</strong>.
+      </p>
+      <p class="tiny">
+        Important : les noms de fichiers proposés supposent que tu as gardé la même organisation que dans
+        tout ce qu’on a fait ensemble (BROL, intranet, GROK, univers cartoon, etc.).
+        Sinon tu peux juste adapter les noms.
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>
+    pas-a-pas.html – Une boussole statique pour choisir ton prochain pas parmi tous tes fichiers et prototypes.
+  </span>
+  <span>
+    Tu peux adapter les noms de fichiers dans ce guide si tu organises ton dossier autrement.
+  </span>
+</footer>
+
+<script>
+  const statusText = document.getElementById("statusText");
+  const resultContent = document.getElementById("resultContent");
+  const levelRadios = document.querySelectorAll("input[name='level']");
+  const needRadios = document.querySelectorAll("input[name='need']");
+
+  function getSelected(name) {
+    const radios = document.querySelectorAll(`input[name='${name}']`);
+    for (const r of radios) {
+      if (r.checked) return r.value;
+    }
+    return null;
+  }
+
+  function updateResult() {
+    const level = getSelected("level");
+    const need = getSelected("need");
+
+    if (!level && !need) {
+      statusText.textContent = "En attente de tes choix…";
+      resultContent.innerHTML = `
+        <p class="result-body">
+          Coche d’abord :
+          <br />• une réponse à l’étape 1 (ton niveau),
+          <br />• une réponse à l’étape 2 (ton besoin du moment).
+          <br />Je t’afficherai ici : <strong>le fichier à ouvrir en premier</strong>
+          + <strong>2 ou 3 actions très simples</strong>.
+        </p>
+        <p class="tiny">
+          Tu peux changer de choix autant que tu veux, ce n’est pas un test.
+        </p>
+      `;
+      return;
+    }
+
+    if (!level || !need) {
+      statusText.textContent = "Choix incomplet";
+      resultContent.innerHTML = `
+        <p class="result-body">
+          Il manque encore un choix :
+          ${!level ? "→ choisis ton niveau (Étape 1)." : "→ choisis ton besoin du moment (Étape 2)."}
+        </p>
+        <p class="tiny">
+          Dès que les deux sont cochés, je te propose un plan concret.
+        </p>
+      `;
+      return;
+    }
+
+    statusText.textContent = "Plan proposé (tu peux l’adapter).";
+
+    // Définir le plan en fonction des combinaisons
+    let title = "";
+    let intro = "";
+    let files = [];
+    let steps = [];
+    let extra = "";
+
+    // Besoin : site ultra simple
+    if (need === "site-ultra-simple") {
+      title = "Commencer par un tout petit site perso";
+      files = ["tuto-premiers-pas.html"];
+
+      intro =
+        (level === "debutant-total"
+          ? "On va viser le plus simple : un seul fichier, un seul sujet. L’objectif, c’est juste de prouver que tu peux le faire."
+          : "Tu sais déjà ouvrir un .html, parfait. On va partir d’un modèle ultra simple et le plier à ton sujet.")
+        + "<br><br>Le bon point de départ : <strong>tuto-premiers-pas.html</strong>.";
+
+      steps = [
+        "Dans ton dossier principal, repère ou crée le fichier <code>tuto-premiers-pas.html</code>.",
+        "Ouvre-le dans ton navigateur (double-clic) et suis les étapes pour créer <code>index.html</code> à ton nom.",
+        "Quand tu es à l’aise avec ce premier fichier, tu pourras revenir ici et choisir une autre direction (BROL, univers, etc.)."
+      ];
+
+      extra = "Tu peux rester des jours ou des semaines sur ce niveau sans culpabiliser. L’important, c’est d’être à l’aise avec « un dossier + un fichier + un sujet ».";
+
+    // Besoin : organiser fichiers
+    } else if (need === "organiser-fichiers") {
+      title = "Mettre en place (ou consolider) BROL 2.0";
+      files = ["index.html", "learn.html"];
+
+      intro =
+        "Ton énergie du moment est visiblement sur : « où sont tous mes trucs ? ». " +
+        "On va donc renforcer la partie thésaurus de fichiers (BROL 2.0).";
+
+      steps = [
+        "Ouvre <code>index.html</code> (BROL 2.0) dans ton navigateur : vérifie que tu vois déjà quelques éléments.",
+        "Ouvre ensuite ce même fichier dans ton éditeur de texte et ajoute au moins 1 ou 2 vrais fichiers à toi dans le tableau <code>brolItems</code>.",
+        "Ouvre <code>learn.html</code> et regarde la partie « Niveau 1 – BROL + PDF » pour t’aider à structurer l’ajout."
+      ];
+
+      extra = "Si tu es débutant total, tu peux d’abord passer 1 petite heure avec <code>tuto-premiers-pas.html</code> avant de jouer avec BROL, mais ce n’est pas obligatoire.";
+
+    // Besoin : univers narratif
+    } else if (need === "univers-narratif") {
+      title = "Partir de l’univers “Vallée pixelisée”";
+      files = ["index.html", "pas-a-pas.html"];
+
+      intro =
+        "Tu veux jouer avec un univers Tintin + frères Dardenne + Seigneur des Anneaux + Matrix, ambiance cartoon. " +
+        "Le bon point de départ est ton fichier d’univers (la Vallée Pixelisée).";
+
+      steps = [
+        "Repère le fichier de ton univers (par exemple <code>index.html</code> si c’est la Vallée Pixelisée, ou le nom que tu lui as donné). Ouvre-le dans le navigateur.",
+        "Choisis 1 seule scène et 1 seul personnage que tu veux rendre plus concret (un paragraphe, quelques phrases suffisent).",
+        "Plus tard, tu pourras dupliquer ce fichier en <code>episode1.html</code>, <code>episode2.html</code>, mais pour l’instant concentre-toi sur 1 scène + 1 personnage."
+      ];
+
+      extra = "Quand tu seras à l’aise, tu pourras connecter cet univers à GORK (gork.html) pour le voir comme une carte, ou à BROL pour lier tes notes et annexes.";
+
+    // Besoin : site métier
+    } else if (need === "site-metier") {
+      title = "S’appuyer sur le site « détective privé »";
+      files = ["index-detective.html", "learn.html"];
+
+      intro =
+        "Tu veux un site qui ressemble déjà à quelque chose de professionnel. Le prototype de détective privé est parfait comme squelette à réutiliser.";
+
+      steps = [
+        "Ouvre <code>index-detective.html</code> dans ton navigateur. Lis la page comme si c’était déjà ton site.",
+        "Dans ton éditeur de texte, remplace le nom / métier / coordonnées par les tiens (ou par un autre rôle fictif si tu veux juste tester).",
+        "Note quelque part (par exemple dans BROL ou dans un fichier texte) ce que tu aimerais ajouter plus tard : formulaire, nouvelles rubriques, etc."
+      ];
+
+      extra = "Tu n’es pas obligé de tout comprendre du JS de cette page : commence par changer les textes, les titres, et vois déjà ce que ça fait.";
+
+    // Besoin : relier ensemble
+    } else if (need === "relier-ensemble") {
+      title = "Utiliser GROK-CORE comme hub, et LEARN/RELEARN comme guides";
+      files = ["grok-core.html", "learn.html", "relearn.html"];
+
+      intro =
+        "Tu as déjà plusieurs morceaux (BROL, intranet, univers, détective…) et ton vrai besoin, c’est de voir tout ça comme un système cohérent. " +
+        "On va prendre GROK-CORE comme centre de gravité.";
+
+      steps = [
+        "Ouvre <code>grok-core.html</code> dans ton navigateur. Clique sur quelques surfaces (BROL, GORK, intranet…) pour vérifier que les liens fonctionnent.",
+        "Ensuite, ouvre <code>learn.html</code> et identifie le niveau où tu te situes (N1, N2 ou N3) – pas besoin de tout lire, juste repérer.",
+        "Enfin, ouvre <code>relearn.html</code> et passe en revue la partie « Conventions de nommage » pour que tes noms de fichiers / ids restent cohérents."
+      ];
+
+      extra = "Tu peux décider que GROK-CORE devient ta « page d’accueil » et mettre un raccourci vers ce fichier sur ton bureau.";
+
+    } else {
+      // fallback
+      title = "Choix non reconnu";
+      intro = "Il y a eu un petit bug dans la logique du guide. Tu peux décocher / recocher les options, ou recharger la page.";
+      files = [];
+      steps = [];
+    }
+
+    // Adapter légèrement en fonction du niveau
+    if (level === "debutant-total") {
+      intro += "<br><br><strong>Note:</strong> si quelque chose te semble trop technique, tu peux toujours revenir à <code>tuto-premiers-pas.html</code> pour reprendre une base très simple.";
+    }
+
+    // Construire le HTML du résultat
+    const filesHtml = files
+      .map(f => `<span class="file-pill">${f}</span>`)
+      .join(" ");
+
+    const stepsHtml = steps
+      .map(step => `<li>${step}</li>`)
+      .join("");
+
+    resultContent.innerHTML = `
+      <p class="result-highlight">${title}</p>
+      <p class="result-body">${intro}</p>
+      ${files.length ? `
+        <div class="result-plan">
+          <h3>Fichiers à ouvrir en premier</h3>
+          <p>${filesHtml}</p>
+          <h3 style="margin-top:4px;">Plan en 3 petits gestes</h3>
+          <ol>${stepsHtml}</ol>
+        </div>
+      ` : ""}
+
+      <div class="code-block">
+Et concrètement ?
+
+1. Va dans ton dossier principal où tu as mis tous tes fichiers.
+2. Double-clique sur le fichier conseillé ci-dessus (ou ouvre-le via ton navigateur).
+3. Fais juste les 2–3 actions proposées, rien de plus pour aujourd’hui.
+      </div>
+
+      <p class="quick-links">
+        Si tu te sens perdu·e après ça, tu peux :
+        <br />• revenir dans <code>pas-a-pas.html</code> et changer tes choix,
+        <br />• ou ouvrir <code>tuto-premiers-pas.html</code> pour revenir au niveau « un seul fichier très simple ».
+      </p>
+    `;
+  }
+
+  levelRadios.forEach(r => r.addEventListener("change", updateResult));
+  needRadios.forEach(r => r.addEventListener("change", updateResult));
+</script>
+</body>
+</html>
