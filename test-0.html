@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz – Plaidoyer citoyen</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-card: #0f172a;
+      --accent: #0ea5e9;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --accent-strong: #22c55e;
+      --danger: #f97316;
+      --text-main: #e5e7eb;
+      --text-muted: #94a3b8;
+      --radius-xl: 18px;
+      --shadow-soft: 0 22px 45px rgba(15, 23, 42, 0.8);
+      --transition-fast: 0.18s ease-out;
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0% 0%, #1d4ed8 0, transparent 55%),
+        radial-gradient(circle at 100% 100%, #22c55e 0, transparent 55%),
+        var(--bg);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 900px;
+      background: linear-gradient(135deg, rgba(15, 23, 42, .98), rgba(15, 23, 42, .96));
+      border-radius: 26px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 18px 22px 10px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: radial-gradient(circle at 0 0, #0ea5e9 0, transparent 60%);
+    }
+
+    .logo-pill {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #facc15, #f97316);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0f172a;
+      font-weight: 800;
+      font-size: 20px;
+      box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.9),
+                  0 0 0 4px rgba(56, 189, 248, 0.6);
+    }
+
+    .title-block h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .title-block p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    main {
+      padding: 18px 22px 20px;
+    }
+
+    .screen {
+      display: none;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .intro-card,
+    .quiz-card,
+    .result-card {
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.09), transparent 60%),
+                  radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.05), transparent 60%),
+                  var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: 18px 18px 16px;
+      border: 1px solid rgba(148, 163, 184, 0.26);
+    }
+
+    .intro-card h2,
+    .quiz-card h2,
+    .result-card h2 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .intro-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .pill {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--text-muted);
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 9px 18px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform var(--transition-fast),
+                  box-shadow var(--transition-fast),
+                  background var(--transition-fast),
+                  color var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0ea5e9, #22c55e);
+      color: #0f172a;
+      box-shadow: 0 12px 25px rgba(8, 47, 73, 0.6);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 32px rgba(8, 47, 73, 0.9);
+    }
+
+    .btn-secondary {
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-main);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .btn[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-row {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .progress {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .bar-outer {
+      flex: 1;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .bar-inner {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #22c55e, #0ea5e9);
+      transition: width 0.22s ease-out;
+    }
+
+    .chip {
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .question-text {
+      font-size: 1.02rem;
+      margin-bottom: 10px;
+    }
+
+    .answers {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .answer {
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      padding: 8px 10px;
+      background: rgba(15, 23, 42, 0.9);
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      transition: background var(--transition-fast),
+                  border-color var(--transition-fast),
+                  transform var(--transition-fast),
+                  box-shadow var(--transition-fast);
+    }
+
+    .answer:hover {
+      background: rgba(15, 23, 42, 1);
+      box-shadow: 0 12px 25px rgba(15, 23, 42, 0.7);
+      transform: translateY(-1px);
+    }
+
+    .answer.selected {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .answer.correct {
+      border-color: var(--accent-strong);
+      background: rgba(34, 197, 94, 0.18);
+    }
+
+    .answer.wrong {
+      border-color: var(--danger);
+      background: rgba(248, 113, 113, 0.14);
+    }
+
+    .answer-label {
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-top: 1px;
+    }
+
+    .answer-text {
+      flex: 1;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      border-left: 3px solid var(--accent);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-muted);
+      display: none;
+    }
+
+    .feedback.visible {
+      display: block;
+    }
+
+    .feedback.correct {
+      border-left-color: var(--accent-strong);
+    }
+
+    .feedback.wrong {
+      border-left-color: var(--danger);
+    }
+
+    .feedback strong {
+      color: var(--text-main);
+    }
+
+    .result-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 10px 0 8px;
+      font-size: 0.9rem;
+    }
+
+    .badge {
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-muted);
+    }
+
+    .score-big {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .mini-list {
+      list-style: none;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-left: 0;
+    }
+
+    .mini-list li {
+      margin-bottom: 3px;
+    }
+
+    footer {
+      border-top: 1px solid rgba(148, 163, 184, 0.3);
+      padding: 8px 18px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    footer span strong {
+      color: var(--accent);
+    }
+
+    @media (max-width: 640px) {
+      .app {
+        border-radius: 20px;
+      }
+      header {
+        padding: 14px 14px 8px;
+      }
+      main {
+        padding: 14px;
+      }
+      .intro-card,
+      .quiz-card,
+      .result-card {
+        padding: 14px 12px 12px;
+      }
+      .btn-row {
+        justify-content: center;
+      }
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="logo-pill">P</div>
+    <div class="title-block">
+      <h1>Plaidoyer citoyen – Quiz interactif</h1>
+      <p>Testez vos connaissances sur le guide et ses 15 outils.</p>
+    </div>
+  </header>
+
+  <main>
+    <!-- Écran d’intro -->
+    <section id="introScreen" class="screen active">
+      <div class="intro-card">
+        <h2>Envie de faire bouger les lignes&nbsp;?</h2>
+        <p>
+          Ce quiz reprend les grandes idées du petit guide du plaidoyer citoyen :
+          qu’est-ce que le plaidoyer, en quoi est-il différent du lobbying, et
+          comment utiliser les outils comme SWOT, PESTEL ou la théorie du changement.
+        </p>
+        <div class="pill-row">
+          <span class="pill">Voir · Juger · Agir</span>
+          <span class="pill">15 outils</span>
+          <span class="pill">Stratégie &amp; pouvoir d’agir</span>
+        </div>
+        <p style="font-size:0.86rem; color:var(--text-muted);">
+          10 questions, réponses immédiates et petites explications pour vous aider
+          à construire vos propres actions de plaidoyer.
+        </p>
+        <div class="btn-row" style="justify-content:flex-start; margin-top:12px;">
+          <button class="btn btn-primary" id="startBtn">
+            🚀 Commencer le quiz
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Écran du quiz -->
+    <section id="quizScreen" class="screen">
+      <div class="quiz-card">
+        <div class="progress">
+          <div class="bar-outer">
+            <div class="bar-inner" id="progressBar"></div>
+          </div>
+          <span id="questionCounter">Question 1 / 10</span>
+          <span class="chip" id="scoreChip">Score : 0</span>
+        </div>
+
+        <div class="chip" id="themaChip">Thème : introduction</div>
+
+        <h2 id="questionTitle" style="margin-top:8px; margin-bottom:4px;">
+          Question
+        </h2>
+        <p class="question-text" id="questionText">
+          <!-- texte de la question -->
+        </p>
+
+        <div class="answers" id="answersContainer">
+          <!-- options générées en JS -->
+        </div>
+
+        <div id="feedback" class="feedback">
+          <!-- feedback -->
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" id="prevBtn">
+            ⬅ Précédent
+          </button>
+          <button class="btn btn-primary" id="validateBtn" disabled>
+            Valider
+          </button>
+          <button class="btn btn-secondary" id="nextBtn" style="display:none;">
+            Suivant ➜
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Écran de résultat -->
+    <section id="resultScreen" class="screen">
+      <div class="result-card">
+        <h2>Résultats du quiz</h2>
+        <p class="score-big" id="finalScoreText"></p>
+        <div class="result-summary">
+          <span class="badge" id="commentBadge"></span>
+          <span class="badge" id="detailBadge"></span>
+        </div>
+        <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:8px;">
+          Vous pouvez refaire le quiz pour vous entraîner, ou utiliser les questions
+          comme support d’animation dans un groupe pour lancer une discussion
+          sur le plaidoyer citoyen.
+        </p>
+        <ul class="mini-list">
+          <li>• <strong>Voir</strong> : comprendre le contexte, les acteurs, les rapports de pouvoir.</li>
+          <li>• <strong>Juger</strong> : analyser les causes (arbre à problème, 5 pourquoi, PESTEL...).</li>
+          <li>• <strong>Agir</strong> : choisir vos objectifs, cibles, messages et actions.</li>
+        </ul>
+        <div class="btn-row" style="margin-top:12px;">
+          <button class="btn btn-primary" id="restartBtn">
+            🔁 Recommencer
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>
+      Quiz hors ligne · Enregistrez ce fichier comme <strong>index.html</strong>
+      sur une clé USB et ouvrez-le dans votre navigateur.
+    </span>
+    <span>
+      Astuce&nbsp;: partagez-le dans votre cercle de confiance et
+      adaptez les questions à vos propres campagnes.
+    </span>
+  </footer>
+</div>
+
+<script>
+  // --- Données du quiz ---
+  // Chaque question contient :
+  // - text : l’énoncé
+  // - theme : pour afficher "Thème : ..."
+  // - answers : tableau de propositions
+  // - correctIndex : index de la bonne réponse
+  // - explanation : court feedback pédagogique
+  const questions = [
+    {
+      theme: "Définition",
+      text: "Quel est l’objectif principal du plaidoyer citoyen ?",
+      answers: [
+        "Défendre des intérêts privés de manière discrète.",
+        "Influencer les décisions et pratiques politiques dans le sens de l’intérêt général.",
+        "Organiser des manifestations de masse sans dialogue politique.",
+        "Remplacer les responsables politiques par des citoyen·ne·s tiré·e·s au sort."
+      ],
+      correctIndex: 1,
+      explanation:
+        "Le plaidoyer est un processus stratégique d’action collective qui vise à influencer les décisions et pratiques politiques dans l’intérêt général et/ou le bien commun."
+    },
+    {
+      theme: "Plaidoyer vs lobbying",
+      text: "Quelle différence majeure est soulignée entre le plaidoyer et le lobbying ?",
+      answers: [
+        "Le plaidoyer est secret, le lobbying est toujours public.",
+        "Le plaidoyer vise seulement le niveau local, le lobbying le niveau international.",
+        "Le plaidoyer se veut public et transparent, alors que le lobbying est souvent plus discret et opaque.",
+        "Il n’y a aucune différence, ce sont des synonymes."
+      ],
+      correctIndex: 2,
+      explanation:
+        "Le guide insiste sur le fait que le lobbying est souvent discret et perçu comme opaque, alors que le plaidoyer porté par la société civile se veut public et transparent."
+    },
+    {
+      theme: "Niveaux de pouvoir",
+      text: "La Belgique est un État fédéral. Pourquoi est-ce important pour un plaidoyer citoyen ?",
+      answers: [
+        "Parce qu’il suffit toujours d’écrire au Roi pour résoudre un problème.",
+        "Parce que plusieurs niveaux de pouvoir peuvent être compétents sur une même thématique, il faut donc identifier qui décide quoi.",
+        "Parce que seul le niveau communal a un pouvoir réel.",
+        "Parce que les ONG ne peuvent agir qu’au niveau européen."
+      ],
+      correctIndex: 1,
+      explanation:
+        "Comprendre la répartition des compétences (fédéral, régions, communautés, communes, UE...) permet d’adresser ses demandes au bon niveau de pouvoir."
+    },
+    {
+      theme: "Voir – outils",
+      text: "À quoi sert l’outil « Domino du changement » ?",
+      answers: [
+        "À classer les arguments juridiques par ordre d’importance.",
+        "À planifier un budget de campagne.",
+        "À cadrer facilement le projet de plaidoyer en partant des valeurs et du changement souhaité dans la société.",
+        "À calculer automatiquement les signatures d’une pétition."
+      ],
+      correctIndex: 2,
+      explanation:
+        "Le domino du changement aide à clarifier pourquoi et pour quoi on veut s’engager, en reliant valeurs, changements souhaités et types d’actions possibles."
+    },
+    {
+      theme: "Voir – pouvoir",
+      text: "Que permet la « fleur de pouvoir » ?",
+      answers: [
+        "Mesurer la popularité d’un·e élu·e.",
+        "Identifier les caractéristiques (genre, classe sociale, âge, etc.) qui influencent nos rapports de pouvoir et nos privilèges.",
+        "Évaluer le budget des institutions publiques.",
+        "Choisir automatiquement les slogans d’une campagne."
+      ],
+      correctIndex: 1,
+      explanation:
+        "La fleur de pouvoir permet de se situer soi-même et de mieux comprendre les dynamiques de domination ou de privilège liées à nos identités (genre, classe, origine, etc.)."
+    },
+    {
+      theme: "Juger – analyse",
+      text: "Quel est l’objectif de l’analyse SWOT dans un plaidoyer ?",
+      answers: [
+        "Analyser uniquement les menaces politiques.",
+        "Identifer forces, faiblesses, opportunités et menaces liées au projet de plaidoyer.",
+        "Évaluer le niveau d’études des élu·e·s.",
+        "Mesurer la quantité de messages sur les réseaux sociaux."
+      ],
+      correctIndex: 1,
+      explanation:
+        "La SWOT (forces, faiblesses, opportunités, menaces) permet d’identifier les éléments internes et externes qui peuvent favoriser ou freiner la stratégie de plaidoyer."
+    },
+    {
+      theme: "Juger – causes",
+      text: "Pourquoi utiliser un « arbre à problème » ?",
+      answers: [
+        "Pour choisir les couleurs de la campagne.",
+        "Pour classer les élu·e·s selon leur parti.",
+        "Pour représenter les causes profondes d’un problème (racines) et ses conséquences (branches).",
+        "Pour organiser le calendrier électoral."
+      ],
+      correctIndex: 2,
+      explanation:
+        "L’arbre à problème aide à distinguer le problème central, ses causes profondes et ses conséquences afin de cibler des solutions pertinentes."
+    },
+    {
+      theme: "Agir – stratégies",
+      text: "Que signifie « agir avec le pouvoir » dans le cadre d’un plaidoyer ?",
+      answers: [
+        "Refuser tout dialogue avec les institutions.",
+        "Co-construire des solutions via un dialogue et/ou une négociation avec les autorités.",
+        "Remplacer toutes les décisions politiques par des référendums en ligne.",
+        "Se limiter à des actions symboliques."
+      ],
+      correctIndex: 1,
+      explanation:
+        "Agir avec le pouvoir, c’est chercher la co-construction du changement via le dialogue, les rencontres de plaidoyer, les consultations, etc."
+    },
+    {
+      theme: "Agir – objectifs",
+      text: "Dans un objectif SMART, que signifie le « T » ?",
+      answers: [
+        "Transversal : lié à tous les domaines.",
+        "Transparent : visible pour tout le monde.",
+        "Technique : très détaillé.",
+        "Temporel : il faut fixer une échéance dans le temps."
+      ],
+      correctIndex: 3,
+      explanation:
+        "Un objectif SMART doit être Spécifique, Mesurable, Atteignable, Réaliste et Temporel, c’est-à-dire associé à un délai clair."
+    },
+    {
+      theme: "Agir – message",
+      text: "Quel élément NE fait PAS partie des 5 composantes d’un message de plaidoyer efficace ?",
+      answers: [
+        "Une accroche percutante.",
+        "La description du problème.",
+        "La cible et l’action demandée.",
+        "La liste complète de tous les articles de loi sur le sujet."
+      ],
+      correctIndex: 3,
+      explanation:
+        "Un message comprend une accroche, le problème, pourquoi c’est important, la cible et l’action demandée. Les détails juridiques peuvent être dans une note, pas forcément dans le message clé."
+    }
+  ];
+
+  // --- Références DOM ---
+  const introScreen = document.getElementById("introScreen");
+  const quizScreen = document.getElementById("quizScreen");
+  const resultScreen = document.getElementById("resultScreen");
+
+  const startBtn = document.getElementById("startBtn");
+  const prevBtn = document.getElementById("prevBtn");
+  const validateBtn = document.getElementById("validateBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const restartBtn = document.getElementById("restartBtn");
+
+  const progressBar = document.getElementById("progressBar");
+  const questionCounter = document.getElementById("questionCounter");
+  const scoreChip = document.getElementById("scoreChip");
+  const themaChip = document.getElementById("themaChip");
+
+  const questionTitle = document.getElementById("questionTitle");
+  const questionText = document.getElementById("questionText");
+  const answersContainer = document.getElementById("answersContainer");
+  const feedbackEl = document.getElementById("feedback");
+
+  const finalScoreText = document.getElementById("finalScoreText");
+  const commentBadge = document.getElementById("commentBadge");
+  const detailBadge = document.getElementById("detailBadge");
+
+  // --- État du quiz ---
+  let currentIndex = 0;
+  let score = 0;
+  let userAnswers = new Array(questions.length).fill(null);
+  let isCorrectionShown = false;
+
+  function showScreen(screen) {
+    [introScreen, quizScreen, resultScreen].forEach(s =>
+      s.classList.remove("active")
+    );
+    screen.classList.add("active");
+  }
+
+  function renderQuestion() {
+    const q = questions[currentIndex];
+    isCorrectionShown = false;
+    feedbackEl.className = "feedback";
+    feedbackEl.textContent = "";
+    feedbackEl.classList.remove("visible");
+
+    questionTitle.textContent = "Question " + (currentIndex + 1);
+    questionText.textContent = q.text;
+    themaChip.textContent = "Thème : " + q.theme;
+
+    // Met à jour compteur et barre de progression
+    questionCounter.textContent =
+      "Question " + (currentIndex + 1) + " / " + questions.length;
+    const progressPercent = ((currentIndex) / questions.length) * 100;
+    progressBar.style.width = progressPercent + "%";
+
+    // Met à jour score
+    scoreChip.textContent = "Score : " + score;
+
+    // Bouton précédent
+    prevBtn.disabled = currentIndex === 0;
+
+    // Reconstruit la liste des réponses
+    answersContainer.innerHTML = "";
+    q.answers.forEach((answer, index) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "answer";
+      btn.dataset.index = index;
+
+      const label = document.createElement("div");
+      label.className = "answer-label";
+      label.textContent = String.fromCharCode(65 + index) + ".";
+
+      const textDiv = document.createElement("div");
+      textDiv.className = "answer-text";
+      textDiv.textContent = answer;
+
+      btn.appendChild(label);
+      btn.appendChild(textDiv);
+
+      btn.addEventListener("click", () => selectAnswer(index));
+      answersContainer.appendChild(btn);
+    });
+
+    // Si l’utilisateur avait déjà répondu à cette question
+    const previousAnswer = userAnswers[currentIndex];
+    if (previousAnswer !== null) {
+      const buttons = answersContainer.querySelectorAll(".answer");
+      buttons[previousAnswer].classList.add("selected");
+      validateBtn.disabled = false;
+      // On affiche aussi la correction
+      showCorrection(previousAnswer);
+    } else {
+      validateBtn.disabled = true;
+      nextBtn.style.display = "none";
+    }
+  }
+
+  function selectAnswer(index) {
+    if (isCorrectionShown) return; // évite de changer après validation
+
+    const buttons = answersContainer.querySelectorAll(".answer");
+    buttons.forEach(btn => btn.classList.remove("selected"));
+    const selectedButton = buttons[index];
+    selectedButton.classList.add("selected");
+
+    userAnswers[currentIndex] = index;
+    validateBtn.disabled = false;
+  }
+
+  function showCorrection(selectedIndex) {
+    const q = questions[currentIndex];
+    const buttons = answersContainer.querySelectorAll(".answer");
+    buttons.forEach((btn, i) => {
+      btn.classList.remove("selected");
+      if (i === q.correctIndex) {
+        btn.classList.add("correct");
+      }
+      if (i === selectedIndex && i !== q.correctIndex) {
+        btn.classList.add("wrong");
+      }
+    });
+
+    const isCorrect = selectedIndex === q.correctIndex;
+    feedbackEl.classList.add("visible");
+    feedbackEl.classList.add(isCorrect ? "correct" : "wrong");
+    feedbackEl.innerHTML =
+      "<strong>" +
+      (isCorrect ? "Bonne réponse !" : "Ce n’est pas tout à fait ça.") +
+      "</strong> " +
+      " " +
+      q.explanation;
+
+    isCorrectionShown = true;
+    validateBtn.disabled = true;
+    nextBtn.style.display =
+      currentIndex === questions.length - 1 ? "none" : "inline-flex";
+  }
+
+  function validateAnswer() {
+    const selectedIndex = userAnswers[currentIndex];
+    if (selectedIndex === null || isCorrectionShown) return;
+
+    // Mise à jour du score (on ne recompte pas si on revient en arrière)
+    const q = questions[currentIndex];
+    const wasPreviouslyAnswered =
+      typeof userAnswers[currentIndex] === "number" &&
+      isCorrectionShown; // pas utilisé finalement, mais laisse la logique simple
+
+    if (selectedIndex === q.correctIndex) {
+      // On compte un point seulement si c’est la 1ère fois qu’on valide cette question
+      // Pour éviter les doublons, on pourrait mémoriser un tableau de "déjà compté".
+      // Ici on simplifie : le score n’est calculé qu’à l’aller. Si besoin, on pourrait recalculer.
+      score++;
+      scoreChip.textContent = "Score : " + score;
+    }
+
+    showCorrection(selectedIndex);
+
+    // Si on est à la dernière question, on peut directement proposer les résultats
+    if (currentIndex === questions.length - 1) {
+      nextBtn.style.display = "none";
+      setTimeout(showResults, 600);
+    }
+  }
+
+  function goToNext() {
+    if (currentIndex < questions.length - 1) {
+      currentIndex++;
+      renderQuestion();
+    } else {
+      showResults();
+    }
+  }
+
+  function goToPrev() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      renderQuestion();
+    }
+  }
+
+  function showResults() {
+    // Recalcule proprement le score en cas de navigation arrière
+    score = userAnswers.reduce((acc, answerIndex, i) => {
+      if (answerIndex === questions[i].correctIndex) return acc + 1;
+      return acc;
+    }, 0);
+
+    const total = questions.length;
+    const percent = Math.round((score / total) * 100);
+
+    finalScoreText.textContent =
+      score + " / " + total + " bonnes réponses (" + percent + " %)";
+
+    let comment;
+    if (percent === 100) {
+      comment = "Stratège du plaidoyer : prêt·e à interpeller les décideurs !";
+    } else if (percent >= 70) {
+      comment = "Très bon niveau : encore quelques outils à approfondir.";
+    } else if (percent >= 40) {
+      comment = "Bon début : relisez le guide et refaites le quiz.";
+    } else {
+      comment =
+        "Pas grave ! Le plaidoyer s’apprend en avançant. Reprenez les notions tranquillement.";
+    }
+    commentBadge.textContent = comment;
+    detailBadge.textContent =
+      "Forces : " +
+      score +
+      " bonnes réponses · À retravailler : " +
+      (total - score) +
+      " questions";
+
+    showScreen(resultScreen);
+  }
+
+  function restartQuiz() {
+    currentIndex = 0;
+    score = 0;
+    userAnswers = new Array(questions.length).fill(null);
+    scoreChip.textContent = "Score : 0";
+    progressBar.style.width = "0%";
+    showScreen(quizScreen);
+    renderQuestion();
+  }
+
+  // --- Écouteurs d’événements ---
+  startBtn.addEventListener("click", () => {
+    showScreen(quizScreen);
+    renderQuestion();
+  });
+
+  prevBtn.addEventListener("click", goToPrev);
+  nextBtn.addEventListener("click", goToNext);
+  validateBtn.addEventListener("click", validateAnswer);
+  restartBtn.addEventListener("click", restartQuiz);
+</script>
+</body>
+</html>
