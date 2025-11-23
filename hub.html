@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>NOESIS HUB // System Selector</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --accent: #22c55e;
+      --accent2: #0ea5e9;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.45);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --radius-xl: 18px;
+      --shadow-soft: 0 26px 60px rgba(0, 0, 0, 0.95);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.22), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.2), transparent 60%),
+        #020617;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        rgba(15, 23, 42, 0.16) 1px,
+        transparent 1px
+      );
+      background-size: 100% 2px;
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 960px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 180deg, #22c55e, #0ea5e9, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow:
+        0 0 0 2px #020617,
+        0 0 32px rgba(34, 197, 94, 0.9);
+    }
+
+    .logo::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, #020617, #020617);
+    }
+
+    .logo span {
+      position: relative;
+      font-family: var(--font-mono);
+      color: #22c55e;
+      font-size: 1rem;
+      letter-spacing: 0.09em;
+    }
+
+    .brand-text-main {
+      font-size: 1rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .brand-text-sub {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .header-right .slogan {
+      color: #facc15;
+    }
+
+    .header-right .hint {
+      font-size: 0.7rem;
+    }
+
+    /* Panel principal */
+    .panel {
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.18), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.16), transparent 60%),
+        #020617;
+      box-shadow: var(--shadow-soft);
+      padding: 12px 12px 13px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background-image: repeating-linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.28),
+        rgba(15, 23, 42, 0.28) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+      opacity: 0.6;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    .panel-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .panel-title {
+      font-size: 1rem;
+      margin-bottom: 3px;
+    }
+
+    .panel-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      max-width: 460px;
+    }
+
+    .panel-status {
+      text-align: right;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .panel-status span.badge {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      padding: 2px 7px;
+      margin-left: 4px;
+      color: #bbf7d0;
+      border-color: rgba(34, 197, 94, 0.9);
+    }
+
+    /* Recherche */
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #020617;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      padding: 6px 12px;
+      font-size: 0.86rem;
+      margin-bottom: 10px;
+    }
+
+    .search-icon {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 0.88rem;
+      outline: none;
+      font-family: var(--font-main);
+    }
+
+    .search-input::placeholder {
+      color: #64748b;
+    }
+
+    .search-hints {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .hint-keywords span {
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.95);
+      padding: 3px 7px;
+      margin-right: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      cursor: pointer;
+    }
+
+    .hint-keywords span:hover {
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #bbf7d0;
+    }
+
+    /* Grille d'applications */
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.6fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .app-card {
+      border-radius: 14px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: #020617;
+      padding: 8px 9px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: border-color 0.16s, box-shadow 0.16s, transform 0.16s, background 0.16s;
+    }
+
+    .app-card:hover {
+      border-color: rgba(56, 189, 248, 0.9);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.95);
+      transform: translateY(-1px);
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.18), #020617);
+    }
+
+    .app-title {
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .app-title span.name {
+      font-weight: 500;
+    }
+
+    .app-title span.env {
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      color: var(--muted);
+    }
+
+    .app-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .app-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      align-items: center;
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .app-tags {
+      font-size: 0.7rem;
+    }
+
+    .app-key {
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      padding: 1px 6px;
+    }
+
+    /* Bloc docs */
+    .docs-card {
+      border-radius: 14px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: #020617;
+      padding: 8px 9px;
+      font-size: 0.8rem;
+    }
+
+    .docs-card h3 {
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .docs-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .docs-list {
+      list-style: none;
+      font-size: 0.78rem;
+    }
+
+    .docs-list li {
+      margin-bottom: 4px;
+    }
+
+    .docs-list a {
+      text-decoration: none;
+    }
+
+    .docs-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .code-block {
+      margin-top: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      background: #020617;
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.95);
+      padding: 6px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 6px 12px 8px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(30, 64, 175, 0.7);
+      background: rgba(2, 6, 23, 0.98);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 760px) {
+      footer {
+        flex-direction: column;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <div class="shell">
+    <header>
+      <div class="brand">
+        <div class="logo"><span>NØ</span></div>
+        <div>
+          <div class="brand-text-main">NOESIS HUB</div>
+          <div class="brand-text-sub">SYSTEM SELECTOR · FRONT DOOR FOR ALL SURFACES</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="slogan">"Don't be evil, just do it."</div>
+        <div class="hint">1 hub · plusieurs sous-systèmes · tout en local.</div>
+      </div>
+    </header>
+
+    <main class="panel">
+      <div class="panel-inner">
+        <div class="panel-header">
+          <div>
+            <h1 class="panel-title">Sélection des surfaces internes</h1>
+            <p class="panel-sub">
+              Cette page regroupe la vitrine publique, les intranets et les annexes.  
+              À toi d’y brancher tes propres fichiers HTML, PDF, images ou autres.
+            </p>
+          </div>
+          <div class="panel-status">
+            NOESIS // HUB-00  
+            <span class="badge">MODE : OFFLINE-CAPABLE</span>
+          </div>
+        </div>
+
+        <form class="search-box" id="hubSearchForm">
+          <span class="search-icon">⌕</span>
+          <input
+            class="search-input"
+            id="hubSearchInput"
+            type="text"
+            autocomplete="off"
+            placeholder="Filtrer : moteur, intranet, dystopie, docs, formation…"
+          />
+        </form>
+
+        <div class="search-hints">
+          <div class="hint-keywords">
+            <span data-q="moteur">moteur</span>
+            <span data-q="intranet">intranet</span>
+            <span data-q="lambda">lambda</span>
+            <span data-q="noesis corp">noesis corp</span>
+            <span data-q="dystopie">dystopie</span>
+            <span data-q="pdf">pdf</span>
+          </div>
+          <div>
+            <span>Astuce : ce hub ne fait que lancer des fichiers présents dans le même dossier.</span>
+          </div>
+        </div>
+
+        <div class="grid">
+          <section>
+            <div class="app-grid" id="appGrid">
+              <!-- rempli en JS -->
+            </div>
+          </section>
+
+          <aside>
+            <article class="docs-card">
+              <h3>Annexes & documents</h3>
+              <p class="docs-desc">
+                Liens directs vers tes PDF et documents lourds.  
+                Mets simplement les fichiers à côté de ce hub ou dans un sous-dossier.
+              </p>
+              <ul class="docs-list" id="docsList">
+                <!-- rempli en JS -->
+              </ul>
+
+              <div class="code-block">
+                Pour ajouter une nouvelle page :
+                - crée ton fichier (ex : <code>intranet-formation.html</code>)
+                - mets-le dans le même dossier
+                - ajoute une entrée dans <code>apps</code> (voir en bas du script).
+              </div>
+            </article>
+          </aside>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<footer>
+  <span>
+    NOESIS HUB – 1 fichier pour orchestrer tous les autres. Aucun backend, aucun tracking, juste des liens.
+  </span>
+  <span>
+    Tu peux utiliser ce hub sur une clé USB, un NAS interne, ou comme page par défaut d’un mini serveur local.
+  </span>
+</footer>
+
+<script>
+  // ========= CONFIG : adapte juste ces tableaux à tes fichiers réels =========
+
+  // Pages / applis (mets ici les noms de tes fichiers HTML)
+  const apps = [
+    {
+      id: "search-dystopique",
+      title: "Moteur interne dystopique",
+      env: "PUBLIC / CORPO",
+      desc: "Page type Google minimale avec moteur interne, quiz sur l’annexe, modale PDF, FAQ technique.",
+      tags: ["moteur", "dystopie", "quiz"],
+      href: "moteur.html",  // ← renomme selon ton fichier de moteur de recherche
+      key: "F1"
+    },
+    {
+      id: "intranet-lambda",
+      title: "Intranet – Organisation lambda",
+      env: "INTRANET / CLASSIQUE",
+      desc: "Tableau de bord simple, annuaire, documents, bloc-notes local. Version neutre pour une orga standard.",
+      tags: ["intranet", "lambda"],
+      href: "intranet-lambda.html", // ← ton intranet 'organisation lambda'
+      key: "F2"
+    },
+    {
+      id: "intranet-noesis",
+      title: "Internal Grid – NOESIS CORP",
+      env: "INTRANET / DYSTOPIQUE",
+      desc: "Version corpo cyberpunk : risk & compliance, incidents, unités & checklists opérateur.",
+      tags: ["intranet", "noesis corp", "dystopie"],
+      href: "intranet-noesis.html", // ← ton intranet dystopique
+      key: "F3"
+    }
+  ];
+
+  // Documents (PDF, etc.) – adapte les noms selon tes fichiers
+  const docs = [
+    {
+      label: "Annexe dystopique complète",
+      file: "dystopie.pdf",
+      type: "PDF",
+      note: "Base théorique pour le quiz et les scénarios."
+    },
+    {
+      label: "Plaidoyer (JP)",
+      file: "plaidoyer-jp.pdf",
+      type: "PDF",
+      note: "Texte d’appui / réflexion (JP)."
+    },
+    {
+      label: "Pression",
+      file: "pression (1).pdf",
+      type: "PDF",
+      note: "Annexe sur la pression / contexte."
+    }
+  ];
+
+  // ==================== Rendu des applis ====================
+  const appGrid = document.getElementById("appGrid");
+  const docsList = document.getElementById("docsList");
+
+  function normalize(str) {
+    return (str || "").toLowerCase();
+  }
+
+  function renderApps(filter = "") {
+    appGrid.innerHTML = "";
+    const q = normalize(filter);
+
+    apps.forEach(app => {
+      const full = normalize(
+        app.title + " " + app.env + " " + app.desc + " " + (app.tags || []).join(" ")
+      );
+      if (q && !full.includes(q)) return;
+
+      const card = document.createElement("a");
+      card.className = "app-card";
+      card.href = app.href;
+
+      const titleRow = document.createElement("div");
+      titleRow.className = "app-title";
+      const name = document.createElement("span");
+      name.className = "name";
+      name.textContent = app.title;
+      const env = document.createElement("span");
+      env.className = "env";
+      env.textContent = app.env;
+      titleRow.appendChild(name);
+      titleRow.appendChild(env);
+
+      const desc = document.createElement("div");
+      desc.className = "app-desc";
+      desc.textContent = app.desc;
+
+      const meta = document.createElement("div");
+      meta.className = "app-meta";
+      const tags = document.createElement("span");
+      tags.className = "app-tags";
+      tags.textContent = (app.tags || []).map(t => "#" + t).join("  ");
+      const key = document.createElement("span");
+      key.className = "app-key";
+      key.textContent = app.key ? app.key : "↵";
+
+      meta.appendChild(tags);
+      meta.appendChild(key);
+
+      card.appendChild(titleRow);
+      card.appendChild(desc);
+      card.appendChild(meta);
+
+      appGrid.appendChild(card);
+    });
+
+    if (!appGrid.children.length) {
+      const empty = document.createElement("div");
+      empty.className = "app-card";
+      empty.textContent = "Aucune surface ne correspond à ce filtre. Essaie : moteur, intranet, noesis, lambda…";
+      appGrid.appendChild(empty);
+    }
+  }
+
+  function renderDocs(filter = "") {
+    docsList.innerHTML = "";
+    const q = normalize(filter);
+
+    docs.forEach(d => {
+      const full = normalize(d.label + " " + d.note + " " + d.type + " " + d.file);
+      if (q && !full.includes(q)) return;
+
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = d.file;
+      a.target = "_blank";
+      a.textContent = d.label + " (" + d.type + ")";
+      const meta = document.createElement("div");
+      meta.className = "docs-meta";
+      meta.textContent = d.file + " · " + d.note;
+      li.appendChild(a);
+      li.appendChild(meta);
+      docsList.appendChild(li);
+    });
+
+    if (!docsList.children.length) {
+      const li = document.createElement("li");
+      li.textContent = "Aucun document ne correspond à ce filtre.";
+      docsList.appendChild(li);
+    }
+  }
+
+  // ==================== Recherche ====================
+  const hubSearchForm = document.getElementById("hubSearchForm");
+  const hubSearchInput = document.getElementById("hubSearchInput");
+
+  function applySearch(value) {
+    const q = value.trim();
+    renderApps(q);
+    renderDocs(q);
+  }
+
+  hubSearchForm.addEventListener("submit", e => {
+    e.preventDefault();
+    applySearch(hubSearchInput.value);
+  });
+
+  document.querySelectorAll(".hint-keywords span").forEach(span => {
+    span.addEventListener("click", () => {
+      const q = span.getAttribute("data-q") || "";
+      hubSearchInput.value = q;
+      applySearch(q);
+    });
+  });
+
+  // ==================== Initialisation ====================
+  renderApps("");
+  renderDocs("");
+
+</script>
+</body>
+</html>
