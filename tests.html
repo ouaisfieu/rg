@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Parcours de tests – L’Organisation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #050712;
+      --panel: #0b1026;
+      --accent: #8bffb0;
+      --accent-soft: rgba(139, 255, 176, 0.16);
+      --accent-2: #d28bff;
+      --danger: #ff4d7a;
+      --text-main: #f5f7ff;
+      --text-muted: #a1a9d8;
+      --border-subtle: rgba(120, 140, 220, 0.45);
+      --radius-xl: 18px;
+      --radius-pill: 999px;
+      --shadow-soft: 0 22px 45px rgba(0, 0, 0, 0.85);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(139, 255, 176, 0.08), transparent 55%),
+        radial-gradient(circle at 90% 100%, rgba(210, 139, 255, 0.12), transparent 55%),
+        #02030a;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 1.2rem 0.75rem 1.8rem;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 1120px;
+      background: linear-gradient(135deg, rgba(16, 22, 58, 0.96), rgba(5, 8, 27, 0.98));
+      border-radius: 28px;
+      border: 1px solid rgba(145, 170, 255, 0.35);
+      box-shadow: var(--shadow-soft);
+      padding: 1.1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .shell {
+        padding: 1.5rem 1.75rem 1.85rem;
+      }
+    }
+
+    .scanline {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.05) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      mix-blend-mode: soft-light;
+    }
+
+    header {
+      position: relative;
+      margin-bottom: 1rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      border-radius: var(--radius-pill);
+      padding: 0.18rem 0.6rem 0.18rem 0.24rem;
+      border: 1px solid rgba(139, 255, 176, 0.85);
+      background: radial-gradient(circle at 0% 0%, rgba(139, 255, 176, 0.24), transparent 55%);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(139, 255, 176, 1);
+    }
+
+    .mode-chip {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(210, 139, 255, 0.85);
+      padding: 0.2rem 0.7rem;
+      background: radial-gradient(circle at 100% 0%, rgba(210, 139, 255, 0.22), transparent 55%);
+      color: var(--accent-2);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .mode-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(210, 139, 255, 0.9);
+      box-shadow: 0 0 8px rgba(210, 139, 255, 1);
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      line-height: 1.15;
+      margin-bottom: 0.3rem;
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 720px;
+    }
+
+    .subtitle strong {
+      color: var(--text-main);
+    }
+
+    .legend-row {
+      margin-top: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .difficulty-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      border-radius: var(--radius-pill);
+      padding: 0.2rem 0.7rem;
+      border: 1px solid rgba(139, 255, 176, 0.8);
+      background: rgba(8, 20, 20, 0.9);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.75rem;
+    }
+
+    .diff-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+    }
+    .diff-easy { background: #42ffb0; }
+    .diff-mid { background: #ffcc66; }
+    .diff-hard { background: #ff4d7a; }
+
+    .info-pill {
+      font-size: 0.8rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 172, 255, 0.75);
+      background: rgba(6, 9, 32, 0.96);
+    }
+
+    .warn-banner {
+      margin-top: 0.8rem;
+      border-radius: 14px;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid rgba(255, 77, 122, 0.8);
+      background:
+        linear-gradient(120deg, rgba(255, 77, 122, 0.12), transparent 60%),
+        radial-gradient(circle at 0% 0%, rgba(255, 210, 152, 0.22), transparent 60%);
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+      font-size: 0.8rem;
+    }
+
+    .warn-icon {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.75rem;
+      padding-top: 0.05rem;
+      color: var(--danger);
+    }
+
+    .warn-text strong {
+      color: #ffd1e0;
+    }
+
+    .layout {
+      position: relative;
+      margin-top: 1rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 960px) {
+      .layout {
+        grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.2fr);
+      }
+    }
+
+    .panel {
+      border-radius: var(--radius-xl);
+      background:
+        radial-gradient(circle at 0 0, rgba(139, 255, 176, 0.06), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(210, 139, 255, 0.08), transparent 55%),
+        rgba(7, 11, 32, 0.96);
+      border: 1px solid var(--border-subtle);
+      padding: 0.9rem 0.9rem 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .panel {
+        padding: 1rem 1.1rem 1.1rem;
+      }
+    }
+
+    .panel h2 {
+      font-size: 1rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .panel p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .panel p strong {
+      color: var(--text-main);
+    }
+
+    /* Liste des tests */
+    .tests-grid {
+      margin-top: 0.6rem;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    @media (min-width: 720px) {
+      .tests-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .test-card {
+      border-radius: 16px;
+      padding: 0.65rem 0.7rem 0.75rem;
+      border: 1px solid rgba(145, 170, 255, 0.75);
+      background: rgba(5, 8, 28, 0.96);
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .test-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .test-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .test-meta {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.55rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(139, 255, 176, 0.8);
+      background: rgba(4, 12, 20, 0.95);
+      white-space: nowrap;
+    }
+
+    .test-body {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .test-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-top: 0.25rem;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      font-family: "JetBrains Mono", monospace;
+      padding: 0.16rem 0.5rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 172, 255, 0.75);
+      background: rgba(6, 9, 32, 0.96);
+    }
+
+    .tag-theme {
+      border-color: rgba(139, 255, 176, 0.75);
+      color: var(--accent);
+    }
+
+    .tag-status {
+      border-color: rgba(210, 139, 255, 0.8);
+      color: var(--accent-2);
+    }
+
+    .test-link-row {
+      margin-top: 0.35rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .test-link {
+      font-size: 0.8rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(139, 255, 176, 0.9);
+      background: radial-gradient(circle at 0% 0%, rgba(139, 255, 176, 0.28), rgba(2, 5, 15, 0.95));
+      color: #041308;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .test-link span {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+    }
+
+    .test-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.8);
+    }
+
+    .test-link-secondary {
+      border-color: rgba(148, 172, 255, 0.85);
+      background: rgba(6, 9, 32, 0.96);
+      color: var(--text-main);
+    }
+
+    /* Colonne droite : mode d'emploi & progression */
+    .steps {
+      margin-top: 0.5rem;
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 0.55rem;
+      align-items: flex-start;
+    }
+
+    .step-index {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(139, 255, 176, 0.85);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-family: "JetBrains Mono", monospace;
+      color: var(--accent);
+      box-shadow: 0 0 12px rgba(139, 255, 176, 0.6);
+      background: rgba(5, 7, 18, 0.9);
+    }
+
+    .step-body {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .step-body strong {
+      color: var(--text-main);
+    }
+
+    .progress-panel {
+      margin-top: 0.8rem;
+      border-radius: 14px;
+      padding: 0.65rem 0.75rem;
+      border: 1px dashed rgba(148, 172, 255, 0.75);
+      background: rgba(5, 8, 28, 0.96);
+      font-size: 0.8rem;
+    }
+
+    .progress-bar-wrap {
+      margin-top: 0.4rem;
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(139, 255, 176, 0.7);
+      padding: 2px;
+      background: rgba(3, 7, 16, 0.96);
+    }
+
+    .progress-bar-inner {
+      width: 25%; /* à modifier si tu veux simuler un autre taux */
+      border-radius: 999px;
+      height: 8px;
+      background: linear-gradient(90deg, #8bffb0, #d2fffb);
+      box-shadow: 0 0 10px rgba(139, 255, 176, 0.8);
+    }
+
+    footer {
+      margin-top: 1rem;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+
+    footer code {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      background: rgba(6, 9, 28, 0.96);
+      border-radius: 999px;
+      padding: 0.16rem 0.5rem;
+      border: 1px solid rgba(110, 132, 220, 0.75);
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="scanline"></div>
+
+    <header>
+      <div class="top-row">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          <span>Parcours</span>
+          <span>Tests de recrutement</span>
+        </div>
+        <div class="mode-chip">
+          <span class="mode-dot"></span>
+          <span>Mobile first</span>
+        </div>
+      </div>
+
+      <h1>Parcours des <span>tests à faire</span></h1>
+      <p class="subtitle">
+        Tu es sur la page d’accueil de <strong>tous les tests</strong>.
+        Chaque carte ci-dessous correspond à un test autonome, avec ses propres ressources (PDF, vidéos, playlists)
+        et un <strong>niveau de difficulté</strong> indiqué.
+        Tu peux tout faire dans l’ordre, ou piocher ce qui te parle.
+      </p>
+
+      <div class="legend-row">
+        <div class="difficulty-pill">
+          <span class="diff-dot diff-easy"></span><span>★☆☆</span> Facile
+          &nbsp;·&nbsp;
+          <span class="diff-dot diff-mid"></span><span>★★☆</span> Intermédiaire
+          &nbsp;·&nbsp;
+          <span class="diff-dot diff-hard"></span><span>★★★</span> Avancé
+        </div>
+        <div class="info-pill">
+          Les résultats restent dans ton navigateur (pas de base de données cachée).
+        </div>
+      </div>
+
+      <div class="warn-banner">
+        <div class="warn-icon">[!]</div>
+        <div class="warn-text">
+          <strong>Rappel :</strong>
+          ce parcours n’est <strong>pas</strong> un examen officiel RH. C’est un outil d’auto-évaluation
+          pédagogique. Tu peux arrêter à tout moment, ne pas répondre à certaines questions,
+          ou simplement utiliser les tests comme <em>prétexte pour te former</em> avec les dossiers, vidéos et playlists.
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <!-- COLONNE GAUCHE : LISTE DES TESTS -->
+      <section class="panel">
+        <h2>Tests disponibles & à venir</h2>
+        <p>
+          Commence idéalement par les tests “outillage” (Obsidian, veille citoyenne),
+          puis avance progressivement vers les sujets plus lourds (guerre hybride, économie, pouvoir d’agir).
+        </p>
+
+        <div class="tests-grid">
+          <!-- TEST-0 -->
+          <article class="test-card">
+            <div class="test-header">
+              <div class="test-title">Test-0 — Obsidian & gestion des connaissances</div>
+              <div class="test-meta">Niveau&nbsp;: ★☆☆ → ★★☆</div>
+            </div>
+            <div class="test-body">
+              Vérifie si tu maîtrises les bases d’<strong>Obsidian</strong> et de la gestion de connaissances (PKM).
+              C’est ton “outillage mental” pour ne pas te perdre dans les dossiers, liens et références qui suivent.
+            </div>
+            <div class="test-tags">
+              <span class="tag tag-theme">Thème&nbsp;: Outillage & PKM</span>
+              <span class="tag">Pré-requis&nbsp;: savoir utiliser un ordi</span>
+              <span class="tag tag-status">Statut&nbsp;: actif</span>
+            </div>
+            <div class="test-link-row">
+              <a class="test-link" href="test-0.html">
+                <span>&gt;</span> Lancer le Test-0
+              </a>
+            </div>
+          </article>
+
+          <!-- TEST-1 -->
+          <article class="test-card">
+            <div class="test-header">
+              <div class="test-title">Test-1 — Veille citoyenne & réseau EP FWB</div>
+              <div class="test-meta">Niveau&nbsp;: ★★☆</div>
+            </div>
+            <div class="test-body">
+              Test basé sur les dossiers de <strong>veille citoyenne</strong> et de création de <strong>réseaux de veille</strong>
+              en Éducation permanente. On y parle d’inclusion, de formats d’action, de gouvernance et d’obstacles concrets.
+            </div>
+            <div class="test-tags">
+              <span class="tag tag-theme">Thème&nbsp;: Veille citoyenne</span>
+              <span class="tag">Contexte&nbsp;: FWB / asbl / EP</span>
+              <span class="tag tag-status">Statut&nbsp;: actif</span>
+            </div>
+            <div class="test-link-row">
+              <a class="test-link" href="test-1.html">
+                <span>&gt;</span> Lancer le Test-1
+              </a>
+            </div>
+          </article>
+
+          <!-- FUTUR TEST : GUERRE HYBRIDE / NARRATIVE -->
+          <article class="test-card">
+            <div class="test-header">
+              <div class="test-title">Test-2 — Guerre hybride & guerre narrative</div>
+              <div class="test-meta">Niveau&nbsp;: ★★☆ → ★★★</div>
+            </div>
+            <div class="test-body">
+              À venir&nbsp;: comprendre comment on peut attaquer un pays ou une société par l’information,
+              les récits, les réseaux sociaux, sans tirer un coup de feu. Objectif&nbsp;:
+              te rendre <strong>moins manipulable</strong>, pas parano.
+            </div>
+            <div class="test-tags">
+              <span class="tag tag-theme">Thème&nbsp;: Conflits & info</span>
+              <span class="tag">Sources&nbsp;: rapports sur guerre hybride/narrative</span>
+              <span class="tag tag-status">Statut&nbsp;: en préparation</span>
+            </div>
+            <div class="test-link-row">
+              <span class="test-link test-link-secondary">
+                <span>…</span> Bientôt disponible
+              </span>
+            </div>
+          </article>
+
+          <!-- FUTUR TEST : INTELLIGENCE ÉCO / NON MARCHANDE -->
+          <article class="test-card">
+            <div class="test-header">
+              <div class="test-title">Test-3 — Intelligence économique & non marchande</div>
+              <div class="test-meta">Niveau&nbsp;: ★★☆ → ★★★</div>
+            </div>
+            <div class="test-body">
+              À venir&nbsp;: comment les États et les entreprises font de la veille stratégique,
+              et comment des collectifs citoyens peuvent développer une <strong>intelligence non marchande</strong>
+              pour défendre leurs intérêts.
+            </div>
+            <div class="test-tags">
+              <span class="tag tag-theme">Thème&nbsp;: Veille stratégique</span>
+              <span class="tag">Acteurs&nbsp;: État, entreprises, asbl</span>
+              <span class="tag tag-status">Statut&nbsp;: en préparation</span>
+            </div>
+            <div class="test-link-row">
+              <span class="test-link test-link-secondary">
+                <span>…</span> Bientôt disponible
+              </span>
+            </div>
+          </article>
+
+          <!-- FUTUR TEST : SOCIO NUMÉRIQUE / TRAVAIL -->
+          <article class="test-card">
+            <div class="test-header">
+              <div class="test-title">Test-4 — Numérique, plateformes & nouvelles formes de travail</div>
+              <div class="test-meta">Niveau&nbsp;: ★★☆</div>
+            </div>
+            <div class="test-body">
+              À venir&nbsp;: ubérisation, télétravail, IA, réseaux sociaux.
+              Comment tout ça change ton rapport au travail, au chômage, aux syndicats, aux collectifs.
+            </div>
+            <div class="test-tags">
+              <span class="tag tag-theme">Thème&nbsp;: Sociologie numérique</span>
+              <span class="tag">Contexte&nbsp;: Belgique & au-delà</span>
+              <span class="tag tag-status">Statut&nbsp;: en préparation</span>
+            </div>
+            <div class="test-link-row">
+              <span class="test-link test-link-secondary">
+                <span>…</span> Bientôt disponible
+              </span>
+            </div>
+          </article>
+
+          <!-- FUTUR TEST : ÉCONOMIE & POUVOIR D’AGIR -->
+          <article class="test-card">
+            <div class="test-header">
+              <div class="test-title">Test-5 — Capitalisme, économie & pouvoir d’agir</div>
+              <div class="test-meta">Niveau&nbsp;: ★★☆ → ★★★</div>
+            </div>
+            <div class="test-body">
+              À venir&nbsp;: relier tout ça à ta propre situation (revenus, aides,
+              travail, santé) et à ce que tu peux <strong>réellement bricoler</strong> avec d’autres
+              (monnaies locales, coop, entraide, communs).
+            </div>
+            <div class="test-tags">
+              <span class="tag tag-theme">Thème&nbsp;: Économie & action</span>
+              <span class="tag">Focus&nbsp;: pouvoir d’agir</span>
+              <span class="tag tag-status">Statut&nbsp;: en préparation</span>
+            </div>
+            <div class="test-link-row">
+              <span class="test-link test-link-secondary">
+                <span>…</span> Bientôt disponible
+              </span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- COLONNE DROITE : MODE D’EMPLOI / PROGRESSION -->
+      <aside class="panel">
+        <h2>Comment utiliser ce parcours&nbsp;?</h2>
+        <p>
+          Tu peux faire un seul test, ou tous. Tu peux les refaire. Tu peux juste utiliser les ressources
+          (PDF, vidéos, playlists) sans répondre aux questions. L’idée n’est pas de te noter, mais de t’aider à
+          <strong>poser des mots</strong> sur ce que tu sais déjà, ce que tu découvres, et ce que tu as envie d’en faire.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-index">1</div>
+            <div class="step-body">
+              <strong>Commencer par les prérequis.</strong><br />
+              Si tu n’es pas à l’aise avec la prise de notes / organisation d’idées,
+              lance d’abord le <strong>Test-0 (Obsidian & PKM)</strong>.
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-index">2</div>
+            <div class="step-body">
+              <strong>Passer à la veille citoyenne.</strong><br />
+              Le <strong>Test-1</strong> te donne la base “citoyenne / réseau” pour comprendre où ton profil
+              se situe dans un dispositif de veille en Éducation permanente.
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-index">3</div>
+            <div class="step-body">
+              <strong>Explorer les sujets lourds à ton rythme.</strong><br />
+              Quand les tests suivants seront en ligne (guerre hybride, économie, numérique…),
+              avance seulement si tu te sens en état d’absorber des choses lourdes sans te casser.
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-index">4</div>
+            <div class="step-body">
+              <strong>Utiliser les résultats comme miroir.</strong><br />
+              Le but est de nourrir ta réflexion, ton éventuelle candidature,
+              ou ton envie de monter des projets <em>avec ou sans l’Organisation</em>, pas de te faire culpabiliser.
+            </div>
+          </div>
+        </div>
+
+        <div class="progress-panel">
+          <strong>Progression (indicative)</strong>
+          <p style="margin-top:0.25rem;">
+            Pour l’instant, <strong>2 tests sur 6</strong> sont déjà utilisables.
+            Tu peux considérer qu’une fois le Test-0 et le Test-1 faits, tu as franchi le “niveau de base”.
+          </p>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-inner"></div>
+          </div>
+          <p style="margin-top:0.35rem; font-size:0.78rem; color:var(--text-muted);">
+            (La barre ci-dessus est symbolique. Le seul vrai indicateur, c’est comment tu te sens plus lucide
+            et mieux équipé·e après coup.)
+          </p>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <span>Parcours de tests — L’Organisation · Prototype pédagogique / fictif</span>
+      <code>// hub des tests – à mettre à jour au fil des nouvelles pages</code>
+    </footer>
+  </div>
+</body>
+</html>
