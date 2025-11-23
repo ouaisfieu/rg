@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Intranet – Organisation Lambda</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #030711;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #0ea5e9;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.4);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --radius-xl: 18px;
+      --shadow-soft: 0 20px 45px rgba(15, 23, 42, 0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(14, 165, 233, 0.26), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.26), transparent 60%),
+        #020617;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    a { color: inherit; }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(12px);
+      background: rgba(15, 23, 42, 0.96);
+      border-bottom: 1px solid rgba(30, 64, 175, 0.6);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.9);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 30% 20%, #22c55e, #0ea5e9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #020617;
+      box-shadow:
+        0 0 0 2px #020617,
+        0 0 0 4px rgba(56, 189, 248, 0.7);
+    }
+
+    .org-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .org-sub {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .top-search {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #020617;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.7);
+    }
+
+    .top-search input {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 0.8rem;
+      outline: none;
+      min-width: 120px;
+    }
+
+    .top-search input::placeholder {
+      color: #64748b;
+    }
+
+    .pill-user {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    .pill-user span.name {
+      font-weight: 500;
+    }
+
+    .pill-user button {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Layout global */
+    .layout {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 220px) minmax(0, 1.9fr) minmax(0, 1.3fr);
+      gap: 10px;
+      padding: 12px;
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 220px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+      }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: rgba(15, 23, 42, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      text-align: left;
+      border-radius: 999px;
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--muted);
+      padding: 5px 9px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 0.8rem;
+      transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+    }
+
+    .nav-btn span.key {
+      font-size: 0.7rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      font-family: var(--font-mono);
+    }
+
+    .nav-btn:hover {
+      background: rgba(15, 23, 42, 1);
+      color: var(--text);
+      border-color: rgba(56, 189, 248, 0.9);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.9);
+    }
+
+    .nav-btn.active {
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.18), transparent 60%);
+      border-color: rgba(34, 197, 94, 0.9);
+      color: var(--text);
+    }
+
+    .sidebar-footer {
+      margin-top: 6px;
+      padding-top: 5px;
+      border-top: 1px solid rgba(51, 65, 85, 0.9);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    /* Main panel */
+    .main-panel {
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.18), transparent 60%),
+                  radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.16), transparent 60%),
+                  var(--bg-soft);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 12px 12px 14px;
+      overflow: hidden;
+    }
+
+    .panel-title {
+      font-size: 1rem;
+      margin-bottom: 3px;
+    }
+
+    .panel-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr);
+      gap: 8px;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.98);
+      border-radius: 14px;
+      border: 1px solid rgba(51, 65, 85, 0.96);
+      padding: 8px 9px 9px;
+      font-size: 0.8rem;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.8);
+    }
+
+    .card h3 {
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .card p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      padding: 2px 7px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .news-list {
+      list-style: none;
+      margin-top: 4px;
+    }
+
+    .news-item {
+      margin-bottom: 5px;
+    }
+
+    .news-item strong {
+      display: block;
+      font-size: 0.82rem;
+    }
+
+    .news-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .quick-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .quick-link {
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 6px 7px;
+      font-size: 0.75rem;
+      background: #020617;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .quick-link span.label {
+      font-weight: 500;
+    }
+
+    .quick-link span.meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    /* Annuaire */
+    .directory-list {
+      list-style: none;
+      margin-top: 6px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 6px;
+    }
+
+    .directory-card {
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: #020617;
+      padding: 6px 7px;
+      font-size: 0.78rem;
+    }
+
+    .directory-card strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .directory-role {
+      font-size: 0.75rem;
+      color: #a5b4fc;
+    }
+
+    .directory-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .directory-filter {
+      margin-top: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.74rem;
+    }
+
+    .directory-filter input {
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: #020617;
+      color: var(--text);
+      padding: 3px 7px;
+      font-size: 0.75rem;
+      outline: none;
+    }
+
+    .directory-filter select {
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: #020617;
+      color: var(--text);
+      padding: 3px 7px;
+      font-size: 0.75rem;
+      outline: none;
+    }
+
+    /* Documents */
+    .doc-filters {
+      margin-top: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-size: 0.74rem;
+    }
+
+    .doc-filter-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: #020617;
+      color: var(--muted);
+      padding: 3px 7px;
+      cursor: pointer;
+      font-size: 0.74rem;
+      font-family: var(--font-mono);
+    }
+
+    .doc-filter-btn.active {
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #bbf7d0;
+      background: rgba(15, 23, 42, 0.98);
+    }
+
+    .doc-list {
+      list-style: none;
+      margin-top: 6px;
+      font-size: 0.78rem;
+    }
+
+    .doc-item {
+      margin-bottom: 5px;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed rgba(55, 65, 81, 0.9);
+    }
+
+    .doc-item:last-child {
+      border-bottom: none;
+    }
+
+    .doc-item a {
+      text-decoration: none;
+    }
+
+    .doc-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    /* Right panel : notes / tâches / activité */
+    .side-panel {
+      background: rgba(15, 23, 42, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .side-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .side-header h2 {
+      font-size: 0.9rem;
+    }
+
+    .badge-soft {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      padding: 2px 7px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .notes-area {
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: #020617;
+      padding: 6px;
+    }
+
+    .notes-area label {
+      font-size: 0.76rem;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .notes-area textarea {
+      width: 100%;
+      min-height: 80px;
+      border-radius: 8px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      background: #020617;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      padding: 5px 7px;
+      resize: vertical;
+      outline: none;
+    }
+
+    .btn-small {
+      margin-top: 5px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.9);
+      background: rgba(15, 23, 42, 0.98);
+      color: #e0f2fe;
+      font-size: 0.74rem;
+      padding: 4px 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+    }
+
+    .btn-small:hover {
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .tasks {
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: #020617;
+      padding: 6px;
+    }
+
+    .tasks h3 {
+      font-size: 0.85rem;
+      margin-bottom: 3px;
+    }
+
+    .task-list {
+      list-style: none;
+      font-size: 0.78rem;
+      margin-top: 4px;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 3px;
+    }
+
+    .task-item input {
+      width: 14px;
+      height: 14px;
+    }
+
+    .activity-log {
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: #020617;
+      padding: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+
+    .log-line {
+      margin-bottom: 2px;
+    }
+
+    .log-line span.time {
+      color: #64748b;
+      margin-right: 4px;
+    }
+
+    .log-line span.tag {
+      color: #22c55e;
+      margin-right: 4px;
+    }
+
+    .hint {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 6px 12px 8px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(30, 64, 175, 0.6);
+      background: rgba(15, 23, 42, 0.98);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 760px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="logo">L</div>
+    <div>
+      <div class="org-name">ORGANISATION LAMBDA</div>
+      <div class="org-sub">Intranet interne – accès réservé aux collaborateurs</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <form class="top-search" id="globalSearchForm">
+      <span>⌕</span>
+      <input id="globalSearchInput" type="text" placeholder="Rechercher : personne, doc, service…" />
+    </form>
+    <div class="pill-user">
+      <span class="name" id="userNameLabel">Utilisateur·rice</span>
+      <button type="button" id="btnChangeUser" title="Changer le nom affiché">✎</button>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <div class="nav-title">Navigation</div>
+      <ul class="nav-list">
+        <li><button class="nav-btn active" data-section="dashboard">Tableau de bord <span class="key">1</span></button></li>
+        <li><button class="nav-btn" data-section="directory">Annuaire <span class="key">2</span></button></li>
+        <li><button class="nav-btn" data-section="documents">Documents <span class="key">3</span></button></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="nav-title">Raccourcis</div>
+      <ul class="nav-list">
+        <li><button class="nav-btn" data-section="dashboard" data-scroll="news">Actus internes <span class="key">N</span></button></li>
+        <li><button class="nav-btn" data-section="dashboard" data-scroll="quicklinks">Outils clés <span class="key">O</span></button></li>
+        <li><button class="nav-btn" data-section="documents" data-scroll="hr">Documents RH <span class="key">RH</span></button></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      💡 <strong>Astuce :</strong> ce modèle est 100 % statique.  
+      Tu peux renommer l’organisation, les services, les documents et les personnes directement dans le fichier.
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-panel">
+    <!-- Dashboard -->
+    <section id="section-dashboard" class="section-root">
+      <h1 class="panel-title">Tableau de bord</h1>
+      <p class="panel-sub">
+        Vue d’ensemble pour une organisation « lambda » : annonces internes, outils du quotidien, messages de la direction.
+      </p>
+
+      <div class="grid-2">
+        <article class="card" id="block-news">
+          <h3>Actualités internes</h3>
+          <div class="pill-row">
+            <span class="pill">Général</span>
+            <span class="pill">RH</span>
+            <span class="pill">IT</span>
+          </div>
+          <ul class="news-list" id="newsList">
+            <!-- rempli en JS -->
+          </ul>
+        </article>
+
+        <article class="card" id="block-quicklinks">
+          <h3>Outils & services clés</h3>
+          <p>Tu peux remplacer ces liens par tes propres outils internes (ou des fichiers locaux).</p>
+          <div class="quick-links" id="quickLinks">
+            <!-- rempli en JS -->
+          </div>
+        </article>
+      </div>
+
+      <div class="grid-2" style="margin-top:8px;">
+        <article class="card">
+          <h3>Message de la direction</h3>
+          <p>
+            « Cet intranet vise à centraliser les informations utiles au quotidien, sans devenir un
+            labyrinthe. Les documents sensibles restent sur des espaces dédiés, avec des droits spécifiques. »
+          </p>
+          <p class="hint">
+            👉 Tu peux transformer ce bloc en « mot du DG », « info sécurité », etc.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Informations pratiques</h3>
+          <ul class="news-list">
+            <li class="news-item">
+              <strong>Horaires du siège</strong>
+              <div class="news-meta">Lun–Ven · 8h30–18h</div>
+            </li>
+            <li class="news-item">
+              <strong>Support informatique</strong>
+              <div class="news-meta">support.it@organisation-lambda.local · poste 1234</div>
+            </li>
+            <li class="news-item">
+              <strong>Référent RGPD</strong>
+              <div class="news-meta">rgpd@organisation-lambda.local</div>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Directory -->
+    <section id="section-directory" class="section-root" style="display:none;">
+      <h1 class="panel-title">Annuaire</h1>
+      <p class="panel-sub">
+        Recherche par nom, service ou rôle. Les données ci-dessous sont fictives : remplace-les par ton propre annuaire.
+      </p>
+      <div class="directory-filter">
+        <input type="text" id="directorySearch" placeholder="Nom, rôle, équipe…" />
+        <select id="directoryDept">
+          <option value="all">Tous les services</option>
+          <option value="Direction">Direction</option>
+          <option value="RH">Ressources humaines</option>
+          <option value="IT">Informatique</option>
+          <option value="Communication">Communication</option>
+          <option value="Opérations">Opérations</option>
+        </select>
+      </div>
+      <ul class="directory-list" id="directoryList">
+        <!-- rempli en JS -->
+      </ul>
+    </section>
+
+    <!-- Documents -->
+    <section id="section-documents" class="section-root" style="display:none;">
+      <h1 class="panel-title">Documents & ressources</h1>
+      <p class="panel-sub">
+        Liste de documents clés : procédures, modèles, ressources de formation.  
+        Tu peux pointer vers des fichiers PDF locaux ou des liens réseau.
+      </p>
+      <div class="doc-filters">
+        <button class="doc-filter-btn active" data-category="all">Tous</button>
+        <button class="doc-filter-btn" data-category="RH">RH</button>
+        <button class="doc-filter-btn" data-category="IT">IT</button>
+        <button class="doc-filter-btn" data-category="Sécurité">Sécurité</button>
+        <button class="doc-filter-btn" data-category="Qualité">Qualité</button>
+      </div>
+      <ul class="doc-list" id="docList">
+        <!-- rempli en JS -->
+      </ul>
+      <p class="hint">
+        💡 Pour ajouter un document : ouvre ce fichier dans un éditeur de texte, repère la constante <code>documents</code> dans le script en bas,
+        et ajoute une entrée avec <code>titre</code>, <code>categorie</code>, <code>chemin</code> (local ou lien).
+      </p>
+    </section>
+  </main>
+
+  <!-- Right column : notes / tâches / journal -->
+  <aside class="side-panel">
+    <div class="side-header">
+      <h2>Espace perso</h2>
+      <span class="badge-soft">Local au navigateur</span>
+    </div>
+    <p class="hint">
+      Tes notes ne sont stockées que dans ce navigateur (localStorage). Sur une autre machine, l’espace sera vide.
+    </p>
+
+    <div class="notes-area">
+      <label for="notesText">Bloc-notes rapide</label>
+      <textarea id="notesText" placeholder="Points pour la prochaine réunion, idées, choses à ne pas oublier…"></textarea>
+      <button class="btn-small" id="btnClearNotes">🧹 Effacer les notes</button>
+    </div>
+
+    <div class="tasks">
+      <h3>Tâches du jour</h3>
+      <ul class="task-list" id="taskList">
+        <!-- rempli en JS -->
+      </ul>
+      <p class="hint">Ces tâches sont des exemples. Modifie-les dans la constante <code>tasks</code> du script.</p>
+    </div>
+
+    <div class="activity-log" id="activityLog">
+      <!-- lignes de log JS -->
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <span>
+    Modèle d’intranet type – 1 fichier HTML, 0 backend. À adapter librement pour ton organisation.
+  </span>
+  <span>
+    Conseil : commence avec ce fichier, remplace les données fictives, puis ajoute d’autres pages si besoin (formations, projets, etc.).
+  </span>
+</footer>
+
+<script>
+  // ===================== Données fictives =====================
+  const news = [
+    {
+      titre: "Nouveaux horaires d’ouverture du siège",
+      meta: "RH · publié le 02/01",
+      texte: "Les horaires d’ouverture du siège passent à 8h30–18h du lundi au vendredi. Les sites de production conservent leurs horaires habituels."
+    },
+    {
+      titre: "Campagne de mise à jour des mots de passe",
+      meta: "IT · publié le 05/01",
+      texte: "Merci de changer votre mot de passe avant la fin du mois. Évitez les mots de passe réutilisés ou trop simples. Le support IT peut vous accompagner si besoin."
+    },
+    {
+      titre: "Lancement du projet « Horizon »",
+      meta: "Direction · publié le 10/01",
+      texte: "Le projet Horizon vise à moderniser nos outils et simplifier les procédures pour les équipes terrain. Une réunion de présentation aura lieu dans chaque service."
+    }
+  ];
+
+  const quickLinks = [
+    {
+      label: "Portail RH",
+      meta: "Congés, fiches de paie, entretiens",
+      targetSection: "documents",
+      tag: "RH"
+    },
+    {
+      label: "Support IT",
+      meta: "Incidents, demandes de matériel",
+      targetSection: "dashboard",
+      tag: "IT"
+    },
+    {
+      label: "Annuaire court",
+      meta: "Référents par site",
+      targetSection: "directory",
+      tag: "Annuaire"
+    },
+    {
+      label: "Sécurité & sûreté",
+      meta: "Procédures, consignes d’urgence",
+      targetSection: "documents",
+      tag: "Sécurité"
+    }
+  ];
+
+  const staff = [
+    { nom: "Alice Martin", role: "Directrice générale", dept: "Direction", contact: "alice.martin@organisation-lambda.local" },
+    { nom: "Bruno Lefèvre", role: "Responsable RH", dept: "RH", contact: "bruno.lefevre@organisation-lambda.local" },
+    { nom: "Camille Dubois", role: "Chargé·e de recrutement", dept: "RH", contact: "camille.dubois@organisation-lambda.local" },
+    { nom: "David Nguyen", role: "Responsable IT", dept: "IT", contact: "david.nguyen@organisation-lambda.local" },
+    { nom: "Elisa Garcia", role: "Admin systèmes & réseau", dept: "IT", contact: "elisa.garcia@organisation-lambda.local" },
+    { nom: "Farid Ben Amar", role: "Responsable communication", dept: "Communication", contact: "farid.benamar@organisation-lambda.local" },
+    { nom: "Hélène Robert", role: "Chargée de projets", dept: "Opérations", contact: "helene.robert@organisation-lambda.local" },
+    { nom: "Igor Petrov", role: "Responsable site production A", dept: "Opérations", contact: "igor.petrov@organisation-lambda.local" }
+  ];
+
+  const documents = [
+    {
+      titre: "Règlement intérieur",
+      categorie: "RH",
+      type: "PDF",
+      chemin: "docs/reglement-interieur.pdf",
+      description: "Texte de référence sur les règles de vie dans l’entreprise."
+    },
+    {
+      titre: "Procédure demande de congés",
+      categorie: "RH",
+      type: "PDF",
+      chemin: "docs/procedure-conges.pdf",
+      description: "Étapes pour poser des congés, y compris compte épargne-temps."
+    },
+    {
+      titre: "Guide bonnes pratiques sécurité informatique",
+      categorie: "IT",
+      type: "PDF",
+      chemin: "docs/guide-securite-it.pdf",
+      description: "Rappels essentiels : mots de passe, phishing, mobilité."
+    },
+    {
+      titre: "Consignes d’évacuation – Siège",
+      categorie: "Sécurité",
+      type: "PDF",
+      chemin: "docs/consignes-evacuation-siege.pdf",
+      description: "Plan d’évacuation, points de rassemblement, personnes référentes."
+    },
+    {
+      titre: "Charte qualité – Organisation Lambda",
+      categorie: "Qualité",
+      type: "PDF",
+      chemin: "docs/charte-qualite.pdf",
+      description: "Principes de notre démarche qualité et indicateurs clés."
+    }
+  ];
+
+  const tasks = [
+    { label: "Lire les annonces RH du mois", done: false },
+    { label: "Mettre à jour mon mot de passe", done: false },
+    { label: "Vérifier les documents de mon service", done: false }
+  ];
+
+  // ===================== Utilitaires =====================
+  function logActivity(tag, message) {
+    const logArea = document.getElementById("activityLog");
+    const div = document.createElement("div");
+    div.className = "log-line";
+
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, "0");
+    const mm = String(now.getMinutes()).padStart(2, "0");
+    const ss = String(now.getSeconds()).padStart(2, "0");
+
+    const t = document.createElement("span");
+    t.className = "time";
+    t.textContent = `${hh}:${mm}:${ss}`;
+
+    const tg = document.createElement("span");
+    tg.className = "tag";
+    tg.textContent = `[${tag}]`;
+
+    const txt = document.createTextNode(" " + message);
+
+    div.appendChild(t);
+    div.appendChild(tg);
+    div.appendChild(txt);
+    logArea.appendChild(div);
+    logArea.scrollTop = logArea.scrollHeight;
+  }
+
+  function showSection(key) {
+    const sections = document.querySelectorAll(".section-root");
+    sections.forEach(sec => {
+      sec.style.display = sec.id === "section-" + key ? "block" : "none";
+    });
+
+    const navBtns = document.querySelectorAll(".nav-btn[data-section]");
+    navBtns.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.section === key && !btn.dataset.scroll);
+    });
+
+    logActivity("NAV", "Section affichée : " + key);
+  }
+
+  // ===================== Remplissage dashboard =====================
+  function renderNews() {
+    const list = document.getElementById("newsList");
+    list.innerHTML = "";
+    news.forEach(item => {
+      const li = document.createElement("li");
+      li.className = "news-item";
+      const title = document.createElement("strong");
+      title.textContent = item.titre;
+      const meta = document.createElement("div");
+      meta.className = "news-meta";
+      meta.textContent = item.meta;
+      const p = document.createElement("p");
+      p.textContent = item.texte;
+      li.appendChild(title);
+      li.appendChild(meta);
+      li.appendChild(p);
+      list.appendChild(li);
+    });
+  }
+
+  function renderQuickLinks() {
+    const container = document.getElementById("quickLinks");
+    container.innerHTML = "";
+    quickLinks.forEach(link => {
+      const div = document.createElement("button");
+      div.type = "button";
+      div.className = "quick-link";
+      div.addEventListener("click", () => {
+        showSection(link.targetSection);
+      });
+      const label = document.createElement("span");
+      label.className = "label";
+      label.textContent = link.label;
+      const meta = document.createElement("span");
+      meta.className = "meta";
+      meta.textContent = link.meta;
+      div.appendChild(label);
+      div.appendChild(meta);
+      container.appendChild(div);
+    });
+  }
+
+  // ===================== Annuaire =====================
+  function renderDirectory(filterText = "", dept = "all") {
+    const list = document.getElementById("directoryList");
+    list.innerHTML = "";
+    const q = (filterText || "").toLowerCase();
+
+    staff.forEach(person => {
+      if (dept !== "all" && person.dept !== dept) return;
+      const full = (person.nom + " " + person.role + " " + person.dept).toLowerCase();
+      if (q && !full.includes(q)) return;
+
+      const li = document.createElement("li");
+      li.className = "directory-card";
+      const name = document.createElement("strong");
+      name.textContent = person.nom;
+      const role = document.createElement("div");
+      role.className = "directory-role";
+      role.textContent = person.role + " – " + person.dept;
+      const meta = document.createElement("div");
+      meta.className = "directory-meta";
+      meta.textContent = person.contact;
+      li.appendChild(name);
+      li.appendChild(role);
+      li.appendChild(meta);
+      list.appendChild(li);
+    });
+  }
+
+  // ===================== Documents =====================
+  function renderDocuments(category = "all") {
+    const list = document.getElementById("docList");
+    list.innerHTML = "";
+    documents.forEach(doc => {
+      if (category !== "all" && doc.categorie !== category) return;
+      const li = document.createElement("li");
+      li.className = "doc-item";
+      const a = document.createElement("a");
+      a.href = doc.chemin;
+      a.target = "_blank";
+      a.textContent = doc.titre + " (" + doc.type + ")";
+      const meta = document.createElement("div");
+      meta.className = "doc-meta";
+      meta.textContent = doc.categorie + " · " + doc.chemin;
+      const desc = document.createElement("div");
+      desc.textContent = doc.description;
+      li.appendChild(a);
+      li.appendChild(meta);
+      li.appendChild(desc);
+      list.appendChild(li);
+    });
+  }
+
+  // ===================== Notes (localStorage) =====================
+  const NOTES_KEY = "intranet_lambda_notes";
+  const USERNAME_KEY = "intranet_lambda_user";
+
+  function loadNotes() {
+    const val = localStorage.getItem(NOTES_KEY);
+    if (val !== null) {
+      document.getElementById("notesText").value = val;
+      logActivity("NOTES", "Notes chargées depuis le stockage local.");
+    }
+  }
+
+  function saveNotes() {
+    const val = document.getElementById("notesText").value || "";
+    localStorage.setItem(NOTES_KEY, val);
+  }
+
+  function loadUsername() {
+    const label = document.getElementById("userNameLabel");
+    const saved = localStorage.getItem(USERNAME_KEY);
+    if (saved) {
+      label.textContent = saved;
+      logActivity("USER", "Nom utilisateur chargé : " + saved);
+    }
+  }
+
+  function changeUsername() {
+    const current = document.getElementById("userNameLabel").textContent;
+    const name = prompt("Nom à afficher dans l’intranet :", current);
+    if (name && name.trim()) {
+      localStorage.setItem(USERNAME_KEY, name.trim());
+      document.getElementById("userNameLabel").textContent = name.trim();
+      logActivity("USER", "Nom utilisateur mis à jour : " + name.trim());
+    }
+  }
+
+  // ===================== Tâches =====================
+  function renderTasks() {
+    const list = document.getElementById("taskList");
+    list.innerHTML = "";
+    tasks.forEach((task, idx) => {
+      const li = document.createElement("li");
+      li.className = "task-item";
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = task.done;
+      checkbox.addEventListener("change", () => {
+        tasks[idx].done = checkbox.checked;
+        logActivity("TASK", (checkbox.checked ? "Terminé : " : "Re-ouvert : ") + task.label);
+      });
+      const span = document.createElement("span");
+      span.textContent = task.label;
+      li.appendChild(checkbox);
+      li.appendChild(span);
+      list.appendChild(li);
+    });
+  }
+
+  // ===================== Recherche globale =====================
+  function globalSearch(query) {
+    const q = (query || "").toLowerCase();
+    if (!q) return;
+
+    // Quelques heuristiques simples
+    if (q.includes("annuaire") || q.includes("personne") || q.includes("contact")) {
+      showSection("directory");
+      logActivity("SEARCH", "Redirection vers annuaire pour : " + query);
+      return;
+    }
+    if (q.includes("doc") || q.includes("pdf") || q.includes("procédure") || q.includes("reglement")) {
+      showSection("documents");
+      logActivity("SEARCH", "Redirection vers documents pour : " + query);
+      return;
+    }
+
+    // Mot clé d’un service
+    const serviceMap = {
+      "rh": "documents",
+      "it": "documents",
+      "informatique": "documents",
+      "sécurité": "documents",
+      "qualité": "documents"
+    };
+    for (const k in serviceMap) {
+      if (q.includes(k)) {
+        showSection(serviceMap[k]);
+        logActivity("SEARCH", "Redirection thématique (" + k + ") pour : " + query);
+        return;
+      }
+    }
+
+    // Sinon : rester sur tableau de bord
+    showSection("dashboard");
+    logActivity("SEARCH", "Recherche générale sans correspondance spécifique : " + query);
+  }
+
+  // ===================== Événements =====================
+  document.addEventListener("DOMContentLoaded", () => {
+    renderNews();
+    renderQuickLinks();
+    renderDirectory();
+    renderDocuments();
+    renderTasks();
+    loadNotes();
+    loadUsername();
+    logActivity("SYS", "Intranet initialisé.");
+
+    // Navigation
+    document.querySelectorAll(".nav-btn[data-section]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const section = btn.dataset.section;
+        const scrollTarget = btn.dataset.scroll;
+        showSection(section);
+        if (scrollTarget && section === "dashboard") {
+          const id = scrollTarget === "news" ? "block-news" :
+                    scrollTarget === "quicklinks" ? "block-quicklinks" : null;
+          if (id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }
+      });
+    });
+
+    // Filtres annuaire
+    const directorySearch = document.getElementById("directorySearch");
+    const directoryDept = document.getElementById("directoryDept");
+    directorySearch.addEventListener("input", () => {
+      renderDirectory(directorySearch.value, directoryDept.value);
+    });
+    directoryDept.addEventListener("change", () => {
+      renderDirectory(directorySearch.value, directoryDept.value);
+    });
+
+    // Filtres documents
+    const docFilterBtns = document.querySelectorAll(".doc-filter-btn");
+    docFilterBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        docFilterBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const cat = btn.dataset.category;
+        renderDocuments(cat);
+        logActivity("DOC", "Filtre documents = " + cat);
+      });
+    });
+
+    // Notes
+    const notesText = document.getElementById("notesText");
+    notesText.addEventListener("input", () => {
+      if (saveNotes._t) clearTimeout(saveNotes._t);
+      saveNotes._t = setTimeout(() => {
+        saveNotes();
+        logActivity("NOTES", "Notes sauvegardées.");
+      }, 400);
+    });
+    document.getElementById("btnClearNotes").addEventListener("click", () => {
+      notesText.value = "";
+      saveNotes();
+      logActivity("NOTES", "Notes effacées.");
+    });
+
+    // User
+    document.getElementById("btnChangeUser").addEventListener("click", changeUsername);
+
+    // Recherche globale
+    const globalSearchForm = document.getElementById("globalSearchForm");
+    const globalSearchInput = document.getElementById("globalSearchInput");
+    globalSearchForm.addEventListener("submit", e => {
+      e.preventDefault();
+      const q = globalSearchInput.value.trim();
+      if (q) globalSearch(q);
+    });
+  });
+</script>
+</body>
+</html>
