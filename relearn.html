@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>RELEARN – Assembler un écosystème cohérent (BROL / MILOU / GORK / GROK)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #020617;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #38bdf8;
+      --accent3: #f97316;
+      --accent4: #a855f7;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.5);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --radius-xl: 18px;
+      --shadow-soft: 0 22px 48px rgba(0, 0, 0, 0.95);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.28), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.24), transparent 55%),
+        #020617;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        rgba(15, 23, 42, 0.25) 1px,
+        transparent 1px
+      );
+      background-size: 100% 2px;
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    a { color: #93c5fd; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.3), transparent 60%),
+        rgba(3, 7, 18, 0.96);
+      border-bottom: 1px solid rgba(30, 64, 175, 0.8);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 180deg, #22c55e, #0ea5e9, #a855f7, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #22c55e;
+      position: relative;
+      box-shadow:
+        0 0 0 2px #020617,
+        0 0 28px rgba(168, 85, 247, 0.9);
+    }
+
+    .logo::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, #020617, #020617);
+    }
+
+    .logo span {
+      position: relative;
+      letter-spacing: 0.08em;
+    }
+
+    .header-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .title-main {
+      font-size: 1rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .title-sub {
+      font-size: 0.76rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
+    .tagline {
+      font-family: var(--font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .header-right .hint {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    main {
+      flex: 1;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 260px) minmax(0, 2fr) minmax(0, 1.5fr);
+      gap: 10px;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 1080px) {
+      main {
+        grid-template-columns: 260px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+      }
+    }
+
+    @media (max-width: 840px) {
+      main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+      }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-title {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 4px;
+      font-family: var(--font-mono);
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      text-align: left;
+      border-radius: 999px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: rgba(15, 23, 42, 0.98);
+      color: var(--muted);
+      padding: 5px 9px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 0.8rem;
+      transition: background 0.16s, color 0.16s, border-color 0.16s,
+                  transform 0.16s, box-shadow 0.16s;
+    }
+
+    .nav-btn span.key {
+      font-size: 0.7rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      font-family: var(--font-mono);
+    }
+
+    .nav-btn:hover {
+      background: rgba(15, 23, 42, 1);
+      color: var(--text);
+      border-color: rgba(56, 189, 248, 0.9);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.95);
+    }
+
+    .nav-btn.active {
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.26), transparent 65%);
+      border-color: rgba(34, 197, 94, 0.9);
+      color: var(--text);
+    }
+
+    .sidebar-footer {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(55, 65, 81, 0.98);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .sidebar-footer code {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    .mini-map {
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      background: #020617;
+      border-radius: 8px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      padding: 5px 7px;
+      color: #e5e7eb;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    /* Main panel */
+    .main-panel {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .main-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.35), transparent 60%);
+      opacity: 0.6;
+      mix-blend-mode: soft-light;
+    }
+
+    .main-inner {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    h1 {
+      font-size: 1rem;
+      margin-bottom: 2px;
+    }
+
+    .lead {
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+      max-width: 620px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.95);
+      padding: 2px 7px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .pill.accent {
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #bbf7d0;
+    }
+
+    .section-root {
+      display: none;
+    }
+
+    .section-root.active {
+      display: block;
+    }
+
+    .step-list {
+      list-style: none;
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .step-item {
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 7px 8px;
+      font-size: 0.8rem;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.9);
+    }
+
+    .step-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 3px;
+    }
+
+    .step-title {
+      font-size: 0.86rem;
+      font-weight: 500;
+    }
+
+    .step-xp {
+      font-size: 0.72rem;
+      color: #eab308;
+      font-family: var(--font-mono);
+    }
+
+    .step-body p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    .checklist {
+      list-style: none;
+      margin-top: 3px;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      margin-bottom: 2px;
+    }
+
+    .checklist-item input {
+      width: 14px;
+      height: 14px;
+    }
+
+    .code-block {
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      background: #020617;
+      color: #e5e7eb;
+      border-radius: 8px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      padding: 5px 7px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .diagram {
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      background: #020617;
+      border-radius: 8px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      padding: 6px 7px;
+      white-space: pre;
+      overflow-x: auto;
+      color: #e5e7eb;
+    }
+
+    .step-footer {
+      margin-top: 3px;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    /* Right panel */
+    .side-panel {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      font-size: 0.8rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .side-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        120deg,
+        rgba(56, 189, 248, 0.22),
+        transparent 45%,
+        rgba(168, 85, 247, 0.18),
+        transparent 70%
+      );
+      mix-blend-mode: soft-light;
+      opacity: 0.55;
+    }
+
+    .side-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      height: 100%;
+    }
+
+    .side-inner h2 {
+      font-size: 0.9rem;
+      margin-bottom: 2px;
+    }
+
+    .badge-soft {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 2px 7px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .badge-soft span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.95);
+    }
+
+    .coherence-card {
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 6px 7px;
+      font-size: 0.78rem;
+    }
+
+    .coherence-bar {
+      margin-top: 4px;
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.98);
+      overflow: hidden;
+      border: 1px solid rgba(31, 41, 55, 0.98);
+    }
+
+    .coherence-fill {
+      height: 100%;
+      background: linear-gradient(to right, #22c55e, #38bdf8, #a855f7);
+      width: 0%;
+      transition: width 0.2s ease-out;
+    }
+
+    .coherence-meta {
+      margin-top: 3px;
+      font-size: 0.74rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .hint {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .btn-small {
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.9);
+      background: rgba(15, 23, 42, 0.98);
+      color: #e0f2fe;
+      font-size: 0.74rem;
+      padding: 4px 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+      transition: background 0.16s, box-shadow 0.16s, transform 0.16s;
+    }
+
+    .btn-small:hover {
+      background: rgba(15, 23, 42, 1);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.95);
+      transform: translateY(-1px);
+    }
+
+    .launcher {
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 6px 7px;
+      font-size: 0.78rem;
+    }
+
+    .launcher-grid {
+      margin-top: 4px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 5px;
+    }
+
+    .launch-btn {
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      color: var(--text);
+      font-size: 0.76rem;
+      padding: 5px 7px;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      transition: border-color 0.16s, box-shadow 0.16s, transform 0.16s, background 0.16s;
+    }
+
+    .launch-btn span.label {
+      font-weight: 500;
+    }
+
+    .launch-btn span.meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .launch-btn:hover {
+      border-color: rgba(56, 189, 248, 0.9);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.95);
+      transform: translateY(-1px);
+      background: rgba(15, 23, 42, 0.98);
+    }
+
+    footer {
+      padding: 6px 12px 8px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(30, 64, 175, 0.7);
+      background: rgba(3, 7, 18, 0.98);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 760px) {
+      header { flex-direction: column; align-items: flex-start; }
+      footer { flex-direction: column; }
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal-overlay.visible {
+      display: flex;
+    }
+
+    .modal {
+      width: min(960px, 96vw);
+      height: min(560px, 92vh);
+      background: #020617;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 8px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(55, 65, 81, 0.98);
+      font-size: 0.85rem;
+    }
+
+    .modal-header h3 {
+      font-size: 0.9rem;
+    }
+
+    .modal-header button {
+      border-radius: 999px;
+      border: 1px solid rgba(248, 113, 113, 0.9);
+      background: rgba(127, 29, 29, 0.95);
+      color: #fee2e2;
+      font-size: 0.76rem;
+      padding: 3px 8px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+    }
+
+    .modal-main {
+      flex: 1;
+      margin: 6px;
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      overflow: hidden;
+      background: #020617;
+    }
+
+    .modal-main iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 8px;
+      background: #020617;
+    }
+
+    .modal-footer {
+      padding: 0 10px 8px;
+      font-size: 0.74rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="logo"><span>RL</span></div>
+    <div class="header-titles">
+      <div class="title-main">RELEARN · Assembler l’ensemble cohérent</div>
+      <div class="title-sub">Comment tout relier (BROL, intranet, détective, GORK, GROK-CORE, learn…) sans se perdre.</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="tagline">“Revoir le système, pas seulement les fichiers.”</div>
+    <div class="hint">Cette page est ton manuel de cohérence : architecture, conventions, liens, publication.</div>
+  </div>
+</header>
+
+<main>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <div class="nav-title">Chantiers de cohérence</div>
+      <ul class="nav-list">
+        <li><button class="nav-btn active" data-section="overview">Vue d’ensemble <span class="key">1</span></button></li>
+        <li><button class="nav-btn" data-section="naming">Conventions de nommage <span class="key">2</span></button></li>
+        <li><button class="nav-btn" data-section="links">Liens entre pages <span class="key">3</span></button></li>
+        <li><button class="nav-btn" data-section="thesaurus">Synchroniser BROL / GORK / GROK <span class="key">4</span></button></li>
+        <li><button class="nav-btn" data-section="publish">Publication & sauvegarde <span class="key">5</span></button></li>
+        <li><button class="nav-btn" data-section="ritual">Rituels d’usage <span class="key">6</span></button></li>
+      </ul>
+    </div>
+    <div class="sidebar-footer">
+      📁 Cartographie du dossier (exemple recommandé) :
+      <div class="mini-map">
+BROL-ECOSYSTEM/
+ ├─ index.html           (BROL 2.0 – fichiers)
+ ├─ intranet-brol.html   (Intranet perso)
+ ├─ index-detective.html (Agence MILOU)
+ ├─ gork.html            (Thésaurus GORK)
+ ├─ grok-core.html       (Hub GROK-CORE)
+ ├─ learn.html           (Pratique)
+ ├─ relearn.html         (Cohérence)
+ ├─ hub.html / moteur.html / faq.html
+ ├─ dystopie.pdf / plaidoyer-jp.pdf / pression (1).pdf
+ └─ images / autres PDF…
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <section class="main-panel">
+    <div class="main-inner">
+      <header>
+        <div>
+          <h1>RELEARN – Transformer un tas de fichiers en système</h1>
+          <p class="lead">
+            Tu as (ou tu auras) plusieurs pages : BROL, intranet, détective, GORK, GROK-CORE, learn, des PDFs…
+            Cette page explique comment les **faire tenir ensemble** : même vocabulaire, mêmes noms, bons liens,
+            et une façon claire de publier et de s’en servir.
+          </p>
+          <div class="pill-row">
+            <span class="pill accent">Architecture générale</span>
+            <span class="pill">Nommage & chemins cohérents</span>
+            <span class="pill">Liens croisés</span>
+            <span class="pill">Thésaurus (BROL / GORK / GROK)</span>
+            <span class="pill">Publication & rituels</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Section: overview -->
+      <section id="section-overview" class="section-root active">
+        <ul class="step-list">
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Photo globale de ton système</div>
+              <div class="step-xp">Cohérence : 4 pts</div>
+            </div>
+            <div class="step-body">
+              <p>
+                Imagine ton écosystème comme **un petit OS personnel** avec des “apps” :
+              </p>
+              <div class="diagram">
+[ Noyau fichiers ]
+  └─ BROL (index.html) —— catalogue de tous les fichiers (PDF, images, liens, autres sites)
+
+[ Interfaces de travail ]
+  ├─ Intranet BROL (intranet-brol.html) —— tâches, calendrier, journal, pingouins
+  └─ Agence MILOU (index-detective.html) —— vitrine + intranet métier + console
+
+[ Cartes & hubs ]
+  ├─ GORK (gork.html) —— vue graph / thésaurus (noeuds + liens)
+  ├─ GROK-CORE (grok-core.html) —— hub avec console & modales
+  ├─ LEARN (learn.html) —— tutoriel pratique (niveaux)
+  └─ RELEARN (relearn.html) —— cohérence & maintenance
+
+[ Références ]
+  └─ dystopie.pdf, plaidoyer-jp.pdf, pression (1).pdf, etc.
+              </div>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="2" />
+                  <span>Tu as (ou prévois) un fichier pour chaque “bloc” ci-dessus, même si c’est très minimal.</span>
+                </li>
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="2" />
+                  <span>Tout est dans **un seul dossier** ou sous-dossier, sans dépendre d’installations compliquées.</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                L’idée : tu peux tout zipper / copier / cloner en une fois, et tout continue de fonctionner ailleurs.
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section: naming -->
+      <section id="section-naming" class="section-root">
+        <ul class="step-list">
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Conventions de nommage des fichiers</div>
+              <div class="step-xp">Cohérence : 5 pts</div>
+            </div>
+            <div class="step-body">
+              <p>
+                Le plus simple : **un rôle = un fichier HTML**, avec un nom explicite, sans espaces :
+              </p>
+              <div class="code-block">
+index.html            → BROL 2.0 (thésaurus de fichiers)
+intranet-brol.html    → Intranet / dashboard perso
+index-detective.html  → Agence MILOU (détective privé)
+gork.html             → Thésaurus graph (GORK)
+grok-core.html        → Hub & console (GROK)
+learn.html            → Page de pratique
+relearn.html          → Page de cohérence
+hub.html              → Hub général (optionnel)
+moteur.html           → Moteur dystopique (optionnel)
+faq.html              → FAQ / tutoriel (optionnel)
+              </div>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="2" />
+                  <span>Chaque fichier a un nom **court, descriptif**, sans espace (utilise <code>-</code>).</span>
+                </li>
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="1" />
+                  <span>Les noms utilisés dans le code (BROL, GORK, GROK) correspondent aux fichiers listés ici.</span>
+                </li>
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="2" />
+                  <span>Tu as noté quelque part (par exemple dans <code>relearn.html</code>) à quoi sert chaque fichier.</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                Plus les noms sont clair, moins tu te perds quand tu reviens dans le dossier 6 mois plus tard.
+              </div>
+            </div>
+          </li>
+
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Nommer les “ids” internes</div>
+              <div class="step-xp">Cohérence : 4 pts</div>
+            </div>
+            <div class="step-body">
+              <p>
+                Trois endroits utilisent des <code>id</code> cohérents :
+              </p>
+              <ol style="margin-left:16px;font-size:0.8rem;color:var(--muted);margin-top:2px;">
+                <li><strong>BROL</strong> – tableau <code>brolItems</code> (id des fichiers / ressources),</li>
+                <li><strong>GORK</strong> – tableau <code>nodesData</code> (id des nœuds),</li>
+                <li><strong>GROK-CORE</strong> – tableau <code>pages</code> (id des pages).</li>
+              </ol>
+              <p>
+                Pour un même “objet” (ex : BROL, intranet, dystopie.pdf), vise les mêmes ids :
+              </p>
+              <div class="code-block">
+// Dans BROL (index.html)
+{ id: "dystopie", path: "dystopie.pdf", ... }
+
+// Dans GORK (gork.html)
+{ id: "dystopie-pdf", label: "dystopie.pdf", related: ["these", "pdfs"], ... }
+
+// Dans GROK-CORE (grok-core.html)
+{ id: "dystopie-pdf", file: "dystopie.pdf", type: "pdf", ... }
+              </div>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="2" />
+                  <span>Les ids “principaux” (brol, intranet-brol, detective, milou, dystopie-pdf…) existent dans GORK & GROK-CORE.</span>
+                </li>
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="2" />
+                  <span>Tu as évité d’avoir deux choses différentes avec le même id dans des fichiers différents.</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                Idéalement : quand tu vois un id (“brol”, “dystopie-pdf”), tu sais immédiatement ce que c’est
+                et dans quel fichier ça vit.
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section: links -->
+      <section id="section-links" class="section-root">
+        <ul class="step-list">
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Liens de base entre les pages</div>
+              <div class="step-xp">Cohérence : 5 pts</div>
+            </div>
+            <div class="step-body">
+              <p>
+                Règle simple : **chaque “grosse page” sait au moins comment rejoindre** :
+                BROL, Intranet, GORK, GROK-CORE.
+              </p>
+              <p>
+                Exemple d’en-tête minimal (dans chaque page) :
+              </p>
+              <div class="code-block">
+&lt;nav&gt;
+  &lt;a href="index.html"&gt;BROL&lt;/a&gt; ·
+  &lt;a href="intranet-brol.html"&gt;Intranet&lt;/a&gt; ·
+  &lt;a href="gork.html"&gt;GORK&lt;/a&gt; ·
+  &lt;a href="grok-core.html"&gt;GROK-CORE&lt;/a&gt; ·
+  &lt;a href="learn.html"&gt;LEARN&lt;/a&gt;
+&lt;/nav&gt;
+              </div>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="3" />
+                  <span>Les pages principales (BROL, intranet, détective, GORK, GROK-CORE, learn, relearn) ont un petit menu vers les autres.</span>
+                </li>
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="2" />
+                  <span>Les liens ne cassent pas (les chemins sont corrects après déplacement / publication).</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                Pas besoin d’un énorme menu : 4–5 liens bien choisis suffisent à recréer le “squelette” du système.
+              </div>
+            </div>
+          </li>
+
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">GROK-CORE comme “DNS” interne</div>
+              <div class="step-xp">Cohérence : 4 pts</div>
+            </div>
+            <div class="step-body">
+              <p>
+                <code>grok-core.html</code> sert de “DNS” de ton écosystème :
+                il connaît toutes les pages via le tableau <code>pages</code>, et les opens en modale ou onglet.
+              </p>
+              <div class="code-block">
+{
+  id: "brol",
+  name: "BROL 2.0 – Catalogue fichiers",
+  type: "html",
+  file: "index.html",
+  role: "Thésaurus de fichiers / tous formats",
+  tags: ["brol", "fichiers"]
+},
+              </div>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="2" />
+                  <span>Tu peux ouvrir BROL, GORK et l’intranet depuis GROK-CORE avec les boutons “Modale” / “Onglet”.</span>
+                </li>
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="2" />
+                  <span>Pour chaque nouvelle page, tu ajoutes une entrée dans <code>pages</code> (type, file, tags).</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                Avec GROK-CORE à jour, tu n’as plus besoin de te rappeler les chemins : tu demandes à GROK.
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section: thesaurus sync -->
+      <section id="section-thesaurus" class="section-root">
+        <ul class="step-list">
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Synchroniser BROL (fichiers) et GORK (concepts)</div>
+              <div class="step-xp">Cohérence : 6 pts</div>
+            </div>
+            <div class="step-body">
+              <p>
+                BROL voit surtout des **fichiers**. GORK voit surtout des **idées / noeuds**.
+                Tu peux les synchroniser grossièrement comme ceci :
+              </p>
+              <div class="diagram">
+[ BROL · index.html ]
+  brolItems[] = { id, name, type, category, path, tags, description }
+
+[ GORK · gork.html ]
+  nodesData[] = { id, label, group, color, description, related[] }
+              </div>
+              <p>
+                Exemple pour une nouvelle ressource “mon-projet” :
+              </p>
+              <div class="code-block">
+// Dans BROL (index.html)
+{
+  id: "mon-projet",
+  name: "Mon projet perso",
+  type: "note",
+  category: "tutos",
+  path: "mon-projet.html",
+  tags: ["projet", "perso"],
+  description: "Page perso pour tester des idées."
+}
+
+// Dans GORK (gork.html)
+{
+  id: "mon-projet",
+  label: "Mon projet perso",
+  group: "projet",
+  color: "#22c55e",
+  description: "Ce que je veux explorer / documenter.",
+  related: ["brol", "intranet-brol"]
+}
+              </div>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="3" />
+                  <span>Les “gros objets” (BROL, intranet, détective, MILOU, annexes PDF) existent à la fois dans BROL ET GORK.</span>
+                </li>
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="3" />
+                  <span>Tu as ajouté au moins un nœud “perso” (mon-projet, carnet, etc.) simultanément dans BROL & GORK.</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                GORK te donne la carte mentale ; BROL te donne l’accès concret aux fichiers. Les deux visions se complètent.
+              </div>
+            </div>
+          </li>
+
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Aligner avec GROK-CORE</div>
+              <div class="step-xp">Cohérence : 4 pts</div>
+            </div>
+            <div class="step-body">
+              <p>
+                Pour chaque ressource importante, tu peux aussi ajouter une entrée dans <code>pages</code> de GROK-CORE :
+              </p>
+              <div class="code-block">
+// Dans GROK-CORE (grok-core.html)
+{
+  id: "mon-projet",
+  name: "Mon projet perso",
+  type: "html",
+  file: "mon-projet.html",
+  role: "Terrain de jeu personnel",
+  tags: ["perso", "projet"]
+}
+              </div>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="2" />
+                  <span>Tu as au moins un objet (PDF ou HTML) présent dans les 3 : BROL, GORK, GROK-CORE.</span>
+                </li>
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="2" />
+                  <span>Tu comprends comment ajouter une nouvelle ressource dans ces 3 endroits sans tout casser.</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                Ce “triple enregistrement” peut paraître redondant, mais il t’offre 3 vues : fichiers, concepts, navigation.
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section: publish -->
+      <section id="section-publish" class="section-root">
+        <ul class="step-list">
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Sauvegarder en local (clé USB / disque)</div>
+              <div class="step-xp">Cohérence : 3 pts</div>
+            </div>
+            <div class="step-body">
+              <p>
+                Première bonne pratique : **tout tient dans un seul dossier** que tu peux sauvegarder tel quel.
+              </p>
+              <div class="checklist">
+                <div class="checklist-item">
+                  <input type="checkbox" data-coh="2" />
+                  <span>Tu as un dossier racine (par ex. <code>BROL-ECOSYSTEM/</code>) contenant tout l’écosystème.</span>
+                </div>
+                <div class="checklist-item">
+                  <input type="checkbox" data-coh="1" />
+                  <span>Tu as au moins une copie ailleurs (autre disque, clé USB, cloud fichiers).</span>
+                </div>
+              </div>
+              <div class="step-footer">
+                À ce stade, tu peux déjà tout transporter et ouvrir en double-cliquant sur les HTML (même sans Internet).
+              </div>
+            </div>
+          </li>
+
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Publier sur GitHub Pages (ou équivalent)</div>
+              <div class="step-xp">Cohérence : 5 pts</div>
+            </div>
+            <div class="step-body">
+              <p>
+                Si tu veux rendre une partie de ton écosystème publique, GitHub Pages est une option simple :
+              </p>
+              <ol style="margin-left:16px;font-size:0.8rem;color:var(--muted);margin-top:2px;">
+                <li>Créer un dépôt GitHub (par ex. <code>brol-ecosystem</code>).</li>
+                <li>Y déposer ton dossier (HTML, PDF, images…).</li>
+                <li>Activer GitHub Pages (branche <code>main</code> / dossier racine).</li>
+                <li>Ton site sera servi sur une URL du type <code>https://ton-compte.github.io/brol-ecosystem/</code>.</li>
+              </ol>
+              <p>
+                Tu peux décider quelles pages sont “publiques” et lesquelles restent privées (en les gardant hors dépôt).
+              </p>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="2" />
+                  <span>Tu as identifié les pages que tu es à l’aise de rendre publiques (ou aucune, c’est ok).</span>
+                </li>
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="3" />
+                  <span>Tu as une idée de comment organiser “public” vs “privé” (deux dossiers ou deux dépôts).</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                Rien ne t’oblige à publier quoi que ce soit. L’important : savoir que tu peux le faire, proprement, si tu veux.
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section: ritual -->
+      <section id="section-ritual" class="section-root">
+        <ul class="step-list">
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Te définir un “workflow” simple</div>
+              <div class="step-xp">Cohérence : 4 pts</div>
+            </div>
+            <div class="step-body">
+              <p>
+                Le système ne sert à rien si tu ne sais pas **quand** utiliser quoi.  
+                Tu peux choisir, par exemple :
+              </p>
+              <div class="code-block">
+// Exemples de rituels
+LUNDI matin     → ouvrir grok-core.html et passer en revue les surfaces (BROL, intranet, détective, GORK…)
+Chaque jour     → ouvrir intranet-brol.html (tâches + journal)
+Quand perdu     → ouvrir gork.html (graph) pour voir où une idée se branche
+Avant d'ajouter un fichier
+                → l'ajouter à BROL (index.html) et (optionnel) à GORK + GROK-CORE
+              </div>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="2" />
+                  <span>Tu as décidé d’au moins un moment récurrent pour ouvrir cet écosystème (ex. lundi matin).</span>
+                </li>
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="2" />
+                  <span>Tu as choisi une “page d’entrée” (BROL, GROK-CORE ou LEARN) que tu ouvriras en premier.</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                Le but n’est pas de t’enfermer dans un rituel rigide, mais d’éviter que ton écosystème prenne la poussière.
+              </div>
+            </div>
+          </li>
+
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Utiliser LEARN & RELEARN ensemble</div>
+              <div class="step-xp">Cohérence : 3 pts</div>
+            </div>
+            <div class="step-body">
+              <p>
+                <strong>learn.html</strong> = apprendre en faisant, niveau par niveau.  
+                <strong>relearn.html</strong> = vérifier que tout tient ensemble, ajuster, renommer, rebrancher.
+              </p>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="1" />
+                  <span>Tu as au moins parcouru rapidement les sections de <code>learn.html</code> (N0 → N3).</span>
+                </li>
+                <li class="checklist-item">
+                  <input type="checkbox" data-coh="2" />
+                  <span>Tu utilises RELEARN pour noter les “points qui coincent” (noms, liens, rituels) et les corriger.</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                Tu peux revenir ici à chaque fois que tu agrandis ton système pour vérifier que tu ne casses pas la cohérence.
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </section>
+
+  <!-- Right panel -->
+  <aside class="side-panel">
+    <div class="side-inner">
+      <div>
+        <h2>Score de cohérence (symbolique)</h2>
+        <span class="badge-soft"><span class="dot"></span> Plus tu coches, plus le système “tient”.</span>
+        <p class="hint">
+          Chaque case cochée = un petit point de cohérence.  
+          Il n’y a pas de “bons” ou “mauvais” élèves, juste un indicateur pour voir ton avancement.
+        </p>
+      </div>
+
+      <section class="coherence-card">
+        <div class="coherence-bar">
+          <div class="coherence-fill" id="coherenceFill"></div>
+        </div>
+        <div class="coherence-meta">
+          <span id="coherenceLabel">0 points de cohérence sur ce run.</span>
+          <span style="font-family:var(--font-mono);">Barre pleine ≈ 30 pts (approx.).</span>
+        </div>
+        <button class="btn-small" id="resetChecksBtn" style="margin-top:5px;">Reset des cases (pour un nouveau run)</button>
+      </section>
+
+      <section class="launcher">
+        <h3 style="font-size:0.84rem;margin-bottom:2px;">Ouvrir les autres pièces en modale</h3>
+        <div class="launcher-grid" id="launcherGrid"></div>
+        <p class="hint">
+          Les fichiers doivent exister à côté de <code>relearn.html</code>.  
+          Tu peux adapter la liste dans le script (constante <code>launcherPages</code>).
+        </p>
+      </section>
+
+      <section class="coherence-card">
+        <h3 style="font-size:0.84rem;margin-bottom:2px;">Règle simple pour les futures pièces</h3>
+        <p class="hint">
+          Quand tu ajoutes un nouveau fichier (ex. <code>mon-projet.html</code>) :
+        </p>
+        <div class="code-block">
+1. Le mettre dans le dossier racine (ou un sous-dossier simple).
+2. Créer une entrée dans BROL (index.html → brolItems[]).
+3. (Facultatif mais recommandé) Créer un nœud dans GORK (gork.html → nodesData[]).
+4. (Facultatif) Déclarer une page dans GROK-CORE (grok-core.html → pages[]).
+5. Ajouter un petit lien quelque part (nav BROL, hub, etc.).
+        </div>
+      </section>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  <span>
+    RELEARN – Manuel de cohérence pour l’écosystème BROL / MILOU / GORK / GROK. Tu peux toujours simplifier, renommer, enlever, tant que tu gardes la carte.
+  </span>
+  <span>
+    Ajout d’une nouvelle pièce = 3 questions : où est le fichier ? comment je le nomme ? où je l’enregistre (BROL, GORK, GROK-CORE) ?
+  </span>
+</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Prévisualisation</h3>
+      <button type="button" id="modalCloseBtn">Fermer (Esc)</button>
+    </div>
+    <div class="modal-main">
+      <iframe id="modalIframe" src=""></iframe>
+    </div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
+<script>
+  // ========= Navigation de sections =========
+  const navBtns = document.querySelectorAll(".nav-btn");
+  const sections = document.querySelectorAll(".section-root");
+
+  function showSection(key) {
+    sections.forEach(sec => {
+      sec.classList.toggle("active", sec.id === "section-" + key);
+    });
+    navBtns.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.section === key);
+    });
+  }
+
+  navBtns.forEach(btn => {
+    btn.addEventListener("click", () => showSection(btn.dataset.section));
+  });
+
+  // ========= Checklists & score de cohérence =========
+  const checkboxes = document.querySelectorAll(".checklist-item input[type='checkbox']");
+  const coherenceFill = document.getElementById("coherenceFill");
+  const coherenceLabel = document.getElementById("coherenceLabel");
+  const resetChecksBtn = document.getElementById("resetChecksBtn");
+
+  function updateCoherence() {
+    let score = 0;
+    checkboxes.forEach(cb => {
+      if (cb.checked) {
+        const val = parseInt(cb.dataset.coh || "1", 10);
+        score += isNaN(val) ? 1 : val;
+      }
+    });
+    const pct = Math.min(100, (score / 30) * 100);
+    coherenceFill.style.width = pct + "%";
+    coherenceLabel.textContent = score + " points de cohérence sur ce run (barre pleine ≈ 30).";
+  }
+
+  checkboxes.forEach(cb => {
+    cb.addEventListener("change", updateCoherence);
+  });
+
+  resetChecksBtn.addEventListener("click", () => {
+    checkboxes.forEach(cb => cb.checked = false);
+    updateCoherence();
+  });
+
+  // ========= Lanceur de pages =========
+  const launcherGrid = document.getElementById("launcherGrid");
+  const launcherPages = [
+    { id: "index.html", label: "BROL 2.0", meta: "index.html" },
+    { id: "intranet-brol.html", label: "Intranet BROL", meta: "intranet-brol.html" },
+    { id: "index-detective.html", label: "Agence MILOU", meta: "index-detective.html" },
+    { id: "gork.html", label: "GORK (graph)", meta: "gork.html" },
+    { id: "grok-core.html", label: "GROK-CORE", meta: "grok-core.html" },
+    { id: "learn.html", label: "LEARN", meta: "learn.html" },
+    { id: "relearn.html", label: "RELEARN", meta: "relearn.html" }
+  ];
+
+  function renderLauncher() {
+    launcherGrid.innerHTML = "";
+    launcherPages.forEach(p => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "launch-btn";
+      const label = document.createElement("span");
+      label.className = "label";
+      label.textContent = p.label;
+      const meta = document.createElement("span");
+      meta.className = "meta";
+      meta.textContent = p.meta;
+      btn.appendChild(label);
+      btn.appendChild(meta);
+      btn.addEventListener("click", () => openModal(p.id, p.label));
+      launcherGrid.appendChild(btn);
+    });
+  }
+
+  // ========= Modal =========
+  const modalOverlay = document.getElementById("modalOverlay");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalIframe = document.getElementById("modalIframe");
+  const modalFooter = document.getElementById("modalFooter");
+  const modalCloseBtn = document.getElementById("modalCloseBtn");
+
+  function openModal(file, label) {
+    modalTitle.textContent = label || file;
+    modalIframe.src = file;
+    modalFooter.textContent = "Fichier : " + file + " (assure-toi qu’il existe à côté de relearn.html).";
+    modalOverlay.classList.add("visible");
+  }
+
+  function closeModal() {
+    modalOverlay.classList.remove("visible");
+    modalIframe.src = "";
+  }
+
+  modalCloseBtn.addEventListener("click", closeModal);
+  modalOverlay.addEventListener("click", (e) => {
+    if (e.target === modalOverlay) closeModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modalOverlay.classList.contains("visible")) {
+      closeModal();
+    }
+  });
+
+  // ========= Init =========
+  document.addEventListener("DOMContentLoaded", () => {
+    renderLauncher();
+    updateCoherence();
+  });
+</script>
+</body>
+</html>
