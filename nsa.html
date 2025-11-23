@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>AGENCE X – Plateforme d’analyse (fictive)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #02081e;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #0ea5e9;
+      --danger: #f97316;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.45);
+      --radius-xl: 20px;
+      --shadow-soft: 0 22px 45px rgba(15, 23, 42, 0.9);
+      --shadow-small: 0 10px 22px rgba(15, 23, 42, 0.9);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, #0ea5e9 0, transparent 55%),
+        radial-gradient(circle at 100% 100%, #22c55e 0, transparent 55%),
+        var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    /* Header / nav */
+    header.top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(12px);
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.92));
+      border-bottom: 1px solid rgba(148, 163, 184, 0.45);
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-block {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-symbol {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 30% 20%, #22c55e, #0ea5e9);
+      color: #020617;
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.95),
+                  0 0 0 4px rgba(56, 189, 248, 0.6);
+      font-family: var(--font-mono);
+    }
+
+    .logo-text-main {
+      font-size: 0.95rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .logo-text-sub {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    nav.main-menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.8rem;
+    }
+
+    nav.main-menu a {
+      text-decoration: none;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: var(--muted);
+      transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+    }
+
+    nav.main-menu a:hover {
+      background: rgba(15, 23, 42, 1);
+      border-color: rgba(148, 163, 184, 0.7);
+      color: var(--text);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-small);
+    }
+
+    nav.main-menu a.cta {
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #bbf7d0;
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    nav.main-menu a.cta:hover {
+      background: linear-gradient(135deg, #22c55e, #0ea5e9);
+      color: #020617;
+    }
+
+    @media (max-width: 720px) {
+      header.top-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* Bandeau classification */
+    .banner-classif {
+      margin: 10px auto 0;
+      max-width: 980px;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 197, 94, 0.9);
+      background: radial-gradient(circle at 0 0, rgba(34, 197, 94, 0.35), transparent 60%),
+                  rgba(15, 23, 42, 0.96);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 5px 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-small);
+    }
+
+    .badge-classif {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 197, 94, 0.9);
+      background: rgba(22, 101, 52, 0.75);
+      color: #bbf7d0;
+      font-weight: 600;
+    }
+
+    /* Layout global contenu */
+    main {
+      flex: 1;
+      padding: 14px 10px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .content-wrapper {
+      width: 100%;
+      max-width: 1120px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.2fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 960px) {
+      .content-wrapper {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    section {
+      scroll-margin-top: 70px;
+    }
+
+    /* Carte principale (public) */
+    .card-main {
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.15), transparent 60%),
+                  radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.14), transparent 60%),
+                  var(--bg-soft);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      padding: 12px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card-main h1 {
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+    }
+
+    .card-main .intro {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .tag {
+      border-radius: 999px;
+      padding: 3px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      font-size: 0.76rem;
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.92);
+    }
+
+    .hero-agence {
+      margin-bottom: 10px;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      padding: 10px 10px 10px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .hero-agence h2 {
+      font-size: 1.1rem;
+      margin-bottom: 2px;
+    }
+
+    .hero-agence h3 {
+      font-size: 0.9rem;
+      color: #bae6fd;
+      margin-bottom: 4px;
+    }
+
+    .hero-agence p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .hero-actions a {
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 6px 11px;
+      font-size: 0.8rem;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.98);
+      color: var(--text);
+      transition: background 0.15s, transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    }
+
+    .hero-actions a:hover {
+      background: rgba(15, 23, 42, 1);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-small);
+    }
+
+    .hero-actions a.primary {
+      border-color: rgba(34, 197, 94, 0.9);
+      background: linear-gradient(135deg, #22c55e, #0ea5e9);
+      color: #020617;
+    }
+
+    /* Missions, équipe, contact */
+    .section-block {
+      margin-top: 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: rgba(15, 23, 42, 0.96);
+      padding: 8px 9px 9px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .section-block h2 {
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .section-block p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .missions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .mission-card {
+      border-radius: 12px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.12), transparent 60%),
+                  #020617;
+      padding: 6px 7px 6px;
+      font-size: 0.78rem;
+    }
+
+    .mission-card h3 {
+      font-size: 0.86rem;
+      margin-bottom: 2px;
+    }
+
+    .mission-status {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      margin-bottom: 2px;
+    }
+
+    .mission-status span {
+      border-radius: 999px;
+      padding: 1px 6px;
+      border: 1px solid rgba(34, 197, 94, 0.8);
+      color: #bbf7d0;
+    }
+
+    .mission-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .team-card {
+      border-radius: 10px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: rgba(15, 23, 42, 0.96);
+      padding: 6px 7px;
+      font-size: 0.78rem;
+    }
+
+    .team-card h3 {
+      font-size: 0.86rem;
+      margin-bottom: 1px;
+    }
+
+    .team-role {
+      font-size: 0.73rem;
+      color: #a5b4fc;
+      margin-bottom: 2px;
+    }
+
+    .team-skill {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    /* Contact */
+    .contact-form {
+      margin-top: 6px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .contact-form label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: block;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      margin-top: 2px;
+      border-radius: 8px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: rgba(15, 23, 42, 0.98);
+      color: var(--text);
+      padding: 5px 7px;
+      font-size: 0.8rem;
+      outline: none;
+    }
+
+    .contact-form textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .contact-form button {
+      margin-top: 4px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.9);
+      background: rgba(15, 23, 42, 0.98);
+      color: #e0f2fe;
+      font-size: 0.8rem;
+      padding: 6px 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+    }
+
+    .contact-form button:hover {
+      background: rgba(15, 23, 42, 1);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-small);
+    }
+
+    .contact-summary {
+      margin-top: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      background: #020617;
+      border-radius: 10px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      padding: 6px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #e5e7eb;
+    }
+
+    .disclaimer {
+      margin-top: 6px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(51, 65, 85, 0.9);
+      padding-top: 4px;
+    }
+
+    /* Intranet colonne droite */
+    .intra-card {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      padding: 10px 10px 12px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .intra-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .intra-header h2 {
+      font-size: 0.95rem;
+    }
+
+    .intra-badge {
+      border-radius: 999px;
+      padding: 3px 8px;
+      border: 1px solid rgba(34, 197, 94, 0.8);
+      font-size: 0.7rem;
+      color: #bbf7d0;
+      background: rgba(22, 101, 52, 0.4);
+    }
+
+    .intra-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+      font-size: 0.76rem;
+    }
+
+    .intra-tab {
+      border-radius: 999px;
+      padding: 3px 9px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.14s, border-color 0.14s, color 0.14s;
+    }
+
+    .intra-tab.active {
+      border-color: rgba(56, 189, 248, 0.9);
+      color: #e5e7eb;
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .intra-pane {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      display: none;
+    }
+
+    .intra-pane.active {
+      display: block;
+    }
+
+    .hint {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .login-box {
+      border-radius: 12px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: #020617;
+      padding: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+
+    .login-row {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-top: 4px;
+    }
+
+    .login-label {
+      color: #9ca3af;
+    }
+
+    .login-input {
+      border-radius: 999px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--text);
+      padding: 3px 7px;
+      font-size: 0.75rem;
+      outline: none;
+    }
+
+    .btn-small {
+      margin-top: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.9);
+      background: rgba(15, 23, 42, 0.96);
+      color: #e0f2fe;
+      font-size: 0.75rem;
+      padding: 4px 9px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.14s, transform 0.14s, box-shadow 0.14s;
+    }
+
+    .btn-small:hover {
+      background: rgba(15, 23, 42, 1);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-small);
+    }
+
+    .badge-soft {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      padding: 2px 6px;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .mission-list {
+      list-style: none;
+      margin-top: 6px;
+    }
+
+    .mission-list li {
+      margin-bottom: 4px;
+    }
+
+    .filter-row {
+      margin-top: 6px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .filter-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--muted);
+      font-size: 0.72rem;
+      padding: 3px 7px;
+      cursor: pointer;
+      transition: background 0.14s, border-color 0.14s, color 0.14s;
+    }
+
+    .filter-btn.active {
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #bbf7d0;
+      background: rgba(22, 101, 52, 0.4);
+    }
+
+    .notes-area {
+      margin-top: 6px;
+      font-size: 0.76rem;
+    }
+
+    .notes-area textarea {
+      width: 100%;
+      margin-top: 3px;
+      border-radius: 10px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: #020617;
+      color: var(--text);
+      padding: 6px 7px;
+      font-size: 0.76rem;
+      resize: vertical;
+      min-height: 90px;
+      font-family: var(--font-mono);
+    }
+
+    .log-area {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      background: #020617;
+      border-radius: 10px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      padding: 6px;
+      max-height: 150px;
+      overflow-y: auto;
+      margin-top: 4px;
+    }
+
+    .log-line {
+      margin-bottom: 2px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .log-line span.time {
+      color: #64748b;
+      margin-right: 4px;
+    }
+
+    .log-line span.tag {
+      color: #22c55e;
+      margin-right: 3px;
+    }
+
+    footer {
+      padding: 7px 12px 9px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      border-top: 1px solid rgba(148, 163, 184, 0.45);
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    @media (max-width: 720px) {
+      footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+<header class="top-nav">
+  <div class="logo-block">
+    <div class="logo-symbol">X</div>
+    <div>
+      <div class="logo-text-main">AGENCE X</div>
+      <div class="logo-text-sub">Plateforme d’analyse &amp; de simulation (fictive)</div>
+    </div>
+  </div>
+  <nav class="main-menu">
+    <a href="#accueil">Accueil</a>
+    <a href="#missions">Missions</a>
+    <a href="#equipe">Équipe</a>
+    <a href="#contact">Contact</a>
+    <a href="#intranet" class="cta">Intranet (démo)</a>
+  </nav>
+</header>
+
+<div class="banner-classif">
+  <span class="badge-classif">NIVEAU : PUBLIC / PÉDAGOGIQUE</span>
+  <span>
+    AGENCE X – Environnement d’entraînement à l’analyse d’information. Aucune donnée réelle sensible.
+  </span>
+</div>
+
+<main>
+  <div class="content-wrapper">
+    <!-- Colonne principale : site public -->
+    <div class="card-main">
+      <section id="accueil" class="hero-agence">
+        <h2>Bienvenue sur la plateforme AGENCE X</h2>
+        <h3>Analyse. Synthèse. Fiction assumée.</h3>
+        <p>
+          Ce site simule l’interface publique d’une agence de renseignement.
+          Il est conçu pour s’entraîner à structurer des informations,
+          rédiger des notes et manipuler un intranet… sans aucune donnée réelle.
+        </p>
+        <div class="hero-actions">
+          <a href="#missions" class="primary">Voir les missions fictives</a>
+          <a href="#intranet">Accès intranet de démonstration</a>
+        </div>
+      </section>
+
+      <p class="intro">
+        Tu peux utiliser ce fichier comme base pour ton propre site : modifie
+        simplement les textes, les missions, l’équipe et les champs de contact.
+        Tout tient dans ce seul <strong>index.html</strong>, idéal pour une clé USB.
+      </p>
+
+      <div class="tag-row">
+        <span class="tag">Site statique</span>
+        <span class="tag">Fichier unique</span>
+        <span class="tag">Agence de renseignement fictive</span>
+        <span class="tag">Intranet démo intégré</span>
+      </div>
+
+      <!-- Missions -->
+      <section id="missions" class="section-block">
+        <h2>Missions fictives</h2>
+        <p>
+          Les missions ci-dessous sont des scénarios d’entraînement. Tu peux les
+          remplacer par tes propres cas d’école (veille, analyse de discours,
+          fact-checking, etc.).
+        </p>
+        <div class="missions-grid">
+          <article class="mission-card">
+            <h3>MX-01 – Veille médias</h3>
+            <div class="mission-status">
+              Code : <span>OUVERT</span>
+            </div>
+            <p>
+              Cartographier les sources d’information autour d’un sujet donné
+              (articles, posts, communiqués).
+            </p>
+            <p class="mission-meta">
+              Livrable : liste de sources + premier schéma d’acteurs.
+            </p>
+          </article>
+
+          <article class="mission-card">
+            <h3>MX-02 – Note de synthèse</h3>
+            <div class="mission-status">
+              Code : <span>EN COURS</span>
+            </div>
+            <p>
+              Transformer un dossier de documents en une note de synthèse d’une
+              page pour un décideur pressé.
+            </p>
+            <p class="mission-meta">
+              Livrable : note structurée (contexte, enjeux, options).
+            </p>
+          </article>
+
+          <article class="mission-card">
+            <h3>MX-03 – Cartographie d’acteurs</h3>
+            <div class="mission-status">
+              Code : <span>ARCHIVÉ</span>
+            </div>
+            <p>
+              Exemple de mission terminée : identification des principaux
+              acteurs sur un thème précis.
+            </p>
+            <p class="mission-meta">
+              Livrable : carte + fiche synthèse.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Équipe -->
+      <section id="equipe" class="section-block">
+        <h2>Cellule d’analyse (alias fictifs)</h2>
+        <p>
+          L’équipe ci-dessous est entièrement fictive. Tu peux la remplacer par
+          de vraies personnes ou par des rôles (ex. « cellule veille », « cellule juridique »).
+        </p>
+        <div class="team-grid">
+          <article class="team-card">
+            <h3>ALPHA</h3>
+            <div class="team-role">Responsable analyse stratégique</div>
+            <div class="team-skill">
+              Coordonne les missions, valide les synthèses finales, prépare les
+              briefs pour la direction.
+            </div>
+          </article>
+
+          <article class="team-card">
+            <h3>BÉTA</h3>
+            <div class="team-role">Analyste veille &amp; cartographie</div>
+            <div class="team-skill">
+              Collecte les sources, identifie les tendances, construit les cartes
+              d’acteurs et les lignes de force.
+            </div>
+          </article>
+
+          <article class="team-card">
+            <h3>GAMMA</h3>
+            <div class="team-role">Rédacteur·rice de synthèse</div>
+            <div class="team-skill">
+              Transforme la masse d’information en notes claires, adaptées au
+              temps de lecture disponible.
+            </div>
+          </article>
+
+          <article class="team-card">
+            <h3>DELTA</h3>
+            <div class="team-role">Opérations &amp; sécurité</div>
+            <div class="team-skill">
+              Supervise les accès à l’intranet, s’assure que les données utilisées
+              restent compatibles avec l’objectif pédagogique.
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="section-block">
+        <h2>Contact pédagogique</h2>
+        <p>
+          Utilise ce formulaire pour simuler une prise de contact. Les
+          informations ne sont pas envoyées : elles s’affichent uniquement
+          dans le récapitulatif ci-dessous (tout reste local).
+        </p>
+
+        <form class="contact-form" id="contactForm">
+          <label>
+            Nom de la structure / classe
+            <input type="text" name="nom" required />
+          </label>
+          <label>
+            Objet de la demande
+            <input type="text" name="objet" required />
+          </label>
+          <label>
+            Message
+            <textarea name="message" required></textarea>
+          </label>
+          <button type="submit">
+            📨 Générer le résumé (local)
+          </button>
+        </form>
+
+        <pre class="contact-summary" id="contactSummary" aria-live="polite"></pre>
+
+        <div class="disclaimer">
+          🔎 <strong>Note :</strong> ce site ne collecte ni n’envoie aucune donnée.
+          Le formulaire est purement démonstratif. Tu peux adapter ce texte
+          pour expliquer ton propre dispositif.
+        </div>
+      </section>
+
+      <!-- Mentions -->
+      <section class="section-block">
+        <h2>À propos de cette plateforme</h2>
+        <p>
+          AGENCE X est une <strong>simulation</strong> : tout est pensé pour
+          l’apprentissage (cours, ateliers, jeux de rôle, prototypage de
+          dispositifs d’analyse).
+        </p>
+        <p>
+          Tu peux modifier librement ce fichier, en gardant en tête : pas de
+          données réelles sensibles, pas d’usage illégal. Le but est de
+          comprendre les logiques d’un site d’agence et d’un intranet, pas de
+          faire de la surveillance.
+        </p>
+      </section>
+    </div>
+
+    <!-- Colonne droite : intranet démo -->
+    <aside class="intra-card" id="intranet">
+      <div class="intra-header">
+        <h2>Intranet AGENCE X – démo locale</h2>
+        <span class="intra-badge">100% côté navigateur</span>
+      </div>
+      <p class="hint">
+        Identifiant : <code>analyste</code> – Mot de passe : <code>demo</code>.
+        Une fois connecté·e, tu peux voir les missions, écrire des notes et
+        suivre un petit journal d’activité. Rien ne quitte ton navigateur.
+      </p>
+
+      <div class="intra-tabs">
+        <button class="intra-tab active" data-pane="pane-login">Login</button>
+        <button class="intra-tab" data-pane="pane-missions">Missions</button>
+        <button class="intra-tab" data-pane="pane-notes">Notes</button>
+        <button class="intra-tab" data-pane="pane-logs">Journal</button>
+      </div>
+
+      <!-- Pane login -->
+      <div class="intra-pane active" id="pane-login">
+        <div class="login-box">
+          <div>&gt; CONNECT / AGENCE_X / INTRANET</div>
+          <div class="login-row">
+            <label class="login-label" for="intraUser">Identifiant</label>
+            <input id="intraUser" class="login-input" placeholder="analyste" />
+          </div>
+          <div class="login-row">
+            <label class="login-label" for="intraPass">Mot de passe</label>
+            <input id="intraPass" type="password" class="login-input" placeholder="demo" />
+          </div>
+          <button class="btn-small" id="btnIntraLogin">
+            🔓 Connexion fictive
+          </button>
+          <div id="loginStatus" class="hint"></div>
+        </div>
+        <p class="hint">
+          💡 À copier tel quel dans une autre page si tu veux un intranet séparé
+          (par exemple <code>intranet.html</code>).
+        </p>
+      </div>
+
+      <!-- Pane missions -->
+      <div class="intra-pane" id="pane-missions">
+        <div class="badge-soft" id="missionsSummary">Missions visibles : 0</div>
+        <div class="filter-row">
+          <button class="filter-btn active" data-filter="all">Toutes</button>
+          <button class="filter-btn" data-filter="Ouvert">Ouvertes</button>
+          <button class="filter-btn" data-filter="En cours">En cours</button>
+          <button class="filter-btn" data-filter="Archivé">Archivées</button>
+        </div>
+        <ul class="mission-list" id="missionList"></ul>
+        <p class="hint">
+          🔐 L’accès complet aux missions est conditionné à la connexion fictive
+          (onglet Login). Tu peux adapter les missions dans le JavaScript.
+        </p>
+      </div>
+
+      <!-- Pane notes -->
+      <div class="intra-pane" id="pane-notes">
+        <div class="badge-soft">Notes de synthèse (stockées en localStorage)</div>
+        <div class="notes-area">
+          <label for="notesText">Bloc-notes analyste</label>
+          <textarea id="notesText" placeholder="Écris ici ta note de synthèse. Le texte est sauvegardé dans ce navigateur."></textarea>
+          <button class="btn-small" id="btnClearNotes">
+            🧹 Effacer les notes
+          </button>
+        </div>
+        <p class="hint">
+          💾 Le contenu est mémorisé dans le <code>localStorage</code> de ton navigateur.
+          Si tu ouvres ce fichier sur une autre machine, les notes seront vides.
+        </p>
+      </div>
+
+      <!-- Pane logs -->
+      <div class="intra-pane" id="pane-logs">
+        <div class="badge-soft">Journal d’activité (local)</div>
+        <div class="log-area" id="logArea"></div>
+        <button class="btn-small" id="btnClearLogs" style="margin-top:5px;">
+          🧹 Nettoyer le journal
+        </button>
+        <p class="hint">
+          Ce journal t’aide à comprendre ce qui se passe : connexions, changements d’onglet,
+          filtrage des missions… Tout reste sur cette page.
+        </p>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <span>
+    Fichier autonome : enregistre cette page comme <strong>index.html</strong>, mets-la sur une clé USB et ouvre-la dans ton navigateur.
+  </span>
+  <span>
+    Pour adapter à ton projet : modifie les textes, les missions, l’équipe et les identifiants dans ce fichier. E.A.R.L. peut ensuite t’aider à refactoriser si besoin.
+  </span>
+</footer>
+
+<script>
+  // --- Missions pour l'intranet ---
+  const missionsDemo = [
+    { id: "MX-01", titre: "Veille médias", statut: "Ouvert" },
+    { id: "MX-02", titre: "Note de synthèse", statut: "En cours" },
+    { id: "MX-03", titre: "Étude de cas d'école", statut: "Archivé" },
+    { id: "MX-04", titre: "Cartographie d'acteurs", statut: "Ouvert" }
+  ];
+
+  // --- Journal d'activité ---
+  const logArea = document.getElementById("logArea");
+
+  function addLog(tag, message) {
+    const line = document.createElement("div");
+    line.className = "log-line";
+
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, "0");
+    const mm = String(now.getMinutes()).padStart(2, "0");
+    const ss = String(now.getSeconds()).padStart(2, "0");
+
+    const timeSpan = document.createElement("span");
+    timeSpan.className = "time";
+    timeSpan.textContent = `${hh}:${mm}:${ss}`;
+
+    const tagSpan = document.createElement("span");
+    tagSpan.className = "tag";
+    tagSpan.textContent = `[${tag}]`;
+
+    const textNode = document.createTextNode(" " + message);
+
+    line.appendChild(timeSpan);
+    line.appendChild(tagSpan);
+    line.appendChild(textNode);
+    logArea.appendChild(line);
+    logArea.scrollTop = logArea.scrollHeight;
+  }
+
+  addLog("SYS", "Intranet initialisé. Aucune donnée ne quitte ce navigateur.");
+
+  // --- Tabs intranet ---
+  const intraTabs = document.querySelectorAll(".intra-tab");
+  const intraPanes = document.querySelectorAll(".intra-pane");
+
+  intraTabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      const paneId = tab.dataset.pane;
+      intraTabs.forEach(t => t.classList.remove("active"));
+      intraPanes.forEach(p => p.classList.remove("active"));
+      tab.classList.add("active");
+      document.getElementById(paneId).classList.add("active");
+      addLog("TAB", `Ouverture onglet ${paneId}.`);
+    });
+  });
+
+  // --- Login intranet ---
+  let loggedIn = false;
+  const btnIntraLogin = document.getElementById("btnIntraLogin");
+  const loginStatus = document.getElementById("loginStatus");
+  const intraUser = document.getElementById("intraUser");
+  const intraPass = document.getElementById("intraPass");
+
+  function handleLogin() {
+    const user = intraUser.value.trim();
+    const pass = intraPass.value.trim();
+    if (user === "analyste" && pass === "demo") {
+      loggedIn = true;
+      loginStatus.textContent = "Connexion réussie (simulation). Missions débloquées.";
+      loginStatus.style.color = "#4ade80";
+      addLog("LOGIN", "Connexion fictive de l'utilisateur 'analyste'.");
+      renderMissions(currentFilter);
+    } else {
+      loggedIn = false;
+      loginStatus.textContent = "Identifiants incorrects (rappel : analyste / demo).";
+      loginStatus.style.color = "#f97316";
+      addLog("LOGIN", `Tentative échouée avec identifiant '${user}'.`);
+    }
+  }
+
+  btnIntraLogin.addEventListener("click", handleLogin);
+
+  intraPass.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleLogin();
+    }
+  });
+
+  // --- Missions + filtres ---
+  const missionListEl = document.getElementById("missionList");
+  const missionsSummary = document.getElementById("missionsSummary");
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  let currentFilter = "all";
+
+  function renderMissions(filter = "all") {
+    missionListEl.innerHTML = "";
+    if (!loggedIn) {
+      missionsSummary.textContent = "Missions visibles : 0 (connecte-toi dans l’onglet Login).";
+      return;
+    }
+
+    let filtered = missionsDemo;
+    if (filter !== "all") {
+      filtered = missionsDemo.filter(m => m.statut === filter);
+    }
+
+    filtered.forEach(m => {
+      const li = document.createElement("li");
+      li.innerHTML =
+        `&gt; <code>${m.id}</code> – ${m.titre} (<strong>${m.statut}</strong>)`;
+      missionListEl.appendChild(li);
+    });
+
+    missionsSummary.textContent = `Missions visibles : ${filtered.length}`;
+  }
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      filterButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentFilter = btn.dataset.filter;
+      addLog("FILTER", `Filtre missions = ${currentFilter}.`);
+      renderMissions(currentFilter);
+    });
+  });
+
+  // --- Notes (localStorage) ---
+  const notesText = document.getElementById("notesText");
+  const btnClearNotes = document.getElementById("btnClearNotes");
+  const NOTES_KEY = "agenceX_notes_analyste";
+
+  function loadNotes() {
+    const saved = localStorage.getItem(NOTES_KEY);
+    if (saved !== null) {
+      notesText.value = saved;
+      addLog("NOTES", "Notes chargées depuis localStorage.");
+    }
+  }
+
+  function saveNotes() {
+    localStorage.setItem(NOTES_KEY, notesText.value);
+    addLog("NOTES", "Notes sauvegardées dans localStorage.");
+  }
+
+  notesText.addEventListener("input", () => {
+    // on sauvegarde avec un petit debounce light
+    if (saveNotes._t) clearTimeout(saveNotes._t);
+    saveNotes._t = setTimeout(saveNotes, 400);
+  });
+
+  btnClearNotes.addEventListener("click", () => {
+    notesText.value = "";
+    localStorage.removeItem(NOTES_KEY);
+    addLog("NOTES", "Notes effacées et localStorage nettoyé.");
+  });
+
+  loadNotes();
+
+  // --- Journal: bouton nettoyer ---
+  const btnClearLogs = document.getElementById("btnClearLogs");
+  btnClearLogs.addEventListener("click", () => {
+    logArea.innerHTML = "";
+    addLog("SYS", "Journal nettoyé.");
+  });
+
+  // --- Formulaire de contact (résumé local) ---
+  const contactForm = document.getElementById("contactForm");
+  const contactSummary = document.getElementById("contactSummary");
+
+  contactForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(contactForm);
+    const nom = formData.get("nom");
+    const objet = formData.get("objet");
+    const message = formData.get("message");
+
+    const recap =
+`RÉCAPITULATIF LOCAL – DEMANDE AGENCE X
+--------------------------------------
+Structure / classe : ${nom}
+Objet : ${objet}
+
+Message :
+${message}
+
+(remarque : ce message n'a pas été envoyé, il s'affiche uniquement ici)`;
+
+    contactSummary.textContent = recap;
+    addLog("CONTACT", "Formulaire de contact utilisé (affichage local du résumé).");
+  });
+</script>
+</body>
+</html>
