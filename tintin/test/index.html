@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>TINTIN AU CENTRE – Le Mystère du Milieu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --bg-page: #fef3c7;
+      --bg-panel: #fffdf4;
+      --bg-panel-blue: #e0f2fe;
+      --bg-panel-pink: #fdf2f8;
+      --bg-panel-green: #dcfce7;
+      --ink: #111827;
+      --ink-soft: #4b5563;
+      --accent-yellow: #facc15;
+      --accent-red: #f97316;
+      --accent-blue: #0ea5e9;
+      --accent-green: #22c55e;
+      --border-ink: #000000;
+      --shadow-comic: 4px 4px 0 #000;
+      --radius-panel: 18px;
+      --font-main: "Comic Sans MS", "Comic Neue", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "Courier New", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    * {
+      box-sizing:border-box;
+    }
+
+    body {
+      margin:0;
+      min-height:100vh;
+      font-family:var(--font-main);
+      background:
+        radial-gradient(circle at 0 0,#fee2e2,transparent 60%),
+        radial-gradient(circle at 100% 0,#bfdbfe,transparent 60%),
+        radial-gradient(circle at 50% 100%,#bbf7d0,transparent 60%),
+        var(--bg-page);
+      color:var(--ink);
+    }
+
+    body::before {
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background-image:
+        radial-gradient(circle at 20% 20%,rgba(255,255,255,0.9) 0,transparent 55%),
+        radial-gradient(circle at 80% 0,rgba(255,255,255,0.5) 0,transparent 60%);
+      opacity:0.6;
+      mix-blend-mode:screen;
+      z-index:0;
+    }
+
+    header {
+      position:sticky;
+      top:0;
+      z-index:20;
+      background:rgba(254,249,195,0.95);
+      backdrop-filter:blur(8px);
+      border-bottom:3px solid var(--border-ink);
+      box-shadow:0 5px 0 #000;
+      padding:6px 12px;
+    }
+
+    .topbar {
+      max-width:1100px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .logo-bd {
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .logo-round {
+      width:52px;
+      height:52px;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 30% 20%,#f9a8d4,#f97316);
+      border:3px solid #000;
+      box-shadow:var(--shadow-comic);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.9rem;
+      color:#fef3c7;
+      text-shadow:2px 2px 0 #000;
+    }
+
+    .brand-title {
+      text-transform:uppercase;
+      letter-spacing:0.15em;
+      font-size:0.95rem;
+    }
+
+    .brand-sub {
+      font-size:0.75rem;
+      color:#6b7280;
+    }
+
+    nav {
+      display:flex;
+      flex-wrap:wrap;
+      gap:4px;
+      justify-content:flex-end;
+    }
+
+    nav a {
+      font-size:0.7rem;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      padding:4px 10px;
+      border-radius:999px;
+      border:2px solid #000;
+      background:#fee2e2;
+      box-shadow:2px 2px 0 #000;
+      text-decoration:none;
+      color:var(--ink-soft);
+      transition:0.15s transform,0.15s box-shadow,0.15s background;
+    }
+
+    nav a:hover {
+      transform:translate(-1px,-1px);
+      box-shadow:3px 3px 0 #000;
+      background:#fecaca;
+    }
+
+    @media (max-width:780px) {
+      .topbar { flex-direction:column; align-items:flex-start; }
+      nav { justify-content:flex-start; }
+    }
+
+    main {
+      max-width:1100px;
+      margin:12px auto 26px;
+      padding:0 12px 18px;
+      display:grid;
+      grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);
+      gap:14px;
+      position:relative;
+      z-index:1;
+    }
+
+    @media (max-width:860px) {
+      main { display:block; }
+      .sidebar { margin-top:14px; }
+    }
+
+    .panel {
+      border-radius:var(--radius-panel);
+      background:var(--bg-panel);
+      border:3px solid #000;
+      box-shadow:var(--shadow-comic);
+      padding:10px 10px 12px;
+      margin-bottom:10px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .panel.blue { background:var(--bg-panel-blue); }
+    .panel.pink { background:var(--bg-panel-pink); }
+    .panel.green { background:var(--bg-panel-green); }
+
+    .panel-inner {
+      position:relative;
+      z-index:1;
+    }
+
+    .panel::before {
+      content:"";
+      position:absolute;
+      inset:-30%;
+      background-image:radial-gradient(circle,rgba(252,211,77,0.3),transparent 60%);
+      opacity:0.25;
+      pointer-events:none;
+    }
+
+    .hero-kicker {
+      font-size:0.75rem;
+      text-transform:uppercase;
+      letter-spacing:0.22em;
+      color:#b45309;
+    }
+
+    h1 {
+      margin:4px 0 2px;
+      font-size:1.7rem;
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      text-shadow:2px 2px 0 #fcd34d,4px 4px 0 #000;
+    }
+
+    .hero-sub {
+      font-size:0.88rem;
+      color:#374151;
+      max-width:34rem;
+    }
+
+    .hero-actions {
+      margin-top:8px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      align-items:center;
+    }
+
+    .btn {
+      border-radius:999px;
+      border:3px solid #000;
+      padding:5px 12px;
+      font-size:0.78rem;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      background:#f97316;
+      color:#111827;
+      cursor:pointer;
+      box-shadow:3px 3px 0 #000;
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      transition:0.12s transform,0.12s box-shadow,0.12s background;
+    }
+
+    .btn:hover {
+      transform:translate(-1px,-1px);
+      box-shadow:4px 4px 0 #000;
+      background:#fb923c;
+    }
+
+    .btn-ghost {
+      background:#fef9c3;
+    }
+
+    .hero-meta {
+      font-size:0.75rem;
+      color:#6b7280;
+    }
+
+    .balloon {
+      display:inline-block;
+      margin-top:6px;
+      font-size:0.85rem;
+      font-weight:700;
+      background:#ffffff;
+      border:3px solid #000;
+      border-radius:999px;
+      padding:6px 10px;
+      box-shadow:3px 3px 0 #000;
+      position:relative;
+    }
+
+    .balloon::after {
+      content:"";
+      position:absolute;
+      bottom:-8px;
+      left:20px;
+      width:14px;
+      height:14px;
+      background:#fff;
+      border-left:3px solid #000;
+      border-bottom:3px solid #000;
+      transform:skewX(-20deg) rotate(45deg);
+    }
+
+    .section-label {
+      font-size:0.7rem;
+      text-transform:uppercase;
+      letter-spacing:0.18em;
+      color:#1d4ed8;
+      margin-bottom:2px;
+    }
+
+    h2 {
+      margin:0 0 4px;
+      font-size:1.1rem;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+    }
+
+    p {
+      font-size:0.83rem;
+      color:#374151;
+      margin:2px 0;
+    }
+
+    .caption-box {
+      border-radius:10px;
+      border:2px solid #000;
+      background:#fef9c3;
+      padding:4px 6px;
+      font-size:0.8rem;
+      margin:4px 0 6px;
+    }
+
+    .grid-2 {
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:8px;
+      margin-top:4px;
+    }
+
+    @media (max-width:700px) {
+      .grid-2 { grid-template-columns:1fr; }
+    }
+
+    .card {
+      border-radius:12px;
+      border:2px solid #000;
+      background:#ffffff;
+      padding:6px 7px;
+      font-size:0.8rem;
+      position:relative;
+    }
+
+    .card-title {
+      font-weight:700;
+      margin-bottom:2px;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      font-size:0.78rem;
+    }
+
+    .tag-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:4px;
+      margin:3px 0 4px;
+    }
+
+    .tag {
+      font-size:0.7rem;
+      border-radius:999px;
+      border:2px solid #000;
+      background:#e0f2fe;
+      padding:2px 6px;
+    }
+
+    .tag.yellow { background:#fef9c3; }
+    .tag.green { background:#bbf7d0; }
+    .tag.pink { background:#fce7f3; }
+
+    .quote-panel {
+      border-radius:14px;
+      border:3px solid #000;
+      background:#ffffff;
+      padding:6px 7px;
+      font-size:0.8rem;
+      font-style:italic;
+      margin:5px 0;
+      position:relative;
+    }
+
+    .quote-panel::before {
+      content:"«";
+      position:absolute;
+      font-size:1.7rem;
+      left:5px;
+      top:0;
+      color:#9ca3af;
+    }
+
+    .quote-author {
+      font-style:normal;
+      font-size:0.75rem;
+      color:#6b7280;
+      margin-top:3px;
+    }
+
+    details {
+      margin-top:4px;
+      border-radius:12px;
+      border:2px dashed #000;
+      background:#fefce8;
+      padding:4px 6px 5px;
+      font-size:0.8rem;
+    }
+
+    details summary {
+      cursor:pointer;
+      font-weight:700;
+      list-style:none;
+    }
+
+    details[open] {
+      background:#fffbeb;
+      border-style:solid;
+    }
+
+    .mini-quiz {
+      margin-top:6px;
+      border-radius:12px;
+      border:2px solid #000;
+      background:#fef9c3;
+      padding:5px 6px;
+      font-size:0.8rem;
+    }
+
+    .mini-quiz-question {
+      font-weight:700;
+      margin-bottom:3px;
+    }
+
+    .mini-quiz-options label {
+      display:block;
+      margin-bottom:2px;
+      cursor:pointer;
+    }
+
+    .mini-quiz button {
+      margin-top:3px;
+      border-radius:999px;
+      border:2px solid #000;
+      padding:2px 8px;
+      font-size:0.75rem;
+      background:#f97316;
+      color:#111827;
+      box-shadow:2px 2px 0 #000;
+      cursor:pointer;
+    }
+
+    .mini-quiz-result {
+      margin-top:3px;
+      font-size:0.75rem;
+    }
+
+    .mini-quiz-result.ok { color:#15803d; }
+    .mini-quiz-result.ko { color:#b91c1c; }
+
+    .interstitial {
+      margin-top:6px;
+      border-radius:14px;
+      border:3px solid #000;
+      background:#e0f2fe;
+      padding:5px 7px;
+      font-size:0.8rem;
+    }
+
+    .interstitial button {
+      margin-top:3px;
+      border-radius:999px;
+      border:2px solid #000;
+      padding:2px 8px;
+      font-size:0.75rem;
+      background:#ffffff;
+      cursor:pointer;
+      box-shadow:2px 2px 0 #000;
+    }
+
+    .interstitial-output {
+      margin-top:3px;
+      font-size:0.78rem;
+      font-style:italic;
+      color:#1d4ed8;
+    }
+
+    .sidebar {
+      position:sticky;
+      top:4rem;
+      align-self:flex-start;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .sidebar-card {
+      border-radius:var(--radius-panel);
+      border:3px solid #000;
+      background:#fef9c3;
+      padding:7px 8px 8px;
+      box-shadow:var(--shadow-comic);
+      font-size:0.8rem;
+    }
+
+    .sidebar-card h3 {
+      margin:0 0 3px;
+      font-size:0.9rem;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+    }
+
+    .annex-tabs {
+      display:flex;
+      flex-wrap:wrap;
+      gap:3px;
+      margin:3px 0 4px;
+    }
+
+    .annex-tab {
+      flex:1 1 auto;
+      border-radius:999px;
+      border:2px solid #000;
+      padding:2px 5px;
+      font-size:0.7rem;
+      background:#ffffff;
+      cursor:pointer;
+    }
+
+    .annex-tab.active {
+      background:#f97316;
+      color:#111827;
+    }
+
+    .annex-pane {
+      display:none;
+      max-height:210px;
+      overflow:auto;
+      padding-right:2px;
+      font-size:0.78rem;
+      background:#fff;
+      border-radius:8px;
+      border:2px solid #000;
+      padding:4px 5px;
+    }
+
+    .annex-pane.active {
+      display:block;
+    }
+
+    .annex-heading {
+      font-weight:700;
+      text-transform:uppercase;
+      font-size:0.75rem;
+      margin-bottom:2px;
+    }
+
+    textarea {
+      width:100%;
+      border-radius:10px;
+      border:2px solid #000;
+      padding:4px;
+      font-size:0.78rem;
+      resize:vertical;
+      min-height:80px;
+      font-family:var(--font-main);
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.5);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:40;
+    }
+
+    .modal {
+      max-width:420px;
+      width:calc(100% - 32px);
+      border-radius:18px;
+      border:3px solid #000;
+      background:#fef9c3;
+      box-shadow:6px 6px 0 #000;
+      padding:8px 10px 8px;
+    }
+
+    .modal-step {
+      font-size:0.7rem;
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      color:#6b7280;
+      margin-bottom:2px;
+    }
+
+    .modal h3 {
+      margin:0 0 3px;
+      font-size:0.95rem;
+      text-transform:uppercase;
+      letter-spacing:0.1em;
+    }
+
+    .modal p {
+      font-size:0.8rem;
+    }
+
+    .modal-footer {
+      margin-top:6px;
+      display:flex;
+      justify-content:flex-end;
+      gap:6px;
+    }
+
+    .modal-footer button {
+      border-radius:999px;
+      border:2px solid #000;
+      padding:3px 8px;
+      font-size:0.75rem;
+      background:#ffffff;
+      cursor:pointer;
+      box-shadow:2px 2px 0 #000;
+    }
+
+    .modal-footer button.primary {
+      background:#22c55e;
+    }
+
+    /* Final zone / quiz */
+    #final-zone {
+      display:none;
+    }
+
+    .quiz-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:8px;
+      margin-top:5px;
+    }
+
+    .quiz-card {
+      border-radius:12px;
+      border:2px solid #000;
+      background:#ffffff;
+      padding:6px 7px;
+      font-size:0.8rem;
+    }
+
+    .quiz-card h4 {
+      margin:0 0 3px;
+      font-size:0.82rem;
+    }
+
+    .quiz-card label {
+      display:block;
+      margin-bottom:2px;
+      cursor:pointer;
+    }
+
+    .quiz-actions {
+      margin-top:6px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      align-items:center;
+    }
+
+    .quiz-actions button {
+      border-radius:999px;
+      border:2px solid #000;
+      padding:3px 9px;
+      font-size:0.78rem;
+      background:#e0f2fe;
+      cursor:pointer;
+      box-shadow:2px 2px 0 #000;
+    }
+
+    .quiz-score {
+      margin-top:4px;
+      font-size:0.85rem;
+    }
+
+    .quiz-score.success { color:#16a34a; }
+    .quiz-score.fail { color:#b91c1c; }
+
+    .certificate {
+      margin-top:8px;
+      border-radius:18px;
+      border:3px solid #000;
+      background:#fff;
+      padding:8px 10px;
+      font-family:"Georgia","Times New Roman",serif;
+      display:none;
+      box-shadow:4px 4px 0 #000;
+    }
+
+    .cert-heading {
+      text-align:center;
+      font-size:1rem;
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      margin-bottom:3px;
+    }
+
+    .cert-sub {
+      font-size:0.85rem;
+      text-align:center;
+    }
+
+    .cert-name {
+      margin:3px 0;
+      font-size:1rem;
+    }
+
+    .cert-title {
+      margin:4px 0 3px;
+      text-align:center;
+      font-size:0.95rem;
+    }
+
+    .cert-footer {
+      margin-top:5px;
+      display:flex;
+      justify-content:space-between;
+      font-size:0.75rem;
+    }
+
+    .confetti {
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index:35;
+      display:none;
+    }
+
+    .confetti-piece {
+      position:absolute;
+      width:9px;
+      height:14px;
+      background:#f97316;
+      top:-10px;
+      animation:fall 3s linear forwards;
+      opacity:0.9;
+    }
+
+    @keyframes fall {
+      0% { transform:translate3d(0,0,0) rotateZ(0deg); }
+      100% { transform:translate3d(var(--x-move,0px),110vh,0) rotateZ(340deg); }
+    }
+
+    footer {
+      max-width:1100px;
+      margin:0 auto 20px;
+      padding:0 12px;
+      font-size:0.78rem;
+      color:#4b5563;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      border-top:2px solid #000;
+      padding-top:6px;
+    }
+
+    @media (max-width:700px) {
+      footer { flex-direction:column; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <div class="logo-bd">
+      <div class="logo-round">◎</div>
+      <div>
+        <div class="brand-title">Tintin au Centre</div>
+        <div class="brand-sub">Le Mystère du Milieu – Muchtefion, MOC &amp; Opération Milou</div>
+      </div>
+    </div>
+    <nav>
+      <a href="#famille">Famille Muchtefion</a>
+      <a href="#moc-zone">Tunnel MOC</a>
+      <a href="#milou-zone">Opération Milou</a>
+      <a href="#final-invite">Test final</a>
+    </nav>
+  </div>
+</header>
+
+<div class="confetti" id="confetti"></div>
+
+<main>
+  <div>
+    <!-- HERO -->
+    <section class="panel">
+      <div class="panel-inner">
+        <div class="hero-kicker">une aventure politico-bd non homologuée</div>
+        <h1>Tintin au Centre : le Secret du Centriste Borderline Récursif</h1>
+        <p class="hero-sub">
+          Dans cet album expérimental, tu explores :
+          la <strong>famille Muchtefion</strong> et son bestiaire de centristes borderline, 
+          le <strong>Mouvement Ouvrier Chrétien</strong> et <strong>beweging.net</strong> dans un long tunnel socio-chrétien,
+          et le jeu STIC <strong>OPÉRATION MILOU</strong> en mode MMO anarcho-centriste.
+        </p>
+        <div class="hero-actions">
+          <button class="btn" id="skip-to-test">Aller directement au cliffhanger final</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('famille').scrollIntoView({behavior:'smooth'})">
+            Feuilleter depuis la première case
+          </button>
+          <span class="hero-meta">
+            Durée : 7–77 pages cérébrales selon ton taux de centrisme borderline.
+          </span>
+        </div>
+        <div class="balloon">
+          Mille sabords du Milieu ! Ce site distribue un diplôme à la fin !
+        </div>
+      </div>
+    </section>
+
+    <!-- FAMILLE MUCHTEFION -->
+    <section class="panel pink" id="famille">
+      <div class="panel-inner">
+        <div class="section-label">Case 1 – Album « Les Témoins du Milieu »</div>
+        <h2>La famille Muchtefion débarque en pleine planche</h2>
+        <p>
+          Dans l’annexe <em>« Les Témoins du Milieu »</em>, tu interroges un camarade 
+          sur ce que donne un <strong>centriste borderline</strong> : une personne globalement centriste
+          qui peut osciller vers des opinions très tranchées selon les sujets, et devenir 
+          soudainement intransigeante quand des valeurs fondamentales sont en jeu. :contentReference[oaicite:0]{index=0}
+        </p>
+
+        <div class="caption-box">
+          <strong>Caption :</strong> Sur cette planche, tout le monde reste dans le milieu… 
+          sauf quand la justice, l’éthique ou la salsepareille sont menacées.
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Panorama rapide</div>
+            <div class="tag-row">
+              <span class="tag yellow">modéré</span>
+              <span class="tag">ultra</span>
+              <span class="tag">radical</span>
+              <span class="tag pink">borderline</span>
+              <span class="tag green">radical borderline</span>
+              <span class="tag">radical borderline récursif</span>
+            </div>
+            <p>
+              L’annexe décrit toute une <strong>famille Muchtefion</strong> :
+            </p>
+            <ul>
+              <li><strong>Centriste modéré</strong> : version classique, souple, compromis, dialogue. :contentReference[oaicite:1]{index=1}</li>
+              <li><strong>Centriste ultra</strong> : défense dogmatique du milieu, rigidité assumée. :contentReference[oaicite:2]{index=2}</li>
+              <li><strong>Centriste radical</strong> : centrisme actif, qui veut secouer l’ordre établi. :contentReference[oaicite:3]{index=3}</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">Zoom sur le récursif</div>
+            <p>
+              Le <strong>centriste radical borderline récursif</strong> est défini comme quelqu’un 
+              qui réévalue en boucle ses positions, oscille quand il le faut, 
+              se déconstruit et se reconstruit en permanence pour chercher l’équilibre parfait. :contentReference[oaicite:4]{index=4}
+            </p>
+            <p>
+              C’est la version BD du personnage qui tourne les pages en arrière, 
+              refait la scène, change de camp, puis revient au milieu… et recommence.
+            </p>
+          </div>
+        </div>
+
+        <div class="quote-panel">
+          « En résumé, un centriste borderline combine la flexibilité d’une pensée centriste avec
+          la capacité à prendre des positions plus marquées lorsque les circonstances l’exigent. » :contentReference[oaicite:5]{index=5}
+          <div class="quote-author">– Extrait mis en bulle de l’annexe « Les Témoins du Milieu »</div>
+        </div>
+
+        <details>
+          <summary>Gros plan annexe – Album de famille Muchtefion</summary>
+          <p>
+            L’annexe finit par dresser un tableau complet : du centriste modéré souple, 
+            au centriste ultra rigide, jusqu’au radical borderline récursif qui applique à lui-même
+            un cycle permanent de critique et de recomposition de ses positions. :contentReference[oaicite:6]{index=6}
+          </p>
+          <p>
+            Bonus narratif : le chien Pifsniff, « le bon clébard qu’on emmène partout », 
+            devient en fait la mascotte stable du milieu… alors que tout le monde autour oscille. :contentReference[oaicite:7]{index=7}
+          </p>
+        </details>
+
+        <div class="mini-quiz" data-mini="famille">
+          <div class="mini-quiz-question">Mini-quiz BD #1 – Qui mérite vraiment la case « récursif » ?</div>
+          <div class="mini-quiz-options">
+            <label><input type="radio" name="mq-famille" value="0"> Le centriste modéré qui n’aime pas trop les rebondissements.</label>
+            <label><input type="radio" name="mq-famille" value="1"> Le centriste radical borderline récursif, qui rejoue la scène à chaque changement de contexte.</label>
+            <label><input type="radio" name="mq-famille" value="2"> Pifsniff, parce qu’il tourne en rond dans le jardin.</label>
+          </div>
+          <button type="button">Vérifier</button>
+          <div class="mini-quiz-result"></div>
+        </div>
+
+        <div class="interstitial">
+          <strong>Interstitial Muchtefion :</strong> Génère ton nom de personnage dans l’album.
+          <button type="button" id="gen-muchtefion">Générer mon nom de case</button>
+          <div class="interstitial-output" id="muchtefion-output"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOC / BEWEGING.NET -->
+    <section class="panel blue" id="moc-zone">
+      <div class="panel-inner">
+        <div class="section-label">Case 2 – Tunnel du MOC &amp; de Beweging.net</div>
+        <h2>Une double page historique en mode train fantôme</h2>
+        <p>
+          L’annexe sur le <strong>Mouvement Ouvrier Chrétien (MOC)</strong> raconte comment, 
+          à partir de la <strong>Ligue démocratique belge</strong> de 1891 inspirée par <em>Rerum Novarum</em>, 
+          un pilier chrétien ouvrier complet s’est construit : LNTC/ACW, puis MOC-ACW, 
+          puis scission linguistique MOC / ACW et rebranding flamand en <strong>Beweging.net</strong>. :contentReference[oaicite:8]{index=8}
+        </p>
+
+        <div class="caption-box">
+          <strong>Caption :</strong> Dans ce tunnel, les cases affichent tour à tour LDB, LNTC/ACW, MOC-ACW, 
+          scission, MOC pluraliste, Beweging.net, WSM… et une fête de Rerum Novarum en pleine case finale. :contentReference[oaicite:9]{index=9}
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Planche historique</div>
+            <ul>
+              <li><strong>1891 – LDB</strong> : première coupole ouvrière chrétienne, alternative au socialisme. :contentReference[oaicite:10]{index=10}</li>
+              <li><strong>1921 – LNTC / ACW</strong> : organe de masse du pilier catholique (syndicat, mutuelles, jeunesse…). :contentReference[oaicite:11]{index=11}</li>
+              <li><strong>1945–46 – MOC-ACW</strong> : structure unitaire avec deux ailes linguistiques. :contentReference[oaicite:12]{index=12}</li>
+              <li><strong>Années 1970</strong> : scission complète, autonomie du MOC et de l’ACW. :contentReference[oaicite:13]{index=13}</li>
+              <li><strong>2014</strong> : ACW devient <strong>Beweging.net</strong> dans un contexte ARCO / Dexia. :contentReference[oaicite:14]{index=14}</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">Planche structure</div>
+            <p>
+              Côté MOC (fr/de), la coupole rassemble notamment : 
+              <strong>CSC</strong>, <strong>Mutualité chrétienne</strong> (et ses mouvements Énéo, Altéo, Ocarina), 
+              <strong>Vie Féminine</strong>, <strong>Équipes Populaires</strong>, <strong>JOC</strong>, 
+              plus des partenaires comme WSM ou la FdSS. :contentReference[oaicite:15]{index=15}
+            </p>
+            <p>
+              Côté Beweging.net (ex-ACW), on retrouve les équivalents :
+              <strong>ACV</strong>, <strong>CM</strong>, <strong>Femma</strong>, <strong>KAJ</strong>, <strong>Raak</strong> (ex-KWB), 
+              <strong>OKRA</strong>, <strong>Samana</strong>, <strong>Pasar</strong>… :contentReference[oaicite:16]{index=16}
+            </p>
+          </div>
+        </div>
+
+        <details>
+          <summary>Gros plan annexe – MOC versus Beweging.net</summary>
+          <p>
+            L’annexe insiste sur une différence de ton : le <strong>MOC</strong> se déclare 
+            « mouvement indépendant, non lié à un parti », avec un profil progressiste pluraliste 
+            (Engagés, PS, Écolo, etc.), tandis que <strong>Beweging.net</strong> reste plus arrimé 
+            à la famille <strong>CD&amp;V</strong> côté flamand. :contentReference[oaicite:17]{index=17}
+          </p>
+          <p>
+            Dans la BD, ça fait deux wagons reliés par des dialogues : même pilier chrétien social, 
+            mais styles politiques légèrement différents.
+          </p>
+        </details>
+
+        <div class="mini-quiz" data-mini="moc">
+          <div class="mini-quiz-question">Mini-quiz BD #2 – Le MOC, c’est quoi dans l’album ?</div>
+          <div class="mini-quiz-options">
+            <label><input type="radio" name="mq-moc" value="0"> Un parti centriste secret qui se cache dans les marges des planches.</label>
+            <label><input type="radio" name="mq-moc" value="1"> Une coupole d’organisations sociales chrétiennes (CSC, MC, Vie Féminine, EP, JOC…), autonome et pluraliste.</label>
+            <label><input type="radio" name="mq-moc" value="2"> Un parc d’attractions syndical avec looping Rerum Novarum.</label>
+          </div>
+          <button type="button">Vérifier</button>
+          <div class="mini-quiz-result"></div>
+        </div>
+
+        <div class="interstitial">
+          <strong>Interstitial MOC :</strong> Tire une « carte » de tunnel socio-chrétien.
+          <button type="button" id="draw-moc-card">Tirer une carte</button>
+          <div class="interstitial-output" id="moc-card-output"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPÉRATION MILOU -->
+    <section class="panel green" id="milou-zone">
+      <div class="panel-inner">
+        <div class="section-label">Case 3 – Le jeu STIC « OPÉRATION MILOU »</div>
+        <h2>Un MMO anarcho-centriste en marge des bulles</h2>
+        <p>
+          L’annexe <strong>« Le jeu STIC de l’anarchie – OPÉRATION MILOU »</strong> décrit un dispositif 
+          qui pose une question simple et explosive : 
+          <em>« Peut-on mobiliser des principes anarchistes pour réparer, orienter ou neutraliser 
+          certains effets destructeurs du capitalisme numérique, tout en avançant vers une thèse STIC ? »</em> :contentReference[oaicite:18]{index=18}
+        </p>
+
+        <div class="caption-box">
+          <strong>Caption :</strong> Dans cette sous-série, les personnages sont des classes de jeu :
+          Chercheur·se Nomade, Ingénieur·e du Bazar, Scribe Cryptique, Samouraï Administratif, 
+          Tacticien·ne Socio-tech. :contentReference[oaicite:19]{index=19}
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Cadre STIC</div>
+            <p>
+              Domaine : <strong>Sciences et Technologies de l’Information et de la Communication</strong>.  
+              Approche : socio-technique, critique, appliquée.
+            </p>
+            <p>
+              L’annexe liste des fils comme :
+            </p>
+            <ul>
+              <li>gouvernance (qui décide, comment, contre-pouvoirs),</li>
+              <li>propriété (privé / commun / mutualisation),</li>
+              <li>infrastructures (serveurs, logiciels, normes),</li>
+              <li>rémunération, conflits, soin, reproductibilité… :contentReference[oaicite:20]{index=20}</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">Méthode 6·4·2 en plateau de jeu</div>
+            <p>
+              La méthode <strong>6·4·2</strong> : 
+              6 fils directeurs, 4 axes, 2 niveaux (micro/macro), présentés comme un plateau de jeu 
+              pour structurer la thèse et le MMO IRL. :contentReference[oaicite:21]{index=21}
+            </p>
+            <p>
+              Ex : Axe B – projets libres &amp; coopératives ; Axe C – infrastructures numériques ; 
+              niveaux micro (collectifs) / macro (écosystèmes). :contentReference[oaicite:22]{index=22}
+            </p>
+          </div>
+        </div>
+
+        <details>
+          <summary>Gros plan annexe – Classes &amp; XP</summary>
+          <p>
+            L’annexe propose des classes de personnage (Chercheur·se Nomade, Ingénieur·e du Bazar,
+            Scribe Cryptique, Samouraï Administratif, Tacticien·ne Socio-tech) 
+            et des systèmes d’XP : +10 XP par page d’annexe lue, +20 XP par issue Git, etc. :contentReference[oaicite:23]{index=23}
+          </p>
+          <p>
+            En BD, ça devient un running gag : chaque fois que tu ouvres un PDF, 
+            un petit compteur « XP thèse » apparaît dans le coin de la case.
+          </p>
+        </details>
+
+        <div class="mini-quiz" data-mini="milou">
+          <div class="mini-quiz-question">Mini-quiz BD #3 – À quoi sert la méthode 6·4·2 ici ?</div>
+          <div class="mini-quiz-options">
+            <label><input type="radio" name="mq-milou" value="0"> À choisir le meilleur os pour Milou.</label>
+            <label><input type="radio" name="mq-milou" value="1"> À structurer la recherche (6 fils, 4 axes, 2 niveaux) comme un plateau de jeu STIC.</label>
+            <label><input type="radio" name="mq-milou" value="2"> À calculer ton taux de centriste ultra par jour.</label>
+          </div>
+          <button type="button">Vérifier</button>
+          <div class="mini-quiz-result"></div>
+        </div>
+
+        <div class="interstitial">
+          <strong>Interstitial Milou :</strong> Génère un objectif STIC totalement déraisonnable.
+          <button type="button" id="gen-milou">Générer un objectif</button>
+          <div class="interstitial-output" id="milou-output"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INVITE TEST FINAL -->
+    <section class="panel" id="final-invite">
+      <div class="panel-inner">
+        <div class="section-label">Case 4 – L’Oracle du Milieu</div>
+        <h2>Accès au cliffhanger : le Grand Test de Centrisme BD</h2>
+        <p>
+          Tu as maintenant croisé :
+          <span class="tag yellow">la famille Muchtefion</span>,
+          <span class="tag">le tunnel MOC / Beweging.net</span>,
+          <span class="tag pink">OPÉRATION MILOU</span>.
+          L’Oracle du Milieu exige encore quelques interstitiels pour t’ouvrir la dernière page.
+        </p>
+        <p>
+          Le diplôme se débloque à partir de <strong>4 bonnes réponses sur 6</strong> (questions de fond).
+          Ton <em>type de centriste BD</em> dépend aussi de la manière dont tu réponds.
+        </p>
+        <button class="btn" id="open-modal">Déclencher la séquence d’accès</button>
+      </div>
+    </section>
+
+    <!-- ZONE FINALE -->
+    <section class="panel" id="final-zone">
+      <div class="panel-inner">
+        <div class="section-label">Case 5 – Dernière page de l’album</div>
+        <h2>Grand Test final – Oracle du Centrisme Cartoon</h2>
+        <p>
+          Réponds aux questions.  
+          <strong>Si tu as 4/6 ou plus</strong> aux questions « connaissance », le diplôme s’ouvre en pleine page,
+          avec ton <strong>archetype de centriste BD</strong>.
+        </p>
+
+        <div class="quiz-grid" id="quiz-grid"></div>
+
+        <div class="quiz-actions">
+          <button type="button" id="submit-quiz">Corriger le test</button>
+          <button type="button" id="reset-quiz">Réinitialiser</button>
+        </div>
+        <div class="quiz-score" id="quiz-score"></div>
+
+        <div class="certificate" id="certificate">
+          <div class="cert-heading">Académie BD du Centre Déjanté</div>
+          <div class="cert-sub">
+            Certifie que
+            <div class="cert-name"><strong id="cert-name">Lecteur·rice anonyme du Milieu</strong></div>
+            a traversé l’album expérimental (Muchtefion, MOC, Milou) et obtient le titre de
+          </div>
+          <div class="cert-title">
+            <strong id="cert-title">Centriste radical borderline récursif en style ligne claire</strong>
+          </div>
+          <div class="cert-sub" id="cert-desc">
+            Pour services rendus à la cause du juste milieu explosif, des timelines socio-chrétiennes
+            bien documentées et des notes STIC en forme de quêtes.
+          </div>
+          <div class="cert-footer">
+            <div>
+              Fait à « Tintin au Centre »<br>
+              Signature : ______________________
+            </div>
+            <div style="text-align:right;">
+              <button type="button" onclick="window.print()" style="border-radius:999px;border:2px solid #000;background:#fef9c3;padding:2px 8px;font-size:0.75rem;cursor:pointer;box-shadow:2px 2px 0 #000;">
+                Imprimer ou capturer
+              </button><br>
+              <span style="font-size:0.7rem;">À partager dans un cercle de confiance.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <h3>Lecteur BD des annexes</h3>
+      <p>
+        Choisis une annexe : un « embed » maison qui résume la case principale.
+      </p>
+      <div class="annex-tabs">
+        <button class="annex-tab active" data-annex="temoins">Témoins du Milieu</button>
+        <button class="annex-tab" data-annex="moc">MOC / Beweging.net</button>
+        <button class="annex-tab" data-annex="milou">Opération Milou</button>
+      </div>
+      <div class="annex-pane active" id="annex-temoins">
+        <div class="annex-heading">Embed – Les Témoins du Milieu</div>
+        <p>
+          Dialogue autour du « camarade centriste » et d’une famille politique unifiée : 
+          modéré, ultra, radical, borderline, radical borderline et radical borderline récursif. :contentReference[oaicite:24]{index=24}
+        </p>
+        <p>
+          On y définit en détail le centriste borderline (souple mais capable de sauter aux extrêmes 
+          sur certaines valeurs) et le centriste ultra (rigide du milieu). :contentReference[oaicite:25]{index=25}
+        </p>
+      </div>
+      <div class="annex-pane" id="annex-moc">
+        <div class="annex-heading">Embed – MOC &amp; Beweging.net</div>
+        <p>
+          Synthèse historique du mouvement ouvrier chrétien belge : 
+          LDB → LNTC/ACW → MOC-ACW → scission MOC / ACW → Beweging.net. :contentReference[oaicite:26]{index=26}
+        </p>
+        <p>
+          Fiches détaillées : CSC/ACV, MC/CM, Vie Féminine/Femma, Équipes Populaires/Raak, JOC/KAJ, 
+          OKRA/Énéo, Samana/Altéo, Pasar… avec structure par régionales, CIEP, CAB germanophone, etc. :contentReference[oaicite:27]{index=27}
+        </p>
+      </div>
+      <div class="annex-pane" id="annex-milou">
+        <div class="annex-heading">Embed – OPÉRATION MILOU</div>
+        <p>
+          Page entière déjà mise en forme cartoon : cadre STIC, méthode 6·4·2, classes de perso, 
+          quêtes et boss (Bibliographie infinie, Régulation labyrinthique, Rédaction éternelle…). :contentReference[oaicite:28]{index=28}
+        </p>
+        <p>
+          Cette page sert de « fiche de jeu » pour transformer la thèse en MMORPG IRL, 
+          avec XP, niveaux et journal de bord. :contentReference[oaicite:29]{index=29}
+        </p>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>Carnet du Milieu</h3>
+      <p>
+        Note ici où tu te vois dans l’album (modéré, ultra, radical, borderline, récursif…).
+      </p>
+      <textarea placeholder="Ex : « Je me vois comme centriste radical borderline, en train de courir dans le tunnel du MOC avec Milou. »"></textarea>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>Mode clé USB</h3>
+      <ul style="margin:0 0 0 14px;font-size:0.78rem;">
+        <li>Enregistre ce fichier comme <code>index.html</code> sur ta clé.</li>
+        <li>Ouvre-le dans ton navigateur, sans connexion.</li>
+        <li>Invite 2–3 personnes de confiance à faire le test et comparer vos diplômes.</li>
+        <li>Forke le fichier, ajoute tes propres planches/annexes et re-déploie.</li>
+      </ul>
+    </div>
+  </aside>
+</main>
+
+<!-- MODAL INTERSTITIEL -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal">
+    <div class="modal-step" id="modal-step">Interstitiel 1/3</div>
+    <h3 id="modal-title">Calibrage du radar centriste</h3>
+    <p id="modal-text">
+      Respire. Ce test n’est pas un référendum ni un jugement moral. 
+      C’est un clin d’œil BD sur la façon dont tu navigues entre Muchtefion, MOC et Milou.
+    </p>
+    <div class="modal-footer">
+      <button type="button" id="modal-skip">Skip (mode Haddock impatient)</button>
+      <button type="button" class="primary" id="modal-next">Suivant</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>Tintin au Centre – Site statique cartoon, autonome (HTML/CSS/JS), prêt pour clé USB.</div>
+  <div>Tu peux réutiliser ce squelette pour d’autres albums/annexes et enrichir ton univers du Milieu.</div>
+</footer>
+
+<script>
+  // Mini-quizz config
+  const miniQuizConfig = {
+    famille: {
+      name: "mq-famille",
+      correct: 1,
+      explanations: [
+        "Le modéré n’est pas obligé de rejouer la scène en boucle.",
+        "Exact : le récursif réévalue en permanence, c’est vraiment le boss de fin de la famille Muchtefion.",
+        "Pifsniff tourne en rond, mais ce n’est pas tout à fait la définition politique."
+      ]
+    },
+    moc: {
+      name: "mq-moc",
+      correct: 1,
+      explanations: [
+        "Non : le MOC n’est pas un parti, même si des militant·es y sont engagés politiquement.",
+        "Oui : une coupole d’organisations sociales chrétiennes en Wallonie/Bruxelles/Ostbelgien.",
+        "On va éviter le looping ARCO pour le moment."
+      ]
+    },
+    milou: {
+      name: "mq-milou",
+      correct: 1,
+      explanations: [
+        "Milou mérite un bon os, mais la méthode 6·4·2 ne parle pas de ça.",
+        "Exact : c’est la structure 6 fils, 4 axes, 2 niveaux qui sert à la fois au jeu et à la thèse.",
+        "Le taux d’ultra-centrisme reste, pour l’instant, non normalisé par la STIC."
+      ]
+    }
+  };
+
+  document.querySelectorAll(".mini-quiz").forEach(block => {
+    const key = block.getAttribute("data-mini");
+    const cfg = miniQuizConfig[key];
+    if (!cfg) return;
+    const btn = block.querySelector("button");
+    const resultEl = block.querySelector(".mini-quiz-result");
+    btn.addEventListener("click", () => {
+      const radios = block.querySelectorAll(`input[name='${cfg.name}']`);
+      let selected = null;
+      radios.forEach(r => { if (r.checked) selected = parseInt(r.value, 10); });
+      if (selected === null) {
+        resultEl.textContent = "Choisis une réponse : la case vide n’est pas canon.";
+        resultEl.className = "mini-quiz-result ko";
+        return;
+      }
+      resultEl.textContent = cfg.explanations[selected];
+      resultEl.className = "mini-quiz-result " + (selected === cfg.correct ? "ok" : "ko");
+    });
+  });
+
+  // Générateur alias Muchtefion
+  const aliasPrenoms = [
+    "Capitaine du Milieu", "Professeur Borderline", "Milou du Centre",
+    "SalsepaRaleur", "Docteur Médius", "Moyennator", "Compromissaire",
+    "Héroïquement Modéré", "Radicalement Récursif", "Chevalier de la Salsepareille"
+  ];
+  const aliasSuffix = [
+    "centriste modéré en voie de radicalisation douce",
+    "centriste ultra mais sympa",
+    "centriste radical borderline récursif",
+    "cartographe des zones grises",
+    "gardien du juste milieu explosif"
+  ];
+
+  document.getElementById("gen-muchtefion").addEventListener("click", () => {
+    const p = aliasPrenoms[Math.floor(Math.random() * aliasPrenoms.length)];
+    const s = aliasSuffix[Math.floor(Math.random() * aliasSuffix.length)];
+    document.getElementById("muchtefion-output").textContent = "Ton alias dans l’album : « " + p + " », " + s + ".";
+  });
+
+  // Cartes MOC
+  const mocCartes = [
+    "Carte « CIEP régional » : +10 en animation de débats, +5 en café tiède.",
+    "Carte « Rerum Novarum » : +20 en légitimité historique, -3 en simplicité d’explication.",
+    "Carte « Pluralisme MOC » : tu peux parler à plusieurs partis sans exploser.",
+    "Carte « Fête de Rerum » : +25 en ambiance, +10 en discours trop longs.",
+    "Carte « WSM » : +15 en solidarité internationale, +5 en bagages perdus sur le terrain.",
+    "Carte « Beweging.net » : +10 en rebranding, +5 en débats ARCO."
+  ];
+  document.getElementById("draw-moc-card").addEventListener("click", () => {
+    const c = mocCartes[Math.floor(Math.random() * mocCartes.length)];
+    document.getElementById("moc-card-output").textContent = c;
+  });
+
+  // Objectifs Milou
+  const milouObj = [
+    "Transformer un règlement RGPD en mini-BD pédagogique.",
+    "Documenter une coopérative numérique comme un donjon de jeu de rôle.",
+    "Mesurer la fatigue militante avec des points de vie et des potions de repos.",
+    "Appliquer la méthode 6·4·2 à un intranet poussiéreux et l’appeler terrain.",
+    "Cartographier un collectif comme une carte au trésor socio-tech.",
+    "Créer un bestiaire des bugs organisationnels : « Boss Bureaucratie », « Kraken du Mail », etc."
+  ];
+  document.getElementById("gen-milou").addEventListener("click", () => {
+    const o = milouObj[Math.floor(Math.random() * milouObj.length)];
+    document.getElementById("milou-output").textContent = o;
+  });
+
+  // Tabs annexes
+  document.querySelectorAll(".annex-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      const id = tab.getAttribute("data-annex");
+      document.querySelectorAll(".annex-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".annex-pane").forEach(p => p.classList.remove("active"));
+      tab.classList.add("active");
+      document.getElementById("annex-" + id).classList.add("active");
+    });
+  });
+
+  // Confettis
+  function triggerConfetti() {
+    const container = document.getElementById("confetti");
+    container.innerHTML = "";
+    container.style.display = "block";
+    const colors = ["#f97316", "#22c55e", "#0ea5e9", "#facc15", "#ec4899"];
+    const pieces = 120;
+    for (let i = 0; i < pieces; i++) {
+      const piece = document.createElement("div");
+      piece.className = "confetti-piece";
+      const left = Math.random() * 100;
+      const delay = Math.random() * 0.8;
+      const xMove = (Math.random() - 0.5) * 260;
+      piece.style.left = left + "vw";
+      piece.style.animationDelay = delay + "s";
+      piece.style.backgroundColor = colors[i % colors.length];
+      piece.style.setProperty("--x-move", xMove + "px");
+      container.appendChild(piece);
+    }
+    setTimeout(() => {
+      container.style.display = "none";
+      container.innerHTML = "";
+    }, 3500);
+  }
+
+  // Modal interstitiels
+  const modalBackdrop = document.getElementById("modal-backdrop");
+  const modalStepEl = document.getElementById("modal-step");
+  const modalTitleEl = document.getElementById("modal-title");
+  const modalTextEl = document.getElementById("modal-text");
+  const modalNextBtn = document.getElementById("modal-next");
+  const modalSkipBtn = document.getElementById("modal-skip");
+  const finalZone = document.getElementById("final-zone");
+
+  const modalSteps = [
+    {
+      step: "Interstitiel 1/3",
+      title: "Calibrage du radar centriste",
+      text: "Respire. Ce test n’est pas un référendum ni un jugement moral. C’est un clin d’œil BD sur ta manière de slalomer entre Muchtefion, MOC et Milou."
+    },
+    {
+      step: "Interstitiel 2/3",
+      title: "Test de résistance aux embeds",
+      text: "Tu as lu des extraits d’annexes, traversé des mini-quizz et des générateurs débiles. Ton attention est déjà dans le top 5% des lecteurs de planches pédagogiques."
+    },
+    {
+      step: "Interstitiel 3/3",
+      title: "Alignement final",
+      text: "Souviens-toi : tu ne réponds pas pour faire plaisir à un parti, mais pour cartographier ton imaginaire centriste. Réponds comme tu as compris les annexes."
+    }
+  ];
+  let modalIndex = 0;
+
+  function openModal(i) {
+    modalIndex = i;
+    const step = modalSteps[i];
+    modalStepEl.textContent = step.step;
+    modalTitleEl.textContent = step.title;
+    modalTextEl.textContent = step.text;
+    modalBackdrop.style.display = "flex";
+  }
+
+  document.getElementById("open-modal").addEventListener("click", () => openModal(0));
+  document.getElementById("skip-to-test").addEventListener("click", () => openModal(0));
+
+  modalNextBtn.addEventListener("click", () => {
+    if (modalIndex < modalSteps.length - 1) {
+      openModal(modalIndex + 1);
+    } else {
+      modalBackdrop.style.display = "none";
+      finalZone.style.display = "block";
+      finalZone.scrollIntoView({behavior:"smooth"});
+    }
+  });
+
+  modalSkipBtn.addEventListener("click", () => {
+    modalBackdrop.style.display = "none";
+    finalZone.style.display = "block";
+    finalZone.scrollIntoView({behavior:"smooth"});
+  });
+
+  // Quiz final
+  const quizQuestions = [
+    {
+      id: "q1",
+      type: "knowledge",
+      title: "1. Dans « Les Témoins du Milieu », le centriste borderline est décrit comme…",
+      options: [
+        "quelqu’un sans avis qui ne lit que les onomatopées.",
+        "quelqu’un globalement centriste, mais prêt à prendre des positions tranchées selon les sujets et les valeurs en jeu.",
+        "un extrémiste déguisé en modéré pour apparaître dans toutes les planches."
+      ],
+      correct: 1
+    },
+    {
+      id: "q2",
+      type: "knowledge",
+      title: "2. Le centriste radical borderline récursif, selon l’annexe, c’est plutôt…",
+      options: [
+        "un modéré qui ne bouge jamais.",
+        "une personne qui se déconstruit et se reconstruit en boucle, réévaluant ses positions à différents niveaux.",
+        "un personnage qui fuit chaque débat pour aller promener le chien."
+      ],
+      correct: 1
+    },
+    {
+      id: "q3",
+      type: "knowledge",
+      title: "3. Le MOC est défini dans l’annexe MOC comme…",
+      options: [
+        "un parti politique centriste présent sur tous les bulletins de vote.",
+        "une coupole d’organisations sociales d’inspiration chrétienne (CSC, MC, Vie Féminine, EP, JOC…) en Wallonie/Bruxelles/Ostbelgien.",
+        "une petite boutique de salsepareille au coin de la rue."
+      ],
+      correct: 1
+    },
+    {
+      id: "q4",
+      type: "knowledge",
+      title: "4. Beweging.net, selon l’annexe MOC, c’est…",
+      options: [
+        "le nouveau nom de l’ACW flamand, réseau d’organisations chrétiennes sociales (ACV, CM, Femma, KAJ, Raak, etc.).",
+        "une appli mobile pour mesurer ton niveau de centriste.",
+        "un forum secret de fans de Pifsniff."
+      ],
+      correct: 0
+    },
+    {
+      id: "q5",
+      type: "knowledge",
+      title: "5. Dans OPÉRATION MILOU, la méthode 6·4·2 sert à…",
+      options: [
+        "choisir le meilleur pâté pour Milou.",
+        "structurer l’enquête STIC en fils, axes et niveaux, comme un plateau de jeu pour la thèse.",
+        "compter le nombre de planches BD lues par minute."
+      ],
+      correct: 1
+    },
+    {
+      id: "q6",
+      type: "profile",
+      title: "6. Quand tu te reconnais dans tout ça, tu te sens plutôt…",
+      options: [
+        "centriste modéré qui aime bien que les planches soient claires et pas trop mouvementées.",
+        "centriste radical borderline récursif qui adore rejouer les débats sous tous les angles.",
+        "centriste borderline qui reste au centre mais part sur les bords quand ça chauffe."
+      ],
+      scores: [
+        { modere: 2 },
+        { recursif: 3, radical: 1 },
+        { borderline: 2 }
+      ]
+    }
+  ];
+
+  (function buildQuiz() {
+    const grid = document.getElementById("quiz-grid");
+    quizQuestions.forEach(q => {
+      const card = document.createElement("div");
+      card.className = "quiz-card";
+      const h = document.createElement("h4");
+      h.textContent = q.title;
+      card.appendChild(h);
+      q.options.forEach((opt, j) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = q.id;
+        input.value = j;
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(" " + opt));
+        card.appendChild(label);
+      });
+      grid.appendChild(card);
+    });
+  })();
+
+  function computeProfile(scores) {
+    let archetype = "Centriste modéré curieux";
+    let desc = "Tu cherches l’équilibre avec calme, parfait pour lire les planches sans trop de vertige.";
+    const mod = scores.modere || 0;
+    const rad = scores.radical || 0;
+    const bord = scores.borderline || 0;
+    const rec = scores.recursif || 0;
+
+    if (rec >= 3 && rad >= 1) {
+      archetype = "Centriste radical borderline récursif";
+      desc = "Tu rejoues les scènes, tu changes de point de vue, tu cherches la meilleure synthèse et tu assumes les zigzags.";
+    } else if (bord >= 2) {
+      archetype = "Centriste borderline de bande dessinée";
+      desc = "Tu restes au centre, mais certaines bulles sortent des cases quand les principes sont en jeu.";
+    } else if (mod >= 2) {
+      archetype = "Centriste modéré ligne claire";
+      desc = "Tu aimes les compromis lisibles, les trajectoires nettes et les intrigues sans trop de chaos.";
+    }
+
+    return { archetype, desc };
+  }
+
+  document.getElementById("submit-quiz").addEventListener("click", () => {
+    let score = 0;
+    let unanswered = 0;
+    const profileScores = { modere:0, radical:0, borderline:0, recursif:0 };
+
+    quizQuestions.forEach(q => {
+      const radios = document.querySelectorAll(`input[name='${q.id}']`);
+      let selected = null;
+      radios.forEach(r => { if (r.checked) selected = parseInt(r.value, 10); });
+      if (selected === null) {
+        unanswered++;
+        return;
+      }
+      if (q.type === "knowledge") {
+        if (selected === q.correct) score++;
+      } else if (q.type === "profile") {
+        const sc = q.scores[selected] || {};
+        Object.keys(sc).forEach(k => {
+          profileScores[k] = (profileScores[k] || 0) + sc[k];
+        });
+      }
+    });
+
+    const scoreEl = document.getElementById("quiz-score");
+    const cert = document.getElementById("certificate");
+
+    const totalKnowledge = quizQuestions.filter(q => q.type === "knowledge").length;
+
+    if (unanswered > 0) {
+      scoreEl.textContent = "Il reste " + unanswered + " case(s) sans bulle. Complète le dialogue avant de corriger.";
+      scoreEl.className = "quiz-score fail";
+      cert.style.display = "none";
+      return;
+    }
+
+    scoreEl.textContent = "Score connaissances : " + score + " / " + totalKnowledge + ". ";
+    if (score >= 4) {
+      scoreEl.textContent += "Diplôme débloqué !";
+      scoreEl.className = "quiz-score success";
+      const profile = computeProfile(profileScores);
+      const name = prompt("Nom à afficher sur le diplôme (facultatif) :", "");
+      document.getElementById("cert-name").textContent =
+        (name && name.trim().length > 0) ? name.trim() : "Lecteur·rice anonyme du Milieu";
+      document.getElementById("cert-title").textContent = profile.archetype;
+      document.getElementById("cert-desc").textContent = profile.desc;
+      cert.style.display = "block";
+      triggerConfetti();
+    } else {
+      scoreEl.textContent += "C’est presque bon. Tu peux feuilleter à nouveau les cases annexes et retenter.";
+      scoreEl.className = "quiz-score fail";
+      cert.style.display = "none";
+    }
+  });
+
+  document.getElementById("reset-quiz").addEventListener("click", () => {
+    quizQuestions.forEach(q => {
+      const radios = document.querySelectorAll(`input[name='${q.id}']`);
+      radios.forEach(r => r.checked = false);
+    });
+    document.getElementById("quiz-score").textContent = "";
+    document.getElementById("quiz-score").className = "quiz-score";
+    document.getElementById("certificate").style.display = "none";
+  });
+</script>
+</body>
+</html>
