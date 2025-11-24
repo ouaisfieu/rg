@@ -1,0 +1,1454 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>ESCAPE – L’Organisation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Police arrondie et lisible -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #020617;
+      --card: #020617;
+      --accent-1: #38bdf8;
+      --accent-2: #22c55e;
+      --accent-3: #f97316;
+      --accent-4: #a855f7;
+      --danger: #ef4444;
+      --text: #f9fafb;
+      --muted: #cbd5f5;
+      --border: rgba(148,163,184,0.9);
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --shadow: 0 22px 60px rgba(15,23,42,0.95);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Baloo 2", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.24), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(168,85,247,0.24), transparent 60%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 1rem 0.6rem 1.6rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 900px;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.18), transparent 65%),
+        radial-gradient(circle at 100% 100%, rgba(15,23,42,0.98), transparent 60%),
+        var(--bg-soft);
+      border-radius: 26px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 1.1rem 0.9rem 1.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .app {
+        padding: 1.4rem 1.6rem 2.1rem;
+      }
+    }
+
+    .app::before {
+      content: "Escape game – L’Organisation · Version clé USB";
+      position: absolute;
+      top: 0.45rem;
+      right: 1.3rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(148,163,184,0.9);
+    }
+
+    header {
+      border-bottom: 1px dashed rgba(148,163,184,0.8);
+      padding-bottom: 0.8rem;
+      margin-bottom: 0.7rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .logo-title {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      background:
+        conic-gradient(from 210deg,
+          rgba(56,189,248,0.0),
+          rgba(56,189,248,0.9),
+          rgba(34,197,94,0.9),
+          rgba(249,115,22,0.95),
+          rgba(168,85,247,0.95),
+          rgba(56,189,248,0.0));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 26px rgba(56,189,248,0.95);
+      font-size: 1.7rem;
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 3.8vw, 2.4rem);
+      line-height: 1.1;
+    }
+
+    h1 span {
+      background: linear-gradient(120deg,#38bdf8,#22c55e,#f97316,#a855f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 580px;
+    }
+
+    .subtitle strong {
+      color: var(--text);
+    }
+
+    .header-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      align-items: flex-end;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.16rem 0.6rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: #020617;
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34,197,94,0.95);
+    }
+
+    .toggle-row {
+      display: flex;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .toggle {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      font-size: 0.78rem;
+      padding: 0.16rem 0.6rem;
+      background: #020617;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      cursor: pointer;
+    }
+
+    .toggle span.icon {
+      font-size: 1rem;
+    }
+
+    .progress-wrapper {
+      margin-top: 0.35rem;
+    }
+
+    .progress-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.3rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.96);
+      border: 1px solid rgba(148,163,184,0.9);
+      margin-top: 0.18rem;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg,#22c55e,#38bdf8,#a855f7);
+      transition: width 0.25s ease-out;
+    }
+
+    main {
+      margin-top: 0.85rem;
+    }
+
+    .screen {
+      display: none;
+      animation: fadeIn 0.22s ease-out;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .layout {
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    @media (min-width: 880px) {
+      .layout {
+        grid-template-columns: minmax(0,1.8fr) minmax(0,1fr);
+        align-items: flex-start;
+      }
+    }
+
+    .card {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,0.98);
+      box-shadow: 0 14px 36px rgba(15,23,42,1);
+      padding: 0.8rem 0.85rem 0.9rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .card + .card {
+      margin-top: 0.6rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+      align-items: center;
+      margin-bottom: 0.35rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .card-title span.icon {
+      font-size: 1.3rem;
+    }
+
+    .badge {
+      border-radius: 999px;
+      border: 1px solid rgba(56,189,248,0.9);
+      padding: 0.06rem 0.5rem;
+      font-size: 0.72rem;
+      color: #e0f2fe;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.22rem;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #38bdf8;
+      box-shadow: 0 0 7px rgba(56,189,248,1);
+    }
+
+    .badge-easy {
+      border-color: rgba(34,197,94,0.9);
+      color: #bbf7d0;
+    }
+    .badge-medium {
+      border-color: rgba(249,115,22,0.9);
+      color: #fed7aa;
+    }
+    .badge-hard {
+      border-color: rgba(168,85,247,0.9);
+      color: #e9d5ff;
+    }
+
+    ul {
+      margin-left: 1.1rem;
+      margin-top: 0.2rem;
+    }
+
+    li + li {
+      margin-top: 0.1rem;
+    }
+
+    /* Questions */
+    .question-block {
+      margin-top: 0.35rem;
+    }
+
+    .question-text {
+      font-size: 0.96rem;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .question-info {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .options {
+      display: grid;
+      gap: 0.25rem;
+      margin-top: 0.1rem;
+    }
+
+    label.option {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.3rem 0.6rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #020617;
+      cursor: pointer;
+    }
+
+    label.option input {
+      width: auto;
+      transform: scale(1.1);
+    }
+
+    .option-emoji {
+      font-size: 1.1rem;
+    }
+
+    textarea, input[type="text"] {
+      width: 100%;
+      font-family: inherit;
+      font-size: 0.9rem;
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.3rem 0.55rem;
+      background: #020617;
+      color: var(--text);
+      margin-top: 0.15rem;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    textarea:focus, input[type="text"]:focus {
+      outline: none;
+      border-color: var(--accent-1);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.9);
+    }
+
+    .helper {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.16rem;
+    }
+
+    .btn-row {
+      margin-top: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      justify-content: flex-end;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: none;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: linear-gradient(135deg,#22c55e,#38bdf8);
+      color: #020617;
+      box-shadow: 0 10px 24px rgba(15,23,42,1);
+      font-weight: 600;
+    }
+
+    .btn span.icon {
+      font-size: 1.05rem;
+    }
+
+    .btn-ghost {
+      background: #020617;
+      border: 1px solid rgba(148,163,184,0.9);
+      color: var(--muted);
+      box-shadow: none;
+    }
+
+    .btn-small {
+      padding: 0.28rem 0.8rem;
+      font-size: 0.8rem;
+    }
+
+    .difficulty-select {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.4rem;
+    }
+
+    .diff-pill {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.26rem 0.7rem;
+      font-size: 0.84rem;
+      color: var(--muted);
+      background: #020617;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .diff-pill span.dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+    }
+
+    .diff-pill[data-level="easy"] span.dot { background: var(--accent-2); }
+    .diff-pill[data-level="normal"] span.dot { background: var(--accent-1); }
+    .diff-pill[data-level="hard"] span.dot { background: var(--accent-4); }
+
+    .diff-pill.active {
+      border-color: var(--accent-2);
+      background: rgba(22,163,74,0.15);
+      color: #bbf7d0;
+    }
+
+    /* Tableau des indices & badges */
+    .side-card-title {
+      font-size: 0.86rem;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.3rem;
+      align-items: center;
+    }
+
+    .clues-list {
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-radius: 14px;
+      border: 1px dashed rgba(148,163,184,0.9);
+      padding: 0.4rem 0.45rem;
+      background: #020617;
+      min-height: 56px;
+    }
+
+    .clues-list p {
+      margin-bottom: 0.12rem;
+    }
+
+    .clues-list code {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.04rem 0.5rem;
+      font-size: 0.75rem;
+      background: #020617;
+    }
+
+    .badges {
+      margin-top: 0.35rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+
+    .badge-mini {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.12rem 0.5rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: #020617;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .badge-mini span.icon {
+      font-size: 1rem;
+    }
+
+    /* Résultat final */
+    .final-title {
+      font-size: 1.4rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .final-title span {
+      background: linear-gradient(120deg,#f97316,#22c55e,#38bdf8,#a855f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .final-block {
+      border-radius: 16px;
+      border: 1px dashed rgba(148,163,184,0.9);
+      padding: 0.5rem 0.6rem;
+      background: #020617;
+      font-size: 0.88rem;
+      margin-top: 0.4rem;
+    }
+
+    .final-block h3 {
+      font-size: 0.96rem;
+      margin-bottom: 0.2rem;
+      color: var(--text);
+    }
+
+    .final-block code {
+      font-size: 0.8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.04rem 0.5rem;
+      background: #020617;
+    }
+
+    .plans {
+      margin-top: 0.35rem;
+      font-size: 0.86rem;
+    }
+
+    .plans h4 {
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+      margin-bottom: 0.1rem;
+      color: var(--text);
+    }
+
+    .comfort-mode {
+      letter-spacing: 0.03em;
+      line-height: 1.35;
+    }
+
+    .comfort-mode .card {
+      font-size: 0.96rem;
+    }
+
+    .comfort-mode .subtitle {
+      font-size: 0.95rem;
+    }
+
+    .comfort-mode .question-text {
+      font-size: 1rem;
+    }
+
+    /* Confettis */
+    .confetti {
+      position: fixed;
+      top: -10px;
+      width: 8px;
+      height: 14px;
+      border-radius: 3px;
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: 999;
+      animation: fall 2.8s linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translate3d(0, 110vh, 0) rotateZ(180deg);
+        opacity: 0;
+      }
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 1rem;
+      transform: translateX(-50%);
+      background: #020617;
+      border-radius: 999px;
+      border: 1px solid rgba(56,189,248,0.9);
+      padding: 0.35rem 0.9rem;
+      font-size: 0.82rem;
+      color: #e0f2fe;
+      box-shadow: 0 16px 32px rgba(15,23,42,1);
+      display: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+<div class="app" id="appRoot">
+  <header>
+    <div class="header-top">
+      <div class="logo-title">
+        <div class="logo">❓</div>
+        <div>
+          <h1>ESCAPE <span>L’Organisation</span></h1>
+          <p class="subtitle">
+            Site-escape game inspiré de tous nos tests, conspirations pédagogiques, clés USB
+            et projets de veille citoyenne. But ultime : trouver les <strong>coordonnées
+            fictives</strong> de l’Organisation et les <strong>plans du projet</strong> pour
+            décider si tu t’engages dans l’aventure, et comment.
+          </p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="pill">
+          <span class="pill-dot"></span>
+          <span>Progression dans l’escape game</span>
+        </div>
+        <div class="toggle-row">
+          <button class="toggle" type="button" id="toggleComfort">
+            <span class="icon">🧘‍♂️</span><span>Mode confort lecture</span>
+          </button>
+          <button class="toggle" type="button" id="toggleAnimations">
+            <span class="icon">🌙</span><span>Animations calmes</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-wrapper">
+      <div class="progress-label">
+        <span id="progressText">Étape 1 sur 5</span>
+        <span id="progressHint">Tu peux arrêter et revenir plus tard (tout reste sur cette page).</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ÉCRAN 0 : INTRO + CHOIX DIFFICULTÉ -->
+    <section class="screen active" id="screen-intro">
+      <div class="layout">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span class="icon">🏁</span>
+              <span>Briefing – Tu entres dans “L’Organisation”</span>
+            </div>
+          </div>
+          <p>
+            L’Organisation est une <strong>AISBL fictive</strong> de veille citoyenne et de jeux
+            sérieux. Elle utilise des clés USB, des sites statiques, des IA foireuses, des tests
+            de recrutement et des conspirations pédagogiques pour aider les gens à :
+          </p>
+          <ul>
+            <li>comprendre comment fonctionne la société et l’info,</li>
+            <li>apprendre à se protéger (cyber, propagande, symboles…),</li>
+            <li>jouer avec l’idée de “retourner le système contre lui-même” sans sombrer dans le complotisme.</li>
+          </ul>
+          <p style="margin-top:0.35rem;">
+            Ta mission : <strong>résoudre trois niveaux</strong>, récolter des indices,
+            recomposer le <strong>code de sortie</strong> et débloquer :
+          </p>
+          <ul>
+            <li>les coordonnées (fictives) de l’Organisation ;</li>
+            <li>un résumé clair des <strong>plans du projet</strong> ;</li>
+            <li>une question finale : “Est-ce que j’embarque, moi, là-dedans ?”.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="side-card-title">
+            <span>Choisis ton mode de difficulté</span>
+          </div>
+          <p style="font-size:0.86rem; color:var(--muted);">
+            Le contenu est le même, mais la façon de t’aider change.
+          </p>
+          <div class="difficulty-select" id="difficultySelect">
+            <button class="diff-pill active" type="button" data-level="easy">
+              <span class="dot"></span><span>Curieux / Curieuse</span>
+            </button>
+            <button class="diff-pill" type="button" data-level="normal">
+              <span class="dot"></span><span>Sérieux / Sérieuse</span>
+            </button>
+            <button class="diff-pill" type="button" data-level="hard">
+              <span class="dot"></span><span>Hardcore “Sharky”</span>
+            </button>
+          </div>
+          <p style="font-size:0.8rem; color:var(--muted); margin-top:0.3rem;">
+            Tu peux changer de mode à tout moment pendant le jeu.
+          </p>
+          <div class="btn-row">
+            <button class="btn" type="button" data-next="screen-1">
+              <span class="icon">➡️</span><span>Commencer l’enquête</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ÉCRAN 1 : NIVEAU 1 – FACILE -->
+    <section class="screen" id="screen-1">
+      <div class="layout">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">
+                <span class="icon">🧩</span>
+                <span>Niveau 1 – Décoder l’intention</span>
+              </div>
+              <div style="font-size:0.8rem; color:var(--muted); margin-top:0.1rem;">
+                Comprendre ce que l’Organisation essaie vraiment de faire.
+              </div>
+            </div>
+            <div class="badge badge-easy">
+              <span class="badge-dot"></span><span>Facile</span>
+            </div>
+          </div>
+
+          <!-- Q1 -->
+          <div class="question-block">
+            <div class="question-text">
+              1. Le cœur du projet, d’après tout ce qu’on a vu, c’est surtout… 
+            </div>
+            <div class="question-info">Un seul choix · difficulté 🟢</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q1" value="profit">
+                <span class="option-emoji">💰</span>
+                <span>Créer une méga start-up pour faire un max de profit.</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="q1" value="controle">
+                <span class="option-emoji">🕵️‍♂️</span>
+                <span>Contrôler tout le monde comme une agence de renseignement sombre.</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="q1" value="empower">
+                <span class="option-emoji">🧠</span>
+                <span>Donner aux gens des outils pour comprendre, se protéger et s’organiser.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="question-block" style="margin-top:0.5rem;">
+            <div class="question-text">
+              2. Le paradoxe central souvent évoqué est :
+            </div>
+            <div class="question-info">Un seul choix · difficulté 🟢</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q2" value="loisir">
+                <span class="option-emoji">🎢</span>
+                <span>Loisir contre sérieux : on ne peut pas jouer et réfléchir en même temps.</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="q2" value="opa_trans">
+                <span class="option-emoji">⚖️</span>
+                <span>Opacité / transparence : dire assez de choses pour être honnête, sans tout exposer.</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="q2" value="ia">
+                <span class="option-emoji">🤖</span>
+                <span>IA gentille / IA méchante : tout dépend du modèle.</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn-ghost btn-small" type="button" data-prev="screen-intro">⬅️ Retour</button>
+            <button class="btn btn-small" type="button" id="validateLevel1">
+              <span class="icon">✅</span><span>Valider le niveau 1</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="side-card-title">
+            <span>Indices & récompenses</span>
+          </div>
+          <div class="clues-list" id="cluesBox">
+            <p>Aucun indice trouvé pour l’instant.</p>
+            <p style="margin-top:0.15rem; font-size:0.78rem;">
+              Chaque niveau validé t’offre un fragment de code (lettre ou chiffre).
+            </p>
+          </div>
+          <div class="badges" id="badgesBox">
+            <!-- badges virtuels -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ÉCRAN 2 : NIVEAU 2 – ANALYSE CROISÉE -->
+    <section class="screen" id="screen-2">
+      <div class="layout">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">
+                <span class="icon">🕸️</span>
+                <span>Niveau 2 – Relier les morceaux</span>
+              </div>
+              <div style="font-size:0.8rem; color:var(--muted); margin-top:0.1rem;">
+                Tu te déplaces entre conspi pédagogique, veille citoyenne, business modèle et humour noir.
+              </div>
+            </div>
+            <div class="badge badge-medium">
+              <span class="badge-dot"></span><span>Moyen</span>
+            </div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="question-block">
+            <div class="question-text">
+              3. On a souvent parlé de “tout tient sur une clé USB et un serveur simple”.
+              Ça signifie que :
+            </div>
+            <div class="question-info">Un seul choix · difficulté 🟠</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q3" value="cloud_only">
+                <span class="option-emoji">☁️</span>
+                <span>Tout doit être dans le cloud, c’est plus simple.</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="q3" value="portable">
+                <span class="option-emoji">💾</span>
+                <span>Le projet doit être <strong>portable</strong>, copiable, réplicable facilement par n’importe qui.</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="q3" value="secret">
+                <span class="option-emoji">🔒</span>
+                <span>Tout doit rester secret, inaccessible aux autres.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="question-block" style="margin-top:0.5rem;">
+            <div class="question-text">
+              4. Quand on parle de “gamifier le renseignement citoyen”, l’idée est plutôt de :
+            </div>
+            <div class="question-info">Un seul choix · difficulté 🟠</div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="q4" value="espion">
+                <span class="option-emoji">🕶️</span>
+                <span>Former des espions pour surveiller tout le monde.</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="q4" value="peda">
+                <span class="option-emoji">🎓</span>
+                <span>Utiliser l’humour et le jeu pour apprendre à lire le monde de façon critique.</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="q4" value="roulette">
+                <span class="option-emoji">🎰</span>
+                <span>Créer un casino en ligne citoyen (non).</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q5 libre -->
+          <div class="question-block" style="margin-top:0.5rem;">
+            <div class="question-text">
+              5. À ton avis, qu’est-ce qui te ferait dire “OK, ce projet mérite que je m’y intéresse” ?
+            </div>
+            <div class="question-info">Réponse libre · difficulté 🟠 (tu peux être très bref)</div>
+            <textarea id="q5free" placeholder="Exemples : transparence, humour, pas de culte de la personnalité, impact réel..."></textarea>
+            <div class="helper">
+              Ce que tu écris reste sur ton appareil. Tu peux aussi laisser vide si tu veux.
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn-ghost btn-small" type="button" data-prev="screen-1">⬅️ Niveau précédent</button>
+            <button class="btn btn-small" type="button" id="validateLevel2">
+              <span class="icon">🧠</span><span>Valider le niveau 2</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="side-card-title">
+            <span>Ton inventaire</span>
+          </div>
+          <div class="clues-list" id="cluesBox2">
+            <p>Les indices trouvés apparaîtront ici.</p>
+          </div>
+          <div class="badges" id="badgesBox2"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ÉCRAN 3 : NIVEAU 3 – CODE FINAL -->
+    <section class="screen" id="screen-3">
+      <div class="layout">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">
+                <span class="icon">🧬</span>
+                <span>Niveau 3 – Le code de sortie</span>
+              </div>
+              <div style="font-size:0.8rem; color:var(--muted); margin-top:0.1rem;">
+                Tu dois assembler les indices en un mot de passe final.
+              </div>
+            </div>
+            <div class="badge badge-hard">
+              <span class="badge-dot"></span><span>Difficile (mais faisable)</span>
+            </div>
+          </div>
+
+          <p>
+            Tu as récolté trois fragments de code à chaque niveau. Ensemble, ils forment un
+            <strong>mot de passe</strong> en lettres + chiffres.
+          </p>
+          <ul>
+            <li>Indice du niveau 1 : une lettre qui renvoie à la <strong>portabilité</strong> du projet.</li>
+            <li>Indice du niveau 2 : trois lettres qui évoquent le support physique central.</li>
+            <li>Indice caché : le nombre d’années pour passer de “proto” à “rayonnement mondial raisonnable”.</li>
+          </ul>
+          <p style="margin-top:0.35rem;">
+            Saisis le code complet ci-dessous (sans espace). Exemple de format :
+            <code>XXX00</code>.
+          </p>
+
+          <div class="question-block" style="margin-top:0.4rem;">
+            <div class="question-text">Code final :</div>
+            <input type="text" id="finalCode" placeholder="Ex : USB16" autocomplete="off">
+            <div class="helper">
+              Tu peux essayer plusieurs fois. Le code attendu ici est <strong>USB16</strong> :
+              <em>U</em> comme univers/clés, <em>SB</em> comme “clé uSB”, <em>16</em> comme horizon de 4 ans (2025→2029) et clin d’œil aux 16 ans.
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn-ghost btn-small" type="button" data-prev="screen-2">⬅️ Retour niveau 2</button>
+            <button class="btn btn-small" type="button" id="validateLevel3">
+              <span class="icon">🔓</span><span>Déverrouiller les plans</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="side-card-title">
+            <span>Fragments trouvés</span>
+          </div>
+          <div class="clues-list" id="cluesBox3">
+            <p>Tu devrais voir ici quelque chose comme :</p>
+            <p><code>U</code>, <code>USB</code>, <code>16</code></p>
+          </div>
+          <div class="badges" id="badgesBox3"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ÉCRAN 4 : RÉVÉLATION FINALE -->
+    <section class="screen" id="screen-final">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="icon">🎉</span>
+            <span>Bravo, tu as cracké l’Organisation</span>
+          </div>
+        </div>
+        <p class="final-title">
+          <span>Code USB16 validé.</span> Tu as terminé l’escape game.
+        </p>
+        <p style="font-size:0.9rem; color:var(--muted); margin-bottom:0.35rem;">
+          Tu débloques maintenant des coordonnées fictives de l’Organisation et une version
+          claire des plans du projet dans son ensemble.
+        </p>
+
+        <div class="final-block">
+          <h3>Coordonnées fictives de l’Organisation</h3>
+          <p><strong>Nom complet :</strong> Organisation de Veille Citoyenne Expérimentale (O.V.C.E.)</p>
+          <p><strong>Forme :</strong> Association internationale de fait sans but lucratif (AISBL fictive)</p>
+          <p style="margin-top:0.25rem;">
+            <strong>Adresse postale (fictive) :</strong><br>
+            Rue de la Clé USB, 16<br>
+            1000 Bruxelles · “Tour des Paradoxes”, 7e étage
+          </p>
+          <p style="margin-top:0.25rem;">
+            <strong>Contact général :</strong><br>
+            Mail : <code>contact@organisation-exemple.org</code><br>
+            Site vitrine : <code>https://organisation-exemple.org</code> (à adapter à ta propre instance)<br>
+          </p>
+          <p style="margin-top:0.25rem;">
+            <strong>Compte de soutien (fictif) :</strong><br>
+            IBAN : <code>BE16 0000 0000 0000</code> · Communication : <code>“USB16 – veille citoyenne”</code>
+          </p>
+          <div class="btn-row" style="margin-top:0.35rem;">
+            <button class="btn-ghost btn-small" type="button" id="copyCoords">
+              <span class="icon">📋</span><span>Copier ces coordonnées</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="final-block plans" id="plans">
+          <h3>Plans du projet – version claire</h3>
+
+          <h4>1. Le cœur : une “instance” citoyenne réplicable</h4>
+          <p>
+            Tout ce que tu viens de voir est pensé comme un <strong>prototype</strong> :
+            un site en HTML/CSS/JS, portable sur clé USB, hébergeable sur un petit serveur
+            ou sur une page statique. Chaque personne ou collectif peut :
+          </p>
+          <ul>
+            <li>copier le dossier sur une clé ou un dépôt Git ;</li>
+            <li>changer le nom, les textes, les tests, les jeux ;</li>
+            <li>adapter les scénarios à son quartier, son école, son asbl.</li>
+          </ul>
+
+          <h4>2. Les briques déjà évoquées dans la conversation</h4>
+          <p>Le projet complet mélange plusieurs blocs :</p>
+          <ul>
+            <li><strong>Tests de recrutement ludiques</strong> pour filtrer les curieux,
+              expliquer les règles du jeu, poser des garde-fous.</li>
+            <li><strong>Modules pédagogiques</strong> sur la veille citoyenne, la propagande,
+              la guerre narrative, la cybersécurité, la puissance des symboles, etc.</li>
+            <li><strong>Outils d’organisation</strong> : fiches “PNJ” (acteurs réels ou fictifs),
+              cartes, budgets, modèles de “business citoyen” à 12,50 €/an et plus si affinités.</li>
+            <li><strong>Conspi pédagogique</strong> : la Conspi, Sharky, Sauron & co comme
+              miroirs grotesques des vrais dangers (captation, manipulation, marchandisation).</li>
+          </ul>
+
+          <h4>3. Ton rôle possible dans l’aventure</h4>
+          <p>Concrètement, après ce jeu, tu peux :</p>
+          <ul>
+            <li><strong>Option 1 – Observateur·rice :</strong> tu gardes le fichier, tu le
+              montres à des gens, tu en discutes. Tu ne changes rien pour l’instant.</li>
+            <li><strong>Option 2 – Bricoleur·se :</strong> tu fais une <em>copie</em> du fichier,
+              tu modifies le texte, tu en fais ta propre instance (nom, couleurs, exemples).</li>
+            <li><strong>Option 3 – Cellule locale :</strong> tu montes une mini équipe
+              (2–3 personnes) et vous bâtissez un petit kit complet : un escape game, un test,
+              un mini “Mordor pédagogique” pour votre contexte.</li>
+          </ul>
+
+          <h4>4. Comment décider si tu t’engages (et pourquoi)</h4>
+          <p>Questions à te poser honnêtement :</p>
+          <ul>
+            <li>Est-ce que ce type de projet t’aide à <strong>mieux comprendre</strong> le monde,
+              ou est-ce que ça te rend juste plus anxieux·se ?</li>
+            <li>Est-ce que tu as envie de <strong>créer</strong> (écrire, coder, dessiner, organiser),
+              ou plutôt juste de <strong>jouer</strong> de temps en temps ? Les deux sont possibles.</li>
+            <li>Est-ce que tu te sens OK avec l’idée de <strong>documenter</strong> ce que tu fais,
+              de partager, de ne pas tout garder pour toi ?</li>
+          </ul>
+          <p style="margin-top:0.25rem;">
+            Il n’y a pas de bonne ou de mauvaise réponse. Tu peux tout à fait te dire :
+            <em>“C’est brillant / frappadingue / génial / épuisant, merci, mais je reste
+            juste spectateur.”</em> C’est déjà un rôle.
+          </p>
+
+          <h4>5. Si tu veux vraiment t’y mettre</h4>
+          <p>Une feuille de route simple pour toi :</p>
+          <ul>
+            <li>Étape 1 – <strong>Sauvegarder</strong> ce fichier (<code>escape-organisaton.html</code>
+              ou autre) sur ta clé USB ou ton ordinateur.</li>
+            <li>Étape 2 – Faire une copie, l’ouvrir dans un éditeur de texte, changer le nom
+              de l’Organisation, les coordonnées, quelques questions.</li>
+            <li>Étape 3 – Ajouter un <strong>petit module</strong> à toi : une nouvelle énigme,
+              un quiz, une mini-histoire, un lien vers un PDF, une playlist, etc.</li>
+            <li>Étape 4 – Le montrer à une personne de confiance, récupérer son avis.</li>
+            <li>Étape 5 – Si ça tient la route, envisager de le mettre en ligne (GitHub Pages,
+              petit hébergement, etc.).</li>
+          </ul>
+
+          <p style="margin-top:0.35rem; font-size:0.86rem; color:var(--muted);">
+            Si tu as lu jusqu’ici, tu as largement le niveau pour continuer l’aventure.
+            La question n’est plus “suis-je assez bon·ne ?”, mais plutôt
+            “<strong>de combien de temps / énergie je dispose</strong>, et à quel rythme je veux avancer ?”.
+          </p>
+        </div>
+
+        <div class="btn-row" style="margin-top:0.6rem;">
+          <button class="btn-ghost btn-small" type="button" id="btnReplay">
+            <span class="icon">🔁</span><span>Rejouer depuis le début</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function() {
+  const screens = ["screen-intro","screen-1","screen-2","screen-3","screen-final"];
+  let currentIndex = 0;
+  let difficulty = "easy";
+  let animationsSoft = false;
+
+  const gameState = {
+    clues: [],
+    badges: [],
+    levelDone: {1:false,2:false,3:false}
+  };
+
+  const appRoot = document.getElementById("appRoot");
+  const progressFill = document.getElementById("progressFill");
+  const progressText = document.getElementById("progressText");
+  const toast = document.getElementById("toast");
+
+  function showScreen(id) {
+    screens.forEach(sId => {
+      const el = document.getElementById(sId);
+      if (!el) return;
+      el.classList.toggle("active", sId === id);
+    });
+    currentIndex = screens.indexOf(id);
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const total = screens.length;
+    const step = currentIndex + 1;
+    const percent = (step - 1) / (total - 1) * 100;
+    progressFill.style.width = percent + "%";
+    progressText.textContent = "Étape " + step + " sur " + total;
+  }
+
+  function showToast(message) {
+    toast.textContent = message;
+    toast.style.display = "block";
+    clearTimeout(showToast._timer);
+    showToast._timer = setTimeout(() => {
+      toast.style.display = "none";
+    }, 2300);
+  }
+
+  function addClue(clue, description) {
+    if (!gameState.clues.includes(clue)) {
+      gameState.clues.push(clue);
+    }
+    refreshClues();
+    if (description) showToast(description);
+  }
+
+  function addBadge(icon, label) {
+    const badgeKey = icon + ":" + label;
+    if (!gameState.badges.includes(badgeKey)) {
+      gameState.badges.push(badgeKey);
+    }
+    refreshBadges();
+  }
+
+  function refreshClues() {
+    const texts = [
+      document.getElementById("cluesBox"),
+      document.getElementById("cluesBox2"),
+      document.getElementById("cluesBox3")
+    ];
+    texts.forEach(box => {
+      if (!box) return;
+      if (gameState.clues.length === 0) {
+        box.innerHTML = "<p>Aucun indice pour l’instant.</p>";
+      } else {
+        box.innerHTML = "<p>Indices collectés :</p><p>" +
+          gameState.clues.map(c => "<code>"+c+"</code>").join(" ") +
+          "</p>";
+      }
+    });
+  }
+
+  function refreshBadges() {
+    const boxes = [
+      document.getElementById("badgesBox"),
+      document.getElementById("badgesBox2"),
+      document.getElementById("badgesBox3")
+    ];
+    boxes.forEach(box => {
+      if (!box) return;
+      if (gameState.badges.length === 0) {
+        box.innerHTML = "";
+      } else {
+        box.innerHTML = "";
+        gameState.badges.forEach(key => {
+          const [icon,label] = key.split(":");
+          const span = document.createElement("span");
+          span.className = "badge-mini";
+          span.innerHTML = '<span class="icon">'+icon+'</span><span>'+label+'</span>';
+          box.appendChild(span);
+        });
+      }
+    });
+  }
+
+  function triggerConfetti() {
+    if (animationsSoft) return;
+    const colors = ["#38bdf8","#22c55e","#f97316","#a855f7","#fde047"];
+    for (let i = 0; i < 90; i++) {
+      const conf = document.createElement("div");
+      conf.className = "confetti";
+      const color = colors[Math.floor(Math.random()*colors.length)];
+      conf.style.background = color;
+      conf.style.left = Math.random()*100 + "vw";
+      conf.style.animationDelay = (Math.random()*0.8) + "s";
+      conf.style.transform = "rotate(" + (Math.random()*360) + "deg)";
+      document.body.appendChild(conf);
+      setTimeout(() => conf.remove(), 3100);
+    }
+  }
+
+  function bindNavButtons() {
+    document.querySelectorAll("[data-next]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = btn.getAttribute("data-next");
+        showScreen(target);
+      });
+    });
+    document.querySelectorAll("[data-prev]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = btn.getAttribute("data-prev");
+        showScreen(target);
+      });
+    });
+  }
+
+  function bindDifficulty() {
+    const container = document.getElementById("difficultySelect");
+    if (!container) return;
+    container.querySelectorAll(".diff-pill").forEach(pill => {
+      pill.addEventListener("click", () => {
+        container.querySelectorAll(".diff-pill").forEach(p => p.classList.remove("active"));
+        pill.classList.add("active");
+        difficulty = pill.getAttribute("data-level") || "easy";
+        if (difficulty === "easy") {
+          showToast("Mode Curieux : plus indulgent, plus d’indices.");
+        } else if (difficulty === "normal") {
+          showToast("Mode Sérieux : quelques indices, mais tu fais le boulot.");
+        } else {
+          showToast("Mode Hardcore Sharky : moins d’aide, plus de challenge.");
+        }
+      });
+    });
+  }
+
+  function bindComfortToggle() {
+    const toggle = document.getElementById("toggleComfort");
+    toggle.addEventListener("click", () => {
+      appRoot.classList.toggle("comfort-mode");
+      const on = appRoot.classList.contains("comfort-mode");
+      toggle.querySelector("span.icon").textContent = on ? "📖" : "🧘‍♂️";
+      toggle.querySelectorAll("span")[1].textContent = on
+        ? "Mode confort : activé"
+        : "Mode confort lecture";
+      showToast(on ? "Mode confort activé (texte plus lisible)." : "Mode confort désactivé.");
+    });
+  }
+
+  function bindAnimationsToggle() {
+    const toggle = document.getElementById("toggleAnimations");
+    toggle.addEventListener("click", () => {
+      animationsSoft = !animationsSoft;
+      if (animationsSoft) {
+        toggle.querySelector("span.icon").textContent = "😴";
+        toggle.querySelectorAll("span")[1].textContent = "Animations calmées";
+        showToast("Les animations seront plus calmes.");
+      } else {
+        toggle.querySelector("span.icon").textContent = "🌙";
+        toggle.querySelectorAll("span")[1].textContent = "Animations normales";
+        showToast("Animations normales réactivées.");
+      }
+    });
+  }
+
+  function bindLevel1() {
+    const btn = document.getElementById("validateLevel1");
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+      if (!q1 || !q2) {
+        showToast("Réponds aux deux questions avant de valider.");
+        return;
+      }
+      if (q1.value === "empower" && q2.value === "opa_trans") {
+        gameState.levelDone[1] = true;
+        addClue("U", "Indice obtenu : U");
+        addBadge("🧠","Intention comprise");
+        showToast("Niveau 1 validé. Tu obtiens la lettre U.");
+        showScreen("screen-2");
+      } else {
+        if (difficulty === "hard") {
+          showToast("Pas encore. Relis bien les questions…");
+        } else {
+          showToast("Réessaie : pense à l’éducation populaire et au paradoxe transparence/opacité.");
+        }
+      }
+    });
+  }
+
+  function bindLevel2() {
+    const btn = document.getElementById("validateLevel2");
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      const q3 = document.querySelector('input[name="q3"]:checked');
+      const q4 = document.querySelector('input[name="q4"]:checked');
+      if (!q3 || !q4) {
+        showToast("Il manque au moins une réponse.");
+        return;
+      }
+      if (q3.value === "portable" && q4.value === "peda") {
+        gameState.levelDone[2] = true;
+        addClue("USB","Indice obtenu : USB");
+        addBadge("💾","Clé USB mentale");
+        showToast("Niveau 2 validé. Tu obtiens le fragment USB.");
+        showScreen("screen-3");
+      } else {
+        showToast("Pense portabilité, non-marchand, éducation populaire…");
+      }
+    });
+  }
+
+  function bindLevel3() {
+    const btn = document.getElementById("validateLevel3");
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      const input = document.getElementById("finalCode");
+      if (!input) return;
+      const value = (input.value || "").trim().toUpperCase();
+      // L’indice numérique est 16 (plan jusqu’en 2029 et clin d’œil aux 16 ans)
+      addClue("16");
+      if (value === "USB16") {
+        gameState.levelDone[3] = true;
+        addBadge("🔓","Code USB16 cracké");
+        showToast("Code correct. L’Organisation te révèle ses plans.");
+        triggerConfetti();
+        showScreen("screen-final");
+      } else {
+        if (difficulty === "easy") {
+          showToast("Pense à “clé USB” + nombre d’années/horizon 2029 + clin d’œil aux 16 ans.");
+        } else {
+          showToast("Mauvais code. Recompose les indices : U + USB + 16.");
+        }
+      }
+    });
+  }
+
+  function bindReplayAndCopy() {
+    const replay = document.getElementById("btnReplay");
+    if (replay) {
+      replay.addEventListener("click", () => {
+        gameState.clues = [];
+        gameState.badges = [];
+        gameState.levelDone = {1:false,2:false,3:false};
+        refreshClues();
+        refreshBadges();
+        showScreen("screen-intro");
+        showToast("Escape réinitialisé. Tu peux recommencer ou modifier le fichier.");
+      });
+    }
+
+    const copyBtn = document.getElementById("copyCoords");
+    if (copyBtn) {
+      copyBtn.addEventListener("click", () => {
+        const text =
+`Organisation de Veille Citoyenne Expérimentale (O.V.C.E.)
+AISBL fictive
+
+Adresse : Rue de la Clé USB, 16 – 1000 Bruxelles
+Mail : contact@organisation-exemple.org
+Site : https://organisation-exemple.org
+IBAN fictif : BE16 0000 0000 0000
+Communication : "USB16 – veille citoyenne"`;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(() => {
+            showToast("Coordonnées copiées dans le presse-papier.");
+          }).catch(() => fallbackCopy(text));
+        } else {
+          fallbackCopy(text);
+        }
+      });
+    }
+  }
+
+  function fallbackCopy(text) {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); } catch(e) {}
+    document.body.removeChild(ta);
+    showToast("Coordonnées copiées (méthode de secours).");
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    bindNavButtons();
+    bindDifficulty();
+    bindComfortToggle();
+    bindAnimationsToggle();
+    bindLevel1();
+    bindLevel2();
+    bindLevel3();
+    bindReplayAndCopy();
+    refreshClues();
+    refreshBadges();
+    updateProgress();
+  });
+})();
+</script>
+</body>
+</html>
