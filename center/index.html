@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Académie du Centre – Études avancées sur le centrisme</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --bg: #f7f5f2;
+      --bg-alt: #ffffff;
+      --accent: #c48c3b;
+      --accent-soft: rgba(196, 140, 59, 0.12);
+      --accent-strong: #8b5e20;
+      --text: #222222;
+      --muted: #666666;
+      --border: #ddd2c2;
+      --danger: #b0413e;
+      --success: #2c7a4b;
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.08);
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #fdf9f3 0, #f4f1eb 40%, #f0ece3 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(247,245,242,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .topbar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .brand-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: flex-end;
+    }
+
+    nav a {
+      font-size: 0.85rem;
+      text-decoration: none;
+      color: var(--muted);
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: 0.2s;
+    }
+
+    nav a:hover {
+      border-color: var(--accent);
+      color: var(--accent-strong);
+      background: var(--accent-soft);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 1.5rem auto 3rem;
+      padding: 0 1.25rem 2rem;
+      display: grid;
+      grid-template-columns: minmax(0, 2.3fr) minmax(240px, 1fr);
+      gap: 1.75rem;
+    }
+
+    @media (max-width: 860px) {
+      main {
+        display: block;
+      }
+      .sidebar {
+        margin-top: 1.5rem;
+      }
+    }
+
+    .hero {
+      background: linear-gradient(145deg, #fdfaf6, #f4ece0);
+      border-radius: 18px;
+      padding: 1.75rem 1.5rem;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid #e4d9c9;
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 0 0, rgba(196,140,59,0.18) 0, transparent 55%),
+        radial-gradient(circle at 100% 0, rgba(55,118,171,0.12) 0, transparent 45%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-kicker {
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent-strong);
+      margin-bottom: 0.3rem;
+    }
+
+    .hero-title {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: clamp(1.8rem, 2.3vw + 1rem, 2.5rem);
+      margin: 0 0 0.4rem;
+    }
+
+    .hero-subtitle {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 33rem;
+    }
+
+    .hero-actions {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      padding: 0.55rem 1.2rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+      transition: 0.2s transform, 0.2s box-shadow, 0.2s background;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+      background: #b67f34;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent-strong);
+      border-color: rgba(0,0,0,0.08);
+      box-shadow: none;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      background: rgba(255,255,255,0.8);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .tagline {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    section {
+      background: var(--bg-alt);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 1.3rem 1.25rem 1.4rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.03);
+      position: relative;
+      overflow: hidden;
+    }
+
+    section h2 {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 1.35rem;
+      margin: 0 0 0.7rem;
+    }
+
+    section h3 {
+      font-size: 1rem;
+      margin-top: 1.2rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.03);
+      color: var(--muted);
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .highlight-box {
+      border-radius: 10px;
+      background: var(--accent-soft);
+      border: 1px dashed rgba(196,140,59,0.6);
+      padding: 0.7rem 0.75rem;
+      font-size: 0.85rem;
+      color: var(--accent-strong);
+      margin: 0.6rem 0 0.9rem;
+    }
+
+    .infobox {
+      border-left: 3px solid var(--accent);
+      background: #fbf7f1;
+      padding: 0.55rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin: 0.8rem 0;
+    }
+
+    .inline-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    @media (max-width: 620px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      padding: 0.7rem 0.75rem;
+      background: #fffdf9;
+      font-size: 0.87rem;
+    }
+
+    .card h4 {
+      margin: 0 0 0.3rem;
+      font-size: 0.95rem;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,0.09);
+      background: rgba(255,255,255,0.85);
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .quote-block {
+      font-style: italic;
+      border-left: 3px solid rgba(0,0,0,0.12);
+      padding-left: 0.8rem;
+      margin: 0.8rem 0;
+      font-size: 0.9rem;
+      color: #444;
+    }
+
+    .quote-block-footer {
+      margin-top: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-style: normal;
+    }
+
+    details {
+      margin-top: 0.6rem;
+      border-radius: 10px;
+      border: 1px dashed var(--border);
+      background: #fcfbf9;
+      padding: 0.45rem 0.65rem;
+      font-size: 0.85rem;
+    }
+
+    details summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--accent-strong);
+      list-style: none;
+    }
+
+    details[open] {
+      border-style: solid;
+      background: #f7f3eb;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 4rem;
+      align-self: flex-start;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .sidebar-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 0.75rem;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.05);
+      font-size: 0.85rem;
+    }
+
+    .sidebar-card h3 {
+      font-size: 0.9rem;
+      margin-top: 0;
+      margin-bottom: 0.3rem;
+    }
+
+    .mini-quiz {
+      border-radius: 10px;
+      border: 1px solid #e3d7c7;
+      padding: 0.6rem 0.7rem;
+      background: #fdf9f3;
+      margin-top: 0.8rem;
+      font-size: 0.85rem;
+    }
+
+    .mini-quiz-question {
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .mini-quiz-options label {
+      display: block;
+      margin-bottom: 0.2rem;
+      cursor: pointer;
+    }
+
+    .mini-quiz button {
+      margin-top: 0.4rem;
+      font-size: 0.8rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: #fff;
+      color: var(--accent-strong);
+      cursor: pointer;
+    }
+
+    .mini-quiz-result {
+      margin-top: 0.25rem;
+      font-size: 0.8rem;
+    }
+
+    .mini-quiz-result.ok {
+      color: var(--success);
+    }
+
+    .mini-quiz-result.ko {
+      color: var(--danger);
+    }
+
+    .interstitial-banner {
+      border-radius: 12px;
+      padding: 0.7rem 0.8rem;
+      background: linear-gradient(135deg, #fcebd6, #f7f0e7);
+      border: 1px solid rgba(196,140,59,0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      font-size: 0.85rem;
+      margin: 0.7rem 0 0.2rem;
+    }
+
+    .interstitial-banner button {
+      align-self: flex-start;
+      font-size: 0.8rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent-strong);
+      background: rgba(255,255,255,0.9);
+      cursor: pointer;
+    }
+
+    .slogan-output {
+      margin-top: 0.4rem;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--accent-strong);
+    }
+
+    .final-callout {
+      border-radius: 12px;
+      border: 1px solid var(--accent);
+      padding: 0.9rem 0.9rem;
+      background: #fbf3e7;
+      margin-top: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+    }
+
+    .final-callout strong {
+      font-weight: 700;
+    }
+
+    .final-callout .btn {
+      align-self: flex-start;
+      margin-top: 0.2rem;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 60;
+    }
+
+    .modal {
+      background: #fdf9f3;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      max-width: 420px;
+      width: calc(100% - 2.5rem);
+      padding: 1rem 1.1rem 0.9rem;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .modal-step-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin-bottom: 0.15rem;
+    }
+
+    .modal h3 {
+      margin: 0 0 0.4rem;
+      font-size: 1.05rem;
+    }
+
+    .modal p {
+      margin: 0.25rem 0;
+      font-size: 0.9rem;
+    }
+
+    .modal-footer {
+      margin-top: 0.7rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.4rem;
+    }
+
+    .modal-footer button {
+      font-size: 0.8rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,0.12);
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .modal-footer button.primary {
+      border-color: var(--accent-strong);
+      background: var(--accent);
+      color: #fff;
+    }
+
+    #final-quiz-section {
+      display: none;
+    }
+
+    .quiz-question {
+      margin-bottom: 0.7rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px dashed rgba(0,0,0,0.08);
+    }
+
+    .quiz-question:last-child {
+      border-bottom: none;
+    }
+
+    .quiz-question h4 {
+      margin: 0 0 0.3rem;
+      font-size: 0.95rem;
+    }
+
+    .quiz-options label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+      cursor: pointer;
+    }
+
+    .quiz-actions {
+      margin-top: 0.5rem;
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .quiz-actions button {
+      font-size: 0.85rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent-strong);
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .quiz-score {
+      margin-top: 0.45rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .quiz-score.success {
+      color: var(--success);
+    }
+
+    .quiz-score.fail {
+      color: var(--danger);
+    }
+
+    .certificate {
+      margin-top: 0.9rem;
+      padding: 0.9rem 1rem;
+      border-radius: 14px;
+      border: 2px solid #d7c7aa;
+      background:
+        radial-gradient(circle at top, #fdf9f3 0, #f7f0e4 40%, #f3e7d3 100%);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.15);
+      font-family: "Georgia", "Times New Roman", serif;
+      display: none;
+    }
+
+    .certificate-heading {
+      text-align: center;
+      font-size: 1.2rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .certificate-main {
+      text-align: center;
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .certificate-sub {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .certificate-footer {
+      margin-top: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+    }
+
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 55;
+      display: none;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 8px;
+      height: 14px;
+      background: var(--accent);
+      top: -10px;
+      animation: fall 3s linear forwards;
+      opacity: 0.9;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translate3d(0,0,0) rotateZ(0deg);
+      }
+      100% {
+        transform: translate3d(var(--x-move, 0px), 110vh, 0) rotateZ(340deg);
+      }
+    }
+
+    footer {
+      max-width: 1100px;
+      margin: 0 auto 2.5rem;
+      padding: 0 1.25rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      border-top: 1px dashed rgba(0,0,0,0.08);
+      padding-top: 0.8rem;
+    }
+
+    @media (max-width: 640px) {
+      footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-title">Académie du Centre</div>
+      <div class="brand-sub">Laboratoire d’études sérieuses sur le centrisme</div>
+    </div>
+    <nav>
+      <a href="#intro">Définir le centre</a>
+      <a href="#typologie">Famille des centristes</a>
+      <a href="#moc">Centrismes &amp; MOC</a>
+      <a href="#atelier">Atelier d’auto-positionnement</a>
+      <a href="#final-invite">Grand Test final</a>
+    </nav>
+  </div>
+</header>
+
+<div class="confetti" id="confetti"></div>
+
+<main>
+  <div>
+    <section class="hero" id="top">
+      <div class="hero-inner">
+        <div class="hero-kicker">Programme certifiant</div>
+        <h1 class="hero-title">Diplôme d’Études Approfondies en Centrisme</h1>
+        <p class="hero-subtitle">
+          Un parcours académique complet, du centriste modéré au centriste radical borderline récursif, 
+          ponctué d’exercices, d’embeds et d’interstitiels pédagogiques. 
+        </p>
+        <div class="hero-actions">
+          <button class="btn" id="scroll-to-final">
+            Accéder directement au « centre » du problème
+          </button>
+          <button class="btn btn-secondary" onclick="document.getElementById('intro').scrollIntoView({behavior:'smooth'})">
+            Commencer le parcours guidé
+          </button>
+          <span class="tagline">Durée indicative : 15 à 20&nbsp;minutes… si vous résistez aux distractions.</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="intro">
+      <div class="section-label">Module 1</div>
+      <h2>Définir le centrisme comme objet académique</h2>
+      <div class="highlight-box">
+        On appelle <strong>centrisme</strong> l’ensemble des positions politiques situées 
+        entre la gauche et la droite, cherchant des compromis pragmatiques et évitant les extrêmes,
+        tout en pouvant porter des convictions fortes sur la méthode : dialogue, gradualisme, 
+        recherche du « juste milieu ».
+      </div>
+      <p>
+        Historiquement, le centre apparaît comme espace distinct lors de la structuration de l’échiquier
+        gauche–droite&nbsp;: les modérés qui ne se reconnaissent ni dans les courants conservateurs, ni dans
+        les courants révolutionnaires occupent une position médiane et deviennent un pôle à part entière. 
+      </p>
+      <p>
+        Sur le plan analytique, le centrisme recouvre donc :
+      </p>
+      <ul>
+        <li>une <strong>position</strong> sur un axe gauche–droite,</li>
+        <li>une <strong>méthode</strong> (recherche de compromis, négociation, incremental change),</li>
+        <li>parfois une <strong>identité propre</strong> (partis, mouvements, « école » centriste).</li>
+      </ul>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="badge">Vue conceptuelle</div>
+          <h4>Le centre comme espace de médiation</h4>
+          <p>
+            Le centriste n’est pas nécessairement « tiède ». Il peut défendre énergiquement 
+            des mesures considérées comme équilibrées, c’est-à-dire capables de tenir compte 
+            de contraintes concurrentes (libertés, justice sociale, stabilité, etc.).
+          </p>
+        </div>
+        <div class="card">
+          <div class="badge">Prisme critique</div>
+          <h4>Les critiques récurrentes</h4>
+          <p>
+            Le centrisme est tour à tour accusé d’<em>indécision</em> (par les radicaux) 
+            ou de <em>conservatisme déguisé</em> (par certains réformistes), 
+            alors même qu’il se présente comme un effort de synthèse et de modération.
+          </p>
+        </div>
+      </div>
+
+      <div class="quote-block">
+        « Être au centre, ce n’est pas être au milieu de la route : c’est piloter la circulation 
+        pour que tout le monde arrive à bon port. »
+        <div class="quote-block-footer">— Paraphrase pédagogique inspirée des débats sur le centrisme</div>
+      </div>
+
+      <div class="mini-quiz" data-mini-quiz="1">
+        <div class="mini-quiz-question">Mini-quiz 1 – Le centrisme est d’abord…</div>
+        <div class="mini-quiz-options">
+          <label><input type="radio" name="mq1" value="0"> une absence totale d’opinion politique.</label>
+          <label><input type="radio" name="mq1" value="1"> une position intermédiaire qui peut porter des choix forts de compromis.</label>
+          <label><input type="radio" name="mq1" value="2"> la moyenne arithmétique de tous les programmes de partis.</label>
+        </div>
+        <button type="button">Vérifier</button>
+        <div class="mini-quiz-result"></div>
+      </div>
+    </section>
+
+    <section id="typologie">
+      <div class="section-label">Module 2</div>
+      <h2>Typologie académique de la famille centriste</h2>
+      <p>
+        À partir de votre annexe narrative, on peut formaliser une <strong>typologie</strong> de plusieurs figures du centrisme :
+        modéré, ultra, radical, borderline, radical borderline et radical borderline récursif. :contentReference[oaicite:0]{index=0}
+      </p>
+      <div class="infobox">
+        <strong>Note méthodologique.</strong> Les catégories ci-dessous sont volontairement 
+        poussées jusqu’au quasi-absurde pour mieux illustrer la diversité des « tempéraments »
+        centristes, du plus souple au plus intransigeant.
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4>Centriste modéré</h4>
+          <p>
+            Forme « classique » : recherche d’équilibre, ouverture au compromis, 
+            adaptabilité selon les contextes, goût pour les solutions consensuelles.
+          </p>
+        </div>
+        <div class="card">
+          <h4>Centriste ultra</h4>
+          <p>
+            Défend le juste milieu de façon quasi dogmatique : refus obstiné des positions jugées trop polarisées, 
+            même lorsque le contexte justifierait un déplacement de curseur.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4>Centriste radical</h4>
+          <p>
+            Ne se contente pas de modérer&nbsp;: propose des solutions audacieuses dépassant les clivages traditionnels.
+            Le centrisme devient projet de transformation active plutôt que simple compromis. :contentReference[oaicite:1]{index=1}
+          </p>
+        </div>
+        <div class="card">
+          <h4>Centriste borderline</h4>
+          <p>
+            Globalement centriste, mais susceptible d’adopter ponctuellement des positions très marquées 
+            (à gauche ou à droite) lorsque certains principes sont en jeu, d’où une impression d’imprévisibilité.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4>Centriste radical borderline</h4>
+          <p>
+            Combine audace et oscillation : prêt à franchir des lignes rouges pour défendre 
+            des solutions jugées équilibrantes à long terme, quitte à surprendre ses propres alliés.
+          </p>
+        </div>
+        <div class="card">
+          <h4>Centriste radical borderline récursif</h4>
+          <p>
+            Applique ce processus de rééquilibrage en boucle&nbsp;: positions, contre-positions, 
+            nouvelles synthèses. Un centrisme qui se déconstruit et se reconstruit en permanence,
+            à la recherche d’un équilibre toujours plus fin. :contentReference[oaicite:2]{index=2}
+          </p>
+        </div>
+      </div>
+
+      <details>
+        <summary>Annexe méthodologique – Comment situer « la famille » sur l’échiquier ?</summary>
+        <p>
+          On peut voir ces six profils comme une seule et même famille conceptuelle, 
+          la <em>famille Muchtefion</em> du centrisme, allant du cousin paisible (modéré) 
+          au grand-oncle obsessionnel de la synthèse (récursif). Cette formalisation
+          permet de structurer des récits militants et des biographies en catégories analytiques.
+        </p>
+      </details>
+
+      <div class="mini-quiz" data-mini-quiz="2">
+        <div class="mini-quiz-question">Mini-quiz 2 – Qui mérite le titre de « centriste ultra » ?</div>
+        <div class="mini-quiz-options">
+          <label><input type="radio" name="mq2" value="0"> Celui qui alterne régulièrement entre extrême gauche et extrême droite.</label>
+          <label><input type="radio" name="mq2" value="1"> Celui qui défend le milieu avec rigidité, refusant presque systématiquement d’en sortir.</label>
+          <label><input type="radio" name="mq2" value="2"> Celui qui ne vote jamais.</label>
+        </div>
+        <button type="button">Vérifier</button>
+        <div class="mini-quiz-result"></div>
+      </div>
+
+      <div class="interstitial-banner">
+        <div><strong>Interstitial #1 — Pause typologique :</strong> Générateur de slogan centriste.</div>
+        <div>Avant de poursuivre, forgez votre devise de campagne radicalement modérée.</div>
+        <button type="button" id="generate-slogan">Générer un slogan équilibré</button>
+        <div class="slogan-output" id="slogan-output"></div>
+      </div>
+    </section>
+
+    <section id="moc">
+      <div class="section-label">Module 3</div>
+      <h2>Centrismes appliqués : le cas du Mouvement Ouvrier Chrétien (MOC)</h2>
+      <p>
+        En Belgique francophone et germanophone, le <strong>Mouvement Ouvrier Chrétien (MOC)</strong> 
+        joue un rôle de coupole fédérant des organisations sociales issues du monde ouvrier et de la tradition
+        chrétienne sociale (syndicat, mutualité, mouvements de femmes, de jeunes, d’éducation permanente). :contentReference[oaicite:3]{index=3}:contentReference[oaicite:4]{index=4}
+      </p>
+      <p>
+        Historiquement, le MOC se situe dans l’orbite de la démocratie chrétienne, mais a progressivement adopté une posture
+        <strong>pluraliste</strong> : il ne se revendique plus comme simple relais d’un parti donné, 
+        et défend un ensemble de valeurs (justice sociale, solidarité, égalité, démocratie) 
+        pouvant dialoguer avec diverses familles politiques proches du centre-gauche et du centre. :contentReference[oaicite:5]{index=5}
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="badge">Structure fédérative</div>
+          <h4>Une coupole à plusieurs étages</h4>
+          <ul>
+            <li>Fédération nationale MOC (niveau communautaire).</li>
+            <li>Régionales MOC (Bruxelles, provinces wallonnes, Ostbelgien, etc.).</li>
+            <li>Organisations constitutives : CSC (syndicat), Mutualité chrétienne, Vie Féminine, 
+                Équipes Populaires, JOC, etc. :contentReference[oaicite:6]{index=6}</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="badge">Perspective comparative</div>
+          <h4>MOC &amp; beweging.net</h4>
+          <p>
+            Beweging.net, en Flandre, partage la même matrice historique que le MOC, 
+            mais a opté pour un rebranding et une diversification de ses partenaires 
+            tout en gardant des liens forts avec la famille démocrate-chrétienne CD&amp;V. 
+          </p>
+        </div>
+      </div>
+
+      <details>
+        <summary>Encadré – Centrismes &amp; pilier chrétien</summary>
+        <p>
+          Le pilier chrétien belge, dont le MOC est une composante majeure, a longtemps porté un centrisme 
+          social : attachement à la protection sociale, au dialogue social, à la concertation, 
+          et à une économie régulée, pensée comme voie médiane entre laissez-faire absolu 
+          et planification intégrale. 
+        </p>
+      </details>
+
+      <div class="mini-quiz" data-mini-quiz="3">
+        <div class="mini-quiz-question">Mini-quiz 3 – Le MOC, c’est d’abord…</div>
+        <div class="mini-quiz-options">
+          <label><input type="radio" name="mq3" value="0"> Un parti politique électoral strictement centriste.</label>
+          <label><input type="radio" name="mq3" value="1"> Une coupole d’organisations sociales d’inspiration chrétienne, active en Wallonie, à Bruxelles et en Ostbelgien.</label>
+          <label><input type="radio" name="mq3" value="2"> Une école de magie centriste à entrée sélective.</label>
+        </div>
+        <button type="button">Vérifier</button>
+        <div class="mini-quiz-result"></div>
+      </div>
+    </section>
+
+    <section id="atelier">
+      <div class="section-label">Module 4</div>
+      <h2>Atelier d’auto-positionnement au centre</h2>
+      <p>
+        Cet atelier ne constitue pas encore le test final, mais un <em>échauffement cognitif</em>.
+        Il vise à clarifier ton réflexe spontané face à des dilemmes typiquement centristes.
+      </p>
+
+      <ol>
+        <li>Face à un débat polarisé, cherches-tu d’abord à comprendre les arguments de chaque camp&nbsp;?</li>
+        <li>La phrase «&nbsp;on va voir au cas par cas&nbsp;» te rassure-t-elle ou t’agace-t-elle&nbsp;?</li>
+        <li>As-tu tendance à proposer des compromis créatifs plutôt que des solutions binaires&nbsp;?</li>
+      </ol>
+
+      <p class="inline-note">
+        Plus tu réponds « plutôt oui » aux questions ci-dessus, plus tu te situes naturellement 
+        du côté des profils modéré, radical ou radical récursif… mais seul le test final peut 
+        attribuer le diplôme, évidemment.
+      </p>
+
+      <div class="final-callout" id="final-invite">
+        <strong>Grand Test final – Diplôme de Centrisme Appliqué</strong>
+        <span>
+          Pour accéder au test, il te faudra franchir trois interstitiels pédagogiques 
+          (c’est scientifique, paraît-il). 
+        </span>
+        <button class="btn" id="open-modal">Lancer la séquence d’accès au test</button>
+      </div>
+    </section>
+
+    <section id="final-quiz-section">
+      <div class="section-label">Module 5</div>
+      <h2>Grand Test final – Certification de centriste accompli·e</h2>
+      <p>
+        Réponds à ce questionnaire. Le diplôme se débloque à partir de 
+        <strong>4 bonnes réponses sur 6</strong>.
+      </p>
+
+      <div id="final-quiz"></div>
+
+      <div class="quiz-actions">
+        <button type="button" id="submit-final">Corriger le test</button>
+        <button type="button" id="reset-final">Réinitialiser</button>
+      </div>
+      <div class="quiz-score" id="quiz-score"></div>
+
+      <div class="certificate" id="certificate">
+        <div class="certificate-heading">Académie du Centre</div>
+        <div class="certificate-main">
+          Certifie par la présente que<br>
+          <strong><span id="certificate-name">Un·e candidat·e anonyme</span></strong><br>
+          a brillamment réussi le Grand Test final et obtient le titre de
+        </div>
+        <div class="certificate-main" style="font-size:1.1rem;">
+          <strong>« Centrist(e) radical(e) modéré(e) récursif(ve) »</strong>
+        </div>
+        <div class="certificate-sub">
+          en reconnaissance de ses aptitudes remarquables à naviguer entre les pôles,
+          à résister aux interstitiels et à maintenir le cap au milieu.
+        </div>
+        <div class="certificate-footer">
+          <div>
+            Fait à l’Académie du Centre<br>
+            <span style="font-size:0.75rem;">Signature : _____________________</span>
+          </div>
+          <div style="text-align:right;">
+            <button type="button" onclick="window.print()" style="font-size:0.75rem;padding:0.2rem 0.6rem;border-radius:999px;border:1px solid #8b5e20;background:#fff;">
+              Imprimer ce diplôme
+            </button><br>
+            <span style="font-size:0.7rem;">(ou capture d’écran autorisée)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <h3>Fil d’ariane académique</h3>
+      <p>
+        1. Définir le centre<br>
+        2. Explorer la typologie<br>
+        3. Contextualiser avec le MOC<br>
+        4. Atelier d’auto-positionnement<br>
+        5. Grand Test &amp; Diplôme
+      </p>
+      <p class="inline-note">
+        Tu peux sauter des étapes, mais c’est mal vu par la science (et par le diplôme).
+      </p>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>Bloc-notes intégré</h3>
+      <p>
+        Question centrale à garder en tête&nbsp;: 
+        <em>où est-ce que je place mon propre curseur dans la famille centriste&nbsp;?</em>
+      </p>
+      <textarea rows="5" style="width:100%;border-radius:8px;border:1px solid var(--border);padding:0.45rem;font-size:0.8rem;resize:vertical;" placeholder="Notes personnelles (restent uniquement sur ta machine)…"></textarea>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>Rappel méthodo</h3>
+      <p style="font-size:0.8rem;">
+        Ce site ne te dit pas pour qui voter, ni comment militer. Il propose un cadre 
+        pour décrire et analyser des attitudes centristes, à partir de tes annexes et de
+        quelques repères historiques.
+      </p>
+    </div>
+  </aside>
+</main>
+
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal" id="modal-step">
+    <div class="modal-step-label" id="modal-step-label">Étape 1/3</div>
+    <h3 id="modal-title">Préparation mentale au centrage</h3>
+    <p id="modal-text">
+      Respire profondément. Le test final n’est pas un examen de loyauté politique,
+      mais un jeu sérieux sur ta compréhension des nuances du centrisme.
+    </p>
+    <div class="inline-note">
+      Astuce : il n’y a pas de bonus pour les réponses extrêmes… mais il y a un diplôme.
+    </div>
+    <div class="modal-footer">
+      <button type="button" id="modal-skip">Passer les interstitiels</button>
+      <button type="button" class="primary" id="modal-next">Suivant</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>Académie du Centre – Site statique autonome (HTML/CSS/JS). Version pédagogique hors-ligne.</div>
+  <div>Conseil : partage ce fichier dans un cercle de confiance, et comparez vos profils de centristes.</div>
+</footer>
+
+<script>
+  const miniQuizData = {
+    1: {
+      correct: 1,
+      explanations: [
+        "Non : on peut être centriste et avoir des convictions fortes.",
+        "Oui : le centriste cherche souvent un équilibre pragmatique.",
+        "Pas tout à fait : aucune calculatrice ne peut remplacer le jugement politique."
+      ]
+    },
+    2: {
+      correct: 1,
+      explanations: [
+        "C’est plutôt le profil borderline oscillant entre les extrêmes.",
+        "Exact : le centriste ultra défend le milieu avec une rigidité quasi idéologique.",
+        "L’abstention seule ne suffit pas à définir un « ultra »."
+      ]
+    },
+    3: {
+      correct: 1,
+      explanations: [
+        "Non : le MOC n’est pas un parti électoral.",
+        "Exact : il s’agit d’une coupole d’organisations sociales d’inspiration chrétienne.",
+        "Pas encore, même si la narration peut parfois être épique."
+      ]
+    }
+  };
+
+  document.querySelectorAll(".mini-quiz").forEach(function(block) {
+    const id = block.getAttribute("data-mini-quiz");
+    const button = block.querySelector("button");
+    const result = block.querySelector(".mini-quiz-result");
+    button.addEventListener("click", function() {
+      const radios = block.querySelectorAll("input[type='radio']");
+      let selected = null;
+      radios.forEach(r => { if (r.checked) selected = parseInt(r.value, 10); });
+      if (selected === null) {
+        result.textContent = "Choisis d’abord une réponse.";
+        result.className = "mini-quiz-result ko";
+        return;
+      }
+      const data = miniQuizData[id];
+      if (!data) return;
+      result.textContent = data.explanations[selected];
+      if (selected === data.correct) {
+        result.className = "mini-quiz-result ok";
+      } else {
+        result.className = "mini-quiz-result ko";
+      }
+    });
+  });
+
+  const slogans = [
+    "« Ni tiède, ni extrême : parfaitement tempéré. »",
+    "« Trop radical pour être neutre, trop modéré pour être extrême. »",
+    "« Si tout le monde est fâché, c’est que le compromis est bon. »",
+    "« Un pas à gauche, un pas à droite, mais toujours vers l’avant. »",
+    "« Le centre : là où les arguments se rencontrent, pas où ils se dissolvent. »"
+  ];
+  document.getElementById("generate-slogan").addEventListener("click", function() {
+    const out = document.getElementById("slogan-output");
+    const idx = Math.floor(Math.random() * slogans.length);
+    out.textContent = slogans[idx];
+  });
+
+  const finalQuestions = [
+    {
+      q: "1. Le centrisme, dans ce cours, est défini principalement comme…",
+      options: [
+        "une absence de convictions pour éviter tout conflit.",
+        "une position intermédiaire cherchant des compromis pragmatiques entre pôles opposés.",
+        "une simple stratégie de campagne pour paraître acceptable à tout prix."
+      ],
+      correct: 1
+    },
+    {
+      q: "2. Le centriste radical borderline récursif se caractérise par…",
+      options: [
+        "un refus absolu de bouger quelle que soit la situation.",
+        "une oscillation permanente et réfléchie entre positions, avec des rééquilibrages en boucle.",
+        "une passion exclusive pour les extrêmes, sans étape intermédiaire."
+      ],
+      correct: 1
+    },
+    {
+      q: "3. Le centriste ultra, selon la typologie, est celui qui…",
+      options: [
+        "défend le juste milieu avec rigidité, presque de façon dogmatique.",
+        "change d’avis à chaque sondage d’opinion.",
+        "ne s’intéresse qu’aux questions économiques, jamais sociales."
+      ],
+      correct: 0
+    },
+    {
+      q: "4. Le MOC en Belgique francophone et germanophone est…",
+      options: [
+        "un parti centriste unique présent sur tous les bulletins de vote.",
+        "une structure fédérative d’organisations sociales d’inspiration chrétienne (syndicat, mutualité, mouvements, etc.).",
+        "un think tank secret exclusivement consacré aux radicaux centristes récursifs."
+      ],
+      correct: 1
+    },
+    {
+      q: "5. L’homologue flamand du MOC est…",
+      options: [
+        "Beweging.net, héritier de l’ACW.",
+        "Le Parti socialiste flamand.",
+        "Une confédération de clubs de pétanque apolitiques."
+      ],
+      correct: 0
+    },
+    {
+      q: "6. Un mini-quiz interstitiel, dans ce site, sert avant tout à…",
+      options: [
+        "remplacer complètement tout effort de réflexion.",
+        "distraire légèrement tout en consolidant quelques notions clés avant le test final.",
+        "collecter secrètement des données personnelles."
+      ],
+      correct: 1
+    }
+  ];
+
+  (function buildFinalQuiz() {
+    const container = document.getElementById("final-quiz");
+    finalQuestions.forEach(function(q, idx) {
+      const block = document.createElement("div");
+      block.className = "quiz-question";
+      const h = document.createElement("h4");
+      h.textContent = q.q;
+      block.appendChild(h);
+      const opts = document.createElement("div");
+      opts.className = "quiz-options";
+      q.options.forEach(function(opt, j) {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "fq" + idx;
+        input.value = j;
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(" " + opt));
+        opts.appendChild(label);
+      });
+      block.appendChild(opts);
+      container.appendChild(block);
+    });
+  })();
+
+  function triggerConfetti() {
+    const container = document.getElementById("confetti");
+    container.innerHTML = "";
+    container.style.display = "block";
+    const pieces = 90;
+    const colors = ["#c48c3b", "#2c7a4b", "#356ba0", "#e07a5f", "#f2cc8f"];
+    for (let i = 0; i < pieces; i++) {
+      const piece = document.createElement("div");
+      piece.className = "confetti-piece";
+      const left = Math.random() * 100;
+      const delay = Math.random() * 0.8;
+      const xMove = (Math.random() - 0.5) * 220;
+      piece.style.left = left + "vw";
+      piece.style.animationDelay = delay + "s";
+      piece.style.backgroundColor = colors[i % colors.length];
+      piece.style.setProperty("--x-move", xMove + "px");
+      container.appendChild(piece);
+    }
+    setTimeout(function() {
+      container.style.display = "none";
+      container.innerHTML = "";
+    }, 3500);
+  }
+
+  document.getElementById("submit-final").addEventListener("click", function() {
+    let score = 0;
+    const total = finalQuestions.length;
+    let unanswered = 0;
+    finalQuestions.forEach(function(q, idx) {
+      const radios = document.querySelectorAll("input[name='fq" + idx + "']");
+      let selected = null;
+      radios.forEach(r => { if (r.checked) selected = parseInt(r.value, 10); });
+      if (selected === null) {
+        unanswered++;
+      } else if (selected === q.correct) {
+        score++;
+      }
+    });
+    const scoreEl = document.getElementById("quiz-score");
+    if (unanswered > 0) {
+      scoreEl.textContent = "Tu as encore " + unanswered + " question(s) sans réponse.";
+      scoreEl.className = "quiz-score fail";
+      return;
+    }
+    scoreEl.textContent = "Score : " + score + " / " + total;
+    const certificate = document.getElementById("certificate");
+    if (score >= 4) {
+      scoreEl.textContent += " – Félicitations, le diplôme est débloqué !";
+      scoreEl.className = "quiz-score success";
+      certificate.style.display = "block";
+      triggerConfetti();
+      const name = prompt("Indique ton nom pour le diplôme (facultatif) :", "");
+      if (name && name.trim().length > 0) {
+        document.getElementById("certificate-name").textContent = name.trim();
+      }
+    } else {
+      scoreEl.textContent += " – C’est presque ça. Revisite éventuellement les modules avant de retenter.";
+      scoreEl.className = "quiz-score fail";
+      certificate.style.display = "none";
+    }
+  });
+
+  document.getElementById("reset-final").addEventListener("click", function() {
+    finalQuestions.forEach(function(q, idx) {
+      const radios = document.querySelectorAll("input[name='fq" + idx + "']");
+      radios.forEach(r => r.checked = false);
+    });
+    document.getElementById("quiz-score").textContent = "";
+    document.getElementById("quiz-score").className = "quiz-score";
+    document.getElementById("certificate").style.display = "none";
+  });
+
+  const modalBackdrop = document.getElementById("modal-backdrop");
+  const modalStepLabel = document.getElementById("modal-step-label");
+  const modalTitle = document.getElementById("modal-title");
+  const modalText = document.getElementById("modal-text");
+  const modalNext = document.getElementById("modal-next");
+  const modalSkip = document.getElementById("modal-skip");
+  const finalSection = document.getElementById("final-quiz-section");
+
+  const modalSteps = [
+    {
+      label: "Étape 1/3",
+      title: "Préparation mentale au centrage",
+      text: "Respire profondément. Le test final n’est pas un examen de loyauté politique, mais un jeu sérieux sur ta compréhension des nuances du centrisme."
+    },
+    {
+      label: "Étape 2/3",
+      title: "Vérification des résistances aux interstitiels",
+      text: "Tu viens de traverser plusieurs mini-quizz, embeds et détours. Si tu lis encore ceci, ta capacité d’attention centriste est déjà notable."
+    },
+    {
+      label: "Étape 3/3",
+      title: "Alignement cognitif final",
+      text: "Tu peux maintenant accéder au test. Rappelle-toi : nous décrivons, nous n’ordonnons pas. Réponds selon ta compréhension du cours."
+    }
+  ];
+  let currentModalIndex = 0;
+
+  function openModal(idx) {
+    currentModalIndex = idx;
+    const step = modalSteps[idx];
+    modalStepLabel.textContent = step.label;
+    modalTitle.textContent = step.title;
+    modalText.textContent = step.text;
+    modalBackdrop.style.display = "flex";
+  }
+
+  document.getElementById("open-modal").addEventListener("click", function() {
+    openModal(0);
+  });
+
+  modalNext.addEventListener("click", function() {
+    if (currentModalIndex < modalSteps.length - 1) {
+      openModal(currentModalIndex + 1);
+    } else {
+      modalBackdrop.style.display = "none";
+      finalSection.style.display = "block";
+      finalSection.scrollIntoView({behavior:"smooth"});
+    }
+  });
+
+  modalSkip.addEventListener("click", function() {
+    modalBackdrop.style.display = "none";
+    finalSection.style.display = "block";
+    finalSection.scrollIntoView({behavior:"smooth"});
+  });
+
+  document.getElementById("scroll-to-final").addEventListener("click", function() {
+    openModal(0);
+  });
+</script>
+</body>
+</html>
