@@ -1,0 +1,1418 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Panneau de contrôle – L’Organisation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Police douce et lisible -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #020617;
+      --card: rgba(15,23,42,0.98);
+      --accent-1: #38bdf8;
+      --accent-2: #22c55e;
+      --accent-3: #f97316;
+      --accent-4: #a855f7;
+      --accent-5: #eab308;
+      --text: #f9fafb;
+      --muted: #cbd5f5;
+      --border: rgba(148,163,184,0.9);
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --shadow: 0 22px 60px rgba(15,23,42,0.95);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Baloo 2", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.28), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(168,85,247,0.28), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 1rem 0.6rem 1.6rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1120px;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.18), transparent 65%),
+        radial-gradient(circle at 100% 100%, rgba(15,23,42,0.98), transparent 60%),
+        var(--bg-soft);
+      border-radius: 26px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 1.1rem 0.9rem 1.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .app {
+        padding: 1.4rem 1.6rem 2.1rem;
+      }
+    }
+
+    .app::before {
+      content: "Console centrale – version clé USB";
+      position: absolute;
+      top: 0.45rem;
+      right: 1.4rem;
+      font-size: 0.63rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(148,163,184,0.9);
+    }
+
+    header {
+      border-bottom: 1px dashed rgba(148,163,184,0.8);
+      padding-bottom: 0.8rem;
+      margin-bottom: 0.7rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .logo-title {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 18px;
+      background:
+        conic-gradient(from 210deg,
+          rgba(56,189,248,0),
+          rgba(56,189,248,0.9),
+          rgba(34,197,94,0.9),
+          rgba(249,115,22,0.95),
+          rgba(234,179,8,0.95),
+          rgba(168,85,247,0.95),
+          rgba(56,189,248,0));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 0 26px rgba(56,189,248,0.95),
+        0 0 14px rgba(234,179,8,0.9);
+      font-size: 1.8rem;
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+      line-height: 1.05;
+    }
+
+    h1 span {
+      background: linear-gradient(120deg,#38bdf8,#22c55e,#f97316,#eab308,#a855f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 620px;
+    }
+
+    .subtitle strong {
+      color: var(--text);
+    }
+
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      align-items: flex-end;
+      min-width: 220px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.16rem 0.6rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: #020617;
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34,197,94,0.95);
+    }
+
+    .mini-indicator {
+      font-size: 0.78rem;
+      color: rgba(148,163,184,0.95);
+      display: flex;
+      gap: 0.25rem;
+      align-items: center;
+    }
+
+    .mini-indicator span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #f97316;
+    }
+
+    .controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.25rem;
+      align-items: center;
+    }
+
+    .search {
+      position: relative;
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .search input {
+      width: 100%;
+      font-family: inherit;
+      font-size: 0.86rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.3rem 2.0rem 0.3rem 0.9rem;
+      background: #020617;
+      color: var(--text);
+    }
+
+    .search input:focus {
+      outline: none;
+      border-color: var(--accent-1);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.9);
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 0.6rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.95rem;
+      color: rgba(148,163,184,0.9);
+    }
+
+    .toggle {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      font-size: 0.78rem;
+      padding: 0.16rem 0.6rem;
+      background: #020617;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .toggle span.icon {
+      font-size: 1rem;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.4rem;
+    }
+
+    .filter-pill {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.22rem 0.7rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      background: #020617;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .filter-pill span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+    }
+
+    .filter-pill[data-cat="recrut"] span.dot { background: var(--accent-1); }
+    .filter-pill[data-cat="dossiers"] span.dot { background: var(--accent-2); }
+    .filter-pill[data-cat="jeux"] span.dot { background: var(--accent-3); }
+    .filter-pill[data-cat="business"] span.dot { background: var(--accent-5); }
+    .filter-pill[data-cat="tech"] span.dot { background: var(--accent-4); }
+    .filter-pill[data-cat="special"] span.dot { background: #fb7185; }
+
+    .filter-pill.active {
+      border-color: var(--accent-2);
+      background: rgba(22,163,74,0.15);
+      color: #bbf7d0;
+    }
+
+    main {
+      margin-top: 0.85rem;
+    }
+
+    .layout {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    @media (min-width: 900px) {
+      .layout {
+        grid-template-columns: minmax(0,2.05fr) minmax(0,1.1fr);
+        align-items: flex-start;
+      }
+    }
+
+    .card {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--card);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.95);
+      padding: 0.8rem 0.9rem 0.9rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+      align-items: center;
+      margin-bottom: 0.4rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .card-title span.icon {
+      font-size: 1.3rem;
+    }
+
+    .card-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* Grille de liens */
+    .grid {
+      display: grid;
+      gap: 0.55rem;
+      margin-top: 0.35rem;
+    }
+
+    @media (min-width: 640px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+    }
+
+    .link-card {
+      position: relative;
+      border-radius: 16px;
+      border: 1px solid rgba(148,163,184,0.9);
+      background: radial-gradient(circle at 0 0, rgba(56,189,248,0.18), transparent 65%), #020617;
+      padding: 0.55rem 0.6rem 0.6rem;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, border-color 0.18s;
+    }
+
+    .link-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(56,189,248,0.22), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.25s ease-out;
+      pointer-events: none;
+    }
+
+    .link-main {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .link-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .link-title {
+      font-size: 0.92rem;
+      color: var(--text);
+    }
+
+    .link-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .link-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.2rem;
+      margin-top: 0.2rem;
+    }
+
+    .meta-pill {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      font-size: 0.72rem;
+      padding: 0.04rem 0.45rem;
+      color: var(--muted);
+    }
+
+    .link-icon {
+      font-size: 1.35rem;
+    }
+
+    .link-footer {
+      margin-top: 0.25rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.2rem;
+      align-items: center;
+      font-size: 0.7rem;
+      color: rgba(148,163,184,0.95);
+    }
+
+    .link-url {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 80%;
+    }
+
+    .link-tag {
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.65rem;
+      color: rgba(148,163,184,0.95);
+    }
+
+    .link-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(15,23,42,1);
+      border-color: var(--accent-1);
+    }
+
+    .link-card:hover::before {
+      opacity: 1;
+    }
+
+    .link-card.hidden {
+      display: none;
+    }
+
+    a.link-full {
+      color: inherit;
+      text-decoration: none;
+      display: block;
+    }
+
+    /* Tableau de bord */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 0.35rem;
+      margin-top: 0.35rem;
+    }
+
+    .stat-pill {
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.25rem 0.35rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      background: #020617;
+      display: flex;
+      flex-direction: column;
+      gap: 0.08rem;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      color: rgba(148,163,184,0.95);
+    }
+
+    .stat-value {
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .stat-tagline {
+      font-size: 0.7rem;
+      color: rgba(148,163,184,0.95);
+    }
+
+    .quick-actions {
+      margin-top: 0.45rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .qa-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.22rem 0.7rem;
+      font-size: 0.78rem;
+      background: #020617;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      cursor: pointer;
+    }
+
+    .qa-btn span.icon {
+      font-size: 1rem;
+    }
+
+    .helper-box {
+      border-radius: 16px;
+      border: 1px dashed rgba(148,163,184,0.9);
+      padding: 0.45rem 0.55rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      background: #020617;
+      margin-top: 0.4rem;
+    }
+
+    .helper-box code {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.04rem 0.45rem;
+      font-size: 0.75rem;
+      background: #020617;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 1rem;
+      transform: translateX(-50%);
+      background: #020617;
+      border-radius: 999px;
+      border: 1px solid rgba(56,189,248,0.9);
+      padding: 0.35rem 0.9rem;
+      font-size: 0.82rem;
+      color: #e0f2fe;
+      box-shadow: 0 16px 32px rgba(15,23,42,1);
+      display: none;
+      z-index: 1000;
+    }
+
+    /* Mode confort */
+    .comfort-mode {
+      letter-spacing: 0.03em;
+      line-height: 1.35;
+    }
+
+    .comfort-mode .card {
+      font-size: 0.96rem;
+    }
+
+    .comfort-mode .subtitle {
+      font-size: 0.95rem;
+    }
+
+    .comfort-mode .link-title {
+      font-size: 0.96rem;
+    }
+
+    /* Dark / Neon switch interne */
+    .neon-mode .link-card {
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.22), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(168,85,247,0.22), transparent 60%),
+        #020617;
+      box-shadow: 0 0 18px rgba(56,189,248,0.5);
+    }
+
+    .neon-mode .link-card:hover {
+      box-shadow: 0 0 26px rgba(168,85,247,0.8);
+    }
+  </style>
+</head>
+<body>
+<div class="app" id="appRoot">
+  <header>
+    <div class="header-top">
+      <div class="logo-title">
+        <div class="logo">☰</div>
+        <div>
+          <h1>Panneau de contrôle <span>de l’Organisation</span></h1>
+          <p class="subtitle">
+            Une console centrale vers <strong>toutes les pages</strong> :
+            escape game, tests de recrutement, conspirations pédagogiques,
+            business models, pages techniques, anniversaires, Mordor & Sharky.
+            À personnaliser pour ta propre clé USB / instance.
+          </p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="pill">
+          <span class="pill-dot"></span>
+          <span>Console en ligne & hors ligne</span>
+        </div>
+        <div class="mini-indicator">
+          <span class="dot"></span>
+          <span>1 fichier HTML = 1 panneau de contrôle pour tout le site</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-row">
+      <div class="search">
+        <input type="text" id="searchInput" placeholder="Rechercher une page ou un mot-clé…">
+        <span class="search-icon">🔎</span>
+      </div>
+      <button class="toggle" type="button" id="toggleComfort">
+        <span class="icon">🧘‍♂️</span><span>Mode confort</span>
+      </button>
+      <button class="toggle" type="button" id="toggleNeon">
+        <span class="icon">💡</span><span>Mode néon</span>
+      </button>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="filter-pill active" type="button" data-cat="all">
+        <span class="dot" style="background: linear-gradient(120deg,#38bdf8,#22c55e,#f97316,#eab308,#a855f7);"></span>
+        <span>Tout</span>
+      </button>
+      <button class="filter-pill" type="button" data-cat="recrut">
+        <span class="dot"></span><span>Recrutement & tests</span>
+      </button>
+      <button class="filter-pill" type="button" data-cat="dossiers">
+        <span class="dot"></span><span>Dossiers & pédagogie</span>
+      </button>
+      <button class="filter-pill" type="button" data-cat="jeux">
+        <span class="dot"></span><span>Jeux & conspi</span>
+      </button>
+      <button class="filter-pill" type="button" data-cat="business">
+        <span class="dot"></span><span>Business & modèles</span>
+      </button>
+      <button class="filter-pill" type="button" data-cat="tech">
+        <span class="dot"></span><span>Technique & hub</span>
+      </button>
+      <button class="filter-pill" type="button" data-cat="special">
+        <span class="dot"></span><span>Spéciaux & bonus</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="layout">
+      <!-- Colonne principale : liens -->
+      <section class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">
+              <span class="icon">🛰️</span>
+              <span>Navigation principale</span>
+            </div>
+            <div class="card-sub">
+              Cliquer = ouvrir la page (dans ce même dossier ou sur ton hébergement).
+            </div>
+          </div>
+        </div>
+
+        <div class="grid" id="linksGrid">
+          <!-- Recrutement & tests -->
+          <a href="index.html" class="link-full" data-cat="recrut jeux">
+            <article class="link-card" data-cat="recrut jeux" data-keywords="escape game organisation usb16 coordonnées plans projet">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Escape – L’Organisation</div>
+                  <div class="link-desc">Escape game narratif pour trouver le code USB16, les coordonnées et les plans.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Niveaux de difficulté</span>
+                    <span class="meta-pill">Décision d’engagement</span>
+                  </div>
+                </div>
+                <div class="link-icon">🧩</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">index.html</span>
+                <span class="link-tag">RECRUT / JEUX</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="portail-0.html" class="link-full" data-cat="recrut dossiers">
+            <article class="link-card" data-cat="recrut dossiers" data-keywords="portail test recrutement dossiers pédagogiques">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Portail des tests</div>
+                  <div class="link-desc">Page d’accueil des tests thématiques (propagande, veille, symboles…).</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Intro tests</span>
+                    <span class="meta-pill">Vue d’ensemble</span>
+                  </div>
+                </div>
+                <div class="link-icon">🚪</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">portail-0.html</span>
+                <span class="link-tag">RECRUT</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="test-index.html" class="link-full" data-cat="recrut dossiers">
+            <article class="link-card" data-cat="recrut dossiers" data-keywords="test index obsidian veille citoyenne symboles cctv propaganda cashback">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Index des tests thématiques</div>
+                  <div class="link-desc">Liste des tests 0, 1, symboles, propagande, CCTV, cashback, etc.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Catalogue</span>
+                    <span class="meta-pill">Multi-dossiers</span>
+                  </div>
+                </div>
+                <div class="link-icon">📚</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">test-index.html</span>
+                <span class="link-tag">RECRUT</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="test-0.html" class="link-full" data-cat="dossiers">
+            <article class="link-card" data-cat="dossiers" data-keywords="obsidian tutoriel guide veille personnelle">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Test 0 – Obsidian & prise de notes</div>
+                  <div class="link-desc">Quiz sur les tutoriels Obsidian (PDF, vidéos, playlist, images).</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Obsidian</span>
+                    <span class="meta-pill">Écosystème perso</span>
+                  </div>
+                </div>
+                <div class="link-icon">🗃️</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">test-0.html</span>
+                <span class="link-tag">DOSSIER</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="test-1.html" class="link-full" data-cat="dossiers">
+            <article class="link-card" data-cat="dossiers" data-keywords="veille citoyenne enjeux réseaux documents guide-reseau">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Test 1 – Veille citoyenne & réseaux</div>
+                  <div class="link-desc">Test sur les enjeux de veille citoyenne, réseaux, paradoxes démocratiques.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Veille citoyenne</span>
+                    <span class="meta-pill">Réseaux</span>
+                  </div>
+                </div>
+                <div class="link-icon">🛰️</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">test-1.html</span>
+                <span class="link-tag">DOSSIER</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="exam.html" class="link-full" data-cat="recrut">
+            <article class="link-card" data-cat="recrut" data-keywords="examen global candidature motivation engagement">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Examen général – “Est-ce que je monte à bord ?”</div>
+                  <div class="link-desc">Examen guidé sur motivations, risques, raisons d’embarquer ou non.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Réflexion perso</span>
+                    <span class="meta-pill">Candidature</span>
+                  </div>
+                </div>
+                <div class="link-icon">🧠</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">exam.html</span>
+                <span class="link-tag">RECRUT</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="SAS.html" class="link-full" data-cat="recrut">
+            <article class="link-card" data-cat="recrut" data-keywords="sas entrée recrutement avertissements">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">SAS d’entrée</div>
+                  <div class="link-desc">Portique d’avertissement et de préparation avant de rejoindre les tests.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Portail</span>
+                    <span class="meta-pill">Avertissements</span>
+                  </div>
+                </div>
+                <div class="link-icon">🚸</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">SAS.html</span>
+                <span class="link-tag">RECRUT</span>
+              </div>
+            </article>
+          </a>
+
+          <!-- Jeux & conspi / narratif -->
+          <a href="conspii.html" class="link-full" data-cat="jeux">
+            <article class="link-card" data-cat="jeux" data-keywords="conspi organisation secrète gore cartoon S.">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Site de la Conspi</div>
+                  <div class="link-desc">Clone tordu et gore de l’Organisation, dirigé par S., miroir critique.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Satire</span>
+                    <span class="meta-pill">Anti-modèle</span>
+                  </div>
+                </div>
+                <div class="link-icon">🩸</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">conspii.html</span>
+                <span class="link-tag">JEUX</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="s.html" class="link-full" data-cat="jeux">
+            <article class="link-card" data-cat="jeux" data-keywords="sauron sabotage stratégie adversité">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">S. – Stratégies du Mordor</div>
+                  <div class="link-desc">Personnification de Sauron et des stratégies de sabotage du projet.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Adversaire</span>
+                    <span class="meta-pill">Analyse de risques</span>
+                  </div>
+                </div>
+                <div class="link-icon">👁️</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">s.html</span>
+                <span class="link-tag">JEUX</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="annif-neveu.html" class="link-full" data-cat="jeux dossiers">
+            <article class="link-card" data-cat="jeux dossiers" data-keywords="anniversaire 16 ans disney quizz adapté">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Quête “16 ans débloqué”</div>
+                  <div class="link-desc">Site-quiz adapté (TDAH, dys) avec univers ludique pour 16 ans.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Accessibilité</span>
+                    <span class="meta-pill">Pédagogie douce</span>
+                  </div>
+                </div>
+                <div class="link-icon">🎂</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">annif-neveu.html</span>
+                <span class="link-tag">JEUX</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="vortex.html" class="link-full" data-cat="jeux tech">
+            <article class="link-card" data-cat="jeux tech" data-keywords="vortex synthèse mission commandement par mission">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Vortex – Vue globale</div>
+                  <div class="link-desc">Page récap qui englobe toutes les autres et explicite la mission.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Vue méta</span>
+                    <span class="meta-pill">Commandement par mission</span>
+                  </div>
+                </div>
+                <div class="link-icon">🌀</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">vortex.html</span>
+                <span class="link-tag">JEUX / TECH</span>
+              </div>
+            </article>
+          </a>
+
+          <!-- Business, modèle économique -->
+          <a href="power.html" class="link-full" data-cat="business">
+            <article class="link-card" data-cat="business" data-keywords="cercles vertueux modèle projet valeur impact">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Power – Cercles vertueux</div>
+                  <div class="link-desc">Visualisation concentrique du potentiel du projet et de ses impacts.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Vision</span>
+                    <span class="meta-pill">Impact</span>
+                  </div>
+                </div>
+                <div class="link-icon">⭕</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">power.html</span>
+                <span class="link-tag">BUSINESS</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="cashback.html" class="link-full" data-cat="business dossiers">
+            <article class="link-card" data-cat="business dossiers" data-keywords="cashback économie libre symboles pingouins compte don 12,50">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Cashback & contribution</div>
+                  <div class="link-desc">Page sur le cashback, les dons à 12,50 €/an, quizz hardcore associé.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Financement</span>
+                    <span class="meta-pill">Exemple réel</span>
+                  </div>
+                </div>
+                <div class="link-icon">💱</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">cashback.html</span>
+                <span class="link-tag">BUSINESS / DOSSIER</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="linux.html" class="link-full" data-cat="business dossiers">
+            <article class="link-card" data-cat="business dossiers" data-keywords="économie du libre linux pingouin open source">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Linux & économie du libre</div>
+                  <div class="link-desc">Site cartoon sur comment le libre (type Linux) peut inspirer le projet.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Libre</span>
+                    <span class="meta-pill">Modèle hybride</span>
+                  </div>
+                </div>
+                <div class="link-icon">🐧</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">linux.html</span>
+                <span class="link-tag">BUSINESS / DOSSIER</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="pomme.html" class="link-full" data-cat="business">
+            <article class="link-card" data-cat="business" data-keywords="turing pomme rendement maximal ce qu'il ne faut pas faire">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Pomme – Rendement & limites</div>
+                  <div class="link-desc">Simulation de ce qu’on ferait presque si on visait le rendement maximal.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Critique</span>
+                    <span class="meta-pill">Éthique</span>
+                  </div>
+                </div>
+                <div class="link-icon">🍏</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">pomme.html</span>
+                <span class="link-tag">BUSINESS</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="sharky.html" class="link-full" data-cat="business jeux">
+            <article class="link-card" data-cat="business jeux" data-keywords="sharky pognon tech merchandising monétisation">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Sharky – Mode “pognon”</div>
+                  <div class="link-desc">Version assumée “business tech” pour exploiter au maximum le concept.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Scénario test</span>
+                    <span class="meta-pill">Réflexion critique</span>
+                  </div>
+                </div>
+                <div class="link-icon">🦈</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">sharky.html</span>
+                <span class="link-tag">BUSINESS / JEUX</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="ultimate.html" class="link-full" data-cat="business tech">
+            <article class="link-card" data-cat="business tech" data-keywords="business canevas toutes parties prenantes modèle viable">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Ultimate – Business canevas</div>
+                  <div class="link-desc">Page pour lier toutes les dimensions du modèle économique.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Canevas</span>
+                    <span class="meta-pill">Parties prenantes</span>
+                  </div>
+                </div>
+                <div class="link-icon">📈</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">ultimate.html</span>
+                <span class="link-tag">BUSINESS / TECH</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="budget.html" class="link-full" data-cat="business">
+            <article class="link-card" data-cat="business" data-keywords="budget dingue rayonnement mondial sponsors simulateur dons subventions">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Budget de dingue – 2025 → 2029</div>
+                  <div class="link-desc">Simulation de sponsors, dons, subventions, calculateur de trajectoire.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Projection 2029</span>
+                    <span class="meta-pill">Jeu de scénarios</span>
+                  </div>
+                </div>
+                <div class="link-icon">🧮</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">budget.html</span>
+                <span class="link-tag">BUSINESS</span>
+              </div>
+            </article>
+          </a>
+
+          <!-- Technique, QG, mission, etc. -->
+          <a href="qg.html" class="link-full" data-cat="tech">
+            <article class="link-card" data-cat="tech" data-keywords="qg fiches pnj base de données acteurs">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">QG – Fiches & PNJ</div>
+                  <div class="link-desc">Quartier général pour gérer les fiches d’acteurs / PNJ du projet.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Cartographie</span>
+                    <span class="meta-pill">Renseignement</span>
+                  </div>
+                </div>
+                <div class="link-icon">🏛️</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">qg.html</span>
+                <span class="link-tag">TECH</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="citizen_hub.html" class="link-full" data-cat="tech dossiers">
+            <article class="link-card" data-cat="tech dossiers" data-keywords="citizen hub osint prysm nsa interface">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Citizen Hub / Prysm</div>
+                  <div class="link-desc">Interface de renseignement inspirée de Prysm/NSA (version citoyenne).</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">OSINT</span>
+                    <span class="meta-pill">Vue centrale</span>
+                  </div>
+                </div>
+                <div class="link-icon">🧭</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">citizen_hub.html</span>
+                <span class="link-tag">TECH / DOSSIER</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="mission-1.html" class="link-full" data-cat="tech jeux">
+            <article class="link-card" data-cat="tech jeux" data-keywords="mission 1 qui est-ce marques produits services budget recette">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Mission 1 – Qui est-ce des marques</div>
+                  <div class="link-desc">Jeu “qui est-ce” avec les marques, modales, calculateur budget/recettes.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Équipements</span>
+                    <span class="meta-pill">Transparence</span>
+                  </div>
+                </div>
+                <div class="link-icon">🧩</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">mission-1.html</span>
+                <span class="link-tag">JEUX / TECH</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="faq-tech.html" class="link-full" data-cat="tech">
+            <article class="link-card" data-cat="tech" data-keywords="faq technique markdown serveur clé usb hébergement">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">FAQ technique – Clé USB & serveur</div>
+                  <div class="link-desc">Tout ce qu’il faut pour passer du fichier HTML au serveur ou GitHub Pages.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Markdown</span>
+                    <span class="meta-pill">Hébergement</span>
+                  </div>
+                </div>
+                <div class="link-icon">💾</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">faq-tech.html</span>
+                <span class="link-tag">TECH</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="readme.html" class="link-full" data-cat="tech dossiers">
+            <article class="link-card" data-cat="tech dossiers" data-keywords="readme mastodon instance clé usb">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">README Mastodon & instance dédiée</div>
+                  <div class="link-desc">Guide vers une instance dédiée (clé USB, puis au-delà).</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Fédération</span>
+                    <span class="meta-pill">Social</span>
+                  </div>
+                </div>
+                <div class="link-icon">🐘</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">readme.html</span>
+                <span class="link-tag">TECH / DOSSIER</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="roarmap.html" class="link-full" data-cat="tech dossiers">
+            <article class="link-card" data-cat="tech dossiers" data-keywords="roarmap roadmap logiciel humain long terme">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">RoarMap – Feuille de route</div>
+                  <div class="link-desc">Carte technique et humaine du logiciel vers lequel on se dirige.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Roadmap</span>
+                    <span class="meta-pill">Équipe</span>
+                  </div>
+                </div>
+                <div class="link-icon">🗺️</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">roarmap.html</span>
+                <span class="link-tag">TECH / MÉTA</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="debrief.html" class="link-full" data-cat="tech dossiers">
+            <article class="link-card" data-cat="tech dossiers" data-keywords="debrief quickstarter kit catégories arborescence">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Debrief – Quick Starter Kit</div>
+                  <div class="link-desc">Synthèse de toutes les pages, par catégories, pour démarrer vite.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Résumé</span>
+                    <span class="meta-pill">Kit de départ</span>
+                  </div>
+                </div>
+                <div class="link-icon">📦</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">debrief.html</span>
+                <span class="link-tag">TECH / META</span>
+              </div>
+            </article>
+          </a>
+
+          <!-- Spéciaux & bonus / autres pages que tu as déjà -->
+          <a href="browniz-politik.html" class="link-full" data-cat="special dossiers">
+            <article class="link-card" data-cat="special dossiers" data-keywords="brownies politique copies clé usb tutoriel embed pdf">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Browniz-politik</div>
+                  <div class="link-desc">Page d’initiation politique soft avec tutoriel de copie de page sur clé USB.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Apéro politique</span>
+                    <span class="meta-pill">Tutoriel</span>
+                  </div>
+                </div>
+                <div class="link-icon">🍪</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">browniz-politik.html</span>
+                <span class="link-tag">SPECIAL / DOSSIER</span>
+              </div>
+            </article>
+          </a>
+
+          <a href="faq-o0-yohoo.html" class="link-full" data-cat="special jeux">
+            <article class="link-card" data-cat="special jeux" data-keywords="conspi portail yahoo clone crypto culte">
+              <div class="link-main">
+                <div class="link-left">
+                  <div class="link-title">Portail Yohoo – FAQ de la Conspi</div>
+                  <div class="link-desc">Clone façon vieux portail, expliquant comment “tout copier légalement”.</div>
+                  <div class="link-meta">
+                    <span class="meta-pill">Satire web</span>
+                    <span class="meta-pill">Copier / coller</span>
+                  </div>
+                </div>
+                <div class="link-icon">📰</div>
+              </div>
+              <div class="link-footer">
+                <span class="link-url">faq-o0-yohoo.html</span>
+                <span class="link-tag">SPECIAL / JEUX</span>
+              </div>
+            </article>
+          </a>
+
+        </div>
+      </section>
+
+      <!-- Colonne droite : tableau de bord & aide -->
+      <aside class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">
+              <span class="icon">📊</span>
+              <span>Tableau de bord</span>
+            </div>
+            <div class="card-sub">
+              Résumé du site et raccourcis pour travailler sur ta propre instance.
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-row" id="statsRow">
+          <div class="stat-pill">
+            <div class="stat-label">Pages recensées</div>
+            <div class="stat-value" id="statPages">–</div>
+            <div class="stat-tagline">point d’entrée depuis cette console</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-label">Familles</div>
+            <div class="stat-value">6</div>
+            <div class="stat-tagline">Recrut / Dossiers / Jeux / Business / Tech / Spéciaux</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-label">Mode actuel</div>
+            <div class="stat-value" id="statMode">Sobre</div>
+            <div class="stat-tagline">basculer en néon en 1 clic</div>
+          </div>
+        </div>
+
+        <div class="quick-actions">
+          <button class="qa-btn" type="button" id="btnShowRecrut">
+            <span class="icon">🧪</span><span>Voir uniquement les tests</span>
+          </button>
+          <button class="qa-btn" type="button" id="btnShowJeux">
+            <span class="icon">🎮</span><span>Voir uniquement les jeux/conspi</span>
+          </button>
+          <button class="qa-btn" type="button" id="btnShowTech">
+            <span class="icon">💻</span><span>Voir les pages techniques</span>
+          </button>
+        </div>
+
+        <div class="helper-box">
+          <p><strong>Pour adapter ce panneau à ta clé / ton Git :</strong></p>
+          <ul style="margin-left:1rem; margin-top:0.2rem;">
+            <li>Ouvre ce fichier <code>console.html</code> dans un éditeur de texte.</li>
+            <li>Dans la section <code>&lt;div id="linksGrid"&gt;</code>, ajoute, supprime ou modifie les cartes.</li>
+            <li>Change les <code>href="..."</code> pour pointer vers tes propres pages.</li>
+            <li>Tu peux dupliquer un bloc <code>&lt;a ...&gt;&lt;article ...&gt;…</code> pour créer un nouveau lien.</li>
+          </ul>
+          <p style="margin-top:0.3rem;">
+            Tu peux aussi cloner cette console et en faire une version spéciale “Conspi”, “Sharky”,
+            “École”, “Élus”, etc., en gardant la même logique.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function() {
+  const appRoot = document.getElementById("appRoot");
+  const searchInput = document.getElementById("searchInput");
+  const filters = document.getElementById("filters");
+  const linksGrid = document.getElementById("linksGrid");
+  const toast = document.getElementById("toast");
+  const statPages = document.getElementById("statPages");
+  const statMode = document.getElementById("statMode");
+  const btnShowRecrut = document.getElementById("btnShowRecrut");
+  const btnShowJeux = document.getElementById("btnShowJeux");
+  const btnShowTech = document.getElementById("btnShowTech");
+  const toggleComfort = document.getElementById("toggleComfort");
+  const toggleNeon = document.getElementById("toggleNeon");
+
+  function showToast(message) {
+    toast.textContent = message;
+    toast.style.display = "block";
+    clearTimeout(showToast._timer);
+    showToast._timer = setTimeout(() => {
+      toast.style.display = "none";
+    }, 2200);
+  }
+
+  function getAllCards() {
+    return Array.from(linksGrid.querySelectorAll(".link-card"));
+  }
+
+  function updateStats() {
+    const total = getAllCards().length;
+    statPages.textContent = total;
+  }
+
+  function applyFilters() {
+    const query = (searchInput.value || "").toLowerCase().trim();
+    const activeFilterBtn = filters.querySelector(".filter-pill.active");
+    const activeCat = activeFilterBtn ? activeFilterBtn.getAttribute("data-cat") : "all";
+
+    getAllCards().forEach(card => {
+      const parentLink = card.closest("a");
+      const cardCats = (card.getAttribute("data-cat") || "").split(/\s+/);
+      const keywords = (card.getAttribute("data-keywords") || "").toLowerCase();
+
+      let matchesCat = (activeCat === "all") || cardCats.includes(activeCat);
+      let matchesSearch = query === "" || keywords.includes(query);
+
+      const shouldShow = matchesCat && matchesSearch;
+      card.classList.toggle("hidden", !shouldShow);
+      if (parentLink) parentLink.style.display = shouldShow ? "block" : "none";
+    });
+  }
+
+  function bindSearch() {
+    searchInput.addEventListener("input", () => {
+      applyFilters();
+    });
+  }
+
+  function bindFilters() {
+    filters.querySelectorAll(".filter-pill").forEach(btn => {
+      btn.addEventListener("click", () => {
+        filters.querySelectorAll(".filter-pill").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        applyFilters();
+      });
+    });
+  }
+
+  function bindQuickActions() {
+    if (btnShowRecrut) {
+      btnShowRecrut.addEventListener("click", () => {
+        const btn = filters.querySelector('[data-cat="recrut"]');
+        if (btn) {
+          filters.querySelectorAll(".filter-pill").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          applyFilters();
+          showToast("Affichage limité aux tests & pages de recrutement.");
+        }
+      });
+    }
+    if (btnShowJeux) {
+      btnShowJeux.addEventListener("click", () => {
+        const btn = filters.querySelector('[data-cat="jeux"]');
+        if (btn) {
+          filters.querySelectorAll(".filter-pill").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          applyFilters();
+          showToast("Affichage limité aux pages de jeux / conspi.");
+        }
+      });
+    }
+    if (btnShowTech) {
+      btnShowTech.addEventListener("click", () => {
+        const btn = filters.querySelector('[data-cat="tech"]');
+        if (btn) {
+          filters.querySelectorAll(".filter-pill").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          applyFilters();
+          showToast("Affichage limité aux pages techniques / QG / hub.");
+        }
+      });
+    }
+  }
+
+  function bindComfort() {
+    toggleComfort.addEventListener("click", () => {
+      appRoot.classList.toggle("comfort-mode");
+      const on = appRoot.classList.contains("comfort-mode");
+      toggleComfort.querySelector("span.icon").textContent = on ? "📖" : "🧘‍♂️";
+      toggleComfort.querySelectorAll("span")[1].textContent = on ? "Mode confort : activé" : "Mode confort";
+      showToast(on ? "Mode confort activé." : "Mode confort désactivé.");
+    });
+  }
+
+  function bindNeon() {
+    toggleNeon.addEventListener("click", () => {
+      appRoot.classList.toggle("neon-mode");
+      const on = appRoot.classList.contains("neon-mode");
+      toggleNeon.querySelector("span.icon").textContent = on ? "🔌" : "💡";
+      toggleNeon.querySelectorAll("span")[1].textContent = on ? "Mode néon : ON" : "Mode néon";
+      statMode.textContent = on ? "Néon" : "Sobre";
+      showToast(on ? "Mode néon activé (glow maximal)." : "Retour au mode sobre.");
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    updateStats();
+    bindSearch();
+    bindFilters();
+    bindQuickActions();
+    bindComfort();
+    bindNeon();
+    applyFilters();
+  });
+})();
+</script>
+</body>
+</html>
