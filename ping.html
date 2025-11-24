@@ -1,0 +1,927 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>cashback-hardcore.html – Examen Hardcore Cashback & Folie des grandeurs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #050818;
+      --card: #020617;
+      --accent-blue: #38bdf8;
+      --accent-green: #22c55e;
+      --accent-amber: #fbbf24;
+      --accent-red: #fb7185;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border: rgba(148,163,184,0.7);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 0, rgba(56,189,248,0.22), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(34,197,94,0.18), transparent 60%),
+        var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 1rem 0.7rem 1.6rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1100px;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.16), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(15,23,42,0.96), transparent 60%),
+        var(--bg-alt);
+      border-radius: 26px;
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+      padding: 1.2rem 0.9rem 1.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .page { padding: 1.8rem 1.6rem 2.2rem; }
+    }
+
+    .page::before {
+      content: "cashback-hardcore.html · Examen Hardcore";
+      position: absolute;
+      top: 0.45rem;
+      right: 1.1rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(148,163,184,0.9);
+      pointer-events: none;
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.9rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .header-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    @media (min-width: 768px) {
+      .header-row {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent-red);
+      background: rgba(15,23,42,0.98);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-red);
+      box-shadow: 0 0 18px rgba(248,113,113,0.6);
+    }
+
+    .badge-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--accent-red);
+      box-shadow: 0 0 14px rgba(248,113,113,0.9);
+    }
+
+    .header-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      max-width: 360px;
+    }
+
+    h1 {
+      margin-top: 0.4rem;
+      font-size: clamp(2rem, 4.6vw, 2.9rem);
+      line-height: 1.05;
+      font-family: "Share Tech Mono", monospace;
+      text-transform: uppercase;
+    }
+
+    h1 span {
+      background: linear-gradient(120deg, #38bdf8, #22c55e, #fbbf24, #fb7185);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      margin-top: 0.35rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 880px;
+    }
+
+    .subtitle strong { color: var(--text-main); }
+
+    .notice {
+      margin-top: 0.6rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,0.96);
+      padding: 0.55rem 0.7rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      display: grid;
+      grid-template-columns: auto minmax(0,1fr);
+      gap: 0.4rem;
+      align-items: flex-start;
+    }
+
+    .notice-icon { font-size: 1.4rem; }
+    .notice strong { color: var(--accent-blue); }
+
+    main {
+      margin-top: 1rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 980px) {
+      main {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+        align-items: flex-start;
+      }
+    }
+
+    .panel {
+      background: radial-gradient(circle at 50% 0, rgba(56,189,248,0.12), transparent 65%), var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 0.9rem 0.95rem 1.1rem;
+      position: relative;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .panel h2 {
+      font-size: 1.05rem;
+      margin-bottom: 0.3rem;
+      color: var(--text-main);
+    }
+
+    .panel h3 {
+      font-size: 0.9rem;
+      margin: 0.45rem 0 0.25rem;
+      color: var(--text-main);
+    }
+
+    .panel p {
+      margin-bottom: 0.25rem;
+      line-height: 1.6;
+    }
+
+    ul {
+      margin-left: 1.1rem;
+      margin-bottom: 0.35rem;
+    }
+    li { margin-bottom: 0.15rem; }
+
+    .mono {
+      font-family: "Share Tech Mono", monospace;
+      font-size: 0.8rem;
+    }
+
+    .example-box {
+      border-radius: 14px;
+      border: 1px solid rgba(34,197,94,0.5);
+      background: rgba(15,23,42,0.96);
+      padding: 0.55rem 0.6rem;
+      font-size: 0.82rem;
+      margin-top: 0.4rem;
+    }
+
+    .highlight {
+      color: var(--accent-green);
+      font-weight: 600;
+    }
+
+    .pinguin-box {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+    }
+
+    .pinguin-card {
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,0.9);
+      background: #020617;
+      padding: 0.4rem;
+      font-size: 0.78rem;
+    }
+
+    .pinguin-card img {
+      width: 100%;
+      max-height: 160px;
+      object-fit: contain;
+      display: block;
+      margin-bottom: 0.3rem;
+      animation: waddle 3s ease-in-out infinite;
+      transform-origin: bottom center;
+    }
+
+    @keyframes waddle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-4deg); }
+      75% { transform: rotate(4deg); }
+    }
+
+    /* Quiz */
+
+    .quiz-question {
+      margin-bottom: 0.6rem;
+      padding: 0.45rem 0.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(2,6,23,0.96);
+    }
+
+    .quiz-question h4 {
+      font-size: 0.86rem;
+      margin-bottom: 0.25rem;
+      color: var(--text-main);
+    }
+
+    .quiz-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .quiz-options label {
+      display: block;
+      font-size: 0.8rem;
+      margin-bottom: 0.12rem;
+      cursor: pointer;
+    }
+
+    .quiz-options input[type="radio"],
+    .quiz-options input[type="checkbox"] {
+      margin-right: 0.25rem;
+    }
+
+    .hint-btn {
+      border-radius: 999px;
+      border: 1px dashed var(--border);
+      background: transparent;
+      color: var(--accent-blue);
+      font-size: 0.74rem;
+      padding: 0.12rem 0.5rem;
+      cursor: pointer;
+      margin-top: 0.15rem;
+    }
+
+    .hint-text {
+      display: none;
+      margin-top: 0.18rem;
+      font-size: 0.75rem;
+      color: var(--accent-amber);
+    }
+
+    .quiz-actions {
+      margin-top: 0.7rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .btn-main {
+      border-radius: 999px;
+      border: 1px solid var(--accent-green);
+      background: rgba(34,197,94,0.18);
+      color: var(--accent-green);
+      font-size: 0.86rem;
+      padding: 0.3rem 0.9rem;
+      cursor: pointer;
+    }
+
+    .btn-secondary {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,0.98);
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      padding: 0.25rem 0.8rem;
+      cursor: pointer;
+    }
+
+    .quiz-result {
+      margin-top: 0.4rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .quiz-result strong {
+      color: var(--accent-blue);
+    }
+
+    .quiz-result.good strong { color: var(--accent-green); }
+    .quiz-result.bad strong { color: var(--accent-red); }
+
+    /* Contribution section (IBAN + statuts) */
+
+    #ibanSection {
+      margin-top: 0.8rem;
+      border-radius: 16px;
+      border: 1px solid rgba(34,197,94,0.6);
+      background: radial-gradient(circle at 50% 0, rgba(34,197,94,0.2), transparent 60%), #020617;
+      padding: 0.7rem 0.7rem 0.85rem;
+      display: none;
+    }
+
+    #ibanSection h3 {
+      margin-bottom: 0.3rem;
+      color: #bbf7d0;
+    }
+
+    .iban-code {
+      font-family: "Share Tech Mono", monospace;
+      font-size: 0.9rem;
+      background: #022c22;
+      color: #bbf7d0;
+      padding: 0.4rem 0.6rem;
+      border-radius: 10px;
+      display: inline-block;
+      margin-top: 0.3rem;
+    }
+
+    .doc-link {
+      display: inline-block;
+      margin-top: 0.3rem;
+      font-size: 0.8rem;
+      color: #bfdbfe;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .tiers {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: #bbf7d0;
+    }
+
+    .tiers ul { margin-left: 1.1rem; }
+
+    footer {
+      margin-top: 1.1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    footer code {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.16rem 0.5rem;
+      background: #020617;
+      font-size: 0.7rem;
+    }
+
+    .badge-corner {
+      position: absolute;
+      bottom: 0.45rem;
+      right: 0.6rem;
+      font-size: 0.65rem;
+      color: rgba(148,163,184,0.75);
+      font-family: "Share Tech Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .steps {
+      margin-top: 0.4rem;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      padding-left: 1.9rem;
+      margin-bottom: 0.25rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0.02rem;
+      width: 1.3rem;
+      height: 1.3rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--accent-blue);
+      background: rgba(15,23,42,0.96);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="header-row">
+        <div>
+          <div class="badge">
+            <span class="badge-dot"></span>
+            <span>Examen Hardcore – Cashback, Folie des grandeurs & Projet</span>
+          </div>
+          <h1>
+            Accès au <span>compte secret</span> de l’Organisation
+          </h1>
+        </div>
+        <div class="header-meta">
+          Pour obtenir le <strong>numéro de compte</strong> de l’Organisation
+          (et les statuts pour les plus sages), il faut valider cet examen
+          à <strong>100 %</strong>.
+        </div>
+      </div>
+      <p class="subtitle">
+        Les questions croisent : le dossier sur le <strong>cashback</strong>, la critique de la
+        <strong>folie des grandeurs</strong>, les dossiers de veille citoyenne, de propagande,
+        de guerre narrative, de CCTV et d’interpellation citoyenne… et toute la philosophie
+        du projet.
+      </p>
+      <div class="notice">
+        <div class="notice-icon">🐧</div>
+        <div>
+          <strong>Avertissement :</strong> ce n’est pas un QCM de marketing.  
+          C’est un test de <strong>lucidité politique</strong> et d’<strong>hygiène mentale</strong>.
+          Mauvaises réponses répétées = risque de finir dans le dossier “Folie des grandeurs”.
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Colonne gauche : rappel & pingouins -->
+      <section class="panel">
+        <h2>1. Rappel : ce qu’on joue ici</h2>
+        <p>
+          Cet examen vérifie trois choses :
+        </p>
+        <ul>
+          <li>Que tu as compris le <strong>mécanisme du cashback</strong> et ses effets réels.</li>
+          <li>Que tu vois les risques de <strong>folie des grandeurs</strong> dans un projet citoyen (techno-solutionnisme, empire, culte du fondateur⋅ice).</li>
+          <li>Que tu situes ça dans le paysage : <strong>propagande</strong>, <strong>surveillance</strong>, <strong>veille citoyenne organisée</strong>, <strong>démocratie locale</strong>.</li>
+        </ul>
+
+        <div class="example-box">
+          <p><strong>Folie des grandeurs, version projet citoyen :</strong></p>
+          <ul>
+            <li>se prendre pour un État parallèle ou un “Google de la démocratie”,</li>
+            <li>oublier les limites humaines (burn-out, charge mentale, ressources),</li>
+            <li>promettre plus que ce qui est praticable,</li>
+            <li>confondre <span class="highlight">demande de transparence</span> et <span class="highlight">pulsion de contrôle total</span>.</li>
+          </ul>
+          <p>
+            Ton job ici : montrer que tu sais utiliser des outils puissants (cashback, IA, data, réseaux)
+            <strong>sans basculer dans la mégalomanie ni dans la financiarisation totale</strong>.
+          </p>
+        </div>
+
+        <h3>2. Pingouins & parano</h3>
+        <p style="font-size:0.8rem;">
+          Comme dans les autres pages, les pingouins rappellent que tout ce bazar devrait rester
+          du côté des <strong>communs</strong> : copier, forker, adapter, documenter.
+        </p>
+
+        <div class="pinguin-box">
+          <div class="pinguin-card">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/35/Tux.svg"
+                 alt="Tux, le pingouin (Linux)">
+            <p>
+              Tux observe : si ton modèle ressemble plus à une startup de surveillance
+              qu’à un bien commun, c’est mal parti.
+            </p>
+          </div>
+          <div class="pinguin-card">
+            <p>
+              Tu peux remplacer ceci par :
+            </p>
+            <code style="font-size:0.7rem; display:block; overflow-x:auto;">
+&lt;iframe
+  src="https://www.youtube.com/embed/VIDEO_ID_PINGOUIN"
+  title="Pingouins complotistes"
+  frameborder="0"
+  allowfullscreen
+  style="width:100%;height:150px;"&gt;&lt;/iframe&gt;
+            </code>
+            <p style="margin-top:0.3rem;">
+              Pingouins + folie des grandeurs = rappel permanent que le plus dangereux,
+              ce n’est pas l’outil, c’est la dérive.
+            </p>
+          </div>
+        </div>
+
+        <h3 style="margin-top:0.7rem;">3. Mode d’emploi de l’exam</h3>
+        <div class="steps">
+          <div class="step">Répondre à toutes les questions (certaines ont plusieurs bonnes réponses).</div>
+          <div class="step">Utiliser les <strong>indices</strong> uniquement si nécessaire.</div>
+          <div class="step">Atteindre <strong>100 %</strong> pour débloquer le numéro de compte et les statuts.</div>
+          <div class="step">Ne pas oublier que le but final n’est pas l’Organisation, mais la <strong>démocratie vivante</strong>.</div>
+        </div>
+      </section>
+
+      <!-- Colonne droite : Quiz hardcore + IBAN -->
+      <section class="panel">
+        <h2>4. Interro Hardcore</h2>
+        <p>
+          Difficulté globale : <strong>★★★</strong>.  
+          Certaines questions sont à choix multiples (plusieurs bonnes réponses).
+        </p>
+
+        <form id="quizForm">
+          <!-- Q1 -->
+          <div class="quiz-question" data-q="1">
+            <h4>Q1. Par rapport au cashback “classique”, notre approche de cashback citoyen se distingue surtout parce que…</h4>
+            <div class="quiz-meta">Difficulté : ★★ (concept)</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q1" value="a">On promet des gains financiers personnels à chaque participant pour attirer du monde.</label>
+              <label><input type="radio" name="q1" value="b">On redirige une partie des flux financiers existants vers de la veille citoyenne non marchande.</label>
+              <label><input type="radio" name="q1" value="c">On remplace les dons par du cashback pour ne plus dépendre de personnes, juste des plateformes.</label>
+            </div>
+            <button type="button" class="hint-btn" onclick="showHint('hint1')">Indice</button>
+            <div id="hint1" class="hint-text">
+              Cherche la différence entre “gagner de l’argent” et “financer un bien commun”.
+            </div>
+          </div>
+
+          <!-- Q2 multi -->
+          <div class="quiz-question" data-q="2">
+            <h4>Q2. Quels sont les risques concrets de “folie des grandeurs” dans un projet de veille citoyenne dopé à la techno et au cashback ?</h4>
+            <div class="quiz-meta">Difficulté : ★★★ (analyse) – Plusieurs réponses possibles</div>
+            <div class="quiz-options">
+              <label><input type="checkbox" name="q2" value="a">Se prendre pour une agence de renseignement au-dessus de tout contrôle démocratique.</label>
+              <label><input type="checkbox" name="q2" value="b">Croire qu’une seule instance peut “sauver la démocratie” à elle toute seule.</label>
+              <label><input type="checkbox" name="q2" value="c">Agrandir progressivement le réseau, documenter les limites et rester transparent sur ce qui n’est pas faisable.</label>
+              <label><input type="checkbox" name="q2" value="d">Multiplier les niveaux de gamification jusqu’à perdre de vue le réel.</label>
+            </div>
+            <button type="button" class="hint-btn" onclick="showHint('hint2')">Indice</button>
+            <div id="hint2" class="hint-text">
+              Tout ce qui nourrit la centralisation, le délire de grandeur et l’opacité est suspect.
+            </div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="quiz-question" data-q="3">
+            <h4>Q3. En Belgique, la base constitutionnelle du droit d’accès aux documents administratifs est…</h4>
+            <div class="quiz-meta">Difficulté : ★★ (mémoire)</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q3" value="a">L’article 32 de la Constitution.</label>
+              <label><input type="radio" name="q3" value="b">L’article 11 bis de la Constitution.</label>
+              <label><input type="radio" name="q3" value="c">L’article 99 de la Constitution.</label>
+            </div>
+            <button type="button" class="hint-btn" onclick="showHint('hint3')">Indice</button>
+            <div id="hint3" class="hint-text">
+              C’est l’article cité en tête de presque tous les guides de veille citoyenne.
+            </div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="quiz-question" data-q="4">
+            <h4>Q4. La loi du 11 avril 1994, souvent citée dans les dossiers d’accès à l’information, concerne…</h4>
+            <div class="quiz-meta">Difficulté : ★★ (texte légal)</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q4" value="a">La protection des données personnelles par les entreprises privées.</label>
+              <label><input type="radio" name="q4" value="b">La publicité de l’administration : modalités d’accès, délais, exceptions.</label>
+              <label><input type="radio" name="q4" value="c">Les conditions d’agrément des associations d’éducation permanente.</label>
+            </div>
+            <button type="button" class="hint-btn" onclick="showHint('hint4')">Indice</button>
+            <div id="hint4" class="hint-text">
+              Elle donne un mode d’emploi pour les demandes officielles de documents.
+            </div>
+          </div>
+
+          <!-- Q5 multi -->
+          <div class="quiz-question" data-q="5">
+            <h4>Q5. Dans une cellule de veille citoyenne, quels comportements sont compatibles avec l’éthique du projet cashback + démocratie ?</h4>
+            <div class="quiz-meta">Difficulté : ★★★ (éthique) – Plusieurs réponses possibles</div>
+            <div class="quiz-options">
+              <label><input type="checkbox" name="q5" value="a">Documenter les sources, publier la méthode, expliciter les biais éventuels.</label>
+              <label><input type="checkbox" name="q5" value="b">Monnayer des “fuites exclusives” auprès de médias en échange de revenus.</label>
+              <label><input type="checkbox" name="q5" value="c">Séparer clairement les moments de jeu/gamification et les moments de production d’infos sérieuses.</label>
+              <label><input type="checkbox" name="q5" value="d">Vendre un accès VIP à des données réservées à ceux qui payent plus.</label>
+            </div>
+            <button type="button" class="hint-btn" onclick="showHint('hint5')">Indice</button>
+            <div id="hint5" class="hint-text">
+              On ne fabrique pas un FBI citoyen paywallé. On fabrique de la confiance.
+            </div>
+          </div>
+
+          <!-- Q6 -->
+          <div class="quiz-question" data-q="6">
+            <h4>Q6. Dans les dossiers sur la propagande et la guerre narrative, un danger majeur pour un projet comme le nôtre est…</h4>
+            <div class="quiz-meta">Difficulté : ★★★ (transversal)</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q6" value="a">Devenir soi-même un canal de propagande en ne vérifiant pas les infos et en jouant sur l’émotion.</label>
+              <label><input type="radio" name="q6" value="b">Publier trop de sources et de références, ce qui rend le projet illisible.</label>
+              <label><input type="radio" name="q6" value="c">Répondre aux demandes d’infos des citoyens par des liens vers les textes de loi.</label>
+            </div>
+            <button type="button" class="hint-btn" onclick="showHint('hint6')">Indice</button>
+            <div id="hint6" class="hint-text">
+              Une guerre narrative, c’est aussi quand tu deviens la propagande de quelqu’un sans t’en rendre compte.
+            </div>
+          </div>
+
+          <!-- Q7 multi -->
+          <div class="quiz-question" data-q="7">
+            <h4>Q7. Sur le plan technique, quels choix sont cohérents avec l’idée d’un kit de veille citoyenne sur clé USB et serveur minimal ?</h4>
+            <div class="quiz-meta">Difficulté : ★★ (stack) – Plusieurs réponses possibles</div>
+            <div class="quiz-options">
+              <label><input type="checkbox" name="q7" value="a">Pages HTML statiques, CSS léger, un peu de JS sans dépendances lourdes.</label>
+              <label><input type="checkbox" name="q7" value="b">Tout faire reposer sur des services cloud fermés et propriétaires.</label>
+              <label><input type="checkbox" name="q7" value="c">Pouvoir héberger le kit sur GitHub Pages, une clé USB, un petit mutualisé.</label>
+              <label><input type="checkbox" name="q7" value="d">Obliger tout le monde à installer une app native pour y accéder.</label>
+            </div>
+            <button type="button" class="hint-btn" onclick="showHint('hint7')">Indice</button>
+            <div id="hint7" class="hint-text">
+              Plus c’est portable, simple, duplicable, moins c’est fragile.
+            </div>
+          </div>
+
+          <!-- Q8 -->
+          <div class="quiz-question" data-q="8">
+            <h4>Q8. Comment éviter que le mécanisme de cashback ne pousse les gens à la surconsommation, tout en soutenant le projet ?</h4>
+            <div class="quiz-meta">Difficulté : ★★★ (économie politique)</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q8" value="a">En encourageant explicitement des achats supplémentaires pour “maximiser” le cashback.</label>
+              <label><input type="radio" name="q8" value="b">En limitant le discours à : “si tu fais déjà cet achat, voici comment en rediriger une petite part vers un bien commun”.</label>
+              <label><input type="radio" name="q8" value="c">En vendant des packs de formation obligatoires pour accéder au cashback.</label>
+            </div>
+            <button type="button" class="hint-btn" onclick="showHint('hint8')">Indice</button>
+            <div id="hint8" class="hint-text">
+              Le cœur, c’est la réorientation, pas la croissance infinie de la consommation.
+            </div>
+          </div>
+
+          <!-- Q9 multi -->
+          <div class="quiz-question" data-q="9">
+            <h4>Q9. Quel mélange d’acteurs rend le projet plus robuste face à la folie des grandeurs ?</h4>
+            <div class="quiz-meta">Difficulté : ★★★ (gouvernance) – Plusieurs réponses possibles</div>
+            <div class="quiz-options">
+              <label><input type="checkbox" name="q9" value="a">Des archivistes (qui documentent), des techniciens (qui sécurisent), des citoyens (qui questionnent).</label>
+              <label><input type="checkbox" name="q9" value="b">Un seul “grand leader” charismatique qui décide de tout.</label>
+              <label><input type="checkbox" name="q9" value="c">Des partenaires (écoles, collectifs, syndicats, associations) qui peuvent forker le kit.</label>
+              <label><input type="checkbox" name="q9" value="d">Un cercle fermé de “grands initiés” qui gardent la méthode secrète.</label>
+            </div>
+            <button type="button" class="hint-btn" onclick="showHint('hint9')">Indice</button>
+            <div id="hint9" class="hint-text">
+              Si une personne ou un petit cercle peut tout bloquer, on est mal.
+            </div>
+          </div>
+
+          <!-- Q10 -->
+          <div class="quiz-question" data-q="10">
+            <h4>Q10. En croisant cashback, veille citoyenne et interpellation au conseil communal, quel scénario est le plus cohérent ?</h4>
+            <div class="quiz-meta">Difficulté : ★★★ (synthèse)</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q10" value="a">Utiliser le cashback pour acheter des publicités qui attaquent les élus.</label>
+              <label><input type="radio" name="q10" value="b">Financer une veille sérieuse (analyse de décisions, open data) puis utiliser ces infos pour rédiger des interpellations solides et publiques.</label>
+              <label><input type="radio" name="q10" value="c">Financer des campagnes anonymes sur les réseaux sociaux.</label>
+            </div>
+            <button type="button" class="hint-btn" onclick="showHint('hint10')">Indice</button>
+            <div id="hint10" class="hint-text">
+              L’objectif n’est pas de faire du trolling mais d’augmenter la qualité du débat public.
+            </div>
+          </div>
+
+          <!-- Q11 multi -->
+          <div class="quiz-question" data-q="11">
+            <h4>Q11. Quels signaux montrent qu’un projet de veille citoyenne commence à basculer du côté “Organisation chelou” plutôt que “commun démocratique” ?</h4>
+            <div class="quiz-meta">Difficulté : ★★★ (alerte) – Plusieurs réponses possibles</div>
+            <div class="quiz-options">
+              <label><input type="checkbox" name="q11" value="a">Opacité sur l’usage des fonds collectés, refus de rendre des comptes.</label>
+              <label><input type="checkbox" name="q11" value="b">Interdiction implicite de critiquer le projet en interne.</label>
+              <label><input type="checkbox" name="q11" value="c">Publication régulière de bilans, d’autocritiques, d’outils réutilisables par d’autres.</label>
+              <label><input type="checkbox" name="q11" value="d">Centralisation des accès techniques dans les mains d’une seule personne.</label>
+            </div>
+            <button type="button" class="hint-btn" onclick="showHint('hint11')">Indice</button>
+            <div id="hint11" class="hint-text">
+              Les dérives : opacité, culte de la personnalité, centralisation, absence de critique.
+            </div>
+          </div>
+
+          <!-- Q12 -->
+          <div class="quiz-question" data-q="12">
+            <h4>Q12. Dans l’esprit du kit, la meilleure description de la contribution financière (12,50 €/an et paliers) est…</h4>
+            <div class="quiz-meta">Difficulté : ★★ (formulation)</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q12" value="a">Un investissement spéculatif qui pourrait rapporter gros.</label>
+              <label><input type="radio" name="q12" value="b">Une participation volontaire à un commun, avec transparence sur ce que cela permet de financer concrètement.</label>
+              <label><input type="radio" name="q12" value="c">Un abonnement obligatoire pour accéder aux infos citoyennes produites.</label>
+            </div>
+            <button type="button" class="hint-btn" onclick="showHint('hint12')">Indice</button>
+            <div id="hint12" class="hint-text">
+              On ne vend pas l’accès à la démocratie. On finance un outil pour l’améliorer.
+            </div>
+          </div>
+
+          <div class="quiz-actions">
+            <button type="button" class="btn-main" onclick="gradeQuiz()">Corriger l’examen</button>
+            <button type="button" class="btn-secondary" onclick="resetQuiz()">Réinitialiser</button>
+          </div>
+
+          <div id="quizResult" class="quiz-result"></div>
+        </form>
+
+        <!-- Section IBAN / statuts, débloquée à 100 % -->
+        <div id="ibanSection">
+          <h3>Accès accordé : coordonnées financières & statuts</h3>
+          <p>
+            Tu viens de valider l’examen hardcore à <strong>100 %</strong>.  
+            Translation : tu as compris le cashback citoyen, la folie des grandeurs,
+            l’éthique de la veille et les risques de dérive.
+          </p>
+          <p>
+            Tu peux maintenant accéder au numéro de compte de l’Organisation
+            (fictif ici, à adapter dans ton instance) :
+          </p>
+          <div class="iban-code">
+            BE12 3456 7890 1234 – “Organisation de veille citoyenne”  
+          </div>
+          <p class="tiers">
+            Pour une instance réelle, remplace cette ligne par ton IBAN / BIC,
+            et ajoute les mentions légales adaptées (AISBL, asbl de fait, coopérative, etc.).
+          </p>
+
+          <p style="margin-top:0.5rem;">
+            Tu peux aussi consulter les statuts / règles de gouvernance en version publique :
+          </p>
+          <a class="doc-link" href="docs/statuts-organisation.pdf" target="_blank" rel="noopener noreferrer">
+            📄 Télécharger les statuts de l’Organisation (statuts-organisation.pdf)
+          </a>
+
+          <div class="tiers">
+            <p style="margin-top:0.6rem;">
+              <strong>Rappel :</strong> la contribution financière ne remplace pas la contribution en temps,
+              en vigilance, en relais, en critique. Elle la complète.
+            </p>
+            <ul>
+              <li><strong>12,50 €/an</strong> : tu aides à maintenir l’infra minimale.</li>
+              <li><strong>Paliers supérieurs</strong> : tu aides à financer du temps humain, des ateliers, des outils partagés.</li>
+              <li><strong>Forks & instances locales</strong> : chaque groupe peut adapter son propre IBAN, son propre budget, sa propre gouvernance.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>
+        Cet examen filtre surtout les intentions : curiosité sincère, sens des limites,
+        goût pour la démocratie plutôt que pour les empires.
+      </span>
+      <code>cashback-hardcore.html · 100 % requis pour IBAN + statuts</code>
+    </footer>
+
+    <div class="badge-corner">
+      HARDCORE · CASHBACK & FOLIE
+    </div>
+  </div>
+
+  <script>
+    const answerKey = {
+      q1: { type: "single", value: "b" },
+      q2: { type: "multi", values: ["a","b","d"] },
+      q3: { type: "single", value: "a" },
+      q4: { type: "single", value: "b" },
+      q5: { type: "multi", values: ["a","c"] },
+      q6: { type: "single", value: "a" },
+      q7: { type: "multi", values: ["a","c"] },
+      q8: { type: "single", value: "b" },
+      q9: { type: "multi", values: ["a","c"] },
+      q10:{ type: "single", value: "b" },
+      q11:{ type: "multi", values: ["a","b","d"] },
+      q12:{ type: "single", value: "b" }
+    };
+
+    function showHint(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.style.display = el.style.display === "block" ? "none" : "block";
+    }
+
+    function gradeQuiz() {
+      const form = document.getElementById("quizForm");
+      const resultDiv = document.getElementById("quizResult");
+      const ibanSection = document.getElementById("ibanSection");
+
+      let total = 0;
+      let correct = 0;
+      let unanswered = 0;
+
+      const questionNodes = form.querySelectorAll(".quiz-question");
+
+      questionNodes.forEach(qNode => {
+        const qid = qNode.getAttribute("data-q");
+        const spec = answerKey[qid];
+        if (!spec) return;
+        total++;
+
+        const inputs = qNode.querySelectorAll("input");
+        if (spec.type === "single") {
+          let answeredVal = null;
+          inputs.forEach(inp => { if (inp.checked) answeredVal = inp.value; });
+          if (!answeredVal) {
+            unanswered++;
+          } else if (answeredVal === spec.value) {
+            correct++;
+          }
+        } else if (spec.type === "multi") {
+          const chosen = [];
+          inputs.forEach(inp => { if (inp.checked) chosen.push(inp.value); });
+          if (chosen.length === 0) {
+            unanswered++;
+          } else {
+            const expected = spec.values.slice().sort();
+            const got = chosen.slice().sort();
+            const sameLength = expected.length === got.length;
+            let same = sameLength;
+            if (sameLength) {
+              for (let i = 0; i < expected.length; i++) {
+                if (expected[i] !== got[i]) {
+                  same = false;
+                  break;
+                }
+              }
+            }
+            if (same) correct++;
+          }
+        }
+      });
+
+      const scorePercent = Math.round((correct / total) * 100);
+      let msg = `Score : <strong>${correct} / ${total}</strong> (${scorePercent} %)`;
+      if (unanswered > 0) {
+        msg += ` – ${unanswered} question(s) non répondue(s).`;
+      }
+
+      if (correct === total) {
+        resultDiv.className = "quiz-result good";
+        msg += "<br>Accès débloqué : tu peux voir le numéro de compte et les statuts. ";
+        ibanSection.style.display = "block";
+        ibanSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        resultDiv.className = "quiz-result bad";
+        msg += "<br>Pour accéder aux coordonnées de l’Organisation, il te faut <strong>100 %</strong>. "
+             + "Tu peux revoir les dossiers, utiliser les indices, et retenter.";
+        ibanSection.style.display = "none";
+      }
+
+      resultDiv.innerHTML = msg;
+    }
+
+    function resetQuiz() {
+      const form = document.getElementById("quizForm");
+      form.reset();
+
+      document.querySelectorAll(".hint-text").forEach(el => {
+        el.style.display = "none";
+      });
+
+      const resultDiv = document.getElementById("quizResult");
+      const ibanSection = document.getElementById("ibanSection");
+      resultDiv.textContent = "";
+      ibanSection.style.display = "none";
+    }
+  </script>
+</body>
+</html>
