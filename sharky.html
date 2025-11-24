@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Plan d'attaque · Mouvement d'éducation permanente Sharky</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Plan d'attaque hardcore pour lancer un mouvement d'éducation permanente offensif, avec calendrier, tâches, demandes de moyens et suivi d'avancement." />
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-alt: #090f2a;
+      --bg-soft: #0f172a;
+      --border: #1f2937;
+      --accent: #f97316;
+      --accent-2: #e11d48;
+      --accent-soft: rgba(249, 115, 22, 0.2);
+      --accent-2-soft: rgba(225, 29, 72, 0.2);
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --muted-soft: #6b7280;
+      --danger: #ef4444;
+      --ok: #22c55e;
+      --radius: 14px;
+      --radius-lg: 20px;
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+      --shadow-soft: 0 14px 32px rgba(15, 23, 42, 0.9);
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font);
+      background: radial-gradient(circle at top left, #111827 0, #020617 52%, #000000 100%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .wrapper {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    header {
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+      background: linear-gradient(to right, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.92));
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(14px);
+    }
+
+    .header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0.7rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: radial-gradient(circle at 30% 30%, #fee2e2, #f97316, #b91c1c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 18px rgba(248, 113, 113, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-logo::after {
+      content: "";
+      position: absolute;
+      inset: 45%;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .brand-logo span {
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+      color: #111827;
+    }
+
+    .brand-text-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .brand-text-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    nav {
+      display: flex;
+      gap: 1.1rem;
+      font-size: 0.83rem;
+      color: var(--muted);
+    }
+
+    nav a {
+      position: relative;
+      padding-bottom: 0.2rem;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 160ms ease-out;
+    }
+
+    nav a:hover {
+      color: var(--text);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .nav-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 0.2rem 0.7rem;
+      font-size: 0.78rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 780px) {
+      .header-inner {
+        padding-inline: 1rem;
+      }
+
+      nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0.75rem;
+        margin-top: 0.4rem;
+        flex-direction: column;
+        background: rgba(15, 23, 42, 0.97);
+        border-radius: 16px;
+        border: 1px solid rgba(55, 65, 81, 0.9);
+        box-shadow: var(--shadow-soft);
+        padding: 0.6rem 0.8rem;
+      }
+
+      nav.show {
+        display: flex;
+      }
+
+      .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+    }
+
+    main {
+      padding: 2.6rem 0 3.4rem;
+    }
+
+    section {
+      padding: 2.5rem 0;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 2fr);
+      gap: 2.1rem;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(75, 85, 99, 0.8);
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .pill-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #fff7ed, #f97316);
+      box-shadow: 0 0 10px rgba(248, 113, 113, 0.9);
+    }
+
+    .hero-title {
+      font-size: clamp(2.1rem, 3.4vw, 2.8rem);
+      line-height: 1.12;
+      margin: 0.8rem 0 0.5rem;
+    }
+
+    .hero-title span {
+      background: linear-gradient(120deg, #f97316, #fb7185, #facc15);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-lead {
+      color: var(--muted);
+      font-size: 0.98rem;
+      max-width: 520px;
+    }
+
+    .hero-actions {
+      margin-top: 1.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      padding: 0.52rem 1.1rem;
+      font-size: 0.84rem;
+      cursor: pointer;
+      transition: transform 150ms ease-out, box-shadow 150ms ease-out, background 150ms ease-out, border-color 150ms ease-out, color 150ms ease-out;
+      background: transparent;
+      color: var(--text);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: radial-gradient(circle at 0 0, #f97316, #fb7185, #e11d48);
+      border-color: rgba(249, 250, 251, 0.14);
+      box-shadow: 0 0 24px rgba(248, 113, 113, 0.9);
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 0 34px rgba(248, 250, 252, 0.96);
+    }
+
+    .btn-ghost {
+      border-color: rgba(75, 85, 99, 0.9);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--muted);
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(249, 250, 251, 0.9);
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .hero-meta {
+      margin-top: 1.1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .hero-panel {
+      background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.12), transparent 60%), rgba(15, 23, 42, 0.98);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 1.1rem 1.3rem;
+      box-shadow: var(--shadow);
+      font-size: 0.9rem;
+    }
+
+    .hero-panel h2 {
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .hero-panel p {
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-panel ul {
+      list-style: none;
+      margin-top: 0.4rem;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .hero-panel li + li {
+      margin-top: 0.25rem;
+    }
+
+    .hero-panel li::before {
+      content: "▸";
+      color: var(--accent);
+      margin-right: 0.35rem;
+    }
+
+    .hero-panel-footer {
+      margin-top: 0.7rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid rgba(31, 41, 55, 0.9);
+      font-size: 0.8rem;
+      color: var(--muted-soft);
+    }
+
+    .hero-panel-footer strong {
+      color: var(--accent);
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      font-size: 0.94rem;
+      max-width: 650px;
+      margin-bottom: 1.5rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.6fr);
+      gap: 1.7rem;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      background: var(--bg-soft);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 1rem 1.1rem;
+      font-size: 0.9rem;
+    }
+
+    .card h3 {
+      font-size: 0.98rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .card p {
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .phase-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      margin-bottom: 0.2rem;
+    }
+
+    .phase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.1rem;
+    }
+
+    @media (max-width: 960px) {
+      .phase-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .phase-card {
+      background: rgba(15, 23, 42, 0.98);
+      border-radius: var(--radius);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 0.9rem 0.95rem;
+      font-size: 0.86rem;
+    }
+
+    .phase-card h3 {
+      font-size: 0.96rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .phase-time {
+      font-size: 0.8rem;
+      color: var(--muted-soft);
+      margin-bottom: 0.35rem;
+    }
+
+    .phase-card ul {
+      list-style: none;
+      color: var(--muted);
+    }
+
+    .phase-card li::before {
+      content: "•";
+      color: var(--accent);
+      margin-right: 0.3rem;
+    }
+
+    .phase-card li + li {
+      margin-top: 0.15rem;
+    }
+
+    .checklist-group {
+      margin-top: 0.5rem;
+    }
+
+    .checklist-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .checklist {
+      list-style: none;
+      display: grid;
+      gap: 0.2rem;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    .check-item input[type="checkbox"] {
+      margin-top: 0.1rem;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .check-item span {
+      flex: 1;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+
+    .tag {
+      font-size: 0.78rem;
+      padding: 0.14rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.4rem 0 0.8rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    th, td {
+      border: 1px solid rgba(31, 41, 55, 0.95);
+      padding: 0.35rem 0.4rem;
+      vertical-align: top;
+    }
+
+    th {
+      background: rgba(15, 23, 42, 0.96);
+      color: #e5e7eb;
+      font-weight: 500;
+      text-align: left;
+    }
+
+    tr:nth-child(even) td {
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .number {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .table-caption {
+      font-size: 0.78rem;
+      color: var(--muted-soft);
+      margin-bottom: 0.25rem;
+    }
+
+    .risk-badge {
+      font-size: 0.75rem;
+      padding: 0.12rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(248, 113, 113, 0.12);
+      color: #fecaca;
+      border: 1px solid rgba(248, 113, 113, 0.4);
+    }
+
+    .risk-ok {
+      background: rgba(34, 197, 94, 0.14);
+      border-color: rgba(34, 197, 94, 0.5);
+      color: #bbf7d0;
+    }
+
+    .highlight-soft {
+      background: rgba(251, 191, 36, 0.12);
+      border-radius: 8px;
+      padding: 0.35rem 0.45rem;
+    }
+
+    .progress-bar-wrap {
+      margin-top: 0.6rem;
+    }
+
+    .progress-label {
+      font-size: 0.8rem;
+      color: var(--muted-soft);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .progress-track {
+      margin-top: 0.2rem;
+      width: 100%;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(31, 41, 55, 0.95);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 200ms ease-out;
+    }
+
+    footer {
+      border-top: 1px solid rgba(31, 41, 55, 0.95);
+      padding: 1.6rem 0 0;
+      font-size: 0.77rem;
+      color: var(--muted-soft);
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.5rem 1.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .badge-mode {
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.9);
+      font-size: 0.78rem;
+    }
+
+    .floating-note {
+      position: fixed;
+      bottom: 0.8rem;
+      right: 0.8rem;
+      max-width: 280px;
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--muted);
+      border-radius: 16px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      font-size: 0.75rem;
+      padding: 0.55rem 0.7rem;
+      box-shadow: var(--shadow-soft);
+      z-index: 40;
+    }
+
+    .floating-note strong {
+      color: var(--accent);
+    }
+
+    @media (max-width: 640px) {
+      .floating-note {
+        left: 0.8rem;
+        right: 0.8rem;
+        max-width: none;
+      }
+    }
+
+    .orb-1,
+    .orb-2 {
+      position: fixed;
+      border-radius: 999px;
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(4px);
+      opacity: 0.18;
+    }
+
+    .orb-1 {
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle at 10% 10%, rgba(249, 115, 22, 0.9), transparent 60%);
+      top: -140px;
+      right: -180px;
+    }
+
+    .orb-2 {
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle at 10% 10%, rgba(56, 189, 248, 0.9), transparent 60%);
+      bottom: -160px;
+      left: -160px;
+    }
+  </style>
+</head>
+<body>
+  <div class="orb-1"></div>
+  <div class="orb-2"></div>
+
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true">
+          <span>SHRK</span>
+        </div>
+        <div>
+          <div class="brand-text-title">Plan d'attaque – Mouvement Sharky</div>
+          <div class="brand-text-sub">Devenir le mouvement d'éducation permanente incontournable.</div>
+        </div>
+      </div>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu">
+        Menu <span>☰</span>
+      </button>
+
+      <nav id="mainNav">
+        <a href="#vision">Vision</a>
+        <a href="#phases">Phases</a>
+        <a href="#checklists">Tâches</a>
+        <a href="#moyens">Moyens</a>
+        <a href="#budget">Budget</a>
+        <a href="#risques">Risques</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="vision">
+      <div class="wrapper">
+        <div class="hero-grid">
+          <div>
+            <div class="pill">
+              <span class="pill-dot"></span>
+              <span>Mode hardcore · stratégie Sharky</span>
+            </div>
+            <h1 class="hero-title">
+              Plan de conquête<br />
+              <span>Éducation permanente, niveau requin.</span>
+            </h1>
+            <p class="hero-lead">
+              Objectif assumé : devenir le mouvement d’éducation permanente le plus
+              visible, le plus réactif et le plus désirable du terrain. Sans
+              casser les autres, mais en les dépassant sur tout : qualité, vitesse,
+              documentation, impact.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#phases" class="btn btn-primary">
+                Voir les 3 phases d'attaque
+                <span>↘</span>
+              </a>
+              <a href="#checklists" class="btn btn-ghost">
+                Ouvrir la to-do hardcore
+              </a>
+            </div>
+
+            <div class="hero-meta">
+              <span><strong>Horizon :</strong> 18 mois</span>
+              <span><strong>Terrain :</strong> Auderghem & communes voisines</span>
+              <span><strong>Mode :</strong> hyper local · hyper réactif · hyper documenté</span>
+            </div>
+          </div>
+
+          <aside class="hero-panel" aria-label="Tableau de bord express">
+            <h2>Table de bord express</h2>
+            <p>
+              Ce plan remplit trois fonctions : boussole stratégique, tableau de
+              tâches et outil de négociation pour les subsides et les partenariats.
+            </p>
+            <ul>
+              <li>3 phases sur 18 mois (installation, expansion, domination douce).</li>
+              <li>Checklists interactives (cochées = sauvegardées dans ce navigateur).</li>
+              <li>Demandes de moyens claires : ETP, local, budget, reconnaissance.</li>
+            </ul>
+            <div class="hero-panel-footer">
+              <strong>Règle Sharky :</strong> aucune action sans trace, aucune trace sans stratégie.
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASES -->
+    <section id="phases">
+      <div class="wrapper">
+        <div class="pill">
+          <span class="pill-dot"></span>
+          <span>Plan de bataille sur 18 mois</span>
+        </div>
+        <h2 class="section-title">3 phases pour passer de « petit projet » à mouvement majeur.</h2>
+        <p class="section-subtitle">
+          Chaque phase a son rôle : prendre pied, occuper le terrain, devenir
+          incontournable. Les dates sont indicatives : ajuste-les à ta réalité.
+        </p>
+
+        <div class="phase-grid">
+          <article class="phase-card">
+            <div class="phase-label">Phase 1</div>
+            <h3>Installation & crédibilité</h3>
+            <div class="phase-time">Mois 1 à 6</div>
+            <ul>
+              <li>Finaliser l’identité (nom, charte, narratif, visuel).</li>
+              <li>Lancer un cycle long + un format court + une mini-campagne.</li>
+              <li>Mettre en place la documentation systématique (fiches, traces).</li>
+              <li>Construire un premier rapport d’activités solide.</li>
+            </ul>
+          </article>
+
+          <article class="phase-card">
+            <div class="phase-label">Phase 2</div>
+            <h3>Expansion & structuration</h3>
+            <div class="phase-time">Mois 6 à 12</div>
+            <ul>
+              <li>Dupliquer les formats qui marchent dans au moins 1 autre commune.</li>
+              <li>Stabiliser un noyau de 8–12 personnes avec rôles clairs.</li>
+              <li>Produire au moins 2 analyses / études qui circulent.</li>
+              <li>Lancer un podcast ou une série vidéo liée aux activités.</li>
+            </ul>
+          </article>
+
+          <article class="phase-card">
+            <div class="phase-label">Phase 3</div>
+            <h3>Reconnaissance & changement d’échelle</h3>
+            <div class="phase-time">Mois 12 à 18</div>
+            <ul>
+              <li>Préparer/déposer reconnaissance FWB + convention communale.</li>
+              <li>Lancer une campagne annuelle à l’échelle supra-communale.</li>
+              <li>Devenir co-pilote de dispositifs participatifs officiels.</li>
+              <li>Installer une logique pluriannuelle 3–5 ans.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="progress-bar-wrap">
+          <div class="progress-label">
+            <span>Avancement global (tâches cochées)</span>
+            <span id="progressPercent">0%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progressBar"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHECKLISTS -->
+    <section id="checklists">
+      <div class="wrapper">
+        <div class="pill">
+          <span class="pill-dot"></span>
+          <span>To-do hardcore / mode requin</span>
+        </div>
+        <h2 class="section-title">Ce qu’on doit faire, vraiment, pas en théorie.</h2>
+        <p class="section-subtitle">
+          Chaque case cochée est sauvegardée (dans ce navigateur) pour suivre
+          l’avancement. L’idée : passer de la stratégie aux actes, sans perdre le fil.
+        </p>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>1. Identité & base stratégique</h3>
+            <p>Construire la « marque » du mouvement et le squelette politique.</p>
+
+            <div class="checklist-group">
+              <div class="checklist-title">Identité Sharky</div>
+              <ul class="checklist">
+                <li class="check-item">
+                  <input type="checkbox" data-task="id_nom_narratif">
+                  <span>Définir nom officiel, baseline et pitch 30 secondes (« qui on est / ce qu’on veut »).</span>
+                </li>
+                <li class="check-item">
+                  <input type="checkbox" data-task="id_charte_ep">
+                  <span>Écrire une charte EP courte (2 pages max) avec vos principes et vos limites.</span>
+                </li>
+                <li class="check-item">
+                  <input type="checkbox" data-task="id_identite_visuelle">
+                  <span>Fixer une identité visuelle simple : logo, couleurs, gabarits d’affiches.</span>
+                </li>
+                <li class="check-item">
+                  <input type="checkbox" data-task="id_site_minimal">
+                  <span>Mettre en ligne le trio de base : site minimal (pac-g / rapport / plan-lancement).</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="checklist-group">
+              <div class="checklist-title">Gouvernance & groupe de base</div>
+              <ul class="checklist">
+                <li class="check-item">
+                  <input type="checkbox" data-task="gov_noyau">
+                  <span>Identifier un noyau de 5–8 personnes prêtes à s’engager sur 18 mois.</span>
+                </li>
+                <li class="check-item">
+                  <input type="checkbox" data-task="gov_roles">
+                  <span>Attribuer les rôles-clés : coordination, finances, com’, animation, docu.</span>
+                </li>
+                <li class="check-item">
+                  <input type="checkbox" data-task="gov_rituels">
+                  <span>Fixer des rituels : 1 réunion noyau/mois + 1 bilan trimestriel.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>2. Terrain & contenus EP</h3>
+            <p>Les activités qui font la différence sur le terrain.</p>
+
+            <div class="checklist-group">
+              <div class="checklist-title">Cycle long & formats courts</div>
+              <ul class="checklist">
+                <li class="check-item">
+                  <input type="checkbox" data-task="ep_cycle_long">
+                  <span>Lancer un cycle long Axe 1 (8–10 séances) sur un thème fort (budget, genre, logement…).</span>
+                </li>
+                <li class="check-item">
+                  <input type="checkbox" data-task="ep_format_court">
+                  <span>Expérimenter au moins un format court : balade, atelier express, café citoyen.</span>
+                </li>
+                <li class="check-item">
+                  <input type="checkbox" data-task="ep_formation_anim">
+                  <span>Organiser 1 mini-formation d’animateurs (Axe 2) sur la méthodo EP.</span>
+                </li>
+                <li class="check-item">
+                  <input type="checkbox" data-task="ep_outil_kit">
+                  <span>Produire un premier kit/outil d’animation réutilisable (Axe 3.1).</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="checklist-group">
+              <div class="checklist-title">Traces & documentation</div>
+              <ul class="checklist">
+                <li class="check-item">
+                  <input type="checkbox" data-task="doc_fiches">
+                  <span>Mettre en place une fiche standard pour chaque activité (objectifs, publics, heures, contenu, effets).</span>
+                </li>
+                <li class="check-item">
+                  <input type="checkbox" data-task="doc_photos_audio">
+                  <span>Organiser la prise de photos et de sons (avec consentements) pour chaque action.</span>
+                </li>
+                <li class="check-item">
+                  <input type="checkbox" data-task="doc_rapport">
+                  <span>Assembler un premier rapport d’activités lisible (pour FWB, commune, partenaires).</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>3. Maillage & alliances</h3>
+            <p>On ne conquiert pas un territoire tout seul, mais on garde le leadership.</p>
+
+            <div class="checklist-group">
+              <div class="checklist-title">Alliances locales clés</div>
+              <ul class="checklist">
+                <li class="check-item">
+                  <input type="checkbox" data-task="alli_maison_quartier">
+                  <span>Signer/clarifier une alliance avec au moins 1 maison de quartier.</span>
+                </li>
+                <li class="check-item">
+                  <input type="checkbox" data-task="alli_commune">
+                  <span>Obtenir au minimum : une rencontre politique + une participation à un conseil consultatif.</span>
+                </li>
+                <li class="check-item">
+                  <input type="checkbox" data-task="alli_cpas_ecole">
+                  <span>Nouer des liens avec 1 CPAS / 1 école / 1 bibliothèque.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="checklist-group">
+              <div class="checklist-title">Extension géographique</div>
+              <ul class="checklist">
+                <li class="check-item">
+                  <input type="checkbox" data-task="geo_commune2">
+                  <span>Répliquer un format (cycle ou atelier) dans une commune voisine.</span>
+                </li>
+                <li class="check-item">
+                  <input type="checkbox" data-task="geo_relais">
+                  <span>Identifier 2–3 relais locaux (habitants/assos) par commune touchée.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>4. Reconnaissance & moyens</h3>
+            <p>Ce qu’il faut mettre sur la table quand vous allez négocier.</p>
+
+            <div class="checklist-group">
+              <div class="checklist-title">Dossiers & demandes</div>
+              <ul class="checklist">
+                <li class="check-item">
+                  <input type="checkbox" data-task="moy_dossier_fwb">
+                  <span>Préparer une ébauche de dossier FWB (axes, heures, publics, productions).</span>
+                </li>
+                <li class="check-item">
+                  <input type="checkbox" data-task="moy_dossier_commune">
+                  <span>Rédiger une note pour la commune : ce que vous faites + ce que vous demandez (local, soutien, visibilité).</span>
+                </li>
+                <li class="check-item">
+                  <input type="checkbox" data-task="moy_budget">
+                  <span>Finaliser un budget prévisionnel à 3 scénarios : minimal, réaliste, offensif.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="checklist-group">
+              <div class="checklist-title">Communication Sharky</div>
+              <ul class="checklist">
+                <li class="check-item">
+                  <input type="checkbox" data-task="com_kit_presse">
+                  <span>Préparer un kit presse / partenaires : présentation, chiffres, 3 photos, contacts.</span>
+                </li>
+                <li class="check-item">
+                  <input type="checkbox" data-task="com_bulletin">
+                  <span>Lancer un mini-bulletin trimestriel (PDF ou web) qui résume vos actions.</span>
+                </li>
+                <li class="check-item">
+                  <input type="checkbox" data-task="com_campagne">
+                  <span>Imaginer une campagne annuelle signature (thème, visuels, slogan). </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MOYENS & BUDGET -->
+    <section id="moyens">
+      <div class="wrapper">
+        <div class="pill">
+          <span class="pill-dot"></span>
+          <span>Moyens à négocier</span>
+        </div>
+        <h2 class="section-title">Ce qu’il faut demander sans trembler.</h2>
+        <p class="section-subtitle">
+          L’idée n’est pas d’être « raisonnable », mais cohérent avec votre
+          ambition. Tu pourras toujours adapter les chiffres dans les docs officiels.
+        </p>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>Moyens humains & matériels</h3>
+            <p>
+              Version hardcore, mais défendable si tu montres l’impact :
+            </p>
+            <ul>
+              <li><strong>2 ETP</strong> dédiés à l’Éducation permanente (coordination + animation + docu).</li>
+              <li><strong>Local de 40–60 m²</strong> dans le quartier cible, disponible jours + soirées.</li>
+              <li>Équipement : mobilier modulable, vidéoprojecteur, sono légère, matériel audio.</li>
+              <li>Budget formations pour l’équipe et les bénévoles (EP, animation, anti-discriminations).</li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag">ETP sécurisés</span>
+              <span class="tag">Local de base</span>
+              <span class="tag">Matériel pro</span>
+            </div>
+          </div>
+
+          <div class="card" id="budget">
+            <h3>Budget prévisionnel offensif (exemple à adapter)</h3>
+            <p class="table-caption">Montants annuels approximatifs – à ajuster</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Poste</th>
+                  <th>Détail</th>
+                  <th class="number">Montant (€)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Personnel</td>
+                  <td>2 ETP EP + vacataires</td>
+                  <td class="number">90 000</td>
+                </tr>
+                <tr>
+                  <td>Local & fonctionnement</td>
+                  <td>Loyer, charges, matériel, déplacements</td>
+                  <td class="number">22 000</td>
+                </tr>
+                <tr>
+                  <td>Communication & production</td>
+                  <td>Graphisme, impressions, podcast, vidéo, web</td>
+                  <td class="number">10 000</td>
+                </tr>
+                <tr>
+                  <td>Gouvernance & formation</td>
+                  <td>Formations internes, assurances, frais bancaires</td>
+                  <td class="number">5 000</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="2"><strong>Total offensif</strong></td>
+                  <td class="number"><strong>127 000</strong></td>
+                </tr>
+              </tfoot>
+            </table>
+            <p class="highlight-soft">
+              Scénario offensif = ce que tu <em>demandes</em>. Ensuite tu peux proposer un scénario
+              réaliste et un minimal, mais tu pars d’ici, pas du plus petit possible.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RISQUES -->
+    <section id="risques">
+      <div class="wrapper">
+        <div class="pill">
+          <span class="pill-dot"></span>
+          <span>Risques & parades</span>
+        </div>
+        <h2 class="section-title">Ce qui peut faire couler le projet… et comment le blinder.</h2>
+        <p class="section-subtitle">
+          Mode requin = tu anticipes les risques avant qu’on te les renvoie dans la figure
+          (par les politiques, les financeurs, ou même l’interne).
+        </p>
+
+        <div class="card">
+          <p class="table-caption">Risques principaux et parades possibles</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Risque</th>
+                <th>Impact</th>
+                <th>Parade Sharky</th>
+                <th>État</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Épuisement de l’équipe / burn-out militant</td>
+                <td>Perte des personnes clés, réputation interne abîmée.</td>
+                <td>Limiter le nombre de cycles simultanés, rotation des rôles, pauses planifiées, supervision externe.</td>
+                <td><span class="risk-badge">À surveiller</span></td>
+              </tr>
+              <tr>
+                <td>Conflits ou malentendus avec d'autres mouvements / la commune</td>
+                <td>Blocages politiques, refus de soutien.</td>
+                <td>Charte claire (valeurs, limites), contacts réguliers, transparence sur ce que vous faites et ce que vous ne faites pas.</td>
+                <td><span class="risk-badge">À surveiller</span></td>
+              </tr>
+              <tr>
+                <td>Dépendance à un seul financeur</td>
+                <td>Instabilité à la moindre coupe budgétaire.</td>
+                <td>Mix de FWB, commune, projets spécifiques, recettes propres; scénarios A/B/C.</td>
+                <td><span class="risk-badge risk-ok">Sous contrôle si diversifié</span></td>
+              </tr>
+              <tr>
+                <td>Sur-promesse par rapport aux capacités réelles</td>
+                <td>Perte de crédibilité, tensions internes.</td>
+                <td>Limiter les engagements écrits à ce que vous pouvez assumer; garder une marge de manœuvre.</td>
+                <td><span class="risk-badge">À surveiller</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        Plan d’attaque statique (HTML/CSS/JS) – utilisable sur clé USB, en réunion
+        d’équipe ou en RDV politique. À adapter avant toute diffusion officielle.
+      </div>
+      <div class="badge-mode">
+        Mode Sharky : offensif, documenté, éthique. Rien ne doit vous résister… sauf vos propres limites.
+      </div>
+    </div>
+  </footer>
+
+  <div class="floating-note">
+    <strong>Tip Sharky :</strong> les cases cochées sont sauvegardées
+    dans ce navigateur (localStorage). Tu peux ouvrir cette page en
+    réunion et suivre l’avancement en direct.
+  </div>
+
+  <script>
+    // Menu mobile
+    const navToggle = document.getElementById("navToggle");
+    const mainNav = document.getElementById("mainNav");
+    navToggle.addEventListener("click", () => {
+      mainNav.classList.toggle("show");
+    });
+    mainNav.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener("click", () => mainNav.classList.remove("show"));
+    });
+
+    // Checklists + localStorage + barre de progression
+    const STORAGE_KEY = "sharky-plan-tasks-v1";
+    const checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"][data-task]'));
+    const progressBar = document.getElementById("progressBar");
+    const progressPercent = document.getElementById("progressPercent");
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        checkboxes.forEach(cb => {
+          const id = cb.getAttribute("data-task");
+          if (data[id]) cb.checked = true;
+        });
+      } catch (e) {
+        console.warn("Impossible de charger l'état des tâches", e);
+      }
+    }
+
+    function saveState() {
+      const data = {};
+      checkboxes.forEach(cb => {
+        const id = cb.getAttribute("data-task");
+        data[id] = cb.checked;
+      });
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      } catch (e) {
+        console.warn("Impossible de sauvegarder l'état des tâches", e);
+      }
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const total = checkboxes.length;
+      const done = checkboxes.filter(cb => cb.checked).length;
+      const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+      progressBar.style.width = pct + "%";
+      progressPercent.textContent = pct + "%";
+    }
+
+    checkboxes.forEach(cb => {
+      cb.addEventListener("change", saveState);
+    });
+
+    loadState();
+    updateProgress();
+  </script>
+</body>
+</html>
