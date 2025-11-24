@@ -1,0 +1,1033 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>jalon-0.html – Bilan guidé du projet de veille citoyenne</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #050818;
+      --card: #020617;
+      --accent: #8b5cff;
+      --accent-soft: rgba(139,92,255,0.25);
+      --accent2: #22c55e;
+      --accent3: #facc15;
+      --accent4: #38bdf8;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border: rgba(148,163,184,0.7);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 0 0, rgba(139,92,246,0.35), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(45,212,191,0.22), transparent 60%),
+        radial-gradient(circle at 100% 0, rgba(248,250,252,0.04), transparent 60%),
+        var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 1.1rem 0.7rem 1.8rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1180px;
+      background:
+        radial-gradient(circle at 10% 0, rgba(129,140,248,0.25), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(56,189,248,0.18), transparent 70%),
+        var(--bg-alt);
+      border-radius: 28px;
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 60px rgba(15,23,42,0.95);
+      padding: 1.3rem 0.9rem 1.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .page { padding: 1.8rem 1.6rem 2.2rem; }
+    }
+
+    .page::before {
+      content: "jalon-0.html · Bilan & recalage du projet";
+      position: absolute;
+      top: 0.4rem;
+      right: 1.1rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: rgba(148,163,184,0.9);
+    }
+
+    header {
+      border-bottom: 1px solid rgba(148,163,184,0.7);
+      padding-bottom: 0.95rem;
+      margin-bottom: 1.05rem;
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .badge-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: var(--accent-soft);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent2);
+      box-shadow: 0 0 10px rgba(34,197,94,0.7);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.18rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background: rgba(15,23,42,0.9);
+    }
+
+    .chip span {
+      color: var(--accent3);
+      font-weight: 600;
+    }
+
+    .mode-info {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      max-width: 260px;
+      text-align: right;
+    }
+
+    h1 {
+      margin-top: 0.45rem;
+      font-size: clamp(1.8rem, 4.4vw, 2.6rem);
+      line-height: 1.05;
+    }
+
+    h1 span {
+      background: linear-gradient(120deg, #a855f7, #22c55e, #38bdf8, #facc15);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      margin-top: 0.35rem;
+      font-size: 0.96rem;
+      color: var(--text-muted);
+      max-width: 840px;
+    }
+
+    .subtitle strong {
+      color: var(--text-main);
+    }
+
+    .highlight {
+      margin-top: 0.75rem;
+      border-radius: 18px;
+      border: 1px solid rgba(148,163,184,0.8);
+      background:
+        linear-gradient(135deg, rgba(15,23,42,0.98), rgba(30,64,175,0.96));
+      padding: 0.7rem 0.85rem;
+      font-size: 0.88rem;
+      color: #e5e7eb;
+    }
+
+    .highlight strong {
+      color: var(--accent3);
+    }
+
+    .layout {
+      margin-top: 1rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 980px) {
+      .layout {
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.2fr);
+        align-items: flex-start;
+      }
+    }
+
+    section {
+      background:
+        radial-gradient(circle at 0 0, rgba(139,92,246,0.25), transparent 65%),
+        radial-gradient(circle at 100% 100%, rgba(15,23,42,0.9), transparent 55%),
+        var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 0.9rem 0.95rem 1.2rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      section { padding: 1.1rem 1.15rem 1.35rem; }
+    }
+
+    section h2 {
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+      color: var(--text-main);
+    }
+
+    section p {
+      line-height: 1.55;
+      margin-bottom: 0.25rem;
+    }
+
+    ul { margin-left: 1.1rem; margin-bottom: 0.25rem; }
+    li { margin-bottom: 0.18rem; }
+
+    .tagline {
+      margin-top: 0.3rem;
+      font-size: 0.8rem;
+      color: var(--accent2);
+    }
+
+    /* Timeline / état d’avancement */
+
+    .timeline {
+      margin-top: 0.5rem;
+      border-radius: 16px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.9);
+      padding: 0.55rem 0.65rem;
+      font-size: 0.85rem;
+    }
+
+    .tl-steps {
+      display: flex;
+      gap: 0.4rem;
+      overflow-x: auto;
+      padding-bottom: 0.4rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .tl-step {
+      flex: 0 0 auto;
+      min-width: 145px;
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,0.8);
+      background: radial-gradient(circle at 0 0, rgba(56,189,248,0.2), transparent 70%), #020617;
+      padding: 0.4rem 0.5rem;
+      cursor: pointer;
+    }
+
+    .tl-step.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 14px rgba(129,140,248,0.9);
+    }
+
+    .tl-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--accent4);
+      margin-bottom: 0.08rem;
+    }
+
+    .tl-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.08rem;
+    }
+
+    .tl-mini {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .tl-detail {
+      border-radius: 14px;
+      border: 1px dashed rgba(148,163,184,0.9);
+      background: rgba(2,6,23,0.95);
+      padding: 0.45rem 0.55rem;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+
+    .tl-detail strong {
+      color: var(--accent2);
+    }
+
+    /* Indicateurs sliders */
+
+    .indicators {
+      margin-top: 0.7rem;
+      border-radius: 16px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(2,6,23,0.96);
+      padding: 0.55rem 0.65rem;
+      font-size: 0.84rem;
+    }
+
+    .indicators h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+      color: var(--text-main);
+    }
+
+    .ind-row {
+      margin-top: 0.25rem;
+      display: grid;
+      gap: 0.15rem;
+    }
+
+    .ind-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .ind-label span:last-child {
+      color: var(--accent3);
+      font-weight: 600;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .ind-summary {
+      margin-top: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .ind-summary strong {
+      color: var(--accent2);
+    }
+
+    /* Questions / examen guidé */
+
+    .part-title {
+      font-size: 0.95rem;
+      margin-top: 0.55rem;
+      margin-bottom: 0.2rem;
+      color: var(--accent2);
+    }
+
+    .question {
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,0.7);
+      padding: 0.45rem 0.6rem;
+      margin-bottom: 0.45rem;
+      background: rgba(2,6,23,0.9);
+    }
+
+    .question.good {
+      border-color: var(--accent2);
+      box-shadow: 0 0 10px rgba(34,197,94,0.5);
+    }
+
+    .question.bad {
+      border-color: #f97373;
+      box-shadow: 0 0 10px rgba(248,113,113,0.5);
+    }
+
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+      margin-bottom: 0.1rem;
+      flex-wrap: wrap;
+    }
+
+    .q-title {
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .q-id {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .difficulty-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.12rem 0.5rem;
+      font-size: 0.78rem;
+      color: var(--accent3);
+      margin-bottom: 0.2rem;
+    }
+
+    .difficulty-tag span {
+      color: var(--accent3);
+    }
+
+    .q-body {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-bottom: 0.18rem;
+    }
+
+    .q-options {
+      display: grid;
+      gap: 0.12rem;
+      margin-bottom: 0.2rem;
+      font-size: 0.86rem;
+    }
+
+    .q-options label {
+      display: flex;
+      gap: 0.35rem;
+      align-items: flex-start;
+      cursor: pointer;
+    }
+
+    .q-options input {
+      margin-top: 0.14rem;
+    }
+
+    .q-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .open-hint {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+
+    .exam-actions {
+      margin-top: 0.6rem;
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      padding: 0.28rem 0.8rem;
+      font-size: 0.82rem;
+      background: var(--accent-soft);
+      color: var(--accent);
+      cursor: pointer;
+    }
+
+    .btn.secondary {
+      border-color: rgba(148,163,184,0.9);
+      background: rgba(15,23,42,0.96);
+      color: var(--text-muted);
+    }
+
+    .exam-score {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .exam-score strong {
+      color: var(--accent2);
+    }
+
+    footer {
+      margin-top: 1.2rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    footer code {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.8);
+      padding: 0.16rem 0.5rem;
+      background: #020617;
+    }
+
+    /* Scrollbar discrète timeline */
+    .tl-steps::-webkit-scrollbar {
+      height: 6px;
+    }
+    .tl-steps::-webkit-scrollbar-track {
+      background: rgba(15,23,42,0.9);
+    }
+    .tl-steps::-webkit-scrollbar-thumb {
+      background: rgba(148,163,184,0.8);
+      border-radius: 999px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="header-row">
+        <div class="badge-block">
+          <div class="badge">
+            <span class="badge-dot"></span>
+            <span>JALON 0 – Bilan provisoire du projet</span>
+          </div>
+          <div class="chip">
+            Clé USB de recrutement · tests thématiques · veille citoyenne · mini-AISBL · <span>12,50 € / an / personne</span>
+          </div>
+        </div>
+        <div class="mode-info">
+          Cette page sert de <strong>checkpoint</strong> :  
+          est-ce que le projet (toi compris) tient encore la route ?  
+          Est-ce qu’il reste souhaitable, soutenable, <em>et</em> amusant ?
+        </div>
+      </div>
+
+      <h1>Où en est le projet de veille citoyenne <span>et où en es-tu toi ?</span></h1>
+      <p class="subtitle">
+        Tu as posé les briques d’un écosystème : tests de recrutement ludiques, dossiers documentaires, clé USB, site miroir,
+        idée de mini-AISBL de veille citoyenne, business model à 12,50 €/an/personne, multi-râteliers possibles, dimension
+        jeu de rôle autour de « l’Organisation » et de la veille citoyenne.
+        <br>
+        Ce <strong>jalon 0</strong> sert à vérifier si tout ça reste cohérent, réaliste, et aligné avec ce que tu veux vraiment.
+      </p>
+
+      <div class="highlight">
+        <strong>But de cette page :</strong>  
+        1) Résumer le projet tel qu’il existe déjà (clé, tests, dossiers, business, fiction).  
+        2) T’aider à évaluer où tu en es – en termes de clarté, d’énergie, de faisabilité.  
+        3) Proposer un <strong>examen guidé</strong> (questions fermées & ouvertes) pour vérifier si tu restes volontairement
+        embarqué dans ce truc… ou si certaines parties doivent être simplifiées, différées ou abandonnées.
+      </div>
+    </header>
+
+    <div class="layout">
+      <!-- Colonne gauche : topo projet + timeline + indicateurs -->
+      <section>
+        <h2>1. Topo express sur le projet actuel</h2>
+        <p>
+          En une phrase : tu construis une <strong>plateforme de veille citoyenne gamifiée</strong> qui tient sur
+          une clé USB et un site statique, avec :
+        </p>
+        <ul>
+          <li>Des <strong>tests de recrutement</strong> (symboles, propagande, veille citoyenne, etc.) pour trier les motivé·es.</li>
+          <li>Des <strong>dossiers documentaires</strong> (PDF, vidéos, playlists) reliés à ces tests.</li>
+          <li>Une <strong>fiction assumée</strong> autour de « l’Organisation », de la Conspi, de Sharky, etc.</li>
+          <li>Un <strong>business model citoyen</strong> ultra low-cost à 12,50 €/an/personne, plus des râteliers optionnels.</li>
+          <li>Une ambition de <strong>mini-AISBL clonable</strong> : n’importe qui peut dupliquer la clé / le site et lancer sa cellule.</li>
+        </ul>
+
+        <p class="tagline">
+          🌱 En résumé : un kit pour transformer la parano, la curiosité et la culture générale en <strong>intelligence citoyenne partagée</strong>.
+        </p>
+
+        <div class="timeline">
+          <div class="tl-steps" id="tlSteps">
+            <button class="tl-step active" data-step="0">
+              <div class="tl-label">Phase 0</div>
+              <div class="tl-title">Accumulation & bricolage</div>
+              <div class="tl-mini">Conversations, idées, premiers fichiers HTML.</div>
+            </button>
+            <button class="tl-step" data-step="1">
+              <div class="tl-label">Phase 1</div>
+              <div class="tl-title">Clé USB & site de tests</div>
+              <div class="tl-mini">SAS, test-index, exam, business.</div>
+            </button>
+            <button class="tl-step" data-step="2">
+              <div class="tl-label">Phase 2</div>
+              <div class="tl-title">Narration & recrutement</div>
+              <div class="tl-mini">Organisation, Conspi, Sharky…</div>
+            </button>
+            <button class="tl-step" data-step="3">
+              <div class="tl-label">Phase 3</div>
+              <div class="tl-title">Mini-AISBL & veille</div>
+              <div class="tl-mini">Réseau de micro-labs citoyens.</div>
+            </button>
+            <button class="tl-step" data-step="4">
+              <div class="tl-label">Phase 4</div>
+              <div class="tl-title">Multi-râteliers</div>
+              <div class="tl-mini">Subsides, formations, merch, events.</div>
+            </button>
+          </div>
+
+          <div class="tl-detail" id="tlDetail">
+            <strong>Phase 0 · Accumulation & bricolage :</strong>  
+            Tu as exploré à peu près tout : propagande, guerre narrative, crypto associative, recrutements, sites HTML, Godot, Hugo…  
+            Résultat : une masse de matière brute, mais aussi un fil rouge qui apparaît : <em>la veille citoyenne gamifiée</em>.
+          </div>
+        </div>
+
+        <div class="indicators">
+          <h3>2. Auto-indicateurs : où en es-tu vraiment ?</h3>
+          <p>
+            Déplace les curseurs pour évaluer ton ressenti actuel (pour toi + le projet).
+            C’est purement indicatif, mais ça aide à visualiser.
+          </p>
+
+          <div class="ind-row">
+            <label class="ind-label" for="clarteRange">
+              <span>Clarté globale du projet (1 = flou complet, 10 = très clair)</span>
+              <span id="clarteLabel">6 / 10</span>
+            </label>
+            <input type="range" id="clarteRange" min="1" max="10" value="6">
+          </div>
+
+          <div class="ind-row">
+            <label class="ind-label" for="energieRange">
+              <span>Énergie / envie de continuer (1 = rincé, 10 = en feu)</span>
+              <span id="energieLabel">7 / 10</span>
+            </label>
+            <input type="range" id="energieRange" min="1" max="10" value="7">
+          </div>
+
+          <div class="ind-row">
+            <label class="ind-label" for="faisabiliteRange">
+              <span>Faisabilité réaliste à ton échelle (1 = impossible, 10 = très faisable)</span>
+              <span id="faisabiliteLabel">6 / 10</span>
+            </label>
+            <input type="range" id="faisabiliteRange" min="1" max="10" value="6">
+          </div>
+
+          <div class="ind-summary" id="indSummary">
+            Lecture rapide : tu as <strong>une base assez claire</strong>, une énergie plutôt bonne,
+            et une faisabilité qui semble <strong>raisonnable mais fragile</strong>.  
+            À ajuster en fonction des curseurs.
+          </div>
+        </div>
+      </section>
+
+      <!-- Colonne droite : examen guidé sur le projet -->
+      <section>
+        <h2>3. Examen guidé – Est-ce qu’on est toujours sur la bonne voie ?</h2>
+        <p>
+          Cet examen mélange des questions <strong>fermées</strong> (auto-corrigées) et des questions
+          <strong>ouvertes</strong> pour toi, façon journal de bord.  
+          Les niveaux de difficulté indiquent le type d’effort demandé.
+        </p>
+
+        <form id="examForm">
+          <!-- PARTIE A – Compréhension du projet -->
+          <div class="part-title">A. Compréhension du projet (★☆☆)</div>
+
+          <!-- Q1 -->
+          <div class="question" data-correct="b">
+            <div class="q-header">
+              <div class="q-title">Q1. Finalité principale</div>
+              <div class="q-id">A1</div>
+            </div>
+            <div class="difficulty-tag"><span>★☆☆</span> – Bases</div>
+            <div class="q-body">
+              Quelle est la finalité la plus fidèle à ce que tu as construit jusqu’ici ?
+            </div>
+            <div class="q-options">
+              <label>
+                <input type="radio" name="q1" value="a">
+                <span>Créer une start-up de surveillance de masse pour vendre des données.</span>
+              </label>
+              <label>
+                <input type="radio" name="q1" value="b">
+                <span>Créer un kit de veille citoyenne gamifié, reproductible, pour renforcer le pouvoir d’agir collectif.</span>
+              </label>
+              <label>
+                <input type="radio" name="q1" value="c">
+                <span>Créer une simple formation PowerPoint sur les fake news.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="question" data-correct="c">
+            <div class="q-header">
+              <div class="q-title">Q2. Rôle des tests de recrutement</div>
+              <div class="q-id">A2</div>
+            </div>
+            <div class="difficulty-tag"><span>★☆☆</span> – Bases</div>
+            <div class="q-body">
+              À quoi servent principalement les tests (symboles, propagande, dossiers, etc.) dans ton dispositif ?
+            </div>
+            <div class="q-options">
+              <label>
+                <input type="radio" name="q2" value="a">
+                <span>À humilier les gens qui ne répondent pas bien.</span>
+              </label>
+              <label>
+                <input type="radio" name="q2" value="b">
+                <span>À faire joli pour remplir la clé USB.</span>
+              </label>
+              <label>
+                <input type="radio" name="q2" value="c">
+                <span>À servir de filtre ludique et pédagogique : se situer, tester ses réflexes, ouvrir la porte à une démarche plus profonde.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="question" data-correct="a">
+            <div class="q-header">
+              <div class="q-title">Q3. Clé USB & site</div>
+              <div class="q-id">A3</div>
+            </div>
+            <div class="difficulty-tag"><span>★☆☆</span> – Bases</div>
+            <div class="q-body">
+              Pourquoi insister sur une version <strong>clé USB + site statique</strong> ?
+            </div>
+            <div class="q-options">
+              <label>
+                <input type="radio" name="q3" value="a">
+                <span>Pour que n’importe qui puisse dupliquer l’outil avec peu de moyens (faible dépendance, faible coût, grande portabilité).</span>
+              </label>
+              <label>
+                <input type="radio" name="q3" value="b">
+                <span>Parce que c’est la seule façon autorisée d’utiliser l’informatique.</span>
+              </label>
+              <label>
+                <input type="radio" name="q3" value="c">
+                <span>Uniquement pour impressionner les geeks.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- PARTIE B – Cohérence & réalités -->
+          <div class="part-title">B. Cohérence & réalités (★★☆)</div>
+
+          <!-- Q4 -->
+          <div class="question" data-correct="b">
+            <div class="q-header">
+              <div class="q-title">Q4. Ambition vs. charge mentale</div>
+              <div class="q-id">B1</div>
+            </div>
+            <div class="difficulty-tag"><span>★★☆</span> – Analyse</div>
+            <div class="q-body">
+              À ce stade, comment évaluer l’équilibre ambition / charge de travail ?
+            </div>
+            <div class="q-options">
+              <label>
+                <input type="radio" name="q4" value="a">
+                <span>Tout est simple, tu peux tout faire seul sans fatigue, et tout sera prêt en un mois.</span>
+              </label>
+              <label>
+                <input type="radio" name="q4" value="b">
+                <span>Le projet est intéressant mais dense : il nécessite des choix, des priorités et des versions “bêta” assumées plutôt que la perfection.</span>
+              </label>
+              <label>
+                <input type="radio" name="q4" value="c">
+                <span>Le projet est totalement ingérable quelle que soit la stratégie.</span>
+              </label>
+            </div>
+            <div class="q-note">
+              Réfléchis en lien avec les curseurs (clarté, énergie, faisabilité) à gauche.
+            </div>
+          </div>
+
+          <!-- Q5 – ouverte courte -->
+          <div class="question" data-open="true">
+            <div class="q-header">
+              <div class="q-title">Q5. Ce qui tient déjà debout</div>
+              <div class="q-id">B2</div>
+            </div>
+            <div class="difficulty-tag"><span>★★☆</span> – Diagnostic</div>
+            <div class="q-body">
+              Liste (dans un carnet / doc perso) les éléments qui te semblent déjà <strong>assez mûrs</strong> pour être montrés à quelqu’un
+              (même brut) : quels tests, quelles pages HTML, quels dossiers, quels bouts de narration ?
+            </div>
+            <div class="open-hint">
+              L’idée : voir que tu as déjà des briques “présentables”, même si tout n’est pas parfait.
+            </div>
+          </div>
+
+          <!-- Q6 – ouverte courte -->
+          <div class="question" data-open="true">
+            <div class="q-header">
+              <div class="q-title">Q6. Ce qui doit être allégé ou repoussé</div>
+              <div class="q-id">B3</div>
+            </div>
+            <div class="difficulty-tag"><span>★★☆</span> – Diagnostic</div>
+            <div class="q-body">
+              Note rapidement : quelles parties du projet te semblent <strong>trop lourdes</strong> ou trop floues pour maintenant
+              (ex. : certains sous-sites, features Godot, merch complexe, etc.) ?
+            </div>
+            <div class="open-hint">
+              Tu peux te donner la permission de mettre des choses “au frigo” sans les abandonner.
+            </div>
+          </div>
+
+          <!-- PARTIE C – Alignement personnel -->
+          <div class="part-title">C. Alignement avec toi (★★★)</div>
+
+          <!-- Q7 -->
+          <div class="question" data-correct="c">
+            <div class="q-header">
+              <div class="q-title">Q7. Ton rôle réaliste</div>
+              <div class="q-id">C1</div>
+            </div>
+            <div class="difficulty-tag"><span>★★★</span> – Meta</div>
+            <div class="q-body">
+              Quel rôle réaliste ce projet te donne-t-il, si on est honnête ?
+            </div>
+            <div class="q-options">
+              <label>
+                <input type="radio" name="q7" value="a">
+                <span>PDG d’une multinationale de la donnée, avec 500 employé·es sous tes ordres.</span>
+              </label>
+              <label>
+                <input type="radio" name="q7" value="b">
+                <span>Influenceur full-time de TikTok spécialisé en complots flous.</span>
+              </label>
+              <label>
+                <input type="radio" name="q7" value="c">
+                <span>Artisan / architecte d’un kit de veille citoyenne, capable de fédérer quelques personnes / collectifs autour d’un dispositif clair.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q8 – ouverte : motivation profonde -->
+          <div class="question" data-open="true">
+            <div class="q-header">
+              <div class="q-title">Q8. Pourquoi tu restes dans l’aventure ?</div>
+              <div class="q-id">C2</div>
+            </div>
+            <div class="difficulty-tag"><span>★★★</span> – Introspection</div>
+            <div class="q-body">
+              En trois à cinq phrases, formule pour toi :
+            </div>
+            <div class="open-hint">
+              • Ce qui te donne encore envie de poursuivre ce projet (au-delà des coups de gueule, de la fatigue, des doutes).  
+              • Ce que tu y gagnes <strong>même si ça ne “marche” jamais commercialement</strong> (compétences, sens, réseau, fierté, etc.).
+            </div>
+          </div>
+
+          <!-- Q9 – ouverte : condition de poursuite -->
+          <div class="question" data-open="true">
+            <div class="q-header">
+              <div class="q-title">Q9. Conditions pour continuer “en sécurité”</div>
+              <div class="q-id">C3</div>
+            </div>
+            <div class="difficulty-tag"><span>★★★</span> – Hygiène mentale</div>
+            <div class="q-body">
+              Liste 3 conditions qui doivent rester vraies pour que le projet reste <strong>bon pour toi</strong> :
+              rythme, argent, soutien, santé, autres projets, etc.
+            </div>
+            <div class="open-hint">
+              Tu peux ensuite les transformer en “clauses” personnelles : si 2–3 d’entre elles ne sont plus réunies, tu ralentis ou tu mets pause.
+            </div>
+          </div>
+
+          <!-- PARTIE D – Décision temporaire -->
+          <div class="part-title">D. Décision temporaire (★★★)</div>
+
+          <!-- Q10 – fermée + ouverte courte -->
+          <div class="question" data-correct="b">
+            <div class="q-header">
+              <div class="q-title">Q10. Verdict de jalon 0</div>
+              <div class="q-id">D1</div>
+            </div>
+            <div class="difficulty-tag"><span>★★★</span> – Synthèse</div>
+            <div class="q-body">
+              Si tu devais formuler un verdict provisoire sur le projet, lequel se rapproche le plus de ton ressenti <em>actuel</em> ?
+            </div>
+            <div class="q-options">
+              <label>
+                <input type="radio" name="q10" value="a">
+                <span>Abandon total : je ne veux plus jamais en entendre parler.</span>
+              </label>
+              <label>
+                <input type="radio" name="q10" value="b">
+                <span>Continuer, mais en version réaliste : une clé, un site, quelques tests et un chemin clair pour dupliquer.</span>
+              </label>
+              <label>
+                <input type="radio" name="q10" value="c">
+                <span>Tout refaire from scratch dans 10 directions en même temps.</span>
+              </label>
+            </div>
+            <div class="open-hint">
+              Note à part ce que cela implique concrètement pour les prochains mois (1–3 actions simples à prioriser).
+            </div>
+          </div>
+
+          <div class="exam-actions">
+            <button type="button" class="btn" id="checkExam">Corriger les questions fermées</button>
+            <button type="button" class="btn secondary" id="resetExam">Réinitialiser</button>
+            <div class="exam-score" id="examScore">
+              Score (questions fermées) : <strong>0 / 6</strong> – Les questions ouvertes sont pour toi.
+            </div>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <footer>
+      <span>Jalon 0 : page de recalage pour toi, le projet, et ta future mini-AISBL de veille citoyenne.</span>
+      <code>jalon-0.html · à relier depuis index.html, SAS.html, business.html, exam.html…</code>
+    </footer>
+  </div>
+
+  <script>
+    // Timeline
+    (function () {
+      const steps = document.querySelectorAll('.tl-step');
+      const detail = document.getElementById('tlDetail');
+
+      const texts = {
+        0: "<strong>Phase 0 · Accumulation & bricolage :</strong>  \
+Tu as exploré beaucoup de choses en parallèle : propagande, symboles, crypto associative, Godot, Hugo, jeux de recrutement… \
+Ce chaos a fait émerger un fil rouge : la veille citoyenne gamifiée, transportable sur clé USB + site statique.",
+        1: "<strong>Phase 1 · Clé USB & site de tests :</strong>  \
+Tu as un ensemble de pages HTML : SAS, test-index, tests thématiques, exam, business, FAQ-tech… \
+Techniquement, tu peux déjà préparer une première clé USB « V1 » avec tout ça pour test en petit comité.",
+        2: "<strong>Phase 2 · Narration & recrutement :</strong>  \
+L’Organisation, la Conspi, Sharky… Tu poses un cadre fictionnel qui sert à la fois d’humour et de filtre psychologique. \
+But : ne pas attirer juste des “consommateur·ices de complot”, mais des gens prêts à bosser et à réfléchir.",
+        3: "<strong>Phase 3 · Mini-AISBL & veille :</strong>  \
+Objectif moyen terme : un canevas de mini-AISBL de veille (ou d’association de fait) que d’autres peuvent cloner : \
+statuts light, clé USB-type, site-type, protocole de recrutement et d’animation. Tu n’as pas besoin d’être partout, juste de clarifier le kit.",
+        4: "<strong>Phase 4 · Multi-râteliers :</strong>  \
+Une fois le kit éprouvé, tu peux jouer sur plusieurs tableaux : \n\
+– base citoyenne à 12,50 €/an ; \n\
+– appels à projets, formations, consulting, events, merch ; \n\
+– tout en gardant la colonne vertébrale : la veille citoyenne non-marchande, documentée, transmissible."
+      };
+
+      steps.forEach(step => {
+        step.addEventListener('click', () => {
+          steps.forEach(s => s.classList.remove('active'));
+          step.classList.add('active');
+          const id = step.getAttribute('data-step');
+          detail.innerHTML = texts[id] || "";
+        });
+      });
+    })();
+
+    // Indicateurs sliders
+    (function () {
+      const clarteRange = document.getElementById('clarteRange');
+      const energieRange = document.getElementById('energieRange');
+      const faisabiliteRange = document.getElementById('faisabiliteRange');
+
+      const clarteLabel = document.getElementById('clarteLabel');
+      const energieLabel = document.getElementById('energieLabel');
+      const faisabiliteLabel = document.getElementById('faisabiliteLabel');
+      const summary = document.getElementById('indSummary');
+
+      function update() {
+        const c = parseInt(clarteRange.value, 10);
+        const e = parseInt(energieRange.value, 10);
+        const f = parseInt(faisabiliteRange.value, 10);
+
+        clarteLabel.textContent = c + " / 10";
+        energieLabel.textContent = e + " / 10";
+        faisabiliteLabel.textContent = f + " / 10";
+
+        let texte = "Lecture rapide : ";
+
+        if (c >= 7 && e >= 7 && f >= 7) {
+          texte += "<strong>le projet est plutôt bien cadré</strong>, tu as encore de l’énergie et il semble \
+<strong>réaliste à ton échelle</strong>. Tu peux te permettre d’avancer.";
+        } else if (e < 5) {
+          texte += "ton énergie est basse : <strong>le risque de burnout de projet est réel</strong>. \
+Priorise le repos, les petites victoires, et n’hésite pas à mettre certaines features au frigo.";
+        } else if (c < 5) {
+          texte += "la clarté générale est faible : il serait utile de <strong>réduire la complexité</strong>, \
+et de définir une V1 minimale (clé + 2–3 tests + 1 business-page).";
+        } else if (f < 5) {
+          texte += "la faisabilité te semble faible : revois le périmètre à la baisse, \
+ou identifie clairement ce que tu peux réellement livrer <strong>sans t’abîmer</strong>.";
+        } else {
+          texte += "le projet a des points forts, mais tu as besoin de <strong>réajuster l’équilibre</strong> \
+entre ce que tu veux faire et ce que tu peux faire sereinement.";
+        }
+
+        summary.innerHTML = texte;
+      }
+
+      [clarteRange, energieRange, faisabiliteRange].forEach(el => {
+        el.addEventListener('input', update);
+      });
+
+      update();
+    })();
+
+    // Examen guidé – correction des questions fermées
+    (function () {
+      const form = document.getElementById('examForm');
+      const checkBtn = document.getElementById('checkExam');
+      const resetBtn = document.getElementById('resetExam');
+      const scoreEl = document.getElementById('examScore');
+
+      function checkExam() {
+        let total = 0;
+        let good = 0;
+
+        document.querySelectorAll('.question').forEach(q => {
+          q.classList.remove('good', 'bad');
+          const correct = q.getAttribute('data-correct');
+          const isOpen = q.getAttribute('data-open') === 'true';
+          if (isOpen || !correct) return;
+
+          total++;
+          const radios = q.querySelectorAll('input[type="radio"]');
+          if (!radios.length) return;
+          const name = radios[0].name;
+          const checked = form.querySelector(`input[name="${name}"]:checked`);
+
+          if (checked && checked.value === correct) {
+            good++;
+            q.classList.add('good');
+          } else {
+            q.classList.add('bad');
+          }
+        });
+
+        scoreEl.innerHTML = `Score (questions fermées) : <strong>${good} / ${total}</strong> – \
+Les questions ouvertes servent à ajuster ton projet, pas à te juger.`;
+      }
+
+      function resetExam() {
+        form.reset();
+        document.querySelectorAll('.question').forEach(q => q.classList.remove('good', 'bad'));
+        scoreEl.innerHTML = 'Score (questions fermées) : <strong>0 / 6</strong> – Les questions ouvertes sont pour toi.';
+      }
+
+      checkBtn.addEventListener('click', checkExam);
+      resetBtn.addEventListener('click', resetExam);
+    })();
+  </script>
+</body>
+</html>
