@@ -515,4 +515,1299 @@
       border-radius:999px;
       padding:0.2rem 0.65rem;
       border:1px solid var(--accent3);
-      background:t
+      background:transparent;
+      color:var(--accent3);
+      font-size:0.75rem;
+      cursor:pointer;
+    }
+
+    .mini-quiz-result {
+      margin-top:0.25rem;
+      font-size:0.75rem;
+    }
+
+    .mini-quiz-result.ok { color:var(--accent1); }
+    .mini-quiz-result.ko { color:#f97373; }
+
+    .timeline {
+      position:relative;
+      margin-top:0.5rem;
+      padding-left:1rem;
+    }
+
+    .timeline::before {
+      content:"";
+      position:absolute;
+      top:0.1rem;
+      bottom:0.1rem;
+      left:0.4rem;
+      width:2px;
+      background:linear-gradient(to bottom, var(--accent3), var(--accent1));
+      opacity:0.7;
+    }
+
+    .timeline-item {
+      position:relative;
+      margin-bottom:0.4rem;
+      padding-left:0.75rem;
+      font-size:0.8rem;
+    }
+
+    .timeline-dot {
+      position:absolute;
+      left:-0.05rem;
+      top:0.2rem;
+      width:0.55rem;
+      height:0.55rem;
+      border-radius:999px;
+      background:var(--accent3);
+      box-shadow:0 0 0 2px rgba(15,23,42,0.9);
+    }
+
+    .timeline-year {
+      font-size:0.7rem;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+
+    .sidebar {
+      position:sticky;
+      top:4.1rem;
+      align-self:flex-start;
+      display:flex;
+      flex-direction:column;
+      gap:0.9rem;
+    }
+
+    .sidebar-card {
+      border-radius:var(--radius);
+      background:rgba(15,23,42,0.9);
+      border:1px solid rgba(148,163,184,0.7);
+      padding:0.7rem 0.75rem 0.8rem;
+      box-shadow:var(--shadow);
+      font-size:0.8rem;
+    }
+
+    .sidebar-card h3 {
+      margin:0 0 0.25rem;
+      font-size:0.9rem;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+    }
+
+    .annex-tabs {
+      display:flex;
+      gap:0.25rem;
+      margin:0.3rem 0 0.4rem;
+      flex-wrap:wrap;
+    }
+
+    .annex-tab {
+      flex:1 1 auto;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.7);
+      padding:0.2rem 0.35rem;
+      font-size:0.72rem;
+      background:rgba(15,23,42,0.8);
+      color:var(--muted);
+      cursor:pointer;
+      text-align:center;
+    }
+
+    .annex-tab.active {
+      background:linear-gradient(135deg, var(--accent1), var(--accent3));
+      border-color:rgba(248,250,252,0.8);
+      color:#020617;
+      font-weight:600;
+    }
+
+    .annex-pane {
+      display:none;
+      font-size:0.76rem;
+      color:var(--muted);
+      max-height:220px;
+      overflow:auto;
+      padding-right:0.25rem;
+    }
+
+    .annex-pane.active { display:block; }
+
+    .annex-quote {
+      border-left:2px solid rgba(148,163,184,0.8);
+      padding-left:0.4rem;
+      margin-bottom:0.3rem;
+      font-style:italic;
+    }
+
+    textarea {
+      width:100%;
+      border-radius:10px;
+      border:1px solid rgba(148,163,184,0.7);
+      background:#020617;
+      color:var(--text);
+      padding:0.4rem;
+      font-size:0.78rem;
+      resize:vertical;
+      min-height:80px;
+    }
+
+    .modal-backdrop {
+      position:fixed;
+      inset:0;
+      background:rgba(15,15,20,0.78);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:60;
+    }
+
+    .modal {
+      max-width:420px;
+      width:calc(100% - 2.6rem);
+      border-radius:20px;
+      background:radial-gradient(circle at 0 0,#22c55e22,transparent 55%), #020617;
+      border:1px solid rgba(148,163,184,0.8);
+      box-shadow:0 18px 50px rgba(0,0,0,0.9);
+      padding:0.8rem 0.9rem 0.75rem;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .modal::before {
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:radial-gradient(circle,#f9731633,transparent 60%);
+      opacity:0.5;
+      pointer-events:none;
+    }
+
+    .modal-inner {
+      position:relative;
+      z-index:1;
+    }
+
+    .modal-step {
+      font-size:0.65rem;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:var(--muted);
+      margin-bottom:0.1rem;
+    }
+
+    .modal h3 {
+      margin:0 0 0.3rem;
+      font-size:1rem;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+    }
+
+    .modal p { font-size:0.8rem; }
+
+    .modal-footer {
+      margin-top:0.55rem;
+      display:flex;
+      justify-content:flex-end;
+      gap:0.4rem;
+    }
+
+    .modal-footer button {
+      border-radius:999px;
+      padding:0.25rem 0.75rem;
+      border:1px solid rgba(148,163,184,0.7);
+      background:rgba(15,23,42,0.9);
+      color:var(--muted);
+      font-size:0.75rem;
+      cursor:pointer;
+    }
+
+    .modal-footer button.primary {
+      border-color:var(--accent2);
+      color:var(--accent2);
+    }
+
+    #final-zone {
+      display:none;
+    }
+
+    .quiz-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+      gap:0.75rem;
+      margin-top:0.5rem;
+    }
+
+    .quiz-card {
+      border-radius:12px;
+      border:1px solid rgba(148,163,184,0.7);
+      background:rgba(15,23,42,0.95);
+      padding:0.6rem 0.7rem;
+      font-size:0.8rem;
+    }
+
+    .quiz-card h4 {
+      margin:0 0 0.25rem;
+      font-size:0.85rem;
+    }
+
+    .quiz-card label {
+      display:block;
+      margin-bottom:0.15rem;
+      cursor:pointer;
+    }
+
+    .quiz-actions {
+      margin-top:0.6rem;
+      display:flex;
+      flex-wrap:wrap;
+      gap:0.5rem;
+      align-items:center;
+    }
+
+    .quiz-actions button {
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.7);
+      background:rgba(15,23,42,0.9);
+      color:var(--accent3);
+      font-size:0.78rem;
+      padding:0.3rem 0.8rem;
+      cursor:pointer;
+    }
+
+    .quiz-score {
+      margin-top:0.4rem;
+      font-size:0.85rem;
+    }
+
+    .quiz-score.success { color:var(--accent1); }
+    .quiz-score.fail { color:#fb7185; }
+
+    .certificate {
+      margin-top:0.8rem;
+      border-radius:18px;
+      border:2px solid rgba(250,250,250,0.8);
+      background:
+        radial-gradient(circle at 0 0,#22c55e22,transparent 60%),
+        radial-gradient(circle at 100% 0,#38bdf822,transparent 60%),
+        radial-gradient(circle at 50% 100%,#f9731622,transparent 60%),
+        #020617;
+      padding:0.9rem 1rem;
+      font-family:"Georgia","Times New Roman",serif;
+      display:none;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .certificate::before {
+      content:"";
+      position:absolute;
+      inset:-30%;
+      background-image:radial-gradient(circle,#facc1522,transparent 60%);
+      opacity:0.5;
+      mix-blend-mode:screen;
+      pointer-events:none;
+    }
+
+    .certificate-inner {
+      position:relative;
+      z-index:1;
+    }
+
+    .cert-heading {
+      text-align:center;
+      font-size:1.1rem;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      margin-bottom:0.3rem;
+    }
+
+    .cert-sub {
+      text-align:center;
+      font-size:0.9rem;
+      margin-bottom:0.3rem;
+    }
+
+    .cert-name {
+      font-size:1.05rem;
+      margin:0.2rem 0;
+    }
+
+    .cert-title {
+      margin:0.35rem 0 0.2rem;
+      font-size:1rem;
+    }
+
+    .cert-footer {
+      margin-top:0.45rem;
+      display:flex;
+      justify-content:space-between;
+      font-size:0.75rem;
+    }
+
+    .confetti {
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index:55;
+      display:none;
+    }
+
+    .confetti-piece {
+      position:absolute;
+      width:9px;
+      height:16px;
+      background:var(--accent2);
+      top:-10px;
+      animation:fall 3s linear forwards;
+      opacity:0.9;
+    }
+
+    @keyframes fall {
+      0% {
+        transform:translate3d(0,0,0) rotateZ(0deg);
+      }
+      100% {
+        transform:translate3d(var(--x-move, 0px), 110vh, 0) rotateZ(340deg);
+      }
+    }
+
+    footer {
+      max-width:1200px;
+      margin:0 auto 2rem;
+      padding:0 1.25rem;
+      font-size:0.75rem;
+      color:var(--muted);
+      display:flex;
+      justify-content:space-between;
+      gap:1rem;
+      border-top:1px dashed rgba(148,163,184,0.6);
+      padding-top:0.6rem;
+    }
+
+    @media (max-width:700px) {
+      footer { flex-direction:column; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <div class="logo-pill">
+      <div class="logo-orbit">
+        <div class="logo-orbit-inner">◎</div>
+      </div>
+      <div>
+        <div class="logo-text-main">Muchtefion Land</div>
+        <div class="logo-text-sub">Parc d’attractions expérimental du Centrisme Déjanté</div>
+      </div>
+    </div>
+    <nav>
+      <a href="#famille">Famille Muchtefion</a>
+      <a href="#moc-zone">Tunnel MOC</a>
+      <a href="#milou-zone">Opération Milou</a>
+      <a href="#final-invite">Test final</a>
+    </nav>
+  </div>
+</header>
+
+<div class="confetti" id="confetti"></div>
+
+<main>
+  <div>
+    <!-- HERO -->
+    <section class="section-card">
+      <div class="section-inner">
+        <div class="hero-badge"><span></span> programme non homologué par aucune université (heureusement)</div>
+        <h1>Diplôme galactique de Centrisme Radical Borderline Récursif</h1>
+        <p class="hero-sub">
+          Bienvenue dans le seul parc d’attractions où les montagnes russes mènent du 
+          <strong>centrisme modéré</strong> au <strong>centrisme radical borderline récursif</strong>, 
+          avec un détour par le <strong>MOC</strong>, <strong>beweging.net</strong> et une 
+          <strong>OPÉRATION MILOU</strong> en mode MMO anarcho-STIC. 
+        </p>
+        <div class="hero-actions">
+          <button class="btn" id="skip-to-test">Sauter directement au centre du labyrinthe</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('famille').scrollIntoView({behavior:'smooth'})">
+            Visite guidée de la famille
+          </button>
+          <span class="hero-meta">
+            Durée : 7–77 minutes selon ton niveau de centriste borderline et ta résistance aux interstitiels.
+          </span>
+        </div>
+        <p class="tagline-weird">
+          ⚠️ Attention : ce site distribue un diplôme à la fin. Personne ne sait s’il a une valeur, 
+          mais il brille beaucoup.
+        </p>
+      </div>
+    </section>
+
+    <!-- FAMILLE MUCHTEFION -->
+    <section class="section-card" id="famille">
+      <div class="section-inner">
+        <div class="section-label">Zone 1 – Musée des Témoins du Milieu</div>
+        <h2>La famille Muchtefion : six formes de centrisme incontrôlé</h2>
+        <p>
+          D’après le rapport confidentiel <em>« Les Témoins du Milieu »</em>, la famille Muchtefion 
+          fournit un bestiaire complet du centrisme contemporain : modéré, ultra, radical, borderline, 
+          radical borderline et radical borderline récursif. :contentReference[oaicite:4]{index=4}
+        </p>
+
+        <div class="pill-row">
+          <span class="pill highlight">centriste modéré</span>
+          <span class="pill">centriste ultra</span>
+          <span class="pill">centriste radical</span>
+          <span class="pill">borderline</span>
+          <span class="pill">radical borderline</span>
+          <span class="pill highlight">radical borderline récursif</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-inner">
+              <div class="badge">Guide (à peu près) sérieux</div>
+              <p>
+                <strong>Centriste modéré :</strong> version classique. Cherche le compromis, ajuste le curseur, 
+                accepte de bouger légèrement à gauche ou à droite si les arguments tiennent debout. 
+              </p>
+              <p>
+                <strong>Centriste ultra :</strong> rigide du milieu. Le centre n’est pas une zone, c’est une 
+                <em>religion</em>. Tout écart est vécu comme une hérésie. :contentReference[oaicite:5]{index=5}
+              </p>
+              <p>
+                <strong>Centriste radical :</strong> veut casser les vieux clivages en proposant des synthèses 
+                hyper-actives plutôt que de simples compromis mous.
+              </p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-inner">
+              <div class="badge alt">Modes borderline & récursifs</div>
+              <p>
+                <strong>Centriste borderline :</strong> globalement au milieu, mais régulièrement 
+                catapulté sur les bords quand ses principes sont attaqués.
+              </p>
+              <p>
+                <strong>Centriste radical borderline :</strong> expérimente des solutions 
+                qui peuvent sembler extrêmes au service d’un équilibre à long terme.
+              </p>
+              <p>
+                <strong>Centriste radical borderline récursif :</strong> applique tout ça en boucle : 
+                position – contre-position – synthèse – re-synthèse – encore – encore. :contentReference[oaicite:6]{index=6}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="avatar-row">
+          <div class="avatar-card">
+            <div class="avatar-title">Souche originelle Muchtefion</div>
+            <div class="avatar-tag">Album de famille politique</div>
+            <img src="MuchtefionSouche.jpg" alt="Souche Muchtefion" class="avatar-img">
+          </div>
+          <div class="avatar-card">
+            <div class="avatar-title">Centriste borderline</div>
+            <div class="avatar-tag">« Ça dépend du sujet »</div>
+            <img src="Muchtefion.jpg" alt="Centriste borderline" class="avatar-img">
+          </div>
+        </div>
+
+        <div class="quote">
+          « Un centriste borderline combine flexibilité et petites explosions de radicalité 
+          quand certaines lignes éthiques sont franchies. » :contentReference[oaicite:7]{index=7}
+          <small>— Archives familiales du Milieu</small>
+        </div>
+
+        <details>
+          <summary>Voir l’extrait brut des Témoins du Milieu</summary>
+          <p class="inline-note">
+            Spoiler : ça commence par une tisane de salsepareille et ça finit en typologie politique.
+          </p>
+          <p>
+            On y suit une discussion qui enchaîne : 
+            « centriste borderline », « centriste central », « centrisme radical », 
+            jusqu’au fameux « centriste radical borderline récursif » qui ne cesse de se recalibrer 
+            en fonction du contexte, des valeurs et des lignes rouges. :contentReference[oaicite:8]{index=8}
+          </p>
+        </details>
+
+        <div class="mini-quiz" data-mini="famille">
+          <div class="mini-quiz-question">
+            Mini-quiz #Muchtefion — Quel profil décrit le mieux quelqu’un qui se reconstruit 
+            politiquement tous les trois débats ?
+          </div>
+          <div class="mini-quiz-options">
+            <label><input type="radio" name="mq-famille" value="0"> Le centriste modéré, tranquille avec ses habitudes.</label>
+            <label><input type="radio" name="mq-famille" value="1"> Le centriste radical borderline récursif.</label>
+            <label><input type="radio" name="mq-famille" value="2"> Pifsniff, le chien, parce qu’il suit.</label>
+          </div>
+          <button type="button">Vérifier</button>
+          <div class="mini-quiz-result"></div>
+        </div>
+
+        <div class="interstitial">
+          <strong>Interstitial n°1 :</strong> 
+          Clique pour générer ton <em>pseudo Muchtefion</em> avant de continuer.
+          <br>
+          <button type="button" id="gen-muchtefion">Générer mon alias centriste</button>
+          <div id="muchtefion-alias" class="inline-note" style="margin-top:0.3rem;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOC / BEWEGING.NET -->
+    <section class="section-card" id="moc-zone">
+      <div class="section-inner">
+        <div class="section-label">Zone 2 – Tunnel socio-chrétien MOC / beweging.net</div>
+        <h2>Le grand 8 du pilier chrétien : de Rerum Novarum à Beweging.net</h2>
+        <p>
+          Ici, le wagon passe par la Ligue démocratique belge de 1891, la LNTC/ACW, le MOC, 
+          la scission linguistique, le rebranding flamand en <strong>Beweging.net</strong> et les structures 
+          régionales, tout en gardant l’ADN <em>travailleur chrétien</em>. :contentReference[oaicite:9]{index=9}
+        </p>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">1891 – LDB</div>
+            <div>
+              Ligue démocratique belge : première coupole ouvrière chrétienne inspirée par 
+              <em>Rerum Novarum</em>, pour contrer l’essor socialiste et organiser mutuelles, syndicats, œuvres. :contentReference[oaicite:10]{index=10}
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">1921 – LNTC / ACW</div>
+            <div>
+              La LDB devient LNTC (ACW) : véritable organe de masse du pilier catholique, 
+              avec syndicats, mutualités, jeunesse, mouvements féminins. :contentReference[oaicite:11]{index=11}
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">1945-46 – MOC/ACW</div>
+            <div>
+              Naissance du tandem <strong>MOC</strong> (fr/de) / <strong>ACW</strong> (nl) : 
+              structure unitaire sans président national unique, déjà très fédérale avant l’heure. :contentReference[oaicite:12]{index=12}
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">Années 1970</div>
+            <div>
+              Scission communautaire complète : le MOC devient autonome côté francophone et germanophone, 
+              l’ACW côté flamand ; le MOC se pluralise politiquement. :contentReference[oaicite:13]{index=13}
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">2014 – Beweging.net</div>
+            <div>
+              L’ACW se rebaptise <strong>Beweging.net</strong>, réseau de partenaires plus large, 
+              en réponse notamment à la saga financière d’ARCO / Dexia. :contentReference[oaicite:14]{index=14}
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-inner">
+              <div class="badge">Composantes MOC</div>
+              <p>
+                Sous la coupole MOC, on trouve notamment : 
+              </p>
+              <ul>
+                <li>La <strong>CSC</strong> (syndicat chrétien). :contentReference[oaicite:15]{index=15}</li>
+                <li>La <strong>Mutualité chrétienne</strong> (MC) et ses mouvements (Énéo, Altéo…).</li>
+                <li><strong>Vie Féminine</strong>, <strong>Équipes Populaires</strong>, <strong>JOC</strong>… :contentReference[oaicite:16]{index=16}</li>
+              </ul>
+              <p class="inline-note">
+                Le tout articulé autour des CIEP, des régionales MOC (Bruxelles, Liège, Namur, etc.) 
+                et de partenaires comme WSM ou la FdSS. :contentReference[oaicite:17]{index=17}
+              </p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-inner">
+              <div class="badge alt">Beweging.net (ACW)</div>
+              <p>
+                Côté flamand, <strong>Beweging.net</strong> agrège l’<strong>ACV</strong>, la <strong>CM</strong>, 
+                Femma, KAJ, Raak (ex-KWB), OKRA, Samana, Pasar, etc. :contentReference[oaicite:18]{index=18}
+              </p>
+              <p>
+                Le réseau reste plus arrimé au CD&amp;V, alors que le MOC s’est revendiqué 
+                <strong>pluraliste</strong> (Engagés, PS, Écolo, etc.) – deux styles de 
+                <em>centrismes sociaux-chrétiens</em>. :contentReference[oaicite:19]{index=19}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mini-quiz" data-mini="moc">
+          <div class="mini-quiz-question">
+            Mini-quiz MOC — Qu’est-ce qui résume le mieux le rôle du MOC ?
+          </div>
+          <div class="mini-quiz-options">
+            <label><input type="radio" name="mq-moc" value="0"> Un parti politique centriste caché.</label>
+            <label><input type="radio" name="mq-moc" value="1"> Une coupole d’organisations sociales d’inspiration chrétienne (syndicats, mutualités, mouvements, etc.).</label>
+            <label><input type="radio" name="mq-moc" value="2"> Un parc d’attractions avec mascotte ARCO le Cochon-Tirelire.</label>
+          </div>
+          <button type="button">Vérifier</button>
+          <div class="mini-quiz-result"></div>
+        </div>
+
+        <div class="interstitial">
+          <strong>Interstitial n°2 :</strong> 
+          Clique pour tirer une <em>carte du Tunnel MOC</em> (effet purement psychologique).
+          <br>
+          <button type="button" id="draw-moc-card">Tirer une carte</button>
+          <div id="moc-card-output" class="inline-note" style="margin-top:0.3rem;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPERATION MILOU -->
+    <section class="section-card" id="milou-zone">
+      <div class="section-inner">
+        <div class="section-label">Zone 3 – OPÉRATION MILOU</div>
+        <h2>Le jeu STIC de l’anarchie appliquée au centrisme</h2>
+        <p>
+          <strong>OPÉRATION MILOU</strong>, c’est à la fois une base de thèse STIC, un MMORPG IRL et une méthode 
+          6·4·2 pour traiter le capitalisme numérique avec des ingrédients anarchistes (communs, entraide, 
+          autogestion) sans perdre la rigueur scientifique. :contentReference[oaicite:20]{index=20}
+        </p>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-inner">
+              <div class="badge">Cadre STIC</div>
+              <p>
+                Domaine : Sciences et Technologies de l’Information et de la Communication (STIC).  
+                Question centrale : comment des dispositifs inspirés de l’anarchie peuvent 
+                neutraliser certains effets destructeurs du capitalisme numérique <em>en vrai</em> ? :contentReference[oaicite:21]{index=21}
+              </p>
+              <ul>
+                <li>Gouvernance, propriété, infrastructures, rémunération, conflit, reproductibilité.</li>
+                <li>Terrain : communs numériques, coopératives, collectifs libres…</li>
+                <li>Deux niveaux : micro (projets) / macro (écosystèmes, régulation). :contentReference[oaicite:22]{index=22}</li>
+              </ul>
+              <p class="inline-note">
+                Le centriste radical qui sommeille en toi peut y voir un manuel de « médiation numérique » 
+                entre anarchie et capitalisme.
+              </p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-inner">
+              <div class="badge alt">Classes de perso</div>
+              <p>Compose ton build :</p>
+              <ul>
+                <li><span class="inline-chip">Chercheur·se Nomade</span> INT +20% lecture rapide.</li>
+                <li><span class="inline-chip">Ingénieur·e du Bazar</span> TECH +15% debug mental.</li>
+                <li><span class="inline-chip">Scribe Cryptique</span> WIS -20% dégâts de jargon.</li>
+                <li><span class="inline-chip">Samouraï Administratif</span> CON +30% résistance bureaucratique.</li>
+                <li><span class="inline-chip">Tacticien·ne Socio-tech</span> CHA + diplomatie terrain. :contentReference[oaicite:23]{index=23}</li>
+              </ul>
+              <p class="inline-note">
+                Bonus caché : +10 XP par page d’annexe lue, y compris ce site.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="avatar-row">
+          <div class="avatar-card">
+            <div class="avatar-title">Milou, chien de garde STIC</div>
+            <div class="avatar-tag">Toujours au milieu du chaos</div>
+            <img src="milou.jpg" alt="Milou" class="avatar-img">
+          </div>
+          <div class="avatar-card">
+            <div class="avatar-title">Radar anarcho-centriste</div>
+            <div class="avatar-tag">Indique la zone d’équilibre instable</div>
+            <p class="inline-note">
+              Quand ton radar indique 50% anarchie / 50% capitalisme et 200% documentation, 
+              tu es probablement en train d’écrire la thèse. :contentReference[oaicite:24]{index=24}
+            </p>
+          </div>
+        </div>
+
+        <div class="mini-quiz" data-mini="milou">
+          <div class="mini-quiz-question">
+            Mini-quiz Milou — À quoi sert la méthode 6·4·2 dans OPÉRATION MILOU ?
+          </div>
+          <div class="mini-quiz-options">
+            <label><input type="radio" name="mq-milou" value="0"> À choisir le meilleur pâté pour chien.</label>
+            <label><input type="radio" name="mq-milou" value="1"> À structurer la recherche (6 fils, 4 axes, 2 niveaux) comme un plateau de jeu scientifique.</label>
+            <label><input type="radio" name="mq-milou" value="2"> À calculer ton taux d’ultra-centrisme au dixième près.</label>
+          </div>
+          <button type="button">Vérifier</button>
+          <div class="mini-quiz-result"></div>
+        </div>
+
+        <div class="interstitial">
+          <strong>Interstitial n°3 :</strong> 
+          Clique pour générer un <em>objectif STIC absurde</em> à glisser dans ton futur plan de thèse.
+          <br>
+          <button type="button" id="gen-milou-objectif">Générer un objectif STIC</button>
+          <div id="milou-objectif-output" class="inline-note" style="margin-top:0.3rem;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INVITE TEST FINAL -->
+    <section class="section-card" id="final-invite">
+      <div class="section-inner">
+        <div class="section-label">Zone 4 – Porte du Labyrinthe</div>
+        <h2>Accès au Test final : Oracle du Milieu</h2>
+        <p>
+          Tu as maintenant traversé : 
+          <span class="inline-chip">la famille Muchtefion</span>, 
+          <span class="inline-chip">le tunnel MOC/Beweging.net</span>, 
+          <span class="inline-chip">OPÉRATION MILOU</span>.  
+          Avant le test final, l’Oracle exige… trois interstitiels supplémentaires, évidemment.
+        </p>
+        <p class="inline-note">
+          Pro-tip : le diplôme se débloque à partir de 4 bonnes réponses / 6. 
+          Le type de centriste attribué dépend aussi de ton style de réponses.
+        </p>
+        <button class="btn" id="open-modal">Déclencher la séquence d’accès</button>
+      </div>
+    </section>
+
+    <!-- FINAL ZONE -->
+    <section class="section-card" id="final-zone">
+      <div class="section-inner">
+        <div class="section-label">Zone 5 – Oracle du Milieu</div>
+        <h2>Grand Test final de Centrisme Déjanté</h2>
+        <p>
+          Réponds aux questions ci-dessous.  
+          <strong>4/6 ou plus :</strong> tu débloques le diplôme + ton archetype de centriste.  
+          Essaie d’être honnête, l’Oracle a un détecteur de réponses purement ironiques (ou pas).
+        </p>
+
+        <div class="quiz-grid" id="quiz-grid"></div>
+
+        <div class="quiz-actions">
+          <button type="button" id="submit-quiz">Corriger le test</button>
+          <button type="button" id="reset-quiz">Réinitialiser</button>
+        </div>
+        <div class="quiz-score" id="quiz-score"></div>
+
+        <div class="certificate" id="certificate">
+          <div class="certificate-inner">
+            <div class="cert-heading">Académie Officieuse du Centre Déjanté</div>
+            <div class="cert-sub">
+              Certifie que
+              <div class="cert-name"><strong id="cert-name">Un·e candidat·e anonyme</strong></div>
+              a survécu au parcours Muchtefion-MOC-Milou et obtient le titre glorieux de
+            </div>
+            <div class="cert-title">
+              <strong id="cert-title">Centriste radical borderline récursif</strong>
+            </div>
+            <p class="cert-sub" id="cert-description">
+              Pour services rendus à la cause de l’équilibre instable, de la modération explosive 
+              et de la doc STIC soigneusement commentée.
+            </p>
+            <div class="cert-footer">
+              <div>
+                Fait à Muchtefion Land<br>
+                Signature : ______________________
+              </div>
+              <div style="text-align:right;">
+                <button type="button" onclick="window.print()" style="border-radius:999px;border:1px solid #e5e7eb;background:#020617;color:#f9fafb;padding:0.2rem 0.7rem;font-size:0.7rem;cursor:pointer;">
+                  Imprimer / capturer
+                </button><br>
+                <span style="font-size:0.7rem;">Partage conseillé dans un cercle de confiance.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <h3>Lecteur d’annexes intégré</h3>
+      <p class="inline-note">
+        Choisis une annexe pour voir un extrait embarqué directement dans le parc.
+      </p>
+      <div class="annex-tabs">
+        <button class="annex-tab active" data-annex="temoins">Témoins du Milieu</button>
+        <button class="annex-tab" data-annex="moc">MOC / Beweging.net</button>
+        <button class="annex-tab" data-annex="milou">OPÉRATION MILOU</button>
+      </div>
+      <div class="annex-pane active" id="annex-temoins">
+        <div class="annex-quote">
+          « Ça donne quoi un centriste borderline ? »
+        </div>
+        <p>
+          Extrait des conversations familiales : description progressive du centriste 
+          borderline, du centriste ultra, du centrisme radical jusqu’au centriste 
+          radical borderline récursif qui se déconstruit et se reconstruit en boucle. :contentReference[oaicite:25]{index=25}
+        </p>
+      </div>
+      <div class="annex-pane" id="annex-moc">
+        <div class="annex-quote">
+          Le MOC et Beweging.net comme deux branches sœurs d’un même mouvement ouvrier chrétien.
+        </div>
+        <p>
+          Historique : de la LDB à l’ACW, puis au MOC/ACW, à la scission et enfin à Beweging.net.  
+          Composantes : CSC/ACV, MC/CM, Vie Féminine / Femma, JOC/KAJ, EP/Raak, OKRA, Samana… :contentReference[oaicite:26]{index=26}  
+          Le MOC se proclame « mouvement indépendant, non lié à un parti », 
+          tandis que Beweging.net reste plus imbriqué au CD&amp;V. :contentReference[oaicite:27]{index=27}
+        </p>
+      </div>
+      <div class="annex-pane" id="annex-milou">
+        <div class="annex-quote">
+          « Peut-on mobiliser des principes anarchistes pour réparer certains effets du capitalisme numérique ? »
+        </div>
+        <p>
+          OPÉRATION MILOU décrit un jeu STIC où la méthode 6·4·2 structure les fils, axes et niveaux 
+          d’analyse. C’est aussi une feuille de route pour une thèse en STIC déguisée en MMORPG IRL. :contentReference[oaicite:28]{index=28}
+        </p>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>Bloc-notes du Centre</h3>
+      <p class="inline-note">
+        Note ici ton auto-diagnostic : sur quelle case de la famille Muchtefion te situes-tu 
+        <em>avant</em> le test ?
+      </p>
+      <textarea placeholder="Ex : « Je pense être un centriste radical borderline en phase d’upgrade récursive »…"></textarea>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>Mode d’emploi USB</h3>
+      <ul>
+        <li>Sauvegarde ce fichier comme <code>index.html</code> sur ta clé USB.</li>
+        <li>Ajoute éventuellement les images <code>Muchtefion.jpg</code>, <code>MuchtefionSouche.jpg</code>, <code>milou.jpg</code> dans le même dossier.</li>
+        <li>Ouvre dans ton navigateur, offline, dans un cercle de confiance.</li>
+        <li>Compare les résultats de l’Oracle avec d’autres centristes autoproclamés.</li>
+      </ul>
+    </div>
+  </aside>
+</main>
+
+<!-- MODAL d'accès au test -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal">
+    <div class="modal-inner">
+      <div class="modal-step" id="modal-step">Interstitiel 1/3</div>
+      <h3 id="modal-title">Calibration de ton radar centriste</h3>
+      <p id="modal-text">
+        Respire. Le test final n’est ni un sondage d’opinion ni une enquête judiciaire.  
+        Il mesure juste ta capacité à surfer entre Muchtefion, MOC et Milou sans vomir.
+      </p>
+      <div class="modal-footer">
+        <button type="button" id="modal-skip">Skip (centrisme impatient)</button>
+        <button type="button" class="primary" id="modal-next">Suivant</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>Muchtefion Land – Site statique déployable sur clé USB. Aucun tracking, juste des centrismes.</div>
+  <div>Conseil : forkez ce fichier, ajoute tes propres annexes et re-déploie dans ton mini-réseau de confiance.</div>
+</footer>
+
+<script>
+  // --- Mini-quizz data ---
+  const miniQuizConfig = {
+    famille: {
+      name: "mq-famille",
+      correct: 1,
+      explanations: [
+        "Le modéré n’a pas forcément besoin de tout reconstruire, il s’adapte en douceur.",
+        "Exact : c’est le profil le plus récursivement instable de la famille Muchtefion.",
+        "Pifsniff est peut-être le plus sage, mais le concept récursif reste théorique."
+      ]
+    },
+    moc: {
+      name: "mq-moc",
+      correct: 1,
+      explanations: [
+        "Non : le MOC n’est pas un parti, même si des militantes et militants sont engagés en politique.",
+        "Oui : coupole d’organisations sociales (CSC, MC, Vie Féminine, EP, JOC…).",
+        "On aimerait bien, mais ARCO n’a pas vraiment le profil d’une mascotte sympathique."
+      ]
+    },
+    milou: {
+      name: "mq-milou",
+      correct: 1,
+      explanations: [
+        "Même si Milou mérite le meilleur, la méthode 6·4·2 va un peu plus loin.",
+        "Exact : 6 fils, 4 axes, 2 niveaux – une structure STIC qui ressemble à un plateau de jeu.",
+        "Le taux d’ultra-centrisme n’est (pas encore) une métrique officielle."
+      ]
+    }
+  };
+
+  document.querySelectorAll(".mini-quiz").forEach(block => {
+    const key = block.getAttribute("data-mini");
+    const config = miniQuizConfig[key];
+    if (!config) return;
+
+    const btn = block.querySelector("button");
+    const resultEl = block.querySelector(".mini-quiz-result");
+    btn.addEventListener("click", () => {
+      const radios = block.querySelectorAll(`input[name='${config.name}']`);
+      let selected = null;
+      radios.forEach(r => { if (r.checked) selected = parseInt(r.value, 10); });
+      if (selected === null) {
+        resultEl.textContent = "Choisis d’abord une réponse (l’Oracle déteste le vide).";
+        resultEl.className = "mini-quiz-result ko";
+        return;
+      }
+      resultEl.textContent = config.explanations[selected];
+      resultEl.className = "mini-quiz-result " + (selected === config.correct ? "ok" : "ko");
+    });
+  });
+
+  // --- Alias Muchtefion ---
+  const prenoms = [
+    "Pifsniff", "MilieuMax", "SalsepaRaleur", "Equi-Libre", "Moderoïde", "Moyennator",
+    "MiFigMiRaison", "Compromissaire", "Dr Médius", "BorderlineSoft", "Centrifuge"
+  ];
+  const titres = [
+    "centriste modéré en voie de radicalisation douce",
+    "centriste ultra en rémission",
+    "centriste radical borderline récursif",
+    "expert·e en tiédeur explosive",
+    "médiateur·rice des extrêmes contrariés",
+    "cartographe des zones grises",
+    "prêtre du juste-milieu sacré"
+  ];
+
+  document.getElementById("gen-muchtefion").addEventListener("click", () => {
+    const p = prenoms[Math.floor(Math.random() * prenoms.length)];
+    const t = titres[Math.floor(Math.random() * titres.length)];
+    const out = document.getElementById("muchtefion-alias");
+    out.textContent = "Ton alias Muchtefion : « " + p + " », " + t + ".";
+  });
+
+  // --- Cartes MOC ---
+  const mocCartes = [
+    "Tu tires la carte « CIEP régional » : +10 en pédagogie de terrain et +5 en café froid.",
+    "Carte « Rerum Novarum » : +20 en légitimité historique, -3 en simplicité d’explication.",
+    "Carte « WSM » : +15 en internationalisme, +10 en projets Sud.",
+    "Carte « Pluralisme politique MOC » : tu peux être ami avec plusieurs partis en même temps.",
+    "Carte « Fête de Rerum » : +25 en ambiance, +5 en discours compliqués."
+  ];
+  document.getElementById("draw-moc-card").addEventListener("click", () => {
+    const out = document.getElementById("moc-card-output");
+    const c = mocCartes[Math.floor(Math.random() * mocCartes.length)];
+    out.textContent = c;
+  });
+
+  // --- Objectifs STIC Milou ---
+  const objectifsMilou = [
+    "Documenter une coopérative numérique comme si c’était un donjon de MMO.",
+    "Transformer une charte d’usage en véritable manuel de jeu de rôle socio-tech.",
+    "Mesurer la fatigue militante avec des points de vie et des potions de repos.",
+    "Appliquer la méthode 6·4·2 à un intranet pour en faire un terrain de thèse.",
+    "Mapper les conflits de gouvernance comme des boss de fin de niveau.",
+    "Créer un bestiaire STIC des bugs organisationnels les plus fréquents."
+  ];
+  document.getElementById("gen-milou-objectif").addEventListener("click", () => {
+    const out = document.getElementById("milou-objectif-output");
+    const o = objectifsMilou[Math.floor(Math.random() * objectifsMilou.length)];
+    out.textContent = o;
+  });
+
+  // --- Annex viewer ---
+  document.querySelectorAll(".annex-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      const id = tab.getAttribute("data-annex");
+      document.querySelectorAll(".annex-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      document.querySelectorAll(".annex-pane").forEach(p => p.classList.remove("active"));
+      document.getElementById("annex-" + id).classList.add("active");
+    });
+  });
+
+  // --- Confetti ---
+  function triggerConfetti() {
+    const container = document.getElementById("confetti");
+    container.innerHTML = "";
+    container.style.display = "block";
+    const colors = ["#22c55e", "#38bdf8", "#e879f9", "#f97316", "#facc15"];
+    const pieces = 110;
+    for (let i = 0; i < pieces; i++) {
+      const piece = document.createElement("div");
+      piece.className = "confetti-piece";
+      const left = Math.random() * 100;
+      const delay = Math.random() * 0.9;
+      const xMove = (Math.random() - 0.5) * 260;
+      piece.style.left = left + "vw";
+      piece.style.animationDelay = delay + "s";
+      piece.style.backgroundColor = colors[i % colors.length];
+      piece.style.setProperty("--x-move", xMove + "px");
+      container.appendChild(piece);
+    }
+    setTimeout(() => {
+      container.style.display = "none";
+      container.innerHTML = "";
+    }, 3600);
+  }
+
+  // --- Modal / interstitiels avant test ---
+  const modalBackdrop = document.getElementById("modal-backdrop");
+  const modalStepEl = document.getElementById("modal-step");
+  const modalTitleEl = document.getElementById("modal-title");
+  const modalTextEl = document.getElementById("modal-text");
+  const modalNextBtn = document.getElementById("modal-next");
+  const modalSkipBtn = document.getElementById("modal-skip");
+  const finalZone = document.getElementById("final-zone");
+
+  const modalSteps = [
+    {
+      step: "Interstitiel 1/3",
+      title: "Calibration de ton radar centriste",
+      text: "Respire. Le test final n’est ni un sondage d’opinion ni une enquête judiciaire. Il mesure juste ta capacité à surfer entre Muchtefion, MOC et Milou sans vomir."
+    },
+    {
+      step: "Interstitiel 2/3",
+      title: "Test de résistance aux embeds",
+      text: "Tu as survécu à plusieurs quizz, timelines, alias et objectifs STIC. Statistiquement, tu fais déjà partie du top 5% des personnes capables de rester jusqu’ici."
+    },
+    {
+      step: "Interstitiel 3/3",
+      title: "Alignement cognitif final",
+      text: "Souviens-toi : ce test n’est pas une prescription politique. C’est juste une radiographie ludique de ton imaginaire centriste. Réponds selon ce que tu as compris, pas ce que tu crois qu’il faudrait répondre."
+    }
+  ];
+  let modalIndex = 0;
+
+  function openModal(i) {
+    modalIndex = i;
+    const step = modalSteps[i];
+    modalStepEl.textContent = step.step;
+    modalTitleEl.textContent = step.title;
+    modalTextEl.textContent = step.text;
+    modalBackdrop.style.display = "flex";
+  }
+
+  document.getElementById("open-modal").addEventListener("click", () => openModal(0));
+  document.getElementById("skip-to-test").addEventListener("click", () => openModal(0));
+
+  modalNextBtn.addEventListener("click", () => {
+    if (modalIndex < modalSteps.length - 1) {
+      openModal(modalIndex + 1);
+    } else {
+      modalBackdrop.style.display = "none";
+      finalZone.style.display = "block";
+      finalZone.scrollIntoView({ behavior: "smooth" });
+    }
+  });
+
+  modalSkipBtn.addEventListener("click", () => {
+    modalBackdrop.style.display = "none";
+    finalZone.style.display = "block";
+    finalZone.scrollIntoView({ behavior: "smooth" });
+  });
+
+  // --- Quiz final ---
+
+  const quizQuestions = [
+    {
+      id: "q1",
+      type: "knowledge",
+      title: "1. Sur la base des annexes, le centrisme radical se distingue surtout par…",
+      options: [
+        "l’absence totale d’opinion pour ne contrarier personne.",
+        "la volonté de proposer des solutions fortes qui dépassent les vieux clivages gauche/droite.",
+        "la capacité à changer de camp tous les deux jours."
+      ],
+      correct: 1
+    },
+    {
+      id: "q2",
+      type: "knowledge",
+      title: "2. Un centriste radical borderline récursif, c’est…",
+      options: [
+        "un modéré qui ne lit jamais les annexes.",
+        "quelqu’un qui réévalue en boucle ses positions, oscille quand c’est nécessaire, et cherche des synthèses toujours plus fines.",
+        "un extrémiste qui se déguise en centriste pour tromper son monde."
+      ],
+      correct: 1
+    },
+    {
+      id: "q3",
+      type: "knowledge",
+      title: "3. Le MOC, dans le paysage belge, est avant tout…",
+      options: [
+        "un parti politique centriste enregistré au Parlement.",
+        "une coupole d’organisations sociales (CSC, MC, Vie Féminine, EP, JOC…) d’inspiration chrétienne et pluraliste.",
+        "un parc d’attractions pour syndicalistes en burn-out."
+      ],
+      correct: 1
+    },
+    {
+      id: "q4",
+      type: "knowledge",
+      title: "4. Beweging.net est…",
+      options: [
+        "le nouveau nom de l’ACW flamand, réseau d’organisations chrétiennes sociales (ACV, CM, etc.).",
+        "une start-up spécialisée dans les trottinettes centristes.",
+        "la mascotte de Milou quand il parle néerlandais."
+      ],
+      correct: 0
+    },
+    {
+      id: "q5",
+      type: "profile",
+      title: "5. Face à un conflit très polarisé, ton réflexe le plus honnête est…",
+      options: [
+        "me mettre pile au milieu, même si je ne comprends pas encore les arguments.",
+        "écouter les deux côtés, puis tenter une synthèse quitte à être très tranché·e sur certains principes.",
+        "choisir un camp, puis revenir vers le centre si ça part trop en vrille."
+      ],
+      scores: [
+        { ultra: 2 },
+        { radical: 2 },
+        { borderline: 2 }
+      ]
+    },
+    {
+      id: "q6",
+      type: "profile",
+      title: "6. Quand tu lis des trucs comme OPÉRATION MILOU ou le MOC, ton envie principale est…",
+      options: [
+        "en faire un gros tableau Excel pour tout classer et calmer le bazar.",
+        "lancer un jeu de rôle / MMO IRL qui mélange tout ça et voir ce que ça donne.",
+        "choisir quelques idées et les appliquer dans un cas concret, quitte à tout réajuster ensuite."
+      ],
+      scores: [
+        { modere: 2 },
+        { recursif: 2 },
+        { radical: 1, recursif: 1 }
+      ]
+    }
+  ];
+
+  (function buildQuiz() {
+    const grid = document.getElementById("quiz-grid");
+    quizQuestions.forEach((q, idx) => {
+      const card = document.createElement("div");
+      card.className = "quiz-card";
+      const h = document.createElement("h4");
+      h.textContent = q.title;
+      card.appendChild(h);
+      q.options.forEach((opt, j) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = q.id;
+        input.value = j;
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(" " + opt));
+        card.appendChild(label);
+      });
+      grid.appendChild(card);
+    });
+  })();
+
+  function computeProfile(scores) {
+    let archetype = "Centriste modéré curieux";
+    let description = "Tu sembles chercher l’équilibre avec de vraies questions, sans obsession ni rigidité. Parfait pour naviguer dans Muchtefion Land sans vertige.";
+    const ultra = scores.ultra || 0;
+    const radical = scores.radical || 0;
+    const borderline = scores.borderline || 0;
+    const modere = scores.modere || 0;
+    const recursif = scores.recursif || 0;
+
+    if (recursif >= 3 && radical >= 2) {
+      archetype = "Centriste radical borderline récursif";
+      description = "Tu reconstruis en permanence tes positions, tu assumes les zigzags quand les principes sont en jeu, et tu cherches sans cesse une nouvelle synthèse.";
+    } else if (ultra >= 3) {
+      archetype = "Centriste ultra dogmatique du milieu";
+      description = "Le juste milieu est ton absolu. Tu protèges le centre comme d’autres protègent un trésor légendaire, quitte à être un peu raide parfois.";
+    } else if (borderline >= 3) {
+      archetype = "Centriste borderline assumé·e";
+      description = "Tu restes au centre, mais tu n’hésites pas à prendre des positions tranchées si le contexte l’exige. Les montagnes russes ne te font pas peur.";
+    } else if (radical >= 3) {
+      archetype = "Centriste radical expérimental";
+      description = "Pour toi, le centrisme n’est pas tiède : c’est un laboratoire de solutions audacieuses pour dépasser les vieux clivages.";
+    } else if (modere >= 3) {
+      archetype = "Centriste modéré souple";
+      description = "Tu préfères l’ajustement progressif aux grands coups de volant. Tu es la personne qu’on appelle pour calmer les réunions.";
+    }
+
+    return { archetype, description };
+  }
+
+  document.getElementById("submit-quiz").addEventListener("click", () => {
+    let score = 0;
+    let unanswered = 0;
+    const profileScores = { ultra:0, radical:0, borderline:0, modere:0, recursif:0 };
+
+    quizQuestions.forEach((q, idx) => {
+      const radios = document.querySelectorAll(`input[name='${q.id}']`);
+      let selected = null;
+      radios.forEach(r => { if (r.checked) selected = parseInt(r.value, 10); });
+      if (selected === null) {
+        unanswered++;
+        return;
+      }
+      if (q.type === "knowledge") {
+        if (selected === q.correct) score++;
+      } else if (q.type === "profile" && q.scores && q.scores[selected]) {
+        const sc = q.scores[selected];
+        Object.keys(sc).forEach(k => {
+          profileScores[k] = (profileScores[k] || 0) + sc[k];
+        });
+      }
+    });
+
+    const totalKnowledge = quizQuestions.filter(q => q.type === "knowledge").length;
+    const scoreEl = document.getElementById("quiz-score");
+    const cert = document.getElementById("certificate");
+
+    if (unanswered > 0) {
+      scoreEl.textContent = "Tu as encore " + unanswered + " question(s) sans réponse. L’Oracle t’observe.";
+      scoreEl.className = "quiz-score fail";
+      cert.style.display = "none";
+      return;
+    }
+
+    scoreEl.textContent = "Score connaissances : " + score + " / " + totalKnowledge + ". ";
+    if (score >= 4) {
+      scoreEl.textContent += "Diplôme débloqué !";
+      scoreEl.className = "quiz-score success";
+
+      const profile = computeProfile(profileScores);
+      const name = prompt("Nom à afficher sur le diplôme (facultatif) :", "");
+      if (name && name.trim().length > 0) {
+        document.getElementById("cert-name").textContent = name.trim();
+      } else {
+        document.getElementById("cert-name").textContent = "Candidat·e du Milieu anonyme";
+      }
+      document.getElementById("cert-title").textContent = profile.archetype;
+      document.getElementById("cert-description").textContent = profile.description;
+      cert.style.display = "block";
+      triggerConfetti();
+    } else {
+      scoreEl.textContent += "C’est presque ça. Revisite les zones du parc et retente ta chance.";
+      scoreEl.className = "quiz-score fail";
+      cert.style.display = "none";
+    }
+  });
+
+  document.getElementById("reset-quiz").addEventListener("click", () => {
+    quizQuestions.forEach(q => {
+      const radios = document.querySelectorAll(`input[name='${q.id}']`);
+      radios.forEach(r => r.checked = false);
+    });
+    document.getElementById("quiz-score").textContent = "";
+    document.getElementById("quiz-score").className = "quiz-score";
+    document.getElementById("certificate").style.display = "none";
+  });
+</script>
+</body>
+</html>
