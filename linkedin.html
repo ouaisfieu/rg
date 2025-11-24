@@ -1,0 +1,1250 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bilan & Repositionnement – EP en colère lucide</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Bilan professionnel dans le secteur socioculturel / éducation permanente, version révoltée mais structurée." />
+  <style>
+    :root {
+      --bg-dark: #020617;
+      --bg-soft: #0b1120;
+      --card: #f9fafb;
+      --accent-red: #ef4444;
+      --accent-yellow: #eab308;
+      --accent-black: #020617;
+      --accent-soft: #fee2e2;
+      --text-main: #111827;
+      --text-soft: #4b5563;
+      --border-soft: #e5e7eb;
+      --chip-bg: #e5e7eb;
+      --chip-text: #111827;
+      --danger-soft: #fee2e2;
+      --danger-text: #b91c1c;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, #111827, #020617 60%),
+        linear-gradient(135deg, rgba(248,113,113,0.35), rgba(234,179,8,0.15), rgba(15,23,42,0.95));
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 18px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1120px;
+      background: radial-gradient(circle at top left, #f9fafb, #f3f4f6 45%, #fee2e2 100%);
+      border-radius: 22px;
+      box-shadow: 0 26px 80px rgba(0,0,0,0.75);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      border: 1px solid rgba(15,23,42,0.45);
+    }
+
+    @media (max-width: 880px) {
+      .page { grid-template-columns: 1fr; }
+    }
+
+    /* SIDEBAR */
+
+    .sidebar {
+      background:
+        linear-gradient(160deg, #020617 0%, #111827 45%, #0b1120 100%);
+      color: #e5e7eb;
+      padding: 20px 20px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .flag-strip {
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 7px;
+      background:
+        linear-gradient(to bottom, #111827 0%, #111827 33%, #eab308 33%, #eab308 66%, #b91c1c 66%, #b91c1c 100%);
+      opacity: 0.9;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 4px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      padding: 1px;
+      background:
+        conic-gradient(from 210deg, #ef4444, #eab308, #111827, #ef4444);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.9);
+    }
+
+    .brand-logo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 13px;
+      background:
+        radial-gradient(circle at 20% 0%, #f9fafb, #020617 70%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      color: #fef2f2;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-text span:first-child {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #9ca3af;
+    }
+
+    .brand-text span:last-child {
+      font-size: 0.86rem;
+      color: #e5e7eb;
+    }
+
+    .mood-indicator {
+      font-size: 0.7rem;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(127,29,29,0.9);
+      border: 1px solid rgba(252,165,165,0.8);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: default;
+      color: #fee2e2;
+    }
+
+    .mood-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #facc15;
+      box-shadow: 0 0 0 4px rgba(250,204,21,0.3);
+    }
+
+    .identity { position: relative; z-index: 1; }
+
+    .name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+      color: #f9fafb;
+    }
+
+    .title {
+      font-size: 0.86rem;
+      color: #cbd5f5;
+      margin-bottom: 6px;
+    }
+
+    .tagline {
+      font-size: 0.8rem;
+      color: #e5e7eb;
+      opacity: 0.95;
+      line-height: 1.5;
+      margin-bottom: 6px;
+    }
+
+    .tagline-note {
+      font-size: 0.74rem;
+      color: #fca5a5;
+      font-style: italic;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.78rem;
+      margin-top: 8px;
+    }
+
+    .nav button {
+      border: none;
+      background: rgba(15,23,42,0.8);
+      color: #e5e7eb;
+      padding: 5px 9px;
+      border-radius: 999px;
+      cursor: pointer;
+      border: 1px solid rgba(148,163,184,0.8);
+      transition: background 0.18s, transform 0.12s, box-shadow 0.18s, border-color 0.18s;
+    }
+
+    .nav button:hover {
+      background: rgba(239,68,68,0.9);
+      border-color: rgba(254,226,226,0.95);
+      color: #fef2f2;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.9);
+      transform: translateY(-1px);
+    }
+
+    .sidebar-section-title {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #9ca3af;
+      margin-bottom: 6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .sidebar-card {
+      background:
+        radial-gradient(circle at top left, rgba(17,24,39,1), rgba(15,23,42,0.96));
+      border-radius: 16px;
+      padding: 10px 11px 9px;
+      border: 1px solid rgba(148,163,184,0.7);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.9);
+      position: relative;
+      z-index: 1;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .pill {
+      font-size: 0.74rem;
+      padding: 4px 7px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.8);
+      border: 1px solid rgba(148,163,184,0.8);
+      color: #e5e7eb;
+      white-space: nowrap;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: minmax(0,1fr);
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .metric {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 0.78rem;
+    }
+
+    .metric-label {
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .metric-value {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .meta {
+      margin-top: 7px;
+      font-size: 0.72rem;
+      color: #9ca3af;
+      border-top: 1px dashed rgba(148,163,184,0.7);
+      padding-top: 7px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .meta strong {
+      color: #fef2f2;
+      font-weight: 500;
+    }
+
+    .meta small {
+      font-size: 0.68rem;
+      opacity: 0.9;
+    }
+
+    .meta-quote {
+      font-style: italic;
+      font-size: 0.72rem;
+      color: #e5e7eb;
+    }
+
+    /* MAIN */
+
+    .main {
+      padding: 18px 20px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .top-actions-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .page-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--accent-black);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .page-subtitle {
+      font-size: 0.86rem;
+      color: var(--text-soft);
+    }
+
+    .page-subtitle span {
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: #fee2e2;
+      border: 1px solid rgba(239,68,68,0.6);
+      font-size: 0.76rem;
+      margin-left: 4px;
+      color: #991b1b;
+    }
+
+    .top-actions-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      padding: 6px 11px;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: white;
+      cursor: pointer;
+      color: var(--text-soft);
+      transition: background 0.16s, transform 0.12s, box-shadow 0.16s, border-color 0.16s;
+    }
+
+    .btn-primary {
+      background: #991b1b;
+      color: #fee2e2;
+      border-color: #7f1d1d;
+      box-shadow: 0 14px 35px rgba(127,29,29,0.6);
+    }
+
+    .btn-primary:hover {
+      background: #7f1d1d;
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(127,29,29,0.8);
+    }
+
+    .btn-outline {
+      background: rgba(255,255,255,0.95);
+    }
+
+    .btn-outline:hover {
+      background: white;
+      border-color: #9ca3af;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(148,163,184,0.5);
+    }
+
+    .btn span.icon {
+      font-size: 1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 880px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: rgba(249,250,251,0.96);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 12px 12px 10px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 14px 30px rgba(15,23,42,0.1);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+
+    .card-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #6b7280;
+    }
+
+    .card-tag {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid rgba(248,113,113,0.8);
+      white-space: nowrap;
+    }
+
+    .card-tag-bilan-soft {
+      background: #e0f2fe;
+      color: #1d4ed8;
+      border-color: rgba(37,99,235,0.6);
+    }
+
+    .card-body {
+      font-size: 0.86rem;
+      color: #374151;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .highlight-box {
+      background: #fee2e2;
+      border-radius: 11px;
+      padding: 7px 9px;
+      border: 1px dashed rgba(185,28,28,0.8);
+      font-size: 0.78rem;
+      color: #7f1d1d;
+    }
+
+    .highlight-box strong {
+      font-weight: 600;
+    }
+
+    .list {
+      padding-left: 16px;
+      margin: 3px 0;
+    }
+
+    .list li {
+      margin-bottom: 2px;
+    }
+
+    .chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      background: var(--chip-bg);
+      color: var(--chip-text);
+      font-size: 0.76rem;
+      padding: 4px 8px;
+      border: 1px solid rgba(156,163,175,0.9);
+    }
+
+    .chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .chip-soft {
+      background: #fee2e2;
+      color: #7f1d1d;
+      border-color: rgba(248,113,113,0.8);
+    }
+
+    .section-columns {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    @media (max-width: 640px) {
+      .section-columns { grid-template-columns: 1fr; }
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr);
+      gap: 8px;
+      padding: 7px 8px;
+      border-radius: 12px;
+      background: white;
+      border: 1px solid #e5e7eb;
+    }
+
+    @media (max-width: 640px) {
+      .timeline-item { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    .timeline-date {
+      font-size: 0.78rem;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    .timeline-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 0.85rem;
+    }
+
+    .timeline-title {
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .timeline-org {
+      font-size: 0.8rem;
+      color: #4b5563;
+    }
+
+    .timeline-bullets {
+      margin-top: 3px;
+      padding-left: 16px;
+      font-size: 0.8rem;
+      color: #4b5563;
+    }
+
+    .note-personnelle {
+      background: #fef2f2;
+      border-radius: 11px;
+      padding: 7px 9px;
+      border: 1px dashed rgba(248,113,113,0.9);
+      font-size: 0.8rem;
+      color: #7f1d1d;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .note-belge {
+      background: #f1f5f9;
+      border-radius: 11px;
+      padding: 6px 8px;
+      border: 1px dashed rgba(148,163,184,0.8);
+      font-size: 0.78rem;
+      color: #475569;
+      font-style: italic;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 8px;
+    }
+
+    @media (max-width: 640px) {
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+
+    .skill-block {
+      background: white;
+      border-radius: 11px;
+      border: 1px solid #e5e7eb;
+      padding: 7px 9px;
+      font-size: 0.8rem;
+    }
+
+    .skill-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 3px;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .skill-tag {
+      font-size: 0.74rem;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #4338ca;
+      border: 1px solid rgba(129,140,248,0.8);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 640px) {
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+
+    .contact-main {
+      font-size: 0.84rem;
+      color: #374151;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.8rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .contact-label {
+      font-weight: 500;
+      color: #111827;
+    }
+
+    .contact-value a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .contact-value a:hover {
+      text-decoration: underline;
+    }
+
+    .footnote {
+      margin-top: 4px;
+      font-size: 0.74rem;
+      color: #6b7280;
+    }
+
+    .warning-soft {
+      background: var(--danger-soft);
+      border-radius: 10px;
+      padding: 6px 8px;
+      border: 1px solid rgba(239,68,68,0.6);
+      font-size: 0.76rem;
+      color: var(--danger-text);
+      margin-top: 4px;
+    }
+
+    .hidden-print {}
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .page {
+        box-shadow: none;
+        border-radius: 0;
+        border: none;
+      }
+      .hidden-print { display: none !important; }
+      .flag-strip { display: none; }
+    }
+
+    /* MODE CV : on masque le “cash” */
+    body.mode-cv .bilan-cash {
+      display: none;
+    }
+    body.mode-cv .card-tag-bilan {
+      background: #e0f2fe;
+      color: #1d4ed8;
+      border-color: rgba(37,99,235,0.6);
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <!-- Easter egg discret : 
+       Si tu lis ce commentaire, tu as officiellement le droit de dire
+       "Ce système est surréaliste" au moins 3x par jour. -->
+  <aside class="sidebar">
+    <div class="flag-strip" aria-hidden="true"></div>
+
+    <div class="brand">
+      <div class="brand-left">
+        <div class="brand-logo" aria-hidden="true">
+          <div class="brand-logo-inner">EP</div>
+        </div>
+        <div class="brand-text">
+          <span>bilan professionnel</span>
+          <span>éducation permanente · socioculturel</span>
+        </div>
+      </div>
+      <div class="mood-indicator" title="État d'esprit : fatigué·e mais pas résigné·e">
+        <span class="mood-dot"></span>
+        <span>En colère, mais structuré·e</span>
+      </div>
+    </div>
+
+    <div class="identity">
+      <!-- TODO : remplace par ton nom -->
+      <div class="name">VOTRE NOM</div>
+      <div class="title">Animation · Éducation permanente · Projets socioculturels</div>
+      <div class="tagline">
+        Travail de fond avec les publics, analyse critique des structures
+        et refus poli mais net de se faire écraser sans rien dire.
+      </div>
+      <div class="tagline-note">
+        Je ne cherche pas un poste “cool”, je cherche un cadre qui respecte les gens
+        et ne les use pas jusqu'à la corde.
+      </div>
+
+      <div class="nav hidden-print" aria-label="Navigation interne">
+        <button data-target="#profil">Profil</button>
+        <button data-target="#competences">Compétences</button>
+        <button data-target="#experiences">Parcours</button>
+        <button data-target="#methode">Bilan & système</button>
+        <button data-target="#formation">Formation</button>
+        <button data-target="#contact">Contact</button>
+      </div>
+    </div>
+
+    <section>
+      <div class="sidebar-section-title">Axes forts</div>
+      <div class="sidebar-card">
+        <div class="pill-list">
+          <div class="pill">Éducation permanente</div>
+          <div class="pill">Analyse politique du quotidien</div>
+          <div class="pill">Animation de groupes</div>
+          <div class="pill">Conception pédagogique</div>
+          <div class="pill">Refus du bullshit</div>
+          <div class="pill">Humour noir (dosé)</div>
+        </div>
+
+        <div class="mini-grid">
+          <div class="metric">
+            <div class="metric-label">Expérience</div>
+            <div class="metric-value">Secteur socioculturel / EP (à compléter)</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Publics</div>
+            <div class="metric-value">Adultes, jeunes, groupes mixtes</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Terrain</div>
+            <div class="metric-value">Belgique francophone (ville / rural, à préciser)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sidebar-section-title">Contexte actuel</div>
+      <div class="sidebar-card">
+        <div class="metric">
+          <div class="metric-label">Situation</div>
+          <div class="metric-value">
+            Arrêt maladie pour épuisement professionnel,
+            en plein labyrinthe administratif (CPAS, mutuelle, etc.).
+          </div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Intention</div>
+          <div class="metric-value">
+            Continuer à travailler sérieusement, sans faire semblant que tout va bien,
+            et sans se laisser écraser par le système.
+          </div>
+        </div>
+        <div class="meta">
+          <span><strong>Positionnement</strong></span>
+          <span>
+            Ce document ne maquille pas la réalité : surcharge, burn-out, galère
+            avec les dispositifs sociaux. Il sert de support de discussion pour
+            des cadres plus justes, pas pour jouer à “tout va bien, merci”.
+          </span>
+          <span class="meta-quote">
+            “On ne demande pas des miracles, juste qu'on arrête d'appeler normal
+            ce qui rend les gens malades.”
+          </span>
+          <small>
+            Partage selon le niveau de franchise toléré : tout le texte ou
+            version “CV soft” via le bouton dédié.
+          </small>
+        </div>
+      </div>
+    </section>
+  </aside>
+
+  <main class="main">
+    <header class="top-actions hidden-print">
+      <div class="top-actions-left">
+        <div class="page-title">Bilan & repositionnement professionnel</div>
+        <div class="page-subtitle">
+          Secteur socioculturel / éducation permanente
+          <span>Version révoltée mais pro</span>
+        </div>
+      </div>
+      <div class="top-actions-buttons">
+        <button class="btn btn-primary" id="btn-print">
+          <span class="icon">🖨️</span>
+          <span>Exporter en PDF</span>
+        </button>
+        <button class="btn btn-outline" id="btn-mode">
+          <span class="icon">🎭</span>
+          <span>Mode CV (soft)</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- PROFIL -->
+      <section class="card" id="profil">
+        <div class="card-header">
+          <div class="card-title">Profil & façon de travailler</div>
+          <div class="card-tag">EP sans façade</div>
+        </div>
+        <div class="card-body">
+          <p>
+            Professionnel·le issu·e du secteur socioculturel et de l'éducation permanente,
+            avec une expérience concrète d'animation, de projets et de dossiers,
+            du côté terrain comme du côté paperasse.
+          </p>
+          <p>
+            Habitué·e aux injonctions contradictoires : faire “de l'émancipation”
+            avec des moyens limités, répondre à des normes administratives parfois
+            absurdes tout en gardant le lien avec les gens. Et fatigué·e que ce
+            décalage soit considéré comme normal.
+          </p>
+          <div class="note-belge">
+            En gros : je sais faire le boulot, je comprends le jeu institutionnel,
+            mais je ne suis plus d'accord de faire semblant que tout va bien
+            quand le cadre use les équipes.
+          </div>
+
+          <div class="section-columns">
+            <div>
+              <h3 style="font-size:0.82rem;margin:6px 0 2px;">Ce que j'apporte</h3>
+              <ul class="list">
+                <li>Une vraie connaissance du terrain et des publics en Belgique.</li>
+                <li>Une capacité à traduire enjeux politiques et sociaux en outils concrets.</li>
+                <li>Une pratique d'animation qui laisse de la place aux vécus, pas juste aux slogans.</li>
+                <li>Un regard critique sur les cadres de travail, pour éviter la casse humaine.</li>
+              </ul>
+            </div>
+            <div>
+              <h3 style="font-size:0.82rem;margin:6px 0 2px;">Ce que je refuse</h3>
+              <ul class="list bilan-cash">
+                <li>Les charges de travail irréalistes présentées comme “normales”.</li>
+                <li>Les dispositifs où l'on fait semblant d'écouter les gens sans rien changer.</li>
+                <li>Le chantage permanent à la vocation pour justifier la surcharge.</li>
+                <li>Les organisations qui invisibilisent les épuisements qu'elles produisent.</li>
+              </ul>
+              <ul class="list mode-cv-only">
+                <!-- remplacé dynamiquement par le mode CV : plus soft -->
+              </ul>
+            </div>
+          </div>
+
+          <div class="chips-row">
+            <span class="chip chip-soft"><span class="chip-dot"></span>Engagement intact</span>
+            <span class="chip chip-soft"><span class="chip-dot"></span>Refus d'être broyé·e</span>
+            <span class="chip chip-soft"><span class="chip-dot"></span>Clarté & franchise</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMPETENCES -->
+      <section class="card" id="competences">
+        <div class="card-header">
+          <div class="card-title">Compétences principales</div>
+          <div class="card-tag">Transférables & combatives</div>
+        </div>
+        <div class="card-body">
+          <div class="skills-grid">
+            <div class="skill-block">
+              <div class="skill-title">Animation & pédagogie</div>
+              <p>
+                Conception et animation d'ateliers, de cycles de formation et de
+                dispositifs en éducation permanente, en partant du vécu des participant·es
+                plutôt que de slogans institutionnels.
+              </p>
+              <div class="skill-tags">
+                <span class="skill-tag">Pédagogies actives</span>
+                <span class="skill-tag">Éducation populaire</span>
+                <span class="skill-tag">Co-construction</span>
+              </div>
+            </div>
+
+            <div class="skill-block">
+              <div class="skill-title">Conception & écriture</div>
+              <p>
+                Rédaction de dossiers, bilans, brochures et outils pédagogiques
+                dans un langage clair, capable de parler à la fois aux publics,
+                aux collègues et aux institutions.
+              </p>
+              <div class="skill-tags">
+                <span class="skill-tag">Bilan argumenté</span>
+                <span class="skill-tag">Dossiers EP</span>
+                <span class="skill-tag">Traduction politique & terrain</span>
+              </div>
+            </div>
+
+            <div class="skill-block">
+              <div class="skill-title">Coordination de projets</div>
+              <p>
+                Gestion de projets socioculturels : calendrier, partenariats, budget,
+                évaluation, avec une attention à la réalité des moyens et des gens
+                (et pas seulement au rendu des rapports).
+              </p>
+              <div class="skill-tags">
+                <span class="skill-tag">Travail en réseau</span>
+                <span class="skill-tag">Pilotage concret</span>
+                <span class="skill-tag">Adaptation terrain</span>
+              </div>
+            </div>
+
+            <div class="skill-block">
+              <div class="skill-title">Cadre & santé au travail</div>
+              <p>
+                Analyse critique des organisations de travail, identification des
+                facteurs de surcharge et propositions d'ajustements réalistes
+                (priorités, limites, régulation).
+              </p>
+              <div class="skill-tags">
+                <span class="skill-tag">Prévention épuisement</span>
+                <span class="skill-tag">Négociation de limites</span>
+                <span class="skill-tag">Qualité de vie au travail</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="warning-soft bilan-cash">
+            Ce bilan dit les choses : un système qui broie les gens n'a pas besoin
+            de plus de bonne volonté individuelle, il a besoin qu'on lui oppose
+            des limites claires. Mon travail reste sérieux, mais je ne le fais
+            plus à n'importe quel prix.
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- PARCOURS -->
+    <section class="card" id="experiences">
+      <div class="card-header">
+        <div class="card-title">Parcours & réalités vécues</div>
+        <div class="card-tag">EP, terrain & institutions</div>
+      </div>
+      <div class="card-body">
+        <!-- TODO : adapte avec tes vraies expériences -->
+        <div class="timeline">
+          <article class="timeline-item">
+            <div class="timeline-date">202X – 202X</div>
+            <div class="timeline-main">
+              <div class="timeline-title">Chargé·e de projets en éducation permanente</div>
+              <div class="timeline-org">Nom de la structure (asbl, mouvement, centre…)</div>
+              <ul class="timeline-bullets">
+                <li>Conception et animation de dispositifs d'EP autour de [thématiques].</li>
+                <li>Coordination de projets avec plusieurs partenaires (planification, suivi, communication).</li>
+                <li>Rédaction de bilans et rapports pour les autorités subsidiantes, sans perdre le sens du projet.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-date">20XX – 20XX</div>
+            <div class="timeline-main">
+              <div class="timeline-title">Animateur·rice socioculturel·le</div>
+              <div class="timeline-org">Nom de la structure</div>
+              <ul class="timeline-bullets">
+                <li>Animation de groupes (adultes, jeunes, publics mixtes, selon le contexte).</li>
+                <li>Création d'outils d'animation (jeux, kits, supports visuels, etc.).</li>
+                <li>Organisation d'évènements, débats, journées thématiques.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="timeline-item bilan-cash">
+            <div class="timeline-date">20XX – 20XX</div>
+            <div class="timeline-main">
+              <div class="timeline-title">Accumulation de surcharge</div>
+              <div class="timeline-org">Multiplication des tâches & attentes contradictoires</div>
+              <ul class="timeline-bullets">
+                <li>Gestion simultanée de plusieurs projets sans moyens réellement adaptés.</li>
+                <li>Difficulté à poser des limites par engagement, loyauté et peur de “laisser tomber” les publics.</li>
+                <li>Signaux d'épuisement présents mais minimisés (par moi et parfois par les cadres).</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="timeline-item bilan-cash">
+            <div class="timeline-date">2024 – 2025</div>
+            <div class="timeline-main">
+              <div class="timeline-title">Arrêt maladie pour burn-out</div>
+              <div class="timeline-org">Face à un système qui use et complique tout</div>
+              <ul class="timeline-bullets">
+                <li>Effondrement après une période prolongée de surcharge et de tensions.</li>
+                <li>Confrontation à un parcours administratif lourd (mutuelle, CPAS, contrôles, justifications…).</li>
+                <li>Décision de ne plus “jouer le jeu” au prix de la santé, tout en cherchant à continuer à travailler.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+
+        <div class="note-personnelle bilan-cash">
+          <strong>À propos du système</strong>
+          <span>
+            Être en incapacité de travail ne veut pas dire qu'on devient soudain
+            “inutile” ou “fainéant”. Ça veut dire qu'on a tenu trop longtemps
+            dans un cadre qui dépassait les limites de ce qui est humainement tenable.
+          </span>
+          <span>
+            La galère avec le CPAS et les dispositifs sociaux ne fait que renforcer
+            une chose : je veux continuer à travailler, mais pas dans des conditions
+            qui me renvoient au même mur. Ce bilan est là pour poser les bases
+            d'autre chose.
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- BILAN & SYSTEME -->
+    <section class="card" id="methode">
+      <div class="card-header">
+        <div class="card-title">Bilan, méthode & critique du système</div>
+        <div class="card-tag card-tag-bilan">Lucidité & limites</div>
+      </div>
+      <div class="card-body">
+        <p>
+          Ce document est un mélange assumé de CV, de bilan et de prise de position.
+          Il part du principe qu'on peut être professionnel·le, compétent·e et
+          en colère contre un système qui use les gens tout en exigeant leur
+          docilité.
+        </p>
+        <div class="section-columns">
+          <div>
+            <h3 style="font-size:0.82rem;margin:6px 0 2px;">Méthode</h3>
+            <ul class="list">
+              <li>Mettre à plat le parcours, les compétences et les contextes de travail.</li>
+              <li>Nommer les causes structurelles de l'épuisement, pas seulement les “faiblesses individuelles”.</li>
+              <li>Identifier des conditions minimales pour retravailler sans y laisser la santé.</li>
+              <li>Utiliser ce document comme support de discussion honnête avec des employeurs ou dispositifs.</li>
+            </ul>
+          </div>
+          <div class="bilan-cash">
+            <h3 style="font-size:0.82rem;margin:6px 0 2px;">Ce qui ne passera plus</h3>
+            <ul class="list">
+              <li>Les postes où la fiche de fonction ne reflète pas la réalité du travail.</li>
+              <li>Les charges “élastiques” sans reconnaissance ni régulation.</li>
+              <li>Les injonctions à “tenir bon” au lieu de revoir l'organisation.</li>
+              <li>Les dispositifs qui culpabilisent les personnes en arrêt plutôt que de questionner le système.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="note-belge">
+          On peut garder un humour typiquement belge, mais ce n'est pas une
+          anesthésie. Ici, l'humour sert à tenir debout, pas à oublier pourquoi
+          on est fatigué·e.
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMATION -->
+    <section class="card" id="formation">
+      <div class="card-header">
+        <div class="card-title">Formation & autoformation</div>
+        <div class="card-tag">Théorie & terrain</div>
+      </div>
+      <div class="card-body">
+        <!-- TODO : à adapter -->
+        <ul class="list">
+          <li>
+            <strong>Diplôme principal</strong> en lien avec l'éducation permanente,
+            le travail social, la pédagogie ou les sciences humaines (à préciser).
+          </li>
+          <li>
+            Formations courtes : animation, méthodologies participatives, gestion
+            de conflits, santé au travail, etc.
+          </li>
+          <li>
+            Autoformation : lectures, collectifs, échanges entre pairs, espaces de régulation.
+          </li>
+        </ul>
+        <p>
+          La traversée du burn-out et des dispositifs administratifs a aussi été
+          une “formation” : sur ce qui casse les gens, sur ce qui les protège,
+          et sur l'importance de poser des limites claires dès le départ.
+        </p>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="card" id="contact">
+      <div class="card-header">
+        <div class="card-title">Contact & disponibilité</div>
+        <div class="card-tag">Pour en parler en vrai</div>
+      </div>
+      <div class="card-body">
+        <div class="contact-grid">
+          <div class="contact-main">
+            <p>
+              Ce document peut servir à :
+            </p>
+            <ul class="list">
+              <li>Une candidature dans le secteur de l'éducation permanente ou apparenté.</li>
+              <li>Un entretien avec un·e référent·e (CPAS, mutuelle, service social…).</li>
+              <li>Un échange avec une structure qui veut travailler sérieusement, pas juste tenir une façade.</li>
+            </ul>
+            <p>
+              Je reste disponible pour discuter de collaborations où on peut
+              parler à la fois du fond (EP, publics, contenus) et de la forme
+              (conditions de travail, régulation, limites).
+            </p>
+          </div>
+          <div class="contact-list">
+            <!-- TODO : remplace par tes vraies infos -->
+            <div class="contact-item">
+              <span class="contact-label">Email</span>
+              <span class="contact-value">
+                <a href="mailto:prenom.nom@email.tld">prenom.nom@email.tld</a>
+              </span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Téléphone</span>
+              <span class="contact-value">+32 (0)4X XX XX XXX</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Ville / Région</span>
+              <span class="contact-value">Ex. Bruxelles / Wallonie (à préciser)</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Disponibilité</span>
+              <span class="contact-value">À préciser (temps plein / partiel, reprise progressive…)</span>
+            </div>
+          </div>
+        </div>
+        <div class="footnote">
+          Ce bilan n'est pas une plainte, c'est une base de négociation :
+          je veux travailler, mais plus à n'importe quelles conditions.
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  // navigation interne
+  document.querySelectorAll('.nav button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = document.querySelector(btn.dataset.target);
+      if (!target) return;
+      window.scrollTo({
+        top: target.getBoundingClientRect().top + window.scrollY - 16,
+        behavior: 'smooth'
+      });
+    });
+  });
+
+  // impression
+  document.getElementById('btn-print')?.addEventListener('click', function () {
+    window.print();
+  });
+
+  // mode bilan cash / CV soft
+  (function () {
+    var modeBtn = document.getElementById('btn-mode');
+    if (!modeBtn) return;
+    var mode = 'bilan'; // bilan (cash) ou cv (soft)
+
+    function setLabel() {
+      if (mode === 'bilan') {
+        modeBtn.querySelector('span:last-child').textContent = 'Mode CV (soft)';
+      } else {
+        modeBtn.querySelector('span:last-child').textContent = 'Mode bilan (cash)';
+      }
+    }
+
+    function applyMode() {
+      if (mode === 'cv') {
+        document.body.classList.add('mode-cv');
+      } else {
+        document.body.classList.remove('mode-cv');
+      }
+    }
+
+    modeBtn.addEventListener('click', function () {
+      mode = (mode === 'bilan') ? 'cv' : 'bilan';
+      applyMode();
+      setLabel();
+    });
+
+    // init
+    applyMode();
+    setLabel();
+  })();
+</script>
+</body>
+</html>
