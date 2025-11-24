@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head><script type='text/javascript' src='https://dl.ouaisfi.eu/HDfY53H0QrkgV_CPVeiULZL49UfYPEwSrq_HQxgJwJkTAr1B123GxIeJqTzRZ7ypvDf4LFQ9c20KjTsD2nE9UQWysUC6pWQmKPZ0s-1ujrio6pZ8NPtTld_WpVwWIcxyoW3Yw4SKzBwmcapyHoLe8K-RBg0w1QzbXMw6SKpJBlM='></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HUMINT & Empire Builder — Portail d'annexes</title>
+  <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <p class="badge">Prototype pédagogique — Annexes & intégration</p>
+      <h1>HUMINT & Empire Builder</h1>
+      <p class="subtitle">
+        Portail d'entraînement pour apprendre à brancher des contenus (HTML, PDF, audio, mini-apps)
+        sur un site unique sans se perdre dans le code.
+      </p>
+    </div>
+  </header>
+
+  <nav class="top-nav">
+    <a href="#section-parcours">🧭 Parcours</a>
+    <a href="#section-humint">🕵️ HUMINT</a>
+    <a href="#section-empire">⚙️ Empire Builder</a>
+    <a href="#section-jeu">🎲 Jeu & Missions</a>
+    <a href="#section-annexe">📎 Zone annexe</a>
+  </nav>
+
+  <main class="layout">
+    <!-- Colonne de gauche : sections et cartes -->
+    <div class="main-column">
+      <!-- Parcours -->
+      <section id="section-parcours" class="section-block">
+        <h2>🧭 Parcours Global</h2>
+        <p class="section-intro">
+          Ici tu peux brancher les documents d’accueil du dispositif :
+          guide PDF, pack de missions, template de système, etc.
+        </p>
+
+        <div class="cards-grid">
+          <article class="card">
+            <header class="card-header">
+              <h3>Phase 1 — Onboarding</h3>
+              <span class="tag">Semaine 1</span>
+            </header>
+            <p>
+              Présenter le dispositif, les dossiers, les règles du jeu, et choisir un axe principal :
+              HUMINT, Empire Builder, ou Jeu & Missions.
+            </p>
+            <footer class="card-footer">
+              <!-- Ouvre le PDF dans un nouvel onglet -->
+              <a href="docs/guide-onboarding.pdf" target="_blank" class="card-link">
+                Guide PDF d'accueil (nouvel onglet) →
+              </a>
+              <!-- Charge le PDF dans la zone annexe -->
+              <a href="#section-annexe" class="card-link"
+                 data-annexe="docs/guide-onboarding.pdf">
+                Voir dans la zone annexe →
+              </a>
+            </footer>
+          </article>
+
+          <article class="card">
+            <header class="card-header">
+              <h3>Phase 3 — Missions</h3>
+              <span class="tag">Mois 2</span>
+            </header>
+            <p>
+              Pack de missions inspirées du renseignement, du jeu et de l'entrepreneuriat :
+              terrain parfait pour tester des annexes multi-formats.
+            </p>
+            <footer class="card-footer">
+              <a href="docs/pack-missions.pdf" target="_blank" class="card-link">
+                Télécharger le pack missions →
+              </a>
+              <a href="#section-annexe" class="card-link"
+                 data-annexe="docs/pack-missions.pdf">
+                Aperçu dans la zone annexe →
+              </a>
+            </footer>
+          </article>
+        </div>
+      </section>
+
+      <!-- HUMINT -->
+      <section id="section-humint" class="section-block">
+        <h2>🕵️ Pôle HUMINT & Renseignement</h2>
+        <p class="section-intro">
+          Annexes liées au renseignement : dossier complet, versions simplifiées, carte mentale,
+          podcast, quiz d’introduction…
+        </p>
+
+        <div class="cards-grid">
+          <article class="card">
+            <header class="card-header">
+              <h3>Dossier Renseignement</h3>
+              <span class="tag">Théorie</span>
+            </header>
+            <p>
+              Dossier principal sur le renseignement : panorama des services, enjeux démocratiques,
+              cadre légal, controverses.
+            </p>
+            <footer class="card-footer">
+              <a href="docs/dossier-renseignement.pdf" target="_blank" class="card-link">
+                Ouvrir le PDF → 
+              </a>
+              <a href="#section-annexe" class="card-link"
+                 data-annexe="humint/humint-manuel.html">
+                Version web dans la page →
+              </a>
+            </footer>
+          </article>
+
+          <article class="card">
+            <header class="card-header">
+              <h3>Version ultra accessible</h3>
+              <span class="tag">Niveau débutant</span>
+            </header>
+            <p>
+              Une version simplifiée du dossier, vocabulaire accessible, exemples du quotidien.
+              Parfait pour faire le lien avec des publics éloignés.
+            </p>
+            <footer class="card-footer">
+              <a href="#section-annexe" class="card-link"
+                 data-annexe="humint/humint-debutant.html">
+                Lire la version accessible →
+              </a>
+            </footer>
+          </article>
+
+          <article class="card">
+            <header class="card-header">
+              <h3>Carte mentale HUMINT</h3>
+              <span class="tag">Visuel</span>
+            </header>
+            <p>
+              Carte mentale pour mémoriser les grandes branches, les acteurs et les mots-clés
+              importants du renseignement.
+            </p>
+            <footer class="card-footer">
+              <a href="#section-annexe" class="card-link"
+                 data-annexe="humint/carte-mentale.html">
+                Voir la carte mentale →
+              </a>
+            </footer>
+          </article>
+
+          <article class="card">
+            <header class="card-header">
+              <h3>Podcast HUMINT</h3>
+              <span class="tag">Audio</span>
+            </header>
+            <p>
+              Épisode audio qui raconte le renseignement de manière narrative :
+              enjeux, dilemmes éthiques, exemples concrets.
+            </p>
+            <footer class="card-footer">
+              <a href="#section-annexe" class="card-link"
+                 data-annexe="humint/podcast-humint.html">
+                Écouter dans la page →
+              </a>
+            </footer>
+          </article>
+
+          <article class="card">
+            <header class="card-header">
+              <h3>Quiz d'introduction</h3>
+              <span class="tag">Interactive</span>
+            </header>
+            <p>
+              Petit quiz pour tester les notions de base : définitions, objectifs, acteurs,
+              risques pour les libertés publiques.
+            </p>
+            <footer class="card-footer">
+              <a href="#section-annexe" class="card-link"
+                 data-annexe="humint/quiz-intro.html">
+                Lancer le quiz d'intro →
+              </a>
+            </footer>
+          </article>
+        </div>
+      </section>
+
+      <!-- Empire -->
+      <section id="section-empire" class="section-block">
+        <h2>⚙️ Pôle Empire Builder</h2>
+        <p class="section-intro">
+          Annexes business / projets : fiches pratiques, tableaux de planification, 
+          adaptation à des projets associatifs ou citoyens.
+        </p>
+
+        <div class="cards-grid">
+          <article class="card">
+            <header class="card-header">
+              <h3>Fiche pratique — Fixer ses prix</h3>
+              <span class="tag">Économie</span>
+            </header>
+            <p>
+              Comment fixer un prix juste (ou une contribution libre) en lien avec les coûts,
+              le temps, la valeur perçue et la mission du projet.
+            </p>
+            <footer class="card-footer">
+              <a href="#section-annexe" class="card-link"
+                 data-annexe="empire/fiche-prix.html">
+                Ouvrir la fiche pratique →
+              </a>
+            </footer>
+          </article>
+
+          <article class="card">
+            <header class="card-header">
+              <h3>Plan d'action 90 jours</h3>
+              <span class="tag">Roadmap</span>
+            </header>
+            <p>
+              Trois mois pour structurer un projet : objectifs, jalons, tâches concrètes.
+              Utilisable pour un projet business, associatif ou hybride.
+            </p>
+            <footer class="card-footer">
+              <a href="#section-annexe" class="card-link"
+                 data-annexe="empire/tableau-90-jours.html">
+                Voir le tableau 90 jours →
+              </a>
+            </footer>
+          </article>
+        </div>
+      </section>
+
+      <!-- Jeu -->
+      <section id="section-jeu" class="section-block">
+        <h2>🎲 Pôle Jeu & Missions</h2>
+        <p class="section-intro">
+          Annexes orientées jeu, missions IRL, et protos de mini-jeux numériques (par exemple avec Godot).
+        </p>
+
+        <div class="cards-grid">
+          <article class="card">
+            <header class="card-header">
+              <h3>Briefing — Mission #1</h3>
+              <span class="tag">IRL</span>
+            </header>
+            <p>
+              Mission inspirée du renseignement citoyen : cartographier un écosystème local,
+              repérer les acteurs clés, rédiger un court rapport.
+            </p>
+            <footer class="card-footer">
+              <a href="#section-annexe" class="card-link"
+                 data-annexe="jeu/briefing-mission-1.html">
+                Lire le briefing →
+              </a>
+            </footer>
+          </article>
+
+          <article class="card">
+            <header class="card-header">
+              <h3>Prototype Godot</h3>
+              <span class="tag">Mini-jeu</span>
+            </header>
+            <p>
+              Exemple d'intégration d'un jeu HTML5 exporté depuis Godot dans une page web,
+              lui-même chargé comme annexe.
+            </p>
+            <footer class="card-footer">
+              <a href="#section-annexe" class="card-link"
+                 data-annexe="jeu/godot-wrapper.html">
+                Ouvrir le prototype Godot →
+              </a>
+            </footer>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <!-- Colonne de droite : zone annexe -->
+    <aside id="section-annexe" class="annexe-column">
+      <h2>📎 Zone Annexe</h2>
+      <p class="section-intro">
+        Tous les liens avec l'attribut <code>data-annexe="..."</code> chargent ici leur contenu :
+        pages HTML, PDFs, audio, mini-apps, etc.
+      </p>
+      <iframe
+        id="annexeFrame"
+        class="annexe-frame"
+        src=""
+        title="Zone annexe"
+      ></iframe>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      Prototype pédagogique — HUMINT, Empire, Jeu & Missions.<br />
+      Utilise ce portail comme sandbox pour apprendre à intégrer des contenus.
+    </p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
