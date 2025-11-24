@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sharky – L'antipode de Chomsky</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Sharky, l'antipode de Chomsky : un requin qui dévore les discours préfabriqués pour révéler les mécanismes de propagande et de dystopie."
+  />
+  <style>
+    :root {
+      --bg: #020817;
+      --bg-alt: #050b1f;
+      --accent: #18ffff;
+      --accent-soft: rgba(24, 255, 255, 0.16);
+      --accent-strong: #ff4081;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --card: rgba(15, 23, 42, 0.85);
+      --border-soft: rgba(148, 163, 184, 0.2);
+      --radius-xl: 1.5rem;
+      --shadow-soft: 0 25px 80px rgba(0, 0, 0, 0.6);
+      --transition-fast: 0.2s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0f172a 0, #020617 55%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1120px;
+      padding: 1.5rem 1.25rem 3rem;
+    }
+
+    @media (min-width: 768px) {
+      .app {
+        padding: 2.5rem 1.5rem 4rem;
+      }
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    @media (min-width: 768px) {
+      header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+      }
+    }
+
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: radial-gradient(circle at top left, #0f172a, transparent 55%);
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .logo-icon {
+      width: 1.2rem;
+      height: 1.2rem;
+      border-radius: 999px;
+      background: conic-gradient(
+        from 140deg,
+        #18ffff,
+        #22c55e,
+        #eab308,
+        #f97316,
+        #fb7185,
+        #6366f1,
+        #18ffff
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #020617;
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+
+    .hero {
+      max-width: 640px;
+    }
+
+    .hero-title {
+      font-size: clamp(2.1rem, 3vw + 1.5rem, 3.1rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.7rem;
+    }
+
+    .hero-title span {
+      background: linear-gradient(120deg, #18ffff, #22c55e, #f97316, #fb7185);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      color: var(--muted);
+      font-size: 0.98rem;
+      max-width: 32rem;
+      line-height: 1.6;
+    }
+
+    .hero-subtitle strong {
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.4rem;
+    }
+
+    button,
+    .ghost-btn {
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      border-radius: 999px;
+      padding: 0.65rem 1.4rem;
+      border: 0;
+      background: linear-gradient(135deg, #18ffff, #22c55e);
+      color: #020617;
+      font-weight: 600;
+      font-size: 0.92rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 18px 40px rgba(34, 197, 94, 0.4);
+      transition: transform var(--transition-fast),
+        box-shadow var(--transition-fast), filter var(--transition-fast);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+      box-shadow: 0 22px 60px rgba(34, 197, 94, 0.5);
+    }
+
+    .btn-primary span {
+      font-size: 1.05rem;
+    }
+
+    .btn-ghost {
+      border-radius: 999px;
+      padding: 0.6rem 1.2rem;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: radial-gradient(circle at top left, #020617, #020617 60%);
+      color: var(--muted);
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: border-color var(--transition-fast),
+        color var(--transition-fast), background var(--transition-fast),
+        transform var(--transition-fast);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: #e5e7eb;
+      background: radial-gradient(circle at top left, #020617, #020617 40%);
+      transform: translateY(-1px);
+    }
+
+    .meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    @media (min-width: 768px) {
+      .meta {
+        align-items: flex-end;
+        text-align: right;
+      }
+    }
+
+    .meta-pill {
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--border-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .meta-dot {
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 999px;
+      background: radial-gradient(circle at 25% 25%, #22c55e, #15803d);
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+    }
+
+    .meta-tip {
+      max-width: 15rem;
+      line-height: 1.45;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.8fr) minmax(0, 1.4fr);
+      gap: 1.75rem;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .panel {
+      background: radial-gradient(circle at top left, #0b1120, #020617 60%);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+      padding: 1.2rem 1.2rem 1.4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .panel {
+        padding: 1.5rem 1.6rem 1.9rem;
+      }
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      opacity: 0.25;
+      background:
+        radial-gradient(circle at 10% 0, rgba(56, 189, 248, 0.25), transparent 60%),
+        radial-gradient(circle at 100% 25%, rgba(45, 212, 191, 0.2), transparent 55%),
+        radial-gradient(circle at 10% 100%, rgba(248, 250, 252, 0.03), transparent 55%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .panel-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .panel-title {
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .pill-tag {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.6);
+      color: var(--muted);
+    }
+
+    .shark-wave {
+      width: 72px;
+      height: 30px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 10% 50%, #0ea5e9, transparent 55%),
+        radial-gradient(circle at 50% 50%, #22c55e, transparent 60%),
+        radial-gradient(circle at 90% 50%, #f97316, transparent 55%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shark-wave::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 24% 0, rgba(15, 23, 42, 0.9), transparent 55%);
+      mix-blend-mode: multiply;
+    }
+
+    .shark-body {
+      position: absolute;
+      right: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 22px;
+      background: linear-gradient(120deg, #0f172a, #020617);
+      border-radius: 100% 0 100% 0;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: 0 0 10px rgba(15, 23, 42, 0.9);
+    }
+
+    .shark-fin {
+      position: absolute;
+      left: -8px;
+      top: -4px;
+      width: 18px;
+      height: 18px;
+      background: linear-gradient(140deg, #18ffff, #38bdf8);
+      border-radius: 100% 0 100% 0;
+      transform: rotate(-10deg);
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.7);
+    }
+
+    .shark-eye {
+      position: absolute;
+      right: 9px;
+      top: 5px;
+      width: 6px;
+      height: 6px;
+      background: radial-gradient(circle at 30% 30%, #f97316, #450a0a);
+      border-radius: 999px;
+      box-shadow: 0 0 6px rgba(248, 250, 252, 0.8);
+    }
+
+    .shark-teeth {
+      position: absolute;
+      right: 7px;
+      bottom: 2px;
+      display: flex;
+      gap: 2px;
+    }
+
+    .shark-tooth {
+      width: 5px;
+      height: 6px;
+      border-radius: 0 0 4px 4px;
+      background: linear-gradient(to bottom, #e5e7eb, #9ca3af);
+    }
+
+    .shark-mode .shark-body {
+      animation: sharkBite 1.1s infinite;
+    }
+
+    @keyframes sharkBite {
+      0%,
+      80%,
+      100% {
+        transform: translateY(-50%) translateX(0);
+      }
+      40% {
+        transform: translateY(-50%) translateX(-3px);
+      }
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .tab-btn {
+      border-radius: 999px;
+      padding: 0.36rem 0.9rem;
+      border: 1px solid transparent;
+      background: rgba(15, 23, 42, 0.7);
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color var(--transition-fast),
+        background var(--transition-fast), color var(--transition-fast),
+        transform var(--transition-fast);
+    }
+
+    .tab-btn:hover {
+      border-color: rgba(148, 163, 184, 0.7);
+      transform: translateY(-1px);
+    }
+
+    .tab-btn.active {
+      border-color: rgba(56, 189, 248, 0.7);
+      color: #e5e7eb;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), #0b1120);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.85rem;
+    }
+
+    @media (min-width: 640px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .card {
+      border-radius: 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.96), #020617);
+      padding: 0.85rem 0.9rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition-fast),
+        box-shadow var(--transition-fast), border-color var(--transition-fast),
+        background var(--transition-fast);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      opacity: 0;
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.25), transparent 55%);
+      pointer-events: none;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(56, 189, 248, 0.7);
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.9);
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.96), #020617);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .card-body {
+      font-size: 0.86rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-top: 0.45rem;
+    }
+
+    .card-tag {
+      font-size: 0.72rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--muted);
+    }
+
+    .timeline {
+      margin-top: 0.5rem;
+      border-radius: 1rem;
+      border: 1px dashed rgba(148, 163, 184, 0.4);
+      padding: 0.8rem 0.9rem;
+      background: radial-gradient(circle at 0 0, rgba(15, 23, 42, 1), #020617);
+      max-height: 320px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(148, 163, 184, 0.7) transparent;
+    }
+
+    .timeline::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .timeline::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .timeline::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.7);
+      border-radius: 999px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.7rem;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    .timeline-item:not(:last-child) {
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.7rem;
+    }
+
+    .timeline-item:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 0.78rem;
+      bottom: 0;
+      width: 1px;
+      height: 0.6rem;
+      background: linear-gradient(to bottom, rgba(148, 163, 184, 0.8), transparent);
+    }
+
+    .timeline-bullet {
+      width: 1rem;
+      height: 1rem;
+      border-radius: 999px;
+      border: 2px solid rgba(148, 163, 184, 0.8);
+      background: radial-gradient(circle at 30% 30%, #18ffff, #1e293b);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.7);
+      margin-top: 0.1rem;
+    }
+
+    .timeline-title {
+      font-size: 0.84rem;
+      font-weight: 600;
+      margin-bottom: 0.1rem;
+    }
+
+    .timeline-meta {
+      font-size: 0.74rem;
+      color: var(--muted);
+      margin-bottom: 0.15rem;
+    }
+
+    .timeline-body {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .mode-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border-radius: 999px;
+      padding: 0.35rem 0.7rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.9);
+      font-size: 0.78rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: border-color var(--transition-fast),
+        background var(--transition-fast), color var(--transition-fast),
+        box-shadow var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .mode-toggle-dot {
+      width: 0.95rem;
+      height: 0.95rem;
+      border-radius: 999px;
+      border: 2px solid rgba(148, 163, 184, 0.8);
+      background: radial-gradient(circle at 25% 25%, #0ea5e9, #020617);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
+      position: relative;
+    }
+
+    .mode-toggle-dot::after {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 25% 25%, #e5e7eb, transparent 70%);
+      opacity: 0.1;
+    }
+
+    .mode-toggle.active {
+      border-color: var(--accent-strong);
+      background: radial-gradient(circle at 0 0, rgba(251, 113, 133, 0.12), #020617);
+      color: #e5e7eb;
+      box-shadow: 0 0 24px rgba(251, 113, 133, 0.48);
+      transform: translateY(-1px);
+    }
+
+    .shark-mode .panel,
+    .shark-mode .card {
+      border-color: rgba(251, 113, 133, 0.72);
+    }
+
+    .shark-mode .timeline-bullet {
+      box-shadow: 0 0 16px rgba(251, 113, 133, 0.9);
+      background: radial-gradient(circle at 25% 25%, #fb7185, #1f2937);
+      border-color: rgba(248, 113, 113, 0.85);
+    }
+
+    footer {
+      margin-top: 2.2rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .footer-tag {
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      border: 1px dashed rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    .footnote {
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+<div class="app" id="app">
+  <header>
+    <div class="hero">
+      <div class="logo-badge">
+        <div class="logo-icon">S</div>
+        <span>Sharky·Lab — Propagande décortiquée</span>
+      </div>
+      <h1 class="hero-title">
+        Sharky, <span>l'antipode de Chomsky</span>
+      </h1>
+      <p class="hero-subtitle">
+        Quand Chomsky dissèque la <strong>linguistique</strong>, Sharky découpe les
+        <strong>discours</strong> au scalpel. Requin conceptuel, il traque la novlangue,
+        les éléments de langage trop lisses et les récits dystopiques qui
+        avancent masqués.
+      </p>
+      <div class="hero-cta">
+        <button class="btn-primary" id="biteBtn">
+          <span>⤵</span> Montrer une morsure de discours
+        </button>
+        <button class="btn-ghost" id="scrollToTimeline">
+          ☄ Historique des morsures
+        </button>
+      </div>
+    </div>
+    <div class="meta">
+      <div class="meta-pill">
+        <div class="meta-dot"></div>
+        <span>Site statique • USB-friendly • 0&nbsp;tracking</span>
+      </div>
+      <div class="mode-toggle" id="modeToggle">
+        <div class="mode-toggle-dot"></div>
+        <span>Mode “vrai requin”</span>
+      </div>
+      <div class="meta-tip">
+        <strong>Idée :</strong> duplique cette page pour créer tout un
+        univers Sharky (propagande, dystopie, bullshit jobs…).
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div class="panel-inner">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">
+              ▶ Profil
+              <span class="pill-tag">Qui est Sharky&nbsp;?</span>
+            </div>
+          </div>
+          <div class="shark-wave" aria-hidden="true">
+            <div class="shark-body">
+              <div class="shark-fin"></div>
+              <div class="shark-eye"></div>
+              <div class="shark-teeth">
+                <div class="shark-tooth"></div>
+                <div class="shark-tooth"></div>
+                <div class="shark-tooth"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs" aria-label="Sections Sharky">
+          <button class="tab-btn active" data-tab="essence">
+            Essence
+          </button>
+          <button class="tab-btn" data-tab="terrain">
+            Terrains de chasse
+          </button>
+          <button class="tab-btn" data-tab="methode">
+            Méthode
+          </button>
+          <button class="tab-btn" data-tab="usage">
+            Comment l'utiliser
+          </button>
+        </div>
+
+        <div id="tab-essence" class="grid tab-panel">
+          <article class="card">
+            <div class="card-label">Archetype</div>
+            <h2 class="card-title">Requin des récits dominants</h2>
+            <p class="card-body">
+              Sharky nage là où les récits sont les plus confortables :
+              communications corporate, éléments de langage politiques,
+              storytelling marketing. Il ne croit pas aux vérités pures, seulement
+              aux <strong>intérêts</strong> qui se cachent derrière.
+            </p>
+            <div class="card-tags">
+              <span class="card-tag">Anti-langue de bois</span>
+              <span class="card-tag">Esprit critique radical</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-label">Antipode</div>
+            <h2 class="card-title">Chomsky dissèque, Sharky mord</h2>
+            <p class="card-body">
+              Là où Chomsky analyse la structure de la langue et des médias,
+              Sharky <em>performer</em> la critique : il montre concrètement comment
+              un message est construit, qui il sert et quels angles morts il
+              fabrique.
+            </p>
+            <div class="card-tags">
+              <span class="card-tag">Performances</span>
+              <span class="card-tag">Exemples concrets</span>
+            </div>
+          </article>
+        </div>
+
+        <div id="tab-terrain" class="grid tab-panel" hidden>
+          <article class="card">
+            <div class="card-label">Entreprise</div>
+            <h2 class="card-title">Bullshit jobs &amp; réunions sans fin</h2>
+            <p class="card-body">
+              Sharky adore les slides PowerPoint qui disent beaucoup sans rien
+              dire. Il met en pièces les promesses creuses, les KPI absurdes et
+              les mails qui transforment un simple “non” en 4 paragraphes de
+              jargon.
+            </p>
+            <div class="card-tags">
+              <span class="card-tag">Absurdités organisationnelles</span>
+              <span class="card-tag">Micromanagement</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-label">Médias</div>
+            <h2 class="card-title">Dystopies molles &amp; indignations flash</h2>
+            <p class="card-body">
+              D’un geste de nageoire, Sharky repère les cadrages biaisés, les
+              fausses symétries et la dramatisation permanente. Il montre comment
+              les récits dystopiques peuvent servir à faire accepter l’inacceptable.
+            </p>
+            <div class="card-tags">
+              <span class="card-tag">Cadrage</span>
+              <span class="card-tag">Framing &amp; agenda</span>
+            </div>
+          </article>
+        </div>
+
+        <div id="tab-methode" class="grid tab-panel" hidden>
+          <article class="card">
+            <div class="card-label">Étape 1</div>
+            <h2 class="card-title">Repérer l’appât</h2>
+            <p class="card-body">
+              Identifier le <strong>hook</strong> émotionnel : peur, urgence, promesse
+              de solution simple à un problème complexe. Si ça ressemble à un
+              appât, Sharky s’en approche… mais pour l’examiner, pas pour mordre
+              dedans.
+            </p>
+            <div class="card-tags">
+              <span class="card-tag">Emotion d'abord</span>
+              <span class="card-tag">Simplification suspecte</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-label">Étape 2</div>
+            <h2 class="card-title">Suivre la chaîne alimentaire</h2>
+            <p class="card-body">
+              Qui gagne quoi si ce récit est cru <em>tel quel</em>&nbsp;? Sharky remonte
+              la chaîne : financeurs, plateformes, partis, services comm’. On ne
+              juge pas les personnes, mais les <strong>structures d’intérêt</strong>.
+            </p>
+            <div class="card-tags">
+              <span class="card-tag">Intérêts</span>
+              <span class="card-tag">Structures</span>
+            </div>
+          </article>
+        </div>
+
+        <div id="tab-usage" class="grid tab-panel" hidden>
+          <article class="card">
+            <div class="card-label">Individuel</div>
+            <h2 class="card-title">Un personnage pour dire “non”</h2>
+            <p class="card-body">
+              Tu peux utiliser Sharky comme persona pour oser poser des questions
+              gênantes : “Si Sharky lisait ce mail / ce discours / cette slide,
+              qu’est-ce qu’il mordrait en premier&nbsp;?”
+            </p>
+            <div class="card-tags">
+              <span class="card-tag">Atelier</span>
+              <span class="card-tag">Ice-breaker</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-label">Collectif</div>
+            <h2 class="card-title">Cartographier la propagande par le fait</h2>
+            <p class="card-body">
+              En équipe, vous pouvez tracer les “morsures” de Sharky sur un
+              projet : où la réalité est-elle maquillée&nbsp;? où la dystopie affleure-t-elle
+              sous les éléments de langage rassurants&nbsp;?
+            </p>
+            <div class="card-tags">
+              <span class="card-tag">Workshops</span>
+              <span class="card-tag">Esprit critique</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="timelinePanel">
+      <div class="panel-inner">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">
+              ☄ Historique
+              <span class="pill-tag">Morsures de discours</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline" id="timeline">
+          <div class="timeline-item">
+            <div class="timeline-bullet"></div>
+            <div>
+              <div class="timeline-title">
+                “Nous traversons une période de transformations sans précédent…”
+              </div>
+              <div class="timeline-meta">
+                Traduction Sharky : “On va faire passer des choses qui ne
+                passeraient jamais en temps normal.”
+              </div>
+              <div class="timeline-body">
+                Sharky souligne comment l’appel au contexte exceptionnel sert
+                souvent à neutraliser les résistances. Il invite à demander :
+                <em>qu’est-ce qui est rendu pensable ou acceptable grâce à cette
+                phrase&nbsp;?</em>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-bullet"></div>
+            <div>
+              <div class="timeline-title">
+                “Il n’y a pas d’alternative réaliste.”
+              </div>
+              <div class="timeline-meta">
+                Morsure : attaque frontale de l’imaginaire politique.
+              </div>
+              <div class="timeline-body">
+                Formule fétiche des récits dystopiques soft. Sharky s’attaque à
+                cette phrase en dressant une liste d’alternatives déjà expérimentées
+                ailleurs, mais invisibilisées dans le discours dominant.
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-bullet"></div>
+            <div>
+              <div class="timeline-title">
+                “Grâce au digital, nous pouvons enfin simplifier la bureaucratie.”
+              </div>
+              <div class="timeline-meta">
+                Morsure : le numérique comme vernis sur l’absurde.
+              </div>
+              <div class="timeline-body">
+                Sharky montre comment on digitalise souvent une absurdité
+                organisationnelle sans la remettre en question. Résultat : même
+                labyrinthe, plus de mots de passe.
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-bullet"></div>
+            <div>
+              <div class="timeline-title">
+                “Pour votre sécurité, certaines libertés doivent évoluer.”
+              </div>
+              <div class="timeline-meta">
+                Dystopie rampante, version soft.
+              </div>
+              <div class="timeline-body">
+                Ici, Sharky traque ce qui se cache derrière le mot “évoluer” :
+                réduire, suspendre, conditionner&nbsp;? Il rappelle que sécurité et
+                liberté sont souvent mises en opposition pour mieux limiter la
+                seconde au nom de la première.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-ghost" id="addExampleBtn" style="margin-top: 0.9rem;">
+          ✏ Ajouter mentalement votre propre exemple
+        </button>
+        <p class="card-body" style="margin-top: 0.6rem; font-size: 0.8rem;">
+          Astuce : prends une phrase de ton contexte (entreprise, médias, politique),
+          remplace les termes vagues par des mots concrets. Ce que Sharky attaque,
+          ce n’est pas les personnes mais les <strong>mécanismes de récit</strong>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <span class="footer-tag">HTML·CSS·JS statique</span>
+      <span class="footer-tag">Copiable sur clé USB</span>
+      <span class="footer-tag">Extensible en mini-univers Sharky</span>
+    </div>
+    <div class="footnote">
+      Sharky ne mord que les récits, pas les humains. Utilisation : éveil critique,
+      ateliers, auto-défense intellectuelle.
+    </div>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    const app = document.getElementById("app");
+    const modeToggle = document.getElementById("modeToggle");
+    const biteBtn = document.getElementById("biteBtn");
+    const scrollToTimeline = document.getElementById("scrollToTimeline");
+    const timelinePanel = document.getElementById("timelinePanel");
+    const addExampleBtn = document.getElementById("addExampleBtn");
+
+    // Tabs logique
+    const tabButtons = Array.from(document.querySelectorAll(".tab-btn"));
+    const tabPanels = Array.from(document.querySelectorAll(".tab-panel"));
+
+    tabButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const target = btn.getAttribute("data-tab");
+        tabButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        tabPanels.forEach((panel) => {
+          panel.hidden = panel.id !== "tab-" + target;
+        });
+      });
+    });
+
+    // Mode requin (accent visuel)
+    modeToggle.addEventListener("click", () => {
+      const isActive = modeToggle.classList.toggle("active");
+      app.classList.toggle("shark-mode", isActive);
+    });
+
+    // “Morsure” visuelle : légère vibration des cartes
+    biteBtn.addEventListener("click", () => {
+      const cards = document.querySelectorAll(".card");
+      cards.forEach((card, index) => {
+        const delay = index * 40;
+        setTimeout(() => {
+          card.style.transform = "translateY(-2px) translateX(-2px)";
+          card.style.boxShadow = "0 16px 40px rgba(15,23,42,0.9)";
+          setTimeout(() => {
+            card.style.transform = "";
+            card.style.boxShadow = "";
+          }, 150);
+        }, delay);
+      });
+    });
+
+    // Scroll vers la timeline
+    scrollToTimeline.addEventListener("click", () => {
+      timelinePanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    // “Ajout” d’exemple : info simple via alert (sans stockage)
+    addExampleBtn.addEventListener("click", () => {
+      alert(
+        "Prends une phrase réelle de ton quotidien (mail, discours, slide)." +
+          "\n1. Souligne les mots flous (e.g. 'optimiser', 'moderniser')." +
+          "\n2. Demande-toi : qui gagne quoi si on y croit tel quel ?\n" +
+          "→ Tu viens d’appliquer la méthode Sharky."
+      );
+    });
+  })();
+</script>
+</body>
+</html>
