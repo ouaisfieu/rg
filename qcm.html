@@ -1,0 +1,821 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>viral.html – Comment rendre ton instance virale (sans devenir toxique)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #050818;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent-soft: rgba(34,197,94,0.18);
+      --accent2: #38bdf8;
+      --accent3: #eab308;
+      --accent4: #f97316;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border: rgba(148,163,184,0.7);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 0, rgba(56,189,248,0.22), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(168,85,247,0.18), transparent 60%),
+        var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 1rem 0.7rem 1.6rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1180px;
+      background:
+        radial-gradient(circle at 0 0, rgba(34,197,94,0.16), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(15,23,42,0.95), transparent 60%),
+        var(--bg-alt);
+      border-radius: 26px;
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+      padding: 1.2rem 0.9rem 1.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .page { padding: 1.8rem 1.6rem 2.2rem; }
+    }
+
+    .page::before {
+      content: "viral.html · Stratégie de diffusion éthique d’une instance citoyenne";
+      position: absolute;
+      top: 0.4rem;
+      right: 1.1rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(148,163,184,0.9);
+      pointer-events: none;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.9rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .header-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    @media (min-width: 768px) {
+      .header-row {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: var(--accent-soft);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(34,197,94,0.8);
+    }
+
+    .header-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      max-width: 290px;
+    }
+
+    h1 {
+      margin-top: 0.4rem;
+      font-size: clamp(1.8rem, 4.4vw, 2.7rem);
+      line-height: 1.05;
+      font-family: "Share Tech Mono", monospace;
+      text-transform: uppercase;
+    }
+
+    h1 span {
+      background: linear-gradient(120deg, #22c55e, #38bdf8, #a855f7, #f97316);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      margin-top: 0.35rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 840px;
+    }
+
+    .subtitle strong { color: var(--text-main); }
+
+    .notice {
+      margin-top: 0.6rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,0.96);
+      padding: 0.5rem 0.7rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .notice strong { color: var(--accent2); }
+
+    .layout {
+      margin-top: 1rem;
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    @media (min-width: 980px) {
+      .layout {
+        grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.05fr);
+        align-items: flex-start;
+      }
+    }
+
+    section {
+      background:
+        radial-gradient(circle at 0 0, rgba(34,197,94,0.18), transparent 65%),
+        var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 0.9rem 0.95rem 1.2rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      section { padding: 1.1rem 1.15rem 1.35rem; }
+    }
+
+    section h2 {
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+      color: var(--text-main);
+    }
+
+    section p {
+      line-height: 1.55;
+      margin-bottom: 0.25rem;
+    }
+
+    ul { margin-left: 1.1rem; margin-bottom: 0.25rem; }
+    li { margin-bottom: 0.18rem; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      border-radius: 999px;
+      border: 1px dashed var(--border);
+      padding: 0.12rem 0.55rem;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .pill span {
+      color: var(--accent2);
+      font-weight: 600;
+    }
+
+    /* Persona & tolérance au risque */
+
+    .persona {
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,0.98);
+      padding: 0.55rem 0.6rem;
+      font-size: 0.84rem;
+      margin-top: 0.5rem;
+    }
+
+    .persona-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .persona-select {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .persona-btn {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.22rem 0.7rem;
+      font-size: 0.78rem;
+      background: rgba(15,23,42,0.96);
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .persona-btn.active {
+      border-color: var(--accent2);
+      background: rgba(56,189,248,0.18);
+      color: var(--accent2);
+    }
+
+    .persona-text {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      min-height: 2.4em;
+    }
+
+    .meter {
+      margin-top: 0.5rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.6rem;
+      background: rgba(15,23,42,0.96);
+      font-size: 0.84rem;
+    }
+
+    .meter-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .meter-label span:last-child {
+      color: var(--accent4);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent3);
+      cursor: pointer;
+    }
+
+    .meter-note {
+      margin-top: 0.2rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .meter-note strong {
+      color: var(--accent3);
+    }
+
+    /* Boucles virales */
+
+    .loops {
+      margin-top: 0.4rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,0.98);
+      padding: 0.55rem 0.6rem;
+      font-size: 0.84rem;
+    }
+
+    .loop-item {
+      margin-bottom: 0.3rem;
+    }
+
+    .loop-title {
+      font-size: 0.82rem;
+      color: var(--accent2);
+      margin-bottom: 0.08rem;
+    }
+
+    .loop-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Générateur d’actions virales */
+
+    .generator {
+      margin-top: 0.5rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,0.98);
+      padding: 0.55rem 0.6rem;
+      font-size: 0.84rem;
+    }
+
+    .generator h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+      color: var(--text-main);
+    }
+
+    .gen-text {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      min-height: 2.8em;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid var(--accent2);
+      padding: 0.28rem 0.8rem;
+      font-size: 0.82rem;
+      background: rgba(56,189,248,0.18);
+      color: var(--accent2);
+      cursor: pointer;
+      margin-top: 0.3rem;
+    }
+
+    .btn.secondary {
+      border-color: var(--border);
+      background: rgba(15,23,42,0.95);
+      color: var(--text-muted);
+    }
+
+    /* Annexes & sources */
+
+    .tabs {
+      margin-top: 0.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .tab-btn {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.22rem 0.7rem;
+      font-size: 0.78rem;
+      background: rgba(15,23,42,0.96);
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      border-color: var(--accent2);
+      background: rgba(56,189,248,0.18);
+      color: var(--accent2);
+    }
+
+    .tab-panel {
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.6rem;
+      background: rgba(15,23,42,0.96);
+      font-size: 0.84rem;
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .tab-panel h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+      color: var(--text-main);
+    }
+
+    .tab-panel ul {
+      margin-top: 0.15rem;
+    }
+
+    .mono {
+      font-family: "Share Tech Mono", monospace;
+      font-size: 0.78rem;
+    }
+
+    .hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    footer {
+      margin-top: 1.1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    footer code {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.16rem 0.5rem;
+      background: #020617;
+      font-size: 0.7rem;
+    }
+
+    .badge-corner {
+      position: absolute;
+      bottom: 0.45rem;
+      right: 0.6rem;
+      font-size: 0.65rem;
+      color: rgba(148,163,184,0.75);
+      font-family: "Share Tech Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="header-row">
+        <div>
+          <div class="badge">
+            <span class="badge-dot"></span>
+            <span>Diffusion & viralité – Instance citoyenne</span>
+          </div>
+          <h1>Rendre ton instance <span>virale (dans le bon sens)</span></h1>
+        </div>
+        <div class="header-meta">
+          Ici, on ne parle pas de buzz creux.  
+          On parle de <strong>circulation d’outils</strong>, de <strong>contagion d’esprit critique</strong>, 
+          et de boucles où chaque personne peut devenir relais plutôt que “public cible”.
+        </div>
+      </div>
+      <p class="subtitle">
+        Ce fichier est la partie la plus stratégique de ta clé : comment faire circuler ton instance, 
+        tes tests, tes cyber-labs, tes dossiers… sans verser dans la manipulation, le putaclic ou le culte de la parano.  
+        Objectif : une <strong>viralité lente, durable, assumée</strong>.
+      </p>
+      <div class="notice">
+        <strong>Rappel éthique :</strong> ton but n’est pas de “capter de l’attention à tout prix”, mais de créer des
+        <strong>cercles vertueux</strong> : plus de personnes outillées, plus de discussions de fond, plus d’auto-défense
+        intellectuelle.  
+        Toute stratégie de diffusion qui contredit ça est à jeter.
+      </div>
+    </header>
+
+    <main class="layout">
+      <!-- Colonne gauche : stratégie & boucles -->
+      <section>
+        <h2>1. Avant la viralité : clarifier ce que tu veux vraiment</h2>
+        <p>
+          “Rendre une instance virale” ne veut rien dire si tu ne sais pas :
+        </p>
+        <ul>
+          <li><strong>Qui tu veux toucher</strong> en priorité (amis, asso, syndicats, jeunes, travailleurs sociaux…).</li>
+          <li><strong>Quel changement concret</strong> tu espères (plus de veille locale, plus d’ateliers, plus de clones…).</li>
+          <li><strong>Ce que tu refuses</strong> (rumeur complotiste, chasse au bouc émissaire, starification personnelle…).</li>
+        </ul>
+
+        <div class="pill">
+          <span>Principe clé :</span> tu ne cherches pas des “followers”, tu cherches des <strong>co-porteurs</strong>.
+        </div>
+
+        <div class="persona">
+          <div class="persona-label">Quel “type” de diffuseur es-tu (aujourd’hui) ?</div>
+          <div class="persona-select" id="personaSelect">
+            <button type="button" class="persona-btn active" data-persona="intro">
+              Introverti·e stratège
+            </button>
+            <button type="button" class="persona-btn" data-persona="extro">
+              Extroverti·e connecteur·rice
+            </button>
+            <button type="button" class="persona-btn" data-persona="tech">
+              Tech / admin discret·e
+            </button>
+            <button type="button" class="persona-btn" data-persona="form">
+              Formateur·rice / animateur·rice
+            </button>
+          </div>
+          <div class="persona-text" id="personaText">
+            Introverti·e stratège : tu préfères préparer des supports, des sites, des doc bien propres.
+            Ta force virale : des contenus robustes que d’autres peuvent relayer à ta place.
+          </div>
+        </div>
+
+        <div class="meter">
+          <div class="meter-label">
+            <span>Tolérance au “bruit” et à la visibilité</span>
+            <span id="riskLabel">1 / 5</span>
+          </div>
+          <input type="range" id="riskRange" min="1" max="5" value="1">
+          <div class="meter-note" id="riskNote">
+            1/5 – Tu veux que ton instance circule surtout <strong>de main en main</strong>, par clé USB, en petit comité.
+          </div>
+        </div>
+
+        <div class="loops">
+          <div class="loop-item">
+            <div class="loop-title">Boucle 1 – “1 personne → 1 personne” (le noyau dur)</div>
+            <div class="loop-text">
+              • Clés USB partagées entre ami·es, collègues, militants.<br>
+              • Séances où tu montres l’index.html sur ton ordi et tu expliques le projet.<br>
+              • Échanges de mails ou messages avec le lien vers ton instance (ou GitHub) + une phrase perso.
+            </div>
+          </div>
+          <div class="loop-item">
+            <div class="loop-title">Boucle 2 – “1 personne → 1 groupe” (les ateliers)</div>
+            <div class="loop-text">
+              • Ateliers dans une asso, un syndicat, une maison de jeunes, une bibliothèque.<br>
+              • Tu utilises les tests (examen, cyberlab, symboles…) comme support de discussion.<br>
+              • À la fin, tu remets une clé / un QR code / une URL pour que le groupe reparte avec le kit.
+            </div>
+          </div>
+          <div class="loop-item">
+            <div class="loop-title">Boucle 3 – “1 groupe → plusieurs groupes” (la contagion lente)</div>
+            <div class="loop-text">
+              • Relais par d’autres structures qui réutilisent ton instance, la forkent, la traduisent.<br>
+              • Publications publiques (site, GitHub Pages) qui montrent que c’est clonable et documenté.<br>
+              • Cartes et organigrammes (genre “réseau de cellules”) qui donnent envie de rejoindre le mouvement.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Colonne droite : actions concrètes + annexes -->
+      <section>
+        <h2>2. Actions concrètes pour rendre ton instance contagieuse</h2>
+        <p>
+          Les “petits gestes” cumulés font plus qu’une campagne publicitaire.  
+          L’idée : semer des <strong>points d’entrée simples</strong> partout.
+        </p>
+
+        <div class="generator">
+          <h3>Générateur d’actions virales (à tester dans ton contexte)</h3>
+          <p class="gen-text" id="genText">
+            Clique sur “Nouvelle idée” pour générer une action concrète de diffusion adaptée à ton instance.
+          </p>
+          <button type="button" class="btn" id="genBtn">Nouvelle idée</button>
+          <button type="button" class="btn secondary" id="genBtnSafe">Idée “low pression”</button>
+        </div>
+
+        <div class="hint">
+          Idée clé : chaque action doit être <strong>compréhensible en 30 secondes</strong> par quelqu’un qui n’a jamais
+          entendu parler de ton projet.  
+          Si tu dois expliquer pendant 15 minutes, c’est soit un atelier… soit trop complexe pour être viral.
+        </div>
+
+        <h2 style="margin-top:0.9rem;">3. Annexes, sources & inspirations</h2>
+        <p>
+          Cette partie est un <strong>hub de références</strong> : théorie, inspirations, checklists.  
+          Tu peux l’adapter avec tes propres lectures et ressources locales.
+        </p>
+
+        <div class="tabs" id="tabs">
+          <button type="button" class="tab-btn active" data-tab="method">
+            Méthodo “viralité lente”
+          </button>
+          <button type="button" class="tab-btn" data-tab="ethic">
+            Garde-fous éthiques
+          </button>
+          <button type="button" class="tab-btn" data-tab="docs">
+            Annexes internes
+          </button>
+          <button type="button" class="tab-btn" data-tab="sources">
+            Pistes de lecture
+          </button>
+        </div>
+
+        <div class="tab-panel active" data-tab-panel="method">
+          <h3>Méthodo – “Viralité lente et assumée”</h3>
+          <ul>
+            <li><strong>1. Clarifier ton pitch en une phrase :</strong><br>
+              “C’est une clé / un site qui permet de tester son esprit critique et sa culture citoyenne
+              avec des jeux, des tests et des dossiers pédagogiques.”
+            </li>
+            <li><strong>2. Choisir 2–3 portes d’entrée max :</strong><br>
+              Par exemple : <span class="mono">SAS.html</span>, <span class="mono">index.html</span>, un test (cyber, symboles…).</li>
+            <li><strong>3. Préparer un support de diffusion :</strong><br>
+              • Une mini-affiche avec QR code<br>
+              • Un mail-type ou message-type<br>
+              • Une slide de présentation (PDF ou image)</li>
+            <li><strong>4. Documenter :</strong><br>
+              Sur une page “jalon” ou “journal”, note où, quand, comment tu as diffusé, et ce qui est revenu.</li>
+            <li><strong>5. Itérer :</strong><br>
+              Ajuster les textes et les points d’entrée selon les retours (confusion, enthousiasme, peur, rires…).</li>
+          </ul>
+          <p class="hint">
+            Ta méthode est open source : tu encourages les autres à faire la même chose avec <strong>leur</strong> instance,
+            en gardant la même logique de transparence et d’auto-critique.
+          </p>
+        </div>
+
+        <div class="tab-panel" data-tab-panel="ethic">
+          <h3>Garde-fous éthiques (à ne pas brûler)</h3>
+          <ul>
+            <li><strong>Pas de mensonge pour “faire cliquer”.</strong><br>
+              Si ton message ressemble à du clickbait, réécris-le.</li>
+            <li><strong>Pas de désignation de boucs émissaires.</strong><br>
+              On critique des systèmes, des structures, des pratiques – pas des groupes vulnérables.</li>
+            <li><strong>Pas de collecte cachée de données.</strong><br>
+              Ton instance tourne idéalement <strong>sans traçage</strong>. Si tu collectes quelque chose, tu l’expliques clairement.</li>
+            <li><strong>Pas de confusion volontaire entre fiction et réalité.</strong><br>
+              Tu peux jouer avec La Conspi, S,.- et compagnie, mais tu expliques <em>quelque part</em> le côté fiction.</li>
+            <li><strong>Respect des contextes.</strong><br>
+              On ne lance pas un cyberlab flippant sans prévenir un minimum les participants sur ce qu’ils vont vivre.</li>
+          </ul>
+          <p class="hint">
+            Tu peux imprimer ces garde-fous en petit format et les garder comme “charte de diffusion” dans ton groupe.
+          </p>
+        </div>
+
+        <div class="tab-panel" data-tab-panel="docs">
+          <h3>Annexes internes à ton instance (à adapter selon ta clé)</h3>
+          <p>
+            Ce que tu peux lier depuis ici (à vérifier / adapter selon ton arborescence) :
+          </p>
+          <ul>
+            <li><span class="mono">SAS.html</span> – Page d’accueil / avertissement.</li>
+            <li><span class="mono">index.html</span> – Portail de tous les tests & pages.</li>
+            <li><span class="mono">cyberlab-0.html</span> – Sensibilisation à la cybersécurité.</li>
+            <li><span class="mono">cagnotte.html</span> – Soutiens & contreparties.</li>
+            <li><span class="mono">instance.html</span> – Guide pour créer sa propre instance.</li>
+            <li><span class="mono">conspii.html</span> – La Conspi, comme miroir critique.</li>
+            <li>Dossiers PDF sur la <strong>propagande</strong>, la <strong>guerre narrative</strong>, la <strong>veille citoyenne</strong>, etc.</li>
+          </ul>
+          <p class="hint">
+            Sur clé USB, tu peux créer un dossier <span class="mono">/annexes</span> avec un <span class="mono">README.txt</span> 
+            qui explique chaque PDF, chaque vidéo, chaque document.
+          </p>
+        </div>
+
+        <div class="tab-panel" data-tab-panel="sources">
+          <h3>Pistes de lecture & de veille (non exhaustives)</h3>
+          <p>
+            À adapter avec tes propres références. Quelques axes :
+          </p>
+          <ul>
+            <li><strong>Diffusion des idées & réseaux sociaux :</strong><br>
+              • Travaux sur la diffusion des innovations (Rogers).<br>
+              • Notions de “petits mondes” et de “liens faibles” (Granovetter).<br>
+              • Critiques de l’économie de l’attention (Zuboff, Citton, etc.).</li>
+            <li><strong>Médias, propagande & éducation aux médias :</strong><br>
+              • Ouvrages d’éducation permanente / éducation populaire dans ta région.<br>
+              • Ressources des associations d’éducation aux médias, conseils de décryptage.</li>
+            <li><strong>Cybersécurité grand public :</strong><br>
+              • Guides d’hygiène numérique (CERT, agences de cybersécurité, associations de défense des libertés numériques).<br>
+              • Kits pédagogiques pour ateliers (mots de passe, phishing, vie privée).</li>
+            <li><strong>Jeux & ARG citoyens :</strong><br>
+              • Expériences d’ARG éducatifs, jeux sérieux en contexte militant ou associatif.<br>
+              • Réflexions sur le “jeu comme dispositif d’enquête” et d’appropriation critique.</li>
+          </ul>
+          <p class="hint">
+            Tu peux créer un <span class="mono">sources.html</span> séparé si tu veux détailler toutes tes références
+            avec une vraie bibliographie. Ici, on reste synthétique pour ne pas surcharger la clé.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>
+        Ce fichier n’est pas un plan marketing : c’est un <strong>manuel de contamination douce</strong>.
+        Si une tactique te met mal à l’aise, elle est probablement à éviter.
+      </span>
+      <code>viral.html · mobile first · pur HTML/CSS/JS · à lier depuis index.html / SAS.html</code>
+    </footer>
+
+    <div class="badge-corner">
+      VIRAL BUT HONEST · V1
+    </div>
+  </div>
+
+  <script>
+    // Persona
+    (function() {
+      const personaText = document.getElementById('personaText');
+      const buttons = document.querySelectorAll('.persona-btn');
+
+      const textes = {
+        intro: "Introverti·e stratège : tu préfères préparer des supports, des sites, des docs bien propres. Ta force virale : des contenus robustes que d’autres peuvent relayer à ta place.",
+        extro: "Extroverti·e connecteur·rice : tu connais du monde, tu aimes les discussions en live. Ta force virale : organiser des rencontres, des ateliers, des sessions de test du kit.",
+        tech: "Tech / admin discret·e : tu sais brancher un domaine, héberger un site, gérer des sauvegardes. Ta force virale : rendre tout ça accessible, stable et clonable pour les autres.",
+        form: "Formateur·rice / animateur·rice : tu sais tenir un groupe, lancer un débat, poser des questions difficiles sans casser les gens. Ta force virale : transformer le kit en séquences pédagogiques vivantes."
+      };
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          buttons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const key = btn.getAttribute('data-persona');
+          personaText.textContent = textes[key] || "";
+        });
+      });
+    })();
+
+    // Tolérance au bruit
+    (function() {
+      const range = document.getElementById('riskRange');
+      const label = document.getElementById('riskLabel');
+      const note = document.getElementById('riskNote');
+
+      function update() {
+        const v = parseInt(range.value, 10);
+        label.textContent = v + " / 5";
+        let txt;
+        if (v === 1) {
+          txt = "1/5 – Tu veux que ton instance circule surtout de main en main, par clé USB, en petit comité. C’est une diffusion lente mais très qualitative.";
+        } else if (v === 2) {
+          txt = "2/5 – Tu es ok avec un peu de visibilité (site, petit GitHub) tant que ça reste dans un cercle élargi mais maîtrisé.";
+        } else if (v === 3) {
+          txt = "3/5 – Tu acceptes que le projet vive un peu sa vie, avec des gens que tu ne connais pas, tant que la documentation est claire.";
+        } else if (v === 4) {
+          txt = "4/5 – Tu es prêt·e à ce que l’instance circule largement (réseaux, médias, conférences) mais tu veux garder de solides garde-fous éthiques.";
+        } else {
+          txt = "5/5 – Tu es ok pour un niveau de diffusion très large, à condition que l’on rappelle partout que le kit est forkable, non propriétaire et critiquable.";
+        }
+        note.innerHTML = txt.replace("solides garde-fous éthiques", "<strong>solides garde-fous éthiques</strong>");
+      }
+
+      range.addEventListener('input', update);
+      update();
+    })();
+
+    // Générateur d’actions virales
+    (function() {
+      const ideas = [
+        "Prépare une mini-affiche A4 avec un QR code vers ton index.html, une phrase simple, et affiche-la dans un lieu que tu fréquentes (bibliothèque, maison de jeunes, local associatif).",
+        "Organise une soirée “Crash test du Cyberlab” avec 3–5 ami·es : ils viennent avec leurs appareils, tu projettes ta page cyberlab-0.html, et vous discutez de ce que chacun découvre.",
+        "Crée un message court type “Si tu veux tester ton esprit critique avec des jeux et des dossiers, j’ai une clé / un site à te montrer” et envoie-le à 3 personnes qui t’inspirent confiance.",
+        "Branche ton instance à une réunion d’association : propose un test (symboles, propagande, guerre narrative) comme brise-glace pour lancer la discussion.",
+        "Imprime une carte de visite minimaliste avec l’URL de ton instance (ou ton GitHub Pages) et partage-la à chaque occasion où quelqu’un te parle d’info / de politique / de méfiance envers les médias.",
+        "Ajoute une rubrique “Comment cloner ce truc chez toi ?” dans ton index.html et invite explicitement les gens à te demander de l’aide pour créer leur propre instance.",
+        "Enregistre une courte vidéo (ou audio) où tu expliques en 2–3 minutes pourquoi tu as créé ton instance, puis partage-la avec le lien vers ton portail.",
+        "Propose à une structure (bibliothèque, centre culturel, syndicat) un atelier test “Découvrir notre clé de veille citoyenne” et documente le déroulé pour le répliquer ailleurs."
+      ];
+
+      const safeIdeas = [
+        "Montre ton instance en tête-à-tête à une seule personne de confiance et demande-lui ce qu’elle comprend et ce qui la perd.",
+        "Ajoute une phrase plus claire en haut de ton index.html expliquant le projet en 2 lignes, puis demande à quelqu’un qui ne connaît rien de te dire ce qu’il comprend.",
+        "Crée une copie de ton dossier sur une seconde clé USB et mets-la de côté comme sauvegarde : la première étape pour oser la diffusion, c’est de ne pas avoir peur de casser la seule copie.",
+        "Identifie une seule association ou collectif à qui ton instance pourrait être utile et note quelque part comment tu pourrais les approcher sans pression.",
+        "Ajoute un paragraphe “Si tu es tombé·e ici par hasard…” sur ton portail, pour rassurer les gens et clarifier que tout est expérimental et forkable."
+      ];
+
+      const genText = document.getElementById('genText');
+      const genBtn = document.getElementById('genBtn');
+      const genBtnSafe = document.getElementById('genBtnSafe');
+
+      function pick(arr) {
+        const index = Math.floor(Math.random() * arr.length);
+        return arr[index];
+      }
+
+      genBtn.addEventListener('click', () => {
+        genText.textContent = pick(ideas);
+      });
+
+      genBtnSafe.addEventListener('click', () => {
+        genText.textContent = pick(safeIdeas);
+      });
+    })();
+
+    // Tabs annexes
+    (function() {
+      const btns = document.querySelectorAll('.tab-btn');
+      const panels = document.querySelectorAll('.tab-panel');
+
+      btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tab = btn.getAttribute('data-tab');
+          btns.forEach(b => b.classList.remove('active'));
+          panels.forEach(p => p.classList.remove('active'));
+          btn.classList.add('active');
+          const panel = document.querySelector(`.tab-panel[data-tab-panel="${tab}"]`);
+          if (panel) panel.classList.add('active');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
