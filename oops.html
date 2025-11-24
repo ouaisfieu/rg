@@ -1,0 +1,986 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>cagnotte.html – Soutiens, contreparties & missions à débloquer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #050818;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent-soft: rgba(34,197,94,0.18);
+      --accent2: #38bdf8;
+      --accent3: #a855f7;
+      --accent4: #f97316;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border: rgba(148,163,184,0.7);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 0, rgba(56,189,248,0.22), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(168,85,247,0.18), transparent 60%),
+        var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 1rem 0.7rem 1.6rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1180px;
+      background:
+        radial-gradient(circle at 0 0, rgba(34,197,94,0.16), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(15,23,42,0.95), transparent 60%),
+        var(--bg-alt);
+      border-radius: 26px;
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+      padding: 1.2rem 0.9rem 1.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .page { padding: 1.8rem 1.6rem 2.2rem; }
+    }
+
+    .page::before {
+      content: "cagnotte.html · Soutiens, contreparties & missions à débloquer";
+      position: absolute;
+      top: 0.4rem;
+      right: 1.1rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(148,163,184,0.9);
+      pointer-events: none;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.9rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .header-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    @media (min-width: 768px) {
+      .header-row {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: var(--accent-soft);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(34,197,94,0.8);
+    }
+
+    .header-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      max-width: 290px;
+    }
+
+    h1 {
+      margin-top: 0.4rem;
+      font-size: clamp(1.8rem, 4.4vw, 2.7rem);
+      line-height: 1.05;
+      font-family: "Share Tech Mono", monospace;
+      text-transform: uppercase;
+    }
+
+    h1 span {
+      background: linear-gradient(120deg, #22c55e, #38bdf8, #a855f7, #f97316);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      margin-top: 0.35rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 840px;
+    }
+
+    .subtitle strong { color: var(--text-main); }
+
+    .notice {
+      margin-top: 0.6rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,0.96);
+      padding: 0.5rem 0.7rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .notice strong { color: var(--accent2); }
+
+    /* Layout */
+
+    .layout {
+      margin-top: 1rem;
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    @media (min-width: 980px) {
+      .layout {
+        grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.1fr);
+        align-items: flex-start;
+      }
+    }
+
+    section {
+      background:
+        radial-gradient(circle at 0 0, rgba(34,197,94,0.18), transparent 65%),
+        var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 0.9rem 0.95rem 1.2rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      section { padding: 1.1rem 1.15rem 1.35rem; }
+    }
+
+    section h2 {
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+      color: var(--text-main);
+    }
+
+    section p {
+      line-height: 1.55;
+      margin-bottom: 0.25rem;
+    }
+
+    ul { margin-left: 1.1rem; margin-bottom: 0.25rem; }
+    li { margin-bottom: 0.18rem; }
+
+    /* Paliers */
+
+    .paliers {
+      margin-top: 0.5rem;
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    @media (min-width: 640px) {
+      .paliers {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .palier-card {
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,0.96);
+      padding: 0.55rem 0.6rem 0.65rem;
+      position: relative;
+      transition: border-color 0.15s ease-out, box-shadow 0.15s ease-out, transform 0.15s ease-out;
+    }
+
+    .palier-card.active {
+      border-color: var(--accent2);
+      box-shadow: 0 0 18px rgba(56,189,248,0.6);
+      transform: translateY(-2px);
+    }
+
+    .palier-montant {
+      font-family: "Share Tech Mono", monospace;
+      font-size: 0.9rem;
+      color: var(--accent2);
+      margin-bottom: 0.1rem;
+    }
+
+    .palier-nom {
+      font-size: 0.9rem;
+      color: var(--text-main);
+      margin-bottom: 0.18rem;
+    }
+
+    .palier-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .palier-tagline {
+      font-size: 0.75rem;
+      color: var(--accent3);
+    }
+
+    .palier-min {
+      position: absolute;
+      top: 0.45rem;
+      right: 0.55rem;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .simulator {
+      margin-top: 0.7rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,0.98);
+      padding: 0.55rem 0.6rem;
+      font-size: 0.84rem;
+    }
+
+    .sim-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .sim-label span:last-child {
+      color: var(--accent4);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent2);
+      cursor: pointer;
+    }
+
+    .sim-info {
+      margin-top: 0.25rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .sim-info strong {
+      color: var(--accent2);
+    }
+
+    /* Plan d’action soutiens */
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      border-radius: 999px;
+      border: 1px dashed var(--border);
+      padding: 0.12rem 0.55rem;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .pill span {
+      color: var(--accent2);
+      font-weight: 600;
+    }
+
+    .steps {
+      margin-top: 0.4rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,0.96);
+      padding: 0.5rem 0.6rem;
+      font-size: 0.84rem;
+    }
+
+    .step-item {
+      margin-bottom: 0.3rem;
+    }
+
+    .step-title {
+      font-size: 0.82rem;
+      color: var(--accent2);
+      margin-bottom: 0.08rem;
+    }
+
+    .step-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .support-type {
+      margin-top: 0.5rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.6rem;
+      background: rgba(15,23,42,0.95);
+      font-size: 0.84rem;
+    }
+
+    .support-type label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .support-type select {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.7rem;
+      background: #020617;
+      color: var(--text-main);
+      font-size: 0.86rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .support-advice {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      min-height: 2.4em;
+    }
+
+    /* Quizz de déblocage */
+
+    .quiz {
+      margin-top: 0.6rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,0.98);
+      padding: 0.55rem 0.6rem;
+      font-size: 0.84rem;
+    }
+
+    .quiz h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+      color: var(--text-main);
+    }
+
+    .question {
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.5rem;
+      margin-bottom: 0.35rem;
+      background: rgba(15,23,42,0.96);
+    }
+
+    .question.good {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px rgba(34,197,94,0.7);
+    }
+
+    .question.bad {
+      border-color: #f97373;
+      box-shadow: 0 0 10px rgba(248,113,113,0.5);
+    }
+
+    .q-title {
+      font-size: 0.86rem;
+      color: var(--text-main);
+      margin-bottom: 0.15rem;
+    }
+
+    .q-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .q-options {
+      display: grid;
+      gap: 0.1rem;
+      font-size: 0.84rem;
+    }
+
+    .q-options label {
+      display: flex;
+      gap: 0.35rem;
+      align-items: flex-start;
+      cursor: pointer;
+    }
+
+    .q-options input {
+      margin-top: 0.12rem;
+    }
+
+    .quiz-actions {
+      margin-top: 0.4rem;
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid var(--accent2);
+      padding: 0.28rem 0.8rem;
+      font-size: 0.82rem;
+      background: rgba(56,189,248,0.18);
+      color: var(--accent2);
+      cursor: pointer;
+    }
+
+    .btn.secondary {
+      border-color: var(--border);
+      background: rgba(15,23,42,0.95);
+      color: var(--text-muted);
+    }
+
+    .quiz-score {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .quiz-score strong {
+      color: var(--accent2);
+    }
+
+    /* Contenus à débloquer */
+
+    .unlock {
+      margin-top: 0.7rem;
+      border-radius: 16px;
+      border: 1px dashed var(--border);
+      background: rgba(15,23,42,0.96);
+      padding: 0.55rem 0.6rem;
+      font-size: 0.84rem;
+      position: relative;
+    }
+
+    .unlock.locked {
+      opacity: 0.55;
+      filter: grayscale(0.6);
+    }
+
+    .unlock-title {
+      font-size: 0.9rem;
+      color: var(--text-main);
+      margin-bottom: 0.2rem;
+    }
+
+    .unlock-tag {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.6rem;
+      font-size: 0.72rem;
+      color: var(--accent4);
+    }
+
+    .unlock-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .unlock-list {
+      margin-left: 1.1rem;
+      margin-top: 0.2rem;
+    }
+
+    .unlock-list li {
+      margin-bottom: 0.15rem;
+    }
+
+    .unlock-hint {
+      margin-top: 0.3rem;
+      font-size: 0.78rem;
+      color: var(--accent2);
+    }
+
+    footer {
+      margin-top: 1.1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    footer code {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.16rem 0.5rem;
+      background: #020617;
+      font-size: 0.7rem;
+    }
+
+    .badge-corner {
+      position: absolute;
+      bottom: 0.45rem;
+      right: 0.6rem;
+      font-size: 0.65rem;
+      color: rgba(148,163,184,0.75);
+      font-family: "Share Tech Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="header-row">
+        <div>
+          <div class="badge">
+            <span class="badge-dot"></span>
+            <span>Cagnotte & soutiens – Version prototype</span>
+          </div>
+          <h1>Ramener des soutiens <span>et des sous… sans vendre ton âme</span></h1>
+        </div>
+        <div class="header-meta">
+          Cette page sert à expliquer comment soutenir ton projet (en temps, en énergie, en argent),
+          ce que tu offres en contrepartie par palier, et quels dossiers / goodies se débloquent
+          au fur et à mesure.
+        </div>
+      </div>
+      <p class="subtitle">
+        Le principe : une <strong>cagnotte citoyenne</strong> ultra simple, des <strong>contreparties claires</strong> par palier,
+        et un <strong>quizz de déblocage</strong> pour les plus motivé·es.  
+        C’est un canevas : tu peux adapter les montants, les goodies et les missions en fonction de ta réalité.
+      </p>
+      <div class="notice">
+        <strong>Important :</strong> cette page ne traite aucune transaction réelle.  
+        Elle décrit le dispositif, les paliers et la façon d’aller chercher du soutien.
+        Le “back-end” (plateforme de paiement, association, facturation) est à mettre en place
+        séparément, selon ton contexte légal.
+      </div>
+    </header>
+
+    <main class="layout">
+      <!-- Colonne gauche : paliers & simulateur -->
+      <section>
+        <h2>1. Paliers de soutien & contreparties</h2>
+        <p>
+          Tu pars d’un principe simple : <strong>12,50 € / an / personne</strong> comme base,
+          et quelques paliers symboliques autour.  
+          Le but n’est pas de vendre des goodies hors-sol, mais de renforcer une <strong>équipe de veille citoyenne</strong>
+          en donnant du sens à chaque niveau.
+        </p>
+
+        <div class="paliers" id="paliers">
+          <div class="palier-card" data-min="0">
+            <div class="palier-montant">Palier 0 · 0 € – 5 €</div>
+            <div class="palier-nom">Curieux / Curieuse en repérage</div>
+            <div class="palier-desc">
+              • Accès libre aux pages d’intro (SAS, Carte 0, Phase 0).<br>
+              • Possibilité de tester les premiers quizz et d’en parler autour de toi.<br>
+              • Tu vois si le projet résonne avec ta façon de voir le monde.
+            </div>
+            <div class="palier-tagline">Contrepartie : tu prends le temps de comprendre avant de t’engager.</div>
+          </div>
+
+          <div class="palier-card" data-min="12">
+            <div class="palier-montant">Palier 1 · ~12,50 € / an</div>
+            <div class="palier-nom">Membre soutien – “Je prends une part de la fusée”</div>
+            <div class="palier-desc">
+              • Accès complet aux tests de base (veille, propagande, symboles, cyber).<br>
+              • Inclusion dans le canal d’info principal (newsletter / salon dédié).<br>
+              • Droit d’utiliser le kit pour toi-même ou ton entourage immédiat.
+            </div>
+            <div class="palier-tagline">Contrepartie : tu reçois le kit de départ et les mises à jour majeures.</div>
+          </div>
+
+          <div class="palier-card" data-min="25">
+            <div class="palier-montant">Palier 2 · 25 €</div>
+            <div class="palier-nom">Complice de veille – “Je viens avec mon réseau”</div>
+            <div class="palier-desc">
+              • Tout le palier précédent.<br>
+              • Droit d’utiliser le kit dans une association / collectif (version “clé USB” clonable).<br>
+              • Accès prioritaire aux futurs dossiers (symboles, guerre info, veille locale…).<br>
+              • Nom / pseudo dans le “mur des complices” (si tu le souhaites).
+            </div>
+            <div class="palier-tagline">Contrepartie : tu peux équiper ton groupe sans repayer chacun.</div>
+          </div>
+
+          <div class="palier-card" data-min="50">
+            <div class="palier-montant">Palier 3 · 50 €</div>
+            <div class="palier-nom">Cellule pilote – “On teste pour de vrai”</div>
+            <div class="palier-desc">
+              • Tout ce qui précède.<br>
+              • 1 session d’accompagnement à distance (fictionnelle ou réelle, à toi de voir) pour monter ta cellule de veille.<br>
+              • Accès aux brouillons des prochains tests (version bêta) pour les co-construire.
+            </div>
+            <div class="palier-tagline">Contrepartie : tu deviens un des laboratoires vivants du projet.</div>
+          </div>
+
+          <div class="palier-card" data-min="100">
+            <div class="palier-montant">Palier 4 · 100 € et +</div>
+            <div class="palier-nom">Co-auteur / Co-autrice – “Je mets mon nom dans l’Histoire”</div>
+            <div class="palier-desc">
+              • Tout ce qui précède.<br>
+              • Mention dans les rapports publics / livres blancs (si tu le souhaites).<br>
+              • Participation aux choix stratégiques des prochains dossiers.<br>
+              • Goodies symboliques (PDF dédiés, remerciements personnalisés, etc.).
+            </div>
+            <div class="palier-tagline">Contrepartie : tu aides à écrire la suite, pas juste à la financer.</div>
+          </div>
+        </div>
+
+        <div class="simulator">
+          <div class="sim-label">
+            <span>Simulation : montant total de la cagnotte</span>
+            <span id="simValue">0 €</span>
+          </div>
+          <input type="range" id="simRange" min="0" max="5000" value="0" step="50">
+          <div class="sim-info" id="simInfo">
+            Avec 0 €, tu es au stade des curieux : tu peux déjà montrer le prototype, recueillir des avis,
+            et voir qui a envie de mettre un pied dans l’aventure.
+          </div>
+        </div>
+      </section>
+
+      <!-- Colonne droite : ramener des soutiens + quizz -->
+      <section>
+        <h2>2. Comment ramener des soutiens (et pas juste des numéros de carte)</h2>
+        <p>
+          Tu ne vends pas un gadget : tu proposes une <strong>expérience de veille citoyenne</strong>.  
+          Le bon réflexe : ramener d’abord des gens qui comprennent le sens, ensuite seulement parler d’argent.
+        </p>
+
+        <div class="pill">
+          <span>Mini-plan :</span> “comprendre → parler → tester → demander un coup de main → remercier”
+        </div>
+
+        <div class="steps">
+          <div class="step-item">
+            <div class="step-title">1. Commencer par les proches “alignés”</div>
+            <div class="step-text">
+              Amis, collègues, militant·es, voisins qui râlent déjà sur la démocratie et l’info.
+              Tu leur montres <strong>une page</strong> (SAS, Cyberlab-0, un test) plutôt qu’un long discours.
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-title">2. Aller voir les collectifs et associations</div>
+            <div class="step-text">
+              Associations, maisons de jeunes, bibliothèques, syndicats…  
+              Tu proposes de tester une séance avec leur public, gratuitement, en échange de retours et de visibilité.
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-title">3. Utiliser du simple & concret</div>
+            <div class="step-text">
+              • Une mini-affichette avec un QR code vers l’index des tests.<br>
+              • Un message type pour partager par mail / messagerie.<br>
+              • Une phrase claire : “12,50 € par an = je finance une cellule de veille citoyenne”.
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-title">4. Toujours proposer une contrepartie de sens</div>
+            <div class="step-text">
+              Tu expliques ce que la personne reçoit (kit, accès, accompagnement, droit de clonage) <strong>et</strong>
+              ce que la société y gagne (esprit critique, lien, réseau).
+            </div>
+          </div>
+        </div>
+
+        <div class="support-type">
+          <label for="supportSelect">Quel type de soutien cherches-tu en priorité ?</label>
+          <select id="supportSelect">
+            <option value="donneur">Individus qui peuvent donner quelques euros</option>
+            <option value="asso">Associations / collectifs partenaires</option>
+            <option value="institution">Institutions / pouvoirs publics</option>
+            <option value="autre">Autre (artistes, hacktivistes, médias, etc.)</option>
+          </select>
+          <div class="support-advice" id="supportAdvice">
+            Pour les individus : montre une expérience concrète (un test, Cyberlab-0), explique le palier 12,50 €/an,
+            et propose un paiement récurrent raisonnable plutôt qu’une grosse somme unique.
+          </div>
+        </div>
+
+        <div class="quiz" id="quiz">
+          <h3>3. Quizz “Débloquer les dossiers bonus”</h3>
+          <p style="margin-bottom:0.3rem;">
+            Si tu obtiens au moins <strong>3 bonnes réponses sur 4</strong>, tu déverrouilles la liste des
+            dossiers & goodies à venir (symboles avancés, cartographies, jeux grandeur nature…).
+          </p>
+
+          <!-- Q1 -->
+          <div class="question" data-correct="b">
+            <div class="q-title">Q1. Pourquoi parler d’abord de sens, ensuite d’argent ?</div>
+            <div class="q-meta">Difficulté : ★☆☆ – Base</div>
+            <div class="q-options">
+              <label>
+                <input type="radio" name="q1" value="a">
+                <span>Parce que les gens ne doivent jamais savoir où va l’argent.</span>
+              </label>
+              <label>
+                <input type="radio" name="q1" value="b">
+                <span>Parce que si la personne ne comprend pas le projet, elle “donne” sans être actrice, et ça fragilise la suite.</span>
+              </label>
+              <label>
+                <input type="radio" name="q1" value="c">
+                <span>Parce que parler d’argent est interdit dans les projets citoyens.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="question" data-correct="c">
+            <div class="q-title">Q2. C’est quoi une bonne contrepartie, ici ?</div>
+            <div class="q-meta">Difficulté : ★★☆ – Cohérence</div>
+            <div class="q-options">
+              <label>
+                <input type="radio" name="q2" value="a">
+                <span>Des goodies hors-sujet achetés en dropshipping.</span>
+              </label>
+              <label>
+                <input type="radio" name="q2" value="b">
+                <span>Une réduction sur des produits sans lien avec la citoyenneté.</span>
+              </label>
+              <label>
+                <input type="radio" name="q2" value="c">
+                <span>Des éléments qui renforcent la capacité d’agir : accès aux tests, droit de cloner le kit, accompagnement, mentions dans les productions.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="question" data-correct="a">
+            <div class="q-title">Q3. Comment gérer les “gros montants” ?</div>
+            <div class="q-meta">Difficulté : ★★☆ – Éthique & dépendance</div>
+            <div class="q-options">
+              <label>
+                <input type="radio" name="q3" value="a">
+                <span>En gardant un modèle où beaucoup de petites contributions restent possibles, pour ne pas dépendre d’un seul financeur.</span>
+              </label>
+              <label>
+                <input type="radio" name="q3" value="b">
+                <span>En laissant une seule personne payer tout pour aller plus vite.</span>
+              </label>
+              <label>
+                <input type="radio" name="q3" value="c">
+                <span>En refusant systématiquement toute aide importante.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="question" data-correct="b">
+            <div class="q-title">Q4. Pourquoi proposer un quizz pour débloquer des bonus ?</div>
+            <div class="q-meta">Difficulté : ★★☆ – Pédagogie</div>
+            <div class="q-options">
+              <label>
+                <input type="radio" name="q4" value="a">
+                <span>Pour humilier ceux qui ne comprennent pas.</span>
+              </label>
+              <label>
+                <input type="radio" name="q4" value="b">
+                <span>Pour vérifier l’engagement cognitif : ceux qui prennent le temps de comprendre accèdent à des contenus plus denses.</span>
+              </label>
+              <label>
+                <input type="radio" name="q4" value="c">
+                <span>Pour compliquer inutilement la vie de tout le monde.</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="quiz-actions">
+            <button type="button" class="btn" id="checkQuiz">Corriger</button>
+            <button type="button" class="btn secondary" id="resetQuiz">Réinitialiser</button>
+            <div class="quiz-score" id="quizScore">
+              Score : <strong>0 / 4</strong> – 3/4 ou plus = tu débloques les dossiers bonus ci-dessous.
+            </div>
+          </div>
+        </div>
+
+        <div class="unlock locked" id="unlockBlock">
+          <div class="unlock-title">4. Dossiers & goodies à venir (contenu bonus)</div>
+          <div class="unlock-tag" id="unlockTag">🔒 Verrouillé</div>
+          <p>
+            Ce bloc se débloque quand tu montres que tu as intégré la logique du projet (quizz) <strong>et</strong>
+            que la cagnotte franchit certains paliers (réels, plus tard).
+          </p>
+          <ul class="unlock-list">
+            <li><strong>Dossier “Propagande par le fait”</strong> – version grand public, jeux de rôle, études de cas.</li>
+            <li><strong>Cartographie des acteurs locaux</strong> – outils pour mapper communes, asso, médias, lieux de pouvoir.</li>
+            <li><strong>ARG citoyen</strong> – jeu à missions (QR codes, sites, Godot, etc.) pour tester la veille “IRL”.</li>
+            <li><strong>Pack “Formation”</strong> – scripts d’animation, fiches pédagogiques, slides libres.</li>
+            <li><strong>Goodies symboliques</strong> – stickers graphiques, cartes, posters à imprimer, guides en PDF.</li>
+          </ul>
+          <p class="unlock-note">
+            Tu peux adapter cette liste : ce sont des promesses <strong>conditionnées</strong> à la fois
+            au niveau de la cagnotte et à ta propre énergie.  
+            Mieux vaut livrer peu mais bien, que tout et n’importe quoi.
+          </p>
+          <p class="unlock-hint" id="unlockHint">
+            Statut actuel : verrouillé (score quizz &lt; 3/4).
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>
+        Ce canevas te sert de base pour parler argent, soutien et contreparties sans perdre ton âme citoyenne.
+        Libre à toi de l’adapter, le copier, le forker.
+      </span>
+      <code>cagnotte.html · mobile first · pur HTML/CSS/JS · à lier depuis index.html</code>
+    </footer>
+
+    <div class="badge-corner">
+      SUPPORT MODE · V1
+    </div>
+  </div>
+
+  <script>
+    // Simulateur de cagnotte & activation des paliers
+    (function() {
+      const range = document.getElementById('simRange');
+      const valueEl = document.getElementById('simValue');
+      const infoEl = document.getElementById('simInfo');
+      const palierCards = document.querySelectorAll('.palier-card');
+
+      function update() {
+        const val = parseInt(range.value, 10);
+        valueEl.textContent = val + " €";
+
+        let text;
+        if (val < 12) {
+          text = "Avec " + val + " €, tu as une base de curieux et curieuses. L’enjeu : tester les pages, affiner les textes et récolter des retours francs.";
+        } else if (val < 25) {
+          text = "Avec " + val + " €, tu peux déjà couvrir quelques membres soutiens (~12,50 €/an) et commencer à documenter publiquement ce que tu fais.";
+        } else if (val < 50) {
+          text = "Avec " + val + " €, tu peux aider une ou deux petites structures à devenir “complices de veille” et expérimenter des ateliers.";
+        } else if (val < 100) {
+          text = "Avec " + val + " €, tu as de quoi lancer une ou plusieurs cellules pilotes, avec un peu de temps dédié pour les accompagner.";
+        } else if (val < 500) {
+          text = "Avec " + val + " €, tu peux stabiliser plusieurs cellules et commencer à produire des dossiers plus lourds (propagande, symboles, ARG).";
+        } else {
+          text = "Avec " + val + " €, le problème n’est plus seulement l’argent : c’est l’organisation, la gouvernance, le temps humain. D’où l’importance de rester modeste et lucide.";
+        }
+        infoEl.innerHTML = text;
+
+        palierCards.forEach(card => {
+          const min = parseInt(card.getAttribute('data-min'), 10) || 0;
+          if (val >= min) {
+            card.classList.add('active');
+          } else {
+            card.classList.remove('active');
+          }
+        });
+      }
+
+      range.addEventListener('input', update);
+      update();
+    })();
+
+    // Conseils selon type de soutien
+    (function() {
+      const select = document.getElementById('supportSelect');
+      const advice = document.getElementById('supportAdvice');
+
+      function update() {
+        const v = select.value;
+        let text;
+        if (v === 'donneur') {
+          text = "Individus : montre une expérience concrète (un test, Cyberlab-0), explique le palier 12,50 €/an, et rassure sur la transparence de l’usage des fonds.";
+        } else if (v === 'asso') {
+          text = "Associations / collectifs : parle en termes de publics, d’animation, de dossiers pédagogiques, de complémentarité avec ce qu’ils font déjà.";
+        } else if (v === 'institution') {
+          text = "Institutions / pouvoirs publics : insiste sur l’innovation démocratique, la rigueur, l’évaluation, et la complémentarité avec les dispositifs existants.";
+        } else {
+          text = "Artistes, hacktivistes, médias, etc. : mise sur le côté expérimental, ludique et critique. Propose des collaborations ponctuelles plutôt qu’un financement classique.";
+        }
+        advice.textContent = text;
+      }
+
+      select.addEventListener('change', update);
+      update();
+    })();
+
+    // Quizz de déblocage
+    (function() {
+      const checkBtn = document.getElementById('checkQuiz');
+      const resetBtn = document.getElementById('resetQuiz');
+      const scoreEl = document.getElementById('quizScore');
+      const questions = document.querySelectorAll('.quiz .question');
+      const unlockBlock = document.getElementById('unlockBlock');
+      const unlockTag = document.getElementById('unlockTag');
+      const unlockHint = document.getElementById('unlockHint');
+
+      function check() {
+        let total = 0;
+        let good = 0;
+
+        questions.forEach(q => {
+          q.classList.remove('good', 'bad');
+          const correct = q.getAttribute('data-correct');
+          if (!correct) return;
+          total++;
+          const radios = q.querySelectorAll('input[type="radio"]');
+          if (!radios.length) return;
+          const name = radios[0].name;
+          const checked = document.querySelector(`input[name="${name}"]:checked`);
+          if (checked && checked.value === correct) {
+            good++;
+            q.classList.add('good');
+          } else {
+            q.classList.add('bad');
+          }
+        });
+
+        scoreEl.innerHTML = `Score : <strong>${good} / ${total}</strong> – 3/4 ou plus = accès symbolique aux dossiers bonus.`;
+
+        if (good >= 3) {
+          unlockBlock.classList.remove('locked');
+          unlockTag.textContent = "✅ Débloqué (symboliquement)";
+          unlockHint.textContent = "Statut actuel : déverrouillé côté quizz. Dans la vraie vie, il restera à aligner temps humain, cagnotte et gouvernance.";
+        } else {
+          unlockBlock.classList.add('locked');
+          unlockTag.textContent = "🔒 Verrouillé";
+          unlockHint.textContent = "Statut actuel : verrouillé (score quizz < 3/4). Tu peux retenter plus tard ou adapter les questions.";
+        }
+      }
+
+      function reset() {
+        questions.forEach(q => q.classList.remove('good', 'bad'));
+        document.querySelectorAll('.quiz input[type="radio"]').forEach(r => r.checked = false);
+        scoreEl.innerHTML = 'Score : <strong>0 / 4</strong> – 3/4 ou plus = tu débloques les dossiers bonus ci-dessous.';
+        unlockBlock.classList.add('locked');
+        unlockTag.textContent = "🔒 Verrouillé";
+        unlockHint.textContent = "Statut actuel : verrouillé (score quizz < 3/4).";
+      }
+
+      checkBtn.addEventListener('click', check);
+      resetBtn.addEventListener('click', reset);
+    })();
+  </script>
+</body>
+</html>
