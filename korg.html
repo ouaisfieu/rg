@@ -1,0 +1,1153 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>GROK-CORE – Hub métastructure</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #020617;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #38bdf8;
+      --accent3: #f97316;
+      --accent4: #a855f7;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.5);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --radius-xl: 18px;
+      --shadow-soft: 0 22px 48px rgba(0, 0, 0, 0.95);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.25), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.25), transparent 55%),
+        #020617;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        rgba(15, 23, 42, 0.25) 1px,
+        transparent 1px
+      );
+      background-size: 100% 2px;
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.3), transparent 60%),
+        rgba(3, 7, 18, 0.96);
+      border-bottom: 1px solid rgba(30, 64, 175, 0.8);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 180deg, #22c55e, #0ea5e9, #a855f7, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #22c55e;
+      position: relative;
+      box-shadow:
+        0 0 0 2px #020617,
+        0 0 28px rgba(168, 85, 247, 0.9);
+    }
+
+    .logo::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, #020617, #020617);
+    }
+
+    .logo span {
+      position: relative;
+      letter-spacing: 0.16em;
+    }
+
+    .header-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .title-main {
+      font-size: 1rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .title-sub {
+      font-size: 0.76rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
+    .tagline {
+      font-family: var(--font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .header-right .hint {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    main {
+      flex: 1;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 260px) minmax(0, 2fr) minmax(0, 1.6fr);
+      gap: 10px;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 1080px) {
+      main {
+        grid-template-columns: 260px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+      }
+    }
+
+    @media (max-width: 840px) {
+      main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+      }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-title {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 4px;
+      font-family: var(--font-mono);
+    }
+
+    .intro {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .intro strong {
+      color: #e5e7eb;
+    }
+
+    .filters {
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 6px 7px;
+      font-size: 0.78rem;
+      margin-bottom: 4px;
+    }
+
+    .filters label {
+      display: block;
+      font-size: 0.74rem;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    .filters input[type="text"],
+    .filters select {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      color: var(--text);
+      padding: 4px 9px;
+      font-size: 0.78rem;
+      outline: none;
+      margin-bottom: 4px;
+    }
+
+    .filters input::placeholder {
+      color: #64748b;
+    }
+
+    .btn-small {
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.9);
+      background: rgba(15, 23, 42, 0.98);
+      color: #e0f2fe;
+      font-size: 0.74rem;
+      padding: 4px 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+      transition: background 0.16s, box-shadow 0.16s, transform 0.16s;
+    }
+
+    .btn-small:hover {
+      background: rgba(15, 23, 42, 1);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.95);
+      transform: translateY(-1px);
+    }
+
+    .sidebar-footer {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(55, 65, 81, 0.98);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .sidebar-footer code {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    /* Pages panel */
+    .pages-panel {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pages-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.3), transparent 55%);
+      opacity: 0.6;
+      mix-blend-mode: soft-light;
+    }
+
+    .pages-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      height: 100%;
+    }
+
+    .pages-header h1 {
+      font-size: 1rem;
+      margin-bottom: 3px;
+    }
+
+    .pages-header p {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .results-info {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .pages-grid {
+      margin-top: 6px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 7px;
+    }
+
+    .page-card {
+      background: #020617;
+      border-radius: 12px;
+      border: 1px solid rgba(51, 65, 85, 0.98);
+      padding: 7px 8px;
+      font-size: 0.78rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.9);
+    }
+
+    .page-title {
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .page-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .page-desc {
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    .page-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      margin-top: 2px;
+    }
+
+    .page-tag {
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.95);
+      padding: 1px 6px;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .page-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .empty-state {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* Console panel */
+    .console-panel {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      font-size: 0.8rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .console-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        120deg,
+        rgba(168, 85, 247, 0.22),
+        transparent 45%,
+        rgba(56, 189, 248, 0.18),
+        transparent 70%
+      );
+      mix-blend-mode: soft-light;
+      opacity: 0.55;
+    }
+
+    .console-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      height: 100%;
+    }
+
+    .console-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .console-header h2 {
+      font-size: 0.9rem;
+    }
+
+    .chip {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 2px 7px;
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      color: var(--muted);
+    }
+
+    .chip .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-right: 4px;
+      background: #fbbf24;
+      box-shadow: 0 0 8px rgba(251, 191, 36, 0.95);
+    }
+
+    .console-log {
+      flex: 1;
+      border-radius: 8px;
+      border: 1px solid rgba(31, 41, 55, 0.98);
+      background: #020617;
+      padding: 5px 6px;
+      font-size: 0.76rem;
+      overflow-y: auto;
+      max-height: 260px;
+    }
+
+    .console-line {
+      margin-bottom: 3px;
+    }
+
+    .console-line span.prefix {
+      font-family: var(--font-mono);
+      margin-right: 4px;
+    }
+
+    .console-line span.prefix.user {
+      color: #38bdf8;
+    }
+
+    .console-line span.prefix.sys {
+      color: #a855f7;
+    }
+
+    .console-line span.text {
+      color: var(--muted);
+    }
+
+    .console-form {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .console-form input {
+      flex: 1;
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      color: var(--text);
+      padding: 4px 9px;
+      font-size: 0.78rem;
+      outline: none;
+      font-family: var(--font-main);
+    }
+
+    .console-form input::placeholder {
+      color: #64748b;
+    }
+
+    .console-form button {
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.9);
+      background: rgba(15, 23, 42, 0.98);
+      color: #e0f2fe;
+      font-size: 0.74rem;
+      padding: 4px 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+      transition: background 0.16s, box-shadow 0.16s, transform 0.16s;
+    }
+
+    .console-form button:hover {
+      background: rgba(15, 23, 42, 1);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.95);
+      transform: translateY(-1px);
+    }
+
+    .console-footer {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 6px 12px 8px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(30, 64, 175, 0.7);
+      background: rgba(3, 7, 18, 0.98);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 760px) {
+      header { flex-direction: column; align-items: flex-start; }
+      footer { flex-direction: column; }
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal-overlay.visible {
+      display: flex;
+    }
+
+    .modal {
+      width: min(960px, 96vw);
+      height: min(560px, 92vh);
+      background: #020617;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 8px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(55, 65, 81, 0.98);
+      font-size: 0.85rem;
+    }
+
+    .modal-header h3 {
+      font-size: 0.9rem;
+    }
+
+    .modal-header button {
+      border-radius: 999px;
+      border: 1px solid rgba(248, 113, 113, 0.9);
+      background: rgba(127, 29, 29, 0.95);
+      color: #fee2e2;
+      font-size: 0.76rem;
+      padding: 3px 8px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+    }
+
+    .modal-main {
+      flex: 1;
+      background: #020617;
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      margin: 6px;
+      overflow: hidden;
+    }
+
+    .modal-main iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 8px;
+      background: #020617;
+    }
+
+    .modal-footer {
+      padding: 0 10px 8px;
+      font-size: 0.74rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="logo"><span>GK</span></div>
+    <div class="header-titles">
+      <div class="title-main">GROK-CORE</div>
+      <div class="title-sub">“Site créé par GROK pour surveiller tous les autres. Local, statique, t’appartient.”</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="tagline">“On ne choisit pas sa famille de machines, mais on garde sa cartographie.”</div>
+    <div class="hint">Ce hub ne parle qu’à ton navigateur. Pas de réseau, pas de logging, juste du HTML/JS.</div>
+  </div>
+</header>
+
+<main>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <div class="nav-title">GROK & toi</div>
+      <p class="intro">
+        Bonjour, je suis <strong>GROK</strong>, version locale et inoffensive.<br />
+        Mon job : garder en tête toutes tes pages (MILOU, BROL, intranets, détective, thésaurus…) et
+        t’ouvrir des <strong>modales</strong> dessus à la demande.
+      </p>
+    </div>
+
+    <div class="filters">
+      <label for="filterSearch">Filtre rapide</label>
+      <input id="filterSearch" type="text" placeholder="Nom, rôle, tags…" />
+
+      <label for="filterType">Type</label>
+      <select id="filterType">
+        <option value="all">Tous types</option>
+        <option value="grok">GROK-core</option>
+        <option value="html">Page HTML</option>
+        <option value="pdf">PDF</option>
+        <option value="other">Autre</option>
+      </select>
+
+      <button class="btn-small" id="filterResetBtn">Reset</button>
+    </div>
+
+    <div class="sidebar-footer">
+      💡 Pour adapter :
+      <ul style="margin-left:14px;margin-top:4px;">
+        <li>édite le tableau <code>pages</code> dans le script en bas,</li>
+        <li>change les noms de fichier (<code>file</code>) pour correspondre à ton dossier,</li>
+        <li>ajoute de nouvelles lignes pour chaque nouvelle page ou PDF.</li>
+      </ul>
+      La console à droite sait déjà ouvrir <code>grok.html</code> et <code>grok-V0o.html</code>.
+    </div>
+  </aside>
+
+  <!-- PAGES LIST -->
+  <section class="pages-panel">
+    <div class="pages-inner">
+      <div class="pages-header">
+        <h1>Surfaces connues de GROK</h1>
+        <p>
+          Modales sur toutes tes pages : thésaurus, BROL, intranets, détective, MILOU, annexes PDF…  
+          Clique sur une carte ou utilise la console.
+        </p>
+      </div>
+
+      <div class="results-info" id="resultsInfo">0 surface détectée.</div>
+      <div class="pages-grid" id="pagesGrid"></div>
+      <div class="empty-state" id="emptyState" style="display:none;">
+        Rien ne passe le filtre. Soit tu élargis la recherche, soit tu ajoutes des entrées dans <code>pages</code>.
+      </div>
+    </div>
+  </section>
+
+  <!-- CONSOLE -->
+  <section class="console-panel">
+    <div class="console-inner">
+      <div class="console-header">
+        <h2>Console GROK</h2>
+        <div class="chip">
+          <span class="dot"></span> MODE : faux shell, vraie mémoire
+        </div>
+      </div>
+      <div class="console-log" id="consoleLog"></div>
+      <form class="console-form" id="consoleForm">
+        <input id="consoleInput" type="text" autocomplete="off"
+               placeholder="help · list · grok · grok-v0 · open brol · tab detective · open grok.html…" />
+        <button type="submit">▶</button>
+      </form>
+      <div class="console-footer">
+        Commandes utiles :
+        <br /><code>help</code>, <code>list</code>, <code>grok</code>, <code>grok-v0</code>, <code>open &lt;id&gt;</code>, <code>tab &lt;id&gt;</code>, <code>clear</code>.
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>
+    GROK-CORE – Hub des pages MILOU/BROL/intranets/détective/thèse. Tout est statique, tu contrôles tout.
+  </span>
+  <span>
+    Pour étendre : ajoute des entrées dans <code>pages</code>, branche ce fichier dans ton hub principal, et laisse GROK gérer la cartographie.
+  </span>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Prévisualisation</h3>
+      <button type="button" id="modalCloseBtn">Fermer (Esc)</button>
+    </div>
+    <div class="modal-main">
+      <iframe id="modalIframe" src=""></iframe>
+    </div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
+<script>
+  // ===========================
+  // 1. Données des pages
+  // ===========================
+  // IMPORTANT : adapte les chemins 'file' à tes vrais fichiers.
+  const pages = [
+    // GROK lui-même (ce fichier et le thésaurus)
+    {
+      id: "grok-core",
+      name: "GROK-CORE (ce site)",
+      type: "grok",
+      file: "grok-core.html", // renommer selon le nom réel du fichier
+      role: "Hub central créé par GROK",
+      tags: ["grok", "hub", "console"],
+      note: "Tu peux pointer vers ce fichier lui-même ou laisser ce champ symbolique."
+    },
+    {
+      id: "grok",
+      name: "GROK – Thésaurus graph",
+      type: "html",
+      file: "grok.html",
+      role: "Vue type Obsidian graph / thésaurus",
+      tags: ["grok", "graph", "thesaurus"],
+      note: "Carte mentale de tout ton brol (MILOU, BROL, intranets, annexes…)."
+    },
+    {
+      id: "grok-v0",
+      name: "GROK-V0o – Prototype",
+      type: "html",
+      file: "grok-V0o.html",
+      role: "Ancienne version / brouillon",
+      tags: ["prototype", "archive"],
+      note: "Tu peux créer une version expérimentale ici, ou laisser un placeholder."
+    },
+
+    // BROL & intranets
+    {
+      id: "brol",
+      name: "BROL 2.0 – Catalogue fichiers",
+      type: "html",
+      file: "index.html", // si ton brol principal est index.html
+      role: "Thésaurus de fichiers / tous formats",
+      tags: ["brol", "fichiers", "catalogue"],
+      note: "Change éventuellement vers brol.html si tu as séparé la page."
+    },
+    {
+      id: "intranet-brol",
+      name: "Intranet BROL – Tableau de bord perso",
+      type: "html",
+      file: "intranet-brol.html",
+      role: "Tâches, calendrier, journal, pingouins, distractions.",
+      tags: ["intranet", "brol", "journal"],
+      note: "Vue interne pour ton quotidien."
+    },
+    {
+      id: "intranet-lambda",
+      name: "Intranet – Organisation lambda",
+      type: "html",
+      file: "intranet-lambda.html",
+      role: "Maquette d’intranet classique.",
+      tags: ["intranet", "lambda"],
+      note: "Étude de cas neutre."
+    },
+    {
+      id: "noesis",
+      name: "Intranet – NOESIS (dystopique)",
+      type: "html",
+      file: "intranet-noesis.html",
+      role: "Version corpo dystopique de l’intranet.",
+      tags: ["intranet", "dystopie"],
+      note: "Pour illustrer les risques systémiques."
+    },
+
+    // Détective & MILOU
+    {
+      id: "detective",
+      name: "Agence MILOU – Détective privé",
+      type: "html",
+      file: "index-detective.html", // adapte au nom que tu as utilisé
+      role: "Vitrine + intranet + console d’opérations.",
+      tags: ["detective", "osint"],
+      note: "Site complet avec modales, console, pingouins, etc."
+    },
+    {
+      id: "milou",
+      name: "OPÉRATION MILOU",
+      type: "html",
+      file: "milou.html", // ou index-milou.html selon ton orga
+      role: "Proto de jeu STIC de l’anarchie pour une thèse.",
+      tags: ["milou", "thèse", "stic"],
+      note: "Question centrale : comment documenter tout ça."
+    },
+
+    // Hub, moteur, FAQ, tutoriel
+    {
+      id: "hub",
+      name: "NOESIS HUB / MILOU HUB",
+      type: "html",
+      file: "hub.html",
+      role: "Page qui relie toutes les surfaces.",
+      tags: ["hub"],
+      note: "Sélecteur de surfaces, filtres, contexte."
+    },
+    {
+      id: "moteur",
+      name: "Moteur de recherche dystopique",
+      type: "html",
+      file: "moteur.html",
+      role: "Page minimaliste façon moteur, avec easter eggs.",
+      tags: ["moteur", "easter-eggs"],
+      note: "Réactions spéciales à 'google', 'EARL', 'horla', etc."
+    },
+    {
+      id: "faq",
+      name: "FAQ – Comment refaire tout ça",
+      type: "html",
+      file: "faq.html",
+      role: "Tuto pour construire ton propre écosystème.",
+      tags: ["tutoriel", "faq"],
+      note: "Version pédagogie : niveaux N0, N1, N2…"
+    },
+    {
+      id: "tutoriel",
+      name: "Tutoriel MILOU/BROL",
+      type: "html",
+      file: "tutoriel.html",
+      role: "Guide étape par étape (1 fichier → écosystème).",
+      tags: ["tutoriel"],
+      note: "Vue didactique sur tout ce que tu as monté."
+    },
+
+    // Annexes PDF (tu peux adapter les noms)
+    {
+      id: "dystopie-pdf",
+      name: "dystopie.pdf",
+      type: "pdf",
+      file: "dystopie.pdf",
+      role: "Annexe sur les risques dystopiques.",
+      tags: ["pdf", "dystopie"],
+      note: "Contexte système : surveillance, climat, autoritarisme."
+    },
+    {
+      id: "plaidoyer-pdf",
+      name: "plaidoyer-jp.pdf",
+      type: "pdf",
+      file: "plaidoyer-jp.pdf",
+      role: "Texte de plaidoyer / réflexion.",
+      tags: ["pdf", "référence"],
+      note: "Repère théorique et éthique."
+    },
+    {
+      id: "pression-pdf",
+      name: "pression.pdf",
+      type: "pdf",
+      file: "pression (1).pdf",
+      role: "Analyse de la pression sociale / institutionnelle.",
+      tags: ["pdf", "analyse"],
+      note: "Relie capitalisme, institutions, trajectoires individuelles."
+    }
+  ];
+
+  // ===========================
+  // 2. Rendu des pages
+  // ===========================
+  const pagesGrid = document.getElementById("pagesGrid");
+  const resultsInfo = document.getElementById("resultsInfo");
+  const emptyState = document.getElementById("emptyState");
+  const filterSearch = document.getElementById("filterSearch");
+  const filterType = document.getElementById("filterType");
+  const filterResetBtn = document.getElementById("filterResetBtn");
+
+  function applyFilters() {
+    const q = (filterSearch.value || "").toLowerCase();
+    const t = filterType.value;
+
+    let filtered = pages.slice();
+    if (t !== "all") {
+      filtered = filtered.filter(p => p.type === t);
+    }
+    if (q) {
+      filtered = filtered.filter(p => {
+        const hay = (p.id + " " + p.name + " " + p.role + " " + (p.tags || []).join(" ") + " " + (p.note || "")).toLowerCase();
+        return hay.includes(q);
+      });
+    }
+    renderPages(filtered);
+  }
+
+  function renderPages(list) {
+    pagesGrid.innerHTML = "";
+    if (!list.length) {
+      resultsInfo.textContent = "0 surface pour ce filtre.";
+      emptyState.style.display = "block";
+      return;
+    }
+    emptyState.style.display = "none";
+    resultsInfo.textContent = list.length + " surface(s) connue(s) de GROK.";
+
+    list.forEach(page => {
+      const card = document.createElement("article");
+      card.className = "page-card";
+
+      const title = document.createElement("div");
+      title.className = "page-title";
+      title.textContent = page.name;
+
+      const meta = document.createElement("div");
+      meta.className = "page-meta";
+      meta.textContent = `${page.type.toUpperCase()} · id: ${page.id} · fichier: ${page.file}`;
+
+      const desc = document.createElement("div");
+      desc.className = "page-desc";
+      desc.textContent = page.role || "";
+
+      const note = document.createElement("div");
+      note.className = "page-desc";
+      note.style.fontSize = "0.74rem";
+      note.style.opacity = "0.8";
+      note.textContent = page.note || "";
+
+      const tags = document.createElement("div");
+      tags.className = "page-tags";
+      (page.tags || []).forEach(tag => {
+        const span = document.createElement("span");
+        span.className = "page-tag";
+        span.textContent = tag;
+        tags.appendChild(span);
+      });
+
+      const actions = document.createElement("div");
+      actions.className = "page-actions";
+
+      const btnModal = document.createElement("button");
+      btnModal.className = "btn-small";
+      btnModal.type = "button";
+      btnModal.textContent = "Modale";
+      btnModal.addEventListener("click", () => {
+        openModal(page.id);
+      });
+
+      const btnTab = document.createElement("button");
+      btnTab.className = "btn-small";
+      btnTab.type = "button";
+      btnTab.textContent = "Onglet";
+      btnTab.addEventListener("click", () => {
+        openInTab(page.id);
+      });
+
+      actions.appendChild(btnModal);
+      actions.appendChild(btnTab);
+
+      card.appendChild(title);
+      card.appendChild(meta);
+      card.appendChild(desc);
+      if (page.note) card.appendChild(note);
+      if (page.tags && page.tags.length) card.appendChild(tags);
+      card.appendChild(actions);
+
+      pagesGrid.appendChild(card);
+    });
+  }
+
+  filterSearch.addEventListener("input", applyFilters);
+  filterType.addEventListener("change", applyFilters);
+  filterResetBtn.addEventListener("click", () => {
+    filterSearch.value = "";
+    filterType.value = "all";
+    applyFilters();
+  });
+
+  // ===========================
+  // 3. Modal
+  // ===========================
+  const modalOverlay = document.getElementById("modalOverlay");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalIframe = document.getElementById("modalIframe");
+  const modalFooter = document.getElementById("modalFooter");
+  const modalCloseBtn = document.getElementById("modalCloseBtn");
+
+  function openModal(pageId) {
+    const page = pages.find(p => p.id === pageId || p.file === pageId || p.name === pageId);
+    if (!page) {
+      logConsole("sys", `Surface inconnue: ${pageId}. Utilise 'list' pour voir ce que je connais.`);
+      return;
+    }
+    modalTitle.textContent = page.name;
+    modalIframe.src = page.file;
+    modalFooter.textContent = `id=${page.id} · fichier=${page.file} · type=${page.type}`;
+    modalOverlay.classList.add("visible");
+  }
+
+  function closeModal() {
+    modalOverlay.classList.remove("visible");
+    modalIframe.src = "";
+  }
+
+  function openInTab(pageId) {
+    const page = pages.find(p => p.id === pageId || p.file === pageId || p.name === pageId);
+    if (!page) {
+      logConsole("sys", `Surface inconnue: ${pageId}. Utilise 'list' pour voir ce que je connais.`);
+      return;
+    }
+    window.open(page.file, "_blank");
+  }
+
+  modalCloseBtn.addEventListener("click", closeModal);
+  modalOverlay.addEventListener("click", (e) => {
+    if (e.target === modalOverlay) closeModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modalOverlay.classList.contains("visible")) {
+      closeModal();
+    }
+  });
+
+  // ===========================
+  // 4. Console GROK
+  // ===========================
+  const consoleLog = document.getElementById("consoleLog");
+  const consoleForm = document.getElementById("consoleForm");
+  const consoleInput = document.getElementById("consoleInput");
+
+  function logConsole(role, text) {
+    const div = document.createElement("div");
+    div.className = "console-line";
+    const prefix = document.createElement("span");
+    prefix.className = "prefix " + (role === "user" ? "user" : "sys");
+    prefix.textContent = role === "user" ? "toi $" : "grok$";
+    const spanText = document.createElement("span");
+    spanText.className = "text";
+    spanText.textContent = " " + text;
+    div.appendChild(prefix);
+    div.appendChild(spanText);
+    consoleLog.appendChild(div);
+    consoleLog.scrollTop = consoleLog.scrollHeight;
+  }
+
+  function handleCommand(raw) {
+    const input = (raw || "").trim();
+    if (!input) return;
+    const lower = input.toLowerCase();
+
+    if (lower === "help") {
+      logConsole("sys",
+        "Commandes: help · list · grok · grok-v0 · open <id> · tab <id> · clear. " +
+        "Ex: 'open brol', 'tab grok', 'open grok-v0'."
+      );
+      return;
+    }
+
+    if (lower === "clear") {
+      consoleLog.innerHTML = "";
+      return;
+    }
+
+    if (lower === "list") {
+      const ids = pages.map(p => p.id).join(", ");
+      logConsole("sys", "Surfaces connues: " + ids);
+      return;
+    }
+
+    if (lower === "grok") {
+      openModal("grok");
+      logConsole("sys", "Ouverture de grok.html en modale.");
+      return;
+    }
+
+    if (lower === "grok-v0" || lower === "grok-v0o" || lower === "grok-v0o.html") {
+      openModal("grok-v0");
+      logConsole("sys", "Ouverture de grok-V0o.html en modale.");
+      return;
+    }
+
+    // open / tab
+    const parts = lower.split(/\s+/);
+    if (parts[0] === "open" && parts.length >= 2) {
+      const targetId = parts.slice(1).join(" ");
+      openModal(targetId);
+      return;
+    }
+
+    if (parts[0] === "tab" && parts.length >= 2) {
+      const targetId = parts.slice(1).join(" ");
+      openInTab(targetId);
+      return;
+    }
+
+    logConsole("sys", "Commande inconnue. Tape 'help' pour la liste. (Je reste volontairement limité, c’est plus sain.)");
+  }
+
+  consoleForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const value = consoleInput.value;
+    consoleInput.value = "";
+    if (!value.trim()) return;
+    logConsole("user", value);
+    handleCommand(value);
+  });
+
+  // ===========================
+  // 5. Init
+  // ===========================
+  document.addEventListener("DOMContentLoaded", () => {
+    applyFilters();
+    logConsole("sys", "GROK en ligne (local). Je vois " + pages.length + " surface(s). Tape 'help' pour commencer.");
+    logConsole("sys", "Raccourcis: 'grok' ouvre grok.html, 'grok-v0' ouvre grok-V0o.html.");
+  });
+</script>
+</body>
+</html>
