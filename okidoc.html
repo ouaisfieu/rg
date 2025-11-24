@@ -1,0 +1,806 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>instance.html – Créer ta propre instance & soutenir autrement</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #050818;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent-soft: rgba(34,197,94,0.18);
+      --accent2: #38bdf8;
+      --accent3: #a855f7;
+      --accent4: #f97316;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border: rgba(148,163,184,0.7);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 0, rgba(56,189,248,0.22), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(168,85,247,0.18), transparent 60%),
+        var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 1rem 0.7rem 1.6rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1180px;
+      background:
+        radial-gradient(circle at 0 0, rgba(34,197,94,0.16), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(15,23,42,0.95), transparent 60%),
+        var(--bg-alt);
+      border-radius: 26px;
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+      padding: 1.2rem 0.9rem 1.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .page { padding: 1.8rem 1.6rem 2.2rem; }
+    }
+
+    .page::before {
+      content: "instance.html · Créer ta propre instance & soutenir autrement";
+      position: absolute;
+      top: 0.4rem;
+      right: 1.1rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(148,163,184,0.9);
+      pointer-events: none;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.9rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .header-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    @media (min-width: 768px) {
+      .header-row {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: var(--accent-soft);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(34,197,94,0.8);
+    }
+
+    .header-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      max-width: 290px;
+    }
+
+    h1 {
+      margin-top: 0.4rem;
+      font-size: clamp(1.8rem, 4.4vw, 2.7rem);
+      line-height: 1.05;
+      font-family: "Share Tech Mono", monospace;
+      text-transform: uppercase;
+    }
+
+    h1 span {
+      background: linear-gradient(120deg, #22c55e, #38bdf8, #a855f7, #f97316);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      margin-top: 0.35rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 840px;
+    }
+
+    .subtitle strong { color: var(--text-main); }
+
+    .notice {
+      margin-top: 0.6rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,0.96);
+      padding: 0.5rem 0.7rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .notice strong { color: var(--accent2); }
+
+    .layout {
+      margin-top: 1rem;
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    @media (min-width: 980px) {
+      .layout {
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.05fr);
+        align-items: flex-start;
+      }
+    }
+
+    section {
+      background:
+        radial-gradient(circle at 0 0, rgba(34,197,94,0.18), transparent 65%),
+        var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 0.9rem 0.95rem 1.2rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      section { padding: 1.1rem 1.15rem 1.35rem; }
+    }
+
+    section h2 {
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+      color: var(--text-main);
+    }
+
+    section p {
+      line-height: 1.55;
+      margin-bottom: 0.25rem;
+    }
+
+    ul { margin-left: 1.1rem; margin-bottom: 0.25rem; }
+    li { margin-bottom: 0.18rem; }
+
+    /* Steps */
+
+    .steps {
+      margin-top: 0.4rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,0.98);
+      padding: 0.5rem 0.6rem;
+      font-size: 0.84rem;
+    }
+
+    .step {
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,0.5);
+      padding: 0.4rem 0.5rem;
+      margin-bottom: 0.3rem;
+      background: rgba(15,23,42,0.96);
+      cursor: pointer;
+    }
+
+    .step-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .step-title {
+      font-size: 0.85rem;
+      color: var(--text-main);
+    }
+
+    .step-label {
+      font-size: 0.72rem;
+      color: var(--accent2);
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .step-toggle {
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+
+    .step-body {
+      margin-top: 0.25rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      display: none;
+    }
+
+    .step.open .step-body {
+      display: block;
+    }
+
+    /* Checklists */
+
+    .checklist {
+      margin-top: 0.6rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,0.98);
+      padding: 0.55rem 0.6rem;
+      font-size: 0.84rem;
+    }
+
+    .checklist h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+      color: var(--text-main);
+    }
+
+    .check-item {
+      display: flex;
+      gap: 0.45rem;
+      align-items: flex-start;
+      margin-bottom: 0.25rem;
+      font-size: 0.82rem;
+    }
+
+    .check-item input {
+      margin-top: 0.12rem;
+      transform: scale(1.05);
+      accent-color: var(--accent);
+    }
+
+    .check-note {
+      margin-top: 0.25rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* Modes d’installation */
+
+    .mode-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.4rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .mode-btn {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.22rem 0.7rem;
+      font-size: 0.78rem;
+      background: rgba(15,23,42,0.96);
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .mode-btn.active {
+      border-color: var(--accent2);
+      background: rgba(56,189,248,0.18);
+      color: var(--accent2);
+    }
+
+    .mode-panel {
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.6rem;
+      background: rgba(15,23,42,0.96);
+      font-size: 0.84rem;
+      display: none;
+    }
+
+    .mode-panel.active {
+      display: block;
+    }
+
+    .mono {
+      font-family: "Share Tech Mono", monospace;
+      font-size: 0.78rem;
+    }
+
+    /* Carte “soutenir autrement” */
+
+    .support-card {
+      margin-top: 0.6rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,0.98);
+      padding: 0.55rem 0.6rem;
+      font-size: 0.84rem;
+    }
+
+    .support-card h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+      color: var(--text-main);
+    }
+
+    .tagline {
+      font-size: 0.8rem;
+      color: var(--accent3);
+      margin-bottom: 0.25rem;
+    }
+
+    .support-list {
+      margin-left: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .support-list li {
+      margin-bottom: 0.18rem;
+    }
+
+    /* “Niveau de soutien non-financier” */
+
+    .meter {
+      margin-top: 0.4rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.6rem;
+      background: rgba(15,23,42,0.96);
+      font-size: 0.84rem;
+    }
+
+    .meter-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .meter-label span:last-child {
+      color: var(--accent4);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent3);
+      cursor: pointer;
+    }
+
+    .meter-note {
+      margin-top: 0.2rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .meter-note strong {
+      color: var(--accent3);
+    }
+
+    footer {
+      margin-top: 1.1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    footer code {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.16rem 0.5rem;
+      background: #020617;
+      font-size: 0.7rem;
+    }
+
+    .badge-corner {
+      position: absolute;
+      bottom: 0.45rem;
+      right: 0.6rem;
+      font-size: 0.65rem;
+      color: rgba(148,163,184,0.75);
+      font-family: "Share Tech Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="header-row">
+        <div>
+          <div class="badge">
+            <span class="badge-dot"></span>
+            <span>Instance personnelle – DIY & soutien non-financier</span>
+          </div>
+          <h1>Créer ta propre instance <span>plutôt que juste donner des sous</span></h1>
+        </div>
+        <div class="header-meta">
+          Tu n’es pas obligé·e de financer pour soutenir.  
+          Tu peux <strong>cloner le kit</strong>, le faire vivre chez toi, dans ton asso, dans ton quartier,
+          et renvoyer du feedback, des améliorations, des histoires.
+        </div>
+      </div>
+      <p class="subtitle">
+        Cette page est un <strong>guide clé en main</strong> pour fabriquer ta propre instance : une clé USB,
+        un dossier sur ton ordi, un petit site chez ton hébergeur ou sur GitHub Pages.  
+        L’idée : multiplier les <strong>micro-agences de renseignement citoyen</strong>, pas centraliser tout chez une seule personne.
+      </p>
+      <div class="notice">
+        <strong>Principe de base :</strong> tu as le droit moral de <strong>copier, adapter, détourner</strong> ce kit
+        tant que tu respectes les conditions de non-appropriation crade (pas de revente purement opportuniste, pas de
+        bullshit autoritaire).  
+        En cas de doute : <em>explique ce que tu veux faire, c’est déjà une forme de soutien.</em>
+      </div>
+    </header>
+
+    <main class="layout">
+      <!-- Colonne gauche : guide technique -->
+      <section>
+        <h2>1. Prérequis & philosophie de ton instance</h2>
+        <p>
+          Avant de parler fichiers, deux idées :
+        </p>
+        <ul>
+          <li><strong>Tu n’es pas un “client”</strong> mais un·e co-auteur·ice potentiel·le.</li>
+          <li><strong>Ta version locale a le même droit d’exister</strong> que la version “officielle”.</li>
+        </ul>
+        <p>Techniquement, tu as besoin de très peu de choses :</p>
+        <ul>
+          <li>Un navigateur récent (Firefox, Chrome, Brave, etc.).</li>
+          <li>Une clé USB ou un simple dossier sur ton ordinateur.</li>
+          <li>Un éditeur de texte simple (Notepad++, VS Code, ou même le bloc-notes si tu n’as que ça).</li>
+          <li>(Optionnel) Un compte GitHub ou un petit hébergeur pour rendre ton instance accessible en ligne.</li>
+        </ul>
+
+        <div class="steps" id="steps">
+          <div class="step open">
+            <div class="step-header">
+              <div>
+                <div class="step-title">Étape 1 – Récupérer le kit</div>
+                <div class="step-label">MODE : copier-coller assumé</div>
+              </div>
+              <div class="step-toggle">▾</div>
+            </div>
+            <div class="step-body">
+              <p>
+                1. Récupère le <strong>dossier complet</strong> du projet (que tu as sur une clé, sur GitHub, ou par
+                une archive .zip).  
+                Dedans, tu devrais trouver au minimum :
+              </p>
+              <ul>
+                <li><code class="mono">index.html</code> (le portail principal)</li>
+                <li><code class="mono">SAS.html</code>, <code class="mono">carte-0.html</code>, <code class="mono">test-0.html</code>, etc.</li>
+                <li>Un ou plusieurs dossiers <code class="mono">/pdf</code>, <code class="mono">/images</code>, <code class="mono">/media</code> selon ton organisation</li>
+              </ul>
+              <p>
+                2. Copie ce dossier tel quel sur :
+              </p>
+              <ul>
+                <li>une clé USB (ex : <code class="mono">/CLE-VEILLE/instance-tes-initiales/</code>), ou</li>
+                <li>un dossier sur ton ordi (ex : <code class="mono">Documents/veille-citoyenne/instance-locale/</code>).</li>
+              </ul>
+              <p>
+                3. Double-clique sur <strong>index.html</strong> pour vérifier que tout s’affiche correctement dans ton navigateur.
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-header">
+              <div>
+                <div class="step-title">Étape 2 – Choisir ton mode d’installation</div>
+                <div class="step-label">MODE : hors-ligne ou en ligne</div>
+              </div>
+              <div class="step-toggle">▸</div>
+            </div>
+            <div class="step-body">
+              <p>Tu as trois niveaux possibles :</p>
+
+              <div class="mode-tabs" id="modeTabs">
+                <button class="mode-btn active" data-mode="usb">Clé USB / hors-ligne</button>
+                <button class="mode-btn" data-mode="local">Dossier local partagé</button>
+                <button class="mode-btn" data-mode="web">Petit site web (GitHub Pages / hébergeur)</button>
+              </div>
+
+              <div class="mode-panel active" data-mode-panel="usb">
+                <p><strong>Clé USB / hors-ligne</strong></p>
+                <ul>
+                  <li>Tu emportes la clé partout : réunion, atelier, formation, café citoyen.</li>
+                  <li>Tu lances les tests / pages directement depuis la clé.</li>
+                  <li>Idéal pour les lieux sans bonne connexion internet.</li>
+                </ul>
+                <p>
+                  Attention : toujours garder une <strong>copie de sauvegarde</strong> sur un autre support, au cas où la clé meurt.
+                </p>
+              </div>
+
+              <div class="mode-panel" data-mode-panel="local">
+                <p><strong>Dossier local partagé</strong></p>
+                <ul>
+                  <li>Tu mets le dossier dans un espace partagé (ex : Nextcloud, réseau interne, clé “commune”).</li>
+                  <li>Plusieurs personnes peuvent ouvrir les fichiers HTML et jouer avec le kit.</li>
+                  <li>Pratique pour une équipe de base (2–10 personnes).</li>
+                </ul>
+                <p>
+                  Cocher dans ta tête : “Qui a le droit de modifier les fichiers ? Qui garde une copie sûre ?”
+                </p>
+              </div>
+
+              <div class="mode-panel" data-mode-panel="web">
+                <p><strong>Petit site web (GitHub Pages / hébergeur mutualisé)</strong></p>
+                <ul>
+                  <li>Tu crées un dépôt GitHub (ou un dossier sur ton hébergement).</li>
+                  <li>Tu y envoies tous les fichiers (<code class="mono">index.html</code> et compagnie).</li>
+                  <li>Tu actives GitHub Pages ou pointes ton nom de domaine / sous-domaine vers ce dossier.</li>
+                </ul>
+                <p>
+                  Résultat : ton instance devient accessible à n’importe qui via une simple URL
+                  (<span class="mono">https://toncompte.github.io/ton-instance</span> par exemple).
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-header">
+              <div>
+                <div class="step-title">Étape 3 – Personnaliser ta version (sans tout casser)</div>
+                <div class="step-label">MODE : retouche en douceur</div>
+              </div>
+              <div class="step-toggle">▸</div>
+            </div>
+            <div class="step-body">
+              <p>Commence par des modifications simples :</p>
+              <ul>
+                <li>Dans <code class="mono">about.html</code> : remplace le texte “qui sommes-nous” par ton contexte.</li>
+                <li>Dans <code class="mono">index.html</code> : ajoute ton nom de cellule, ton quartier, ton collectif.</li>
+                <li>Évite au début de modifier trop de styles : teste d’abord que tout fonctionne.</li>
+              </ul>
+              <p>
+                Astuce : fais une <strong>copie</strong> du fichier avant de le modifier  
+                (ex : <code class="mono">index-original.html</code>) pour toujours pouvoir revenir en arrière.
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-header">
+              <div>
+                <div class="step-title">Étape 4 – Ajouter tes propres dossiers & tests</div>
+                <div class="step-label">MODE : co-auteur</div>
+              </div>
+              <div class="step-toggle">▸</div>
+            </div>
+            <div class="step-body">
+              <p>Tu peux :</p>
+              <ul>
+                <li>Créer <code class="mono">test-local-1.html</code> en copiant un test existant et en changeant les questions.</li>
+                <li>Ajouter tes propres PDF dans un dossier <code class="mono">/pdf</code> et les lier depuis une page.</li>
+                <li>Créer une nouvelle “phase” ou un nouveau “jalon” pour ton groupe.</li>
+              </ul>
+              <p>
+                Tant que tu restes cohérent·e avec l’esprit global (éducation populaire, esprit critique, humour, non-toxicité),
+                ta version enrichit l’écosystème.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="checklist">
+          <h3>Checklist “Mon instance tourne pour de vrai”</h3>
+          <div class="check-item">
+            <input type="checkbox" id="chk1">
+            <label for="chk1">J’ai une copie claire du dossier (clé USB + sauvegarde quelque part).</label>
+          </div>
+          <div class="check-item">
+            <input type="checkbox" id="chk2">
+            <label for="chk2">Je peux ouvrir <code class="mono">index.html</code> sans erreur dans mon navigateur.</label>
+          </div>
+          <div class="check-item">
+            <input type="checkbox" id="chk3">
+            <label for="chk3">J’ai au moins <strong>une page personnalisée</strong> avec mon contexte (about, jalon, test…).</label>
+          </div>
+          <div class="check-item">
+            <input type="checkbox" id="chk4">
+            <label for="chk4">Je sais à qui je vais faire essayer le kit (amis, asso, groupe…).</label>
+          </div>
+          <div class="check-note">
+            Si tu coches 3–4 cases : tu as déjà une instance fonctionnelle.  
+            À partir de là, tu peux soutenir le projet autrement que par l’argent.
+          </div>
+        </div>
+      </section>
+
+      <!-- Colonne droite : soutien non-financier -->
+      <section>
+        <h2>2. Soutenir sans payer : modes “contribution”</h2>
+        <p>
+          Créer ta propre instance, c’est déjà un soutien.  
+          Mais tu peux aller plus loin sans forcément sortir la carte bancaire.
+        </p>
+
+        <div class="support-card">
+          <h3>Modes de soutien non-financiers</h3>
+          <p class="tagline">
+            Tu peux combiner plusieurs options. Le but n’est pas d’en faire trop,
+            mais de choisir ce qui te ressemble.
+          </p>
+          <ul class="support-list">
+            <li><strong>Retour d’usage :</strong> raconter ce qui a marché / bloqué dans tes tests.</li>
+            <li><strong>Relecture & correction :</strong> corriger des coquilles, clarifier des passages.</li>
+            <li><strong>Création de tests locaux :</strong> adapter les quizz à ta commune, ton secteur, ton public.</li>
+            <li><strong>Animation :</strong> organiser une séance avec un groupe, et en faire un mini-compte-rendu.</li>
+            <li><strong>Relais :</strong> faire connaître le kit à d’autres collectifs, syndicats, associations.</li>
+            <li><strong>Technique :</strong> aider à héberger, documenter, structurer les fichiers.</li>
+          </ul>
+          <p>
+            Même si tout reste <strong>hors radar officiel</strong>, ton instance fait partie d’un réseau d’expériences.
+          </p>
+        </div>
+
+        <div class="meter">
+          <div class="meter-label">
+            <span>Niveau de soutien non-financier envisagé</span>
+            <span id="supportLevelLabel">1 / 5</span>
+          </div>
+          <input type="range" id="supportLevel" min="1" max="5" value="1">
+          <div class="meter-note" id="supportNote">
+            1/5 – Tu es en mode “je teste pour moi, je regarde ce que ça donne”.  
+            C’est déjà mieux que 99 % des gens qui ne tenteront jamais.
+          </div>
+        </div>
+
+        <div class="support-card">
+          <h3>Comment donner du feedback utile ?</h3>
+          <p>
+            Tu peux décider d’un canal de contact (mail, formulaire, dépôt GitHub, etc.) et envoyer :
+          </p>
+          <ul class="support-list">
+            <li>Une phrase sur <strong>ce qui t’a accroché</strong> (ou pas).</li>
+            <li>Une capture d’écran d’un bug ou d’un texte incompréhensible.</li>
+            <li>Une proposition de test, de dossier, de mise en scène (même à l’état de brouillon).</li>
+            <li>Une question : “Est-ce que je peux faire X avec mon instance ?”</li>
+          </ul>
+          <p>
+            Chaque retour, même minuscule, aide à ajuster le projet pour les suivantes et suivants.
+          </p>
+        </div>
+
+        <div class="support-card">
+          <h3>3. Articuler ta version avec le reste du projet</h3>
+          <p>
+            Ton instance n’est pas “en concurrence” avec l’originale.  
+            Elle peut :
+          </p>
+          <ul class="support-list">
+            <li>Tester des variantes de tests (plus doux, plus trash, plus localisés).</li>
+            <li>Explorer des publics différents (ados, militants, usagers de services, etc.).</li>
+            <li>Servir de <strong>preuve</strong> quand tu expliques à quelqu’un que “c’est faisable chez soi”.</li>
+          </ul>
+          <p>
+            Si tu le souhaites, tu peux mentionner que ton instance est une <strong>fork citoyenne</strong> d’un kit plus large,
+            et renvoyer vers la source d’origine pour celles et ceux qui veulent remonter la piste.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>
+        Si tu as lu cette page jusqu’ici, tu es déjà dans la catégorie “soutien intelligent”.  
+        La prochaine étape, c’est juste d’oser une première micro-modification dans ta propre instance.
+      </span>
+      <code>instance.html · mobile first · pur HTML/CSS/JS · à lier depuis index.html & cagnotte.html</code>
+    </footer>
+
+    <div class="badge-corner">
+      DIY INSTANCE · V1
+    </div>
+  </div>
+
+  <script>
+    // Accordéons des étapes
+    (function() {
+      const steps = document.querySelectorAll('.step');
+      steps.forEach(step => {
+        step.addEventListener('click', (e) => {
+          // Éviter de fermer / ouvrir en cliquant sur les liens internes (si un jour il y en a)
+          if (e.target.tagName.toLowerCase() === 'a') return;
+          const isOpen = step.classList.contains('open');
+          steps.forEach(s => {
+            s.classList.remove('open');
+            const toggle = s.querySelector('.step-toggle');
+            if (toggle) toggle.textContent = '▸';
+          });
+          if (!isOpen) {
+            step.classList.add('open');
+            const toggle = step.querySelector('.step-toggle');
+            if (toggle) toggle.textContent = '▾';
+          }
+        });
+      });
+    })();
+
+    // Tabs modes d’installation
+    (function() {
+      const buttons = document.querySelectorAll('.mode-btn');
+      const panels = document.querySelectorAll('.mode-panel');
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation(); // pour éviter de déclencher l’accordéon
+          const mode = btn.getAttribute('data-mode');
+          buttons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          panels.forEach(p => {
+            if (p.getAttribute('data-mode-panel') === mode) {
+              p.classList.add('active');
+            } else {
+              p.classList.remove('active');
+            }
+          });
+        });
+      });
+    })();
+
+    // Slider soutien non-financier
+    (function() {
+      const range = document.getElementById('supportLevel');
+      const label = document.getElementById('supportLevelLabel');
+      const note = document.getElementById('supportNote');
+
+      function update() {
+        const v = parseInt(range.value, 10);
+        label.textContent = v + " / 5";
+        let txt;
+        if (v === 1) {
+          txt = "1/5 – Tu es en mode “je teste pour moi, je regarde ce que ça donne”. C’est déjà mieux que 99 % des gens.";
+        } else if (v === 2) {
+          txt = "2/5 – Tu partages l’instance avec quelques proches et tu remontes un ou deux commentaires.";
+        } else if (v === 3) {
+          txt = "3/5 – Tu organises au moins une mini-séance ou un test groupé, et tu racontes ce qui s’est passé.";
+        } else if (v === 4) {
+          txt = "4/5 – Tu crées tes propres tests / dossiers locaux et tu acceptes qu’ils soient partagés (anonymisés si besoin).";
+        } else {
+          txt = "5/5 – Tu deviens à ton tour point de contact / formateur·ice. Ton soutien principal, ce n’est pas l’argent, c’est le temps et l’énergie.";
+        }
+        note.innerHTML = txt.replace("Ton soutien principal", "<strong>Ton soutien principal</strong>");
+      }
+
+      range.addEventListener('input', update);
+      update();
+    })();
+  </script>
+</body>
+</html>
