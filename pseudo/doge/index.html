@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Portfolio // Bim un jour, bim toujours // Dark Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio sombre, cynique, matrixé, avec test ultra lucide sur l'absurdité organisationnelle et dossiers embarqués." />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #02030a;
+      --bg-deeper: #010109;
+      --neon-green: #00ff88;
+      --neon-purple: #c400ff;
+      --neon-pink: #ff005c;
+      --acid-yellow: #f5ff00;
+      --blood-red: #ff2244;
+      --text-main: #e6f7ff;
+      --muted: #7f8ba8;
+      --danger: #ff426b;
+      --success: #4dffb8;
+      --card-bg: rgba(3, 5, 18, 0.96);
+      --border-soft: rgba(255, 255, 255, 0.08);
+      --blur-bg: blur(18px);
+      --radius-xl: 26px;
+      --shadow-neon: 0 0 25px rgba(0, 255, 136, 0.9),
+                     0 0 45px rgba(255, 0, 92, 0.8);
+      --transition-fast: 180ms ease-out;
+      --transition-slow: 380ms ease-out;
+    }
+
+    body.hardcore {
+      --bg: #000002;
+      --bg-deeper: #000000;
+      --card-bg: rgba(0, 0, 0, 0.96);
+      --shadow-neon: 0 0 35px rgba(0, 255, 136, 1),
+                     0 0 65px rgba(255, 0, 92, 1),
+                     0 0 90px rgba(196, 0, 255, 1);
+      filter: saturate(1.5) contrast(1.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-main);
+      background-color: var(--bg);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .matrix-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -3;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(0, 255, 136, 0.07),
+          rgba(0, 255, 136, 0.07) 1px,
+          transparent 1px,
+          transparent 3px
+        );
+      mix-blend-mode: screen;
+      animation: matrixScroll 16s linear infinite;
+    }
+
+    .matrix-columns {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+      background-image:
+        radial-gradient(circle at 20% 0%, rgba(0,255,136,0.18) 0, transparent 50%),
+        radial-gradient(circle at 80% 100%, rgba(196,0,255,0.25) 0, transparent 55%),
+        radial-gradient(circle at 50% 40%, rgba(255,0,92,0.25) 0, transparent 55%);
+      opacity: 0.9;
+      filter: blur(10px);
+    }
+
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.18),
+        rgba(0,0,0,0.18) 1px,
+        transparent 2px,
+        transparent 3px
+      );
+      mix-blend-mode: soft-light;
+    }
+
+    @keyframes matrixScroll {
+      from { background-position-y: 0; }
+      to   { background-position-y: 600px; }
+    }
+
+    .page-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 1.3rem 1rem 2rem;
+      max-width: 1120px;
+      margin: 0 auto;
+      gap: 1.6rem;
+    }
+
+    @media (min-width: 768px) {
+      .page-shell {
+        padding: 2rem 1.5rem 3rem;
+        gap: 2rem;
+      }
+    }
+
+    header {
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      background:
+        radial-gradient(circle at top left, rgba(0,255,136,0.13) 0, transparent 60%),
+        radial-gradient(circle at top right, rgba(196,0,255,0.16) 0, transparent 60%),
+        rgba(3, 7, 20, 0.98);
+      box-shadow: 0 0 26px rgba(0,0,0,0.8);
+      backdrop-filter: var(--blur-bg);
+      position: sticky;
+      top: 0.75rem;
+      z-index: 10;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .logo-lockup {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .logo-orb {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, var(--neon-green), var(--neon-purple));
+      box-shadow: var(--shadow-neon);
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .logo-orb::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,255,255,0.3), transparent 55%),
+        conic-gradient(from 180deg, transparent 0deg, rgba(0,0,0,0.35) 90deg, transparent 180deg, rgba(0,0,0,0.6) 270deg, transparent 360deg);
+      mix-blend-mode: screen;
+      animation: spinOrb 12s linear infinite;
+    }
+
+    @keyframes spinOrb {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-text span:first-child {
+      font-size: 0.78rem;
+      letter-spacing: 0.21em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .logo-text span:last-child {
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--neon-green), var(--acid-yellow), var(--neon-pink), var(--neon-purple));
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: textGlow 9s ease-in-out infinite alternate;
+    }
+
+    @keyframes textGlow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .pill {
+      border-radius: 999px;
+      padding: 0.42rem 0.8rem;
+      border: 1px solid var(--border-soft);
+      background: rgba(0, 0, 0, 0.9);
+      color: var(--muted);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--blood-red);
+      box-shadow: 0 0 8px rgba(255, 34, 68, 0.9);
+    }
+
+    .pill-dot.online {
+      background: var(--neon-green);
+      box-shadow: 0 0 10px rgba(0, 255, 136, 0.9);
+      animation: dotPulse 1.3s ease-in-out infinite;
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.35); opacity: 1; }
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid var(--neon-green);
+      padding: 0.45rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      background: radial-gradient(circle at 0 0, rgba(0,255,136,0.4), transparent 45%),
+                  rgba(3, 6, 18, 0.98);
+      color: var(--text-main);
+      font-family: "Share Tech Mono", monospace;
+      transition: transform var(--transition-fast),
+                  box-shadow var(--transition-fast),
+                  background var(--transition-fast),
+                  border-color var(--transition-fast);
+      box-shadow: 0 0 0 rgba(0,255,136,0);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px) scale(1.03);
+      box-shadow: var(--shadow-neon);
+      background:
+        radial-gradient(circle at 100% 0, rgba(255,0,92,0.5), transparent 45%),
+        rgba(2, 5, 16, 0.99);
+    }
+
+    .btn-ghost {
+      border-color: var(--border-soft);
+      background: rgba(0,0,0,0.75);
+      color: var(--muted);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--neon-purple);
+      color: var(--text-main);
+      box-shadow: 0 0 18px rgba(196,0,255,0.8);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 0.45rem;
+      overflow-x: auto;
+      padding-bottom: 0.3rem;
+      margin: 0.5rem -0.35rem -0.75rem;
+      padding-inline: 0.35rem;
+      scrollbar-width: thin;
+    }
+
+    nav::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    nav::-webkit-scrollbar-thumb {
+      background: rgba(0,255,136,0.6);
+      border-radius: 999px;
+    }
+
+    .nav-link {
+      white-space: nowrap;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: rgba(0,0,0,0.4);
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: background var(--transition-fast),
+                  color var(--transition-fast),
+                  border-color var(--transition-fast),
+                  transform var(--transition-fast);
+    }
+
+    .nav-link span {
+      font-family: "Share Tech Mono", monospace;
+      font-size: 0.65rem;
+      opacity: 0.7;
+    }
+
+    .nav-link.active,
+    .nav-link:hover {
+      color: var(--text-main);
+      border-color: rgba(0, 255, 136, 0.55);
+      background:
+        radial-gradient(circle at 0 0, rgba(0,255,136,0.35), transparent 55%);
+      transform: translateY(-1px);
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+
+    @media (min-width: 900px) {
+      main {
+        gap: 2rem;
+      }
+    }
+
+    section {
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      background:
+        radial-gradient(circle at top left, rgba(0,255,136,0.09) 0, transparent 55%),
+        radial-gradient(circle at bottom right, rgba(196,0,255,0.12) 0, transparent 55%),
+        var(--card-bg);
+      box-shadow: 0 0 26px rgba(0,0,0,0.85);
+      padding: 1.15rem 1rem 1.25rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 10% 0%, rgba(245,255,0,0.14), transparent 55%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-slow);
+    }
+
+    section:hover::before {
+      opacity: 1;
+    }
+
+    @media (min-width: 768px) {
+      section {
+        padding: 1.5rem 1.6rem 1.7rem;
+      }
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.7rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      display: flex;
+      flex-direction: column;
+      gap: 0.08rem;
+    }
+
+    .section-kicker {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .section-h1,
+    .section-h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+    }
+
+    .badge {
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-family: "Share Tech Mono", monospace;
+      color: var(--acid-yellow);
+      background: rgba(0,0,0,0.65);
+    }
+
+    .section-body {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .section-body p {
+      color: var(--muted);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr);
+      gap: 1rem;
+    }
+
+    @media (min-width: 900px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+        align-items: stretch;
+      }
+    }
+
+    .hero-main {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .hero-title {
+      font-size: 1.35rem;
+      line-height: 1.35;
+    }
+
+    @media (min-width: 768px) {
+      .hero-title {
+        font-size: 1.65rem;
+      }
+    }
+
+    .hero-title span.highlight {
+      background: linear-gradient(120deg, var(--neon-green), var(--neon-purple), var(--neon-pink));
+      background-size: 200% 180%;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: textGlow 8s ease-in-out infinite alternate;
+    }
+
+    .hero-sub {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.3rem;
+    }
+
+    .hero-cta-note {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: "Share Tech Mono", monospace;
+      opacity: 0.85;
+    }
+
+    .quote-card {
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background:
+        radial-gradient(circle at top, rgba(0,255,136,0.2) 0, transparent 60%),
+        rgba(0,0,0,0.7);
+      padding: 0.85rem 1rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 28px rgba(0,255,136,0.4);
+      isolation: isolate;
+    }
+
+    .quote-card::before {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -45%;
+      left: -45%;
+      background: conic-gradient(
+        from 180deg,
+        transparent 0deg,
+        rgba(0,255,136,0.3) 90deg,
+        rgba(255,0,92,0.5) 180deg,
+        rgba(196,0,255,0.5) 270deg,
+        transparent 360deg
+      );
+      opacity: 0.23;
+      mix-blend-mode: screen;
+      animation: spinOrb 18s linear infinite;
+    }
+
+    .quote-card-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .quote-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--acid-yellow);
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .quote-text {
+      font-family: "Share Tech Mono", monospace;
+      font-size: 0.96rem;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+
+    .quote-text span.bim {
+      color: var(--neon-green);
+      text-shadow: 0 0 12px rgba(0,255,136,0.9);
+    }
+
+    .quote-text span.bim-alt {
+      color: var(--blood-red);
+      text-shadow: 0 0 12px rgba(255,34,68,0.9);
+    }
+
+    .quote-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.9rem;
+    }
+
+    @media (min-width: 768px) {
+      .two-col {
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr);
+      }
+    }
+
+    .card-soft {
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.8);
+      padding: 0.85rem 0.95rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-soft::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0% 0%, rgba(255,0,92,0.3), transparent 55%);
+      opacity: 0;
+      mix-blend-mode: screen;
+      transition: opacity var(--transition-slow);
+      pointer-events: none;
+    }
+
+    .card-soft:hover::after {
+      opacity: 0.9;
+    }
+
+    .card-title {
+      font-size: 0.86rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .card-title strong {
+      color: var(--acid-yellow);
+    }
+
+    .card-soft p {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .skill-pill {
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      padding: 0.2rem 0.55rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-family: "Share Tech Mono", monospace;
+      color: var(--muted);
+    }
+
+    .section-body ul {
+      margin-left: 1.1rem;
+    }
+
+    .section-body li {
+      margin-bottom: 0.35rem;
+    }
+
+    /* Test cynique */
+    .quiz-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .quiz-intro {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.9rem;
+    }
+
+    @media (min-width: 800px) {
+      .quiz-grid {
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.9fr);
+      }
+    }
+
+    .quiz-questions {
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.85);
+      padding: 0.9rem 1rem;
+      max-height: 520px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    .quiz-questions::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .quiz-questions::-webkit-scrollbar-thumb {
+      background: rgba(0,255,136,0.7);
+      border-radius: 999px;
+    }
+
+    .quiz-question {
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px dashed rgba(255,255,255,0.12);
+    }
+
+    .quiz-question:last-child {
+      border-bottom: none;
+    }
+
+    .quiz-question-title {
+      font-size: 0.86rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    .quiz-question-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: "Share Tech Mono", monospace;
+      margin-bottom: 0.25rem;
+    }
+
+    .quiz-options {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .quiz-options li {
+      margin-bottom: 0.25rem;
+    }
+
+    .quiz-options label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.35rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: var(--muted);
+    }
+
+    .quiz-options input[type="radio"] {
+      margin-top: 0.1rem;
+      accent-color: var(--neon-green);
+    }
+
+    .quiz-side {
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.92);
+      padding: 0.9rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .quiz-score {
+      font-family: "Share Tech Mono", monospace;
+      font-size: 0.9rem;
+      color: var(--acid-yellow);
+    }
+
+    .quiz-feedback {
+      font-size: 0.9rem;
+      color: var(--muted);
+      min-height: 3.5rem;
+    }
+
+    .quiz-legend {
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-radius: 14px;
+      border: 1px dashed rgba(255,255,255,0.22);
+      padding: 0.5rem 0.6rem;
+    }
+
+    /* Dossiers (PDF embeds) */
+    .docs-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.9rem;
+    }
+
+    @media (min-width: 850px) {
+      .docs-grid {
+        grid-template-columns: 260px minmax(0, 1fr);
+      }
+    }
+
+    .docs-nav {
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.9);
+      padding: 0.8rem 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .docs-nav-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-family: "Share Tech Mono", monospace;
+      color: var(--muted);
+    }
+
+    .docs-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      padding: 0.4rem 0.7rem;
+      font-size: 0.8rem;
+      text-align: left;
+      cursor: pointer;
+      background: rgba(3,3,8,0.9);
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+      transition: background var(--transition-fast),
+                  border-color var(--transition-fast),
+                  transform var(--transition-fast),
+                  color var(--transition-fast);
+    }
+
+    .docs-btn small {
+      font-size: 0.7rem;
+      font-family: "Share Tech Mono", monospace;
+      opacity: 0.8;
+    }
+
+    .docs-btn.active,
+    .docs-btn:hover {
+      background: radial-gradient(circle at 0 0, rgba(0,255,136,0.3), transparent 55%);
+      border-color: rgba(0,255,136,0.7);
+      color: var(--text-main);
+      transform: translateY(-1px);
+    }
+
+    .docs-viewer {
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.95);
+      padding: 0.7rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      min-height: 320px;
+    }
+
+    .docs-viewer-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .docs-frame {
+      flex: 1;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.16);
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 0%, rgba(0,255,136,0.12), transparent 55%),
+                  #000;
+    }
+
+    .docs-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Système & espoir */
+    .rant-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .rant-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+
+    .rant-tag {
+      font-family: "Share Tech Mono", monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      padding: 0.16rem 0.45rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.22);
+      color: var(--blood-red);
+    }
+
+    .hope-block {
+      border-radius: 18px;
+      border: 1px solid rgba(0,255,136,0.7);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(0,255,136,0.26), transparent 60%),
+        rgba(0,0,0,0.9);
+      padding: 0.8rem 0.95rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      box-shadow: 0 0 24px rgba(0,255,136,0.75);
+    }
+
+    .hope-title {
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .hope-text {
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .hope-text strong {
+      color: var(--acid-yellow);
+    }
+
+    footer {
+      margin-top: 0.6rem;
+      padding-top: 0.9rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-align: center;
+      border-top: 1px dashed rgba(255,255,255,0.16);
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    footer span.brand {
+      color: var(--neon-green);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 420ms ease-out, transform 420ms ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    body.espoir-flash {
+      box-shadow: inset 0 0 0 9999px rgba(0, 255, 136, 0.09);
+    }
+
+    @media (max-width: 480px) {
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .badge {
+        align-self: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="matrix-bg"></div>
+  <div class="matrix-columns"></div>
+  <div class="scanlines"></div>
+
+  <div class="page-shell">
+    <header>
+      <div class="header-top">
+        <div class="logo-lockup">
+          <div class="logo-orb"></div>
+          <div class="logo-text">
+            <span>Profil crypté // mode sombre</span>
+            <span>P // Bim un jour, bim toujours</span>
+          </div>
+        </div>
+        <div class="header-actions">
+          <div class="pill">
+            <div class="pill-dot online"></div>
+            <span>Statut&nbsp;: en incap & lucide</span>
+          </div>
+          <button class="btn" id="btn-hardcore">
+            Hardcore ON / OFF
+          </button>
+        </div>
+      </div>
+
+      <nav>
+        <button class="nav-link active" data-target="intro">
+          <span>00</span> Intro
+        </button>
+        <button class="nav-link" data-target="identite">
+          <span>01</span> Qui je suis
+        </button>
+        <button class="nav-link" data-target="test">
+          <span>02</span> Test cynique
+        </button>
+        <button class="nav-link" data-target="docs">
+          <span>03</span> Dossiers
+        </button>
+        <button class="nav-link" data-target="systeme">
+          <span>04</span> Système & espoir
+        </button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- INTRO -->
+      <section id="intro" class="reveal visible">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-kicker">Portfolio sombre & lucidité maximale</div>
+            <div class="section-h1">BIM UN JOUR, BIM TOUJOURS</div>
+          </div>
+          <span class="badge">Build // post-burn-out.dark</span>
+        </div>
+
+        <div class="section-body hero-grid">
+          <div class="hero-main">
+            <div class="hero-title">
+              Ceci n’est pas un CV.  
+              C’est le <span class="highlight">journal de bord</span> d’un humain passé dans la broyeuse
+              organisationnelle, qui a décidé de documenter la machine plutôt que de faire semblant
+              qu’elle tourne rond.
+            </div>
+            <p class="hero-sub">
+              Ici, pas de storytelling "résilient" à la sauce LinkedIn.  
+              Juste un constat : le système rend malade, gaspille des milliards, et appelle ça
+              "gestion". Et pourtant, quelque part, on peut encore en faire un terrain de jeu critique
+              et pédagogique.
+            </p>
+
+            <div class="hero-cta-row">
+              <button class="btn" id="btn-espoir">
+                Activer le mode &lt;espoir /&gt;
+              </button>
+              <button class="btn btn-ghost" id="btn-scroll-test">
+                Passer le test de lucidité
+              </button>
+            </div>
+            <div class="hero-cta-note">
+              &gt; Attention : le test ne mesure pas votre "employabilité",  
+              il mesure votre niveau de conscience des absurdités organisationnelles.
+            </div>
+          </div>
+
+          <div class="hero-side">
+            <div class="quote-card">
+              <div class="quote-card-inner">
+                <div class="quote-label">Mantra IRL // pas validé par la DRH</div>
+                <div class="quote-text">
+                  «&nbsp;On m’a broyé dans la machine.  
+                  <span class="bim">Bim</span>, incapacité.  
+                  Ensuite on m’a proposé des ateliers "bien-être"  
+                  pour tenir plus longtemps dans la même machine.  
+                  <span class="bim-alt">Bim toujours</span> : j’ai décidé de démonter la machine. Au moins dans ma tête.&nbsp;»
+                </div>
+                <div class="quote-meta">
+                  <span>&gt; P / Le projet</span>
+                  <span>log: absurdité.exe // running</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- IDENTITÉ -->
+      <section id="identite" class="reveal">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-kicker">Fiche signalétique // double lecture</div>
+            <div class="section-h2">Qui je suis (version DRH & version réelle)</div>
+          </div>
+          <span class="badge">Spoiler&nbsp;: il y a un léger écart</span>
+        </div>
+
+        <div class="section-body">
+          <div class="two-col">
+            <div class="card-soft">
+              <div class="card-title"><strong>Version DRH</strong> // Officielle</div>
+              <p>
+                &bull; 2 ans de soutien administratif et bureautique à des animateurs socioculturels.<br>
+                &bull; 10 ans de gestion administrative du personnel dans une asbl d’éducation permanente.<br>
+                &bull; Connaissance des procédures, des indicateurs, des acronymes, des réunions, des
+                tableaux de bord et de la paperasse qui prolifère.
+              </p>
+              <p>
+                Traduction corporate : <strong>profil fiable, organisé, stable</strong>, capable de tenir la
+                barre administrative d’une structure, même quand tout le reste prend l’eau.
+              </p>
+              <div class="pill-row">
+                <span class="skill-pill">admin RH asbl</span>
+                <span class="skill-pill">gestion dossiers</span>
+                <span class="skill-pill">coordination</span>
+                <span class="skill-pill">procédures</span>
+              </div>
+            </div>
+
+            <div class="card-soft">
+              <div class="card-title"><strong>Version réelle</strong> // De l’intérieur</div>
+              <p>
+                &bull; Observateur obsessionnel des absurdités organisationnelles (bureaucratie, réunionite,
+                bullshit jobs, microgestion, KPI débiles, etc.).<br>
+                &bull; Survivant du burn-out, et maintenant <strong>cartographe</strong> de ce qui rend les gens malades
+                dans les organisations.<br>
+                &bull; Auteur potentiel de dispositifs pédagogiques, de tests et de sites web qui mettent tout ça
+                sur la table – avec humour noir, mais précision.
+              </p>
+              <p>
+                Je peux encore "faire tourner la machine" si on me le demande.  
+                Mais je préfère aider à la <strong>reconfigurer</strong>, ou au moins à la comprendre.
+              </p>
+              <div class="pill-row">
+                <span class="skill-pill">éducation permanente</span>
+                <span class="skill-pill">analyse critique</span>
+                <span class="skill-pill">vulgarisation</span>
+                <span class="skill-pill">web statique</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TEST CYNique -->
+      <section id="test" class="reveal">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-kicker">Diagnostic express // pas validé par un cabinet de conseil</div>
+            <div class="section-h2">Test ultra cynique mais juste</div>
+          </div>
+          <span class="badge">But&nbsp;: mesurer la lucidité, pas la docilité</span>
+        </div>
+
+        <div class="section-body">
+          <div class="quiz-wrapper">
+            <p class="quiz-intro">
+              Ce test ne te dira pas si tu es "un bon élément".  
+              Il te dira si tu as compris dans quel type de cirque tu évolues&nbsp;: sur-bureaucratie,
+              réunionite, microgestion, bullshit jobs, indicateurs absurdes...  
+              Tu peux t’appuyer sur les trois dossiers embarqués plus bas si tu veux jouer en mode sérieux.
+            </p>
+
+            <div class="quiz-grid">
+              <div class="quiz-questions" id="quiz-questions">
+                <!-- Q1 -->
+                <div class="quiz-question">
+                  <div class="quiz-question-title">
+                    1. On te demande un reporting de 17 pages dont personne ne lit les détails. Tu fais quoi ?
+                  </div>
+                  <div class="quiz-question-meta">
+                    &gt; thème&nbsp;: reporting / bullshit administratif
+                  </div>
+                  <ul class="quiz-options">
+                    <li>
+                      <label>
+                        <input type="radio" name="q1" value="a">
+                        <span>Je m’applique, c’est important pour "la traçabilité" même si ça ne sert à rien.</span>
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="q1" value="b">
+                        <span>Je recycle l’ancien modèle en changeant les dates et deux phrases, personne ne verra la différence.</span>
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="q1" value="c">
+                        <span>Je demande quel usage concret en est fait et propose une version plus courte et utile.</span>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Q2 -->
+                <div class="quiz-question">
+                  <div class="quiz-question-title">
+                    2. Ton agenda est colonisé par des réunions où aucune décision ne se prend vraiment.
+                  </div>
+                  <div class="quiz-question-meta">
+                    &gt; thème&nbsp;: réunionite aiguë
+                  </div>
+                  <ul class="quiz-options">
+                    <li>
+                      <label>
+                        <input type="radio" name="q2" value="a">
+                        <span>Je considère que c’est ça, le travail moderne : être en réunion.</span>
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="q2" value="b">
+                        <span>Je propose une règle : pas d’ordre du jour = pas de réunion, et je le dis à voix haute.</span>
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="q2" value="c">
+                        <span>J’apporte mon laptop, je fais mon vrai travail pendant que ça parle.</span>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Q3 -->
+                <div class="quiz-question">
+                  <div class="quiz-question-title">
+                    3. Tu te reconnais dans un "bullshit job" à la Graeber.
+                  </div>
+                  <div class="quiz-question-meta">
+                    &gt; thème&nbsp;: utilité perçue du travail
+                  </div>
+                  <ul class="quiz-options">
+                    <li>
+                      <label>
+                        <input type="radio" name="q3" value="a">
+                        <span>Je nie. Tant que je suis payé, ce n’est pas "bullshit", merci.</span>
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="q3" value="b">
+                        <span>Je commence à documenter précisément en quoi mon poste ne sert à rien, pour nourrir une réflexion plus large.</span>
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="q3" value="c">
+                        <span>Je me venge en créant encore plus de process inutiles, histoire d’être cohérent.</span>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Q4 -->
+                <div class="quiz-question">
+                  <div class="quiz-question-title">
+                    4. On te parle de "zéro risque" et on multiplie les règles kafkaïennes.
+                  </div>
+                  <div class="quiz-question-meta">
+                    &gt; thème&nbsp;: sur-sécurisation / culture de la peur
+                  </div>
+                  <ul class="quiz-options">
+                    <li>
+                      <label>
+                        <input type="radio" name="q4" value="a">
+                        <span>Je trouve ça rassurant : plus il y a de règles, plus je me sens en sécurité.</span>
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="q4" value="b">
+                        <span>Je questionne l’efficacité réelle des règles et je propose de distinguer les risques sérieux des absurdités.</span>
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="q4" value="c">
+                        <span>Je signe tout sans lire, c’est fait pour ça, la hiérarchie.</span>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Q5 -->
+                <div class="quiz-question">
+                  <div class="quiz-question-title">
+                    5. Ton manager microgère chaque détail de ton travail.
+                  </div>
+                  <div class="quiz-question-meta">
+                    &gt; thème&nbsp;: microgestion
+                  </div>
+                  <ul class="quiz-options">
+                    <li>
+                      <label>
+                        <input type="radio" name="q5" value="a">
+                        <span>Je m’adapte : je demande l’autorisation pour tout, même pour respirer.</span>
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="q5" value="b">
+                        <span>Je documente l’impact de cette microgestion sur ma santé et sur la performance, et j’en parle à froid.</span>
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="q5" value="c">
+                        <span>Je me mets en mode "quiet quitting", minimum syndical jusqu’à trouver une sortie.</span>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Q6 -->
+                <div class="quiz-question">
+                  <div class="quiz-question-title">
+                    6. On t’impose des KPI absurdes, déconnectés du sens de ton métier.
+                  </div>
+                  <div class="quiz-question-meta">
+                    &gt; thème&nbsp;: loi de Goodhart / indicateurs toxiques
+                  </div>
+                  <ul class="quiz-options">
+                    <li>
+                      <label>
+                        <input type="radio" name="q6" value="a">
+                        <span>Je joue le jeu : j’optimise l’indicateur, même si ça abîme la réalité.</span>
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="q6" value="b">
+                        <span>J’explique en quoi l’indicateur détruit l’objectif réel et je propose d’autres mesures.</span>
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="q6" value="c">
+                        <span>Je fais semblant de m’y conformer, tout en aidant les bénéficiaires comme je peux en off.</span>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Q7 -->
+                <div class="quiz-question">
+                  <div class="quiz-question-title">
+                    7. Face à l’absurdité organisationnelle, quelle phrase te ressemble le plus ?
+                  </div>
+                  <div class="quiz-question-meta">
+                    &gt; thème&nbsp;: posture globale
+                  </div>
+                  <ul class="quiz-options">
+                    <li>
+                      <label>
+                        <input type="radio" name="q7" value="a">
+                        <span>«&nbsp;C’est comme ça, on n’y peut rien&nbsp;».</span>
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="q7" value="b">
+                        <span>«&nbsp;Je ne me fais plus d’illusions, mais je garde l’énergie pour documenter, contourner et, si possible, transformer.&nbsp;»</span>
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="q7" value="c">
+                        <span>«&nbsp;Tant que ma fiche de paie tombe, le reste m’est égal.&nbsp;»</span>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="quiz-side">
+                <div class="quiz-score" id="quiz-score">
+                  Score&nbsp;: -- / 7
+                </div>
+                <div class="quiz-feedback" id="quiz-feedback">
+                  Remplis le test puis clique sur "Analyser ma lucidité".
+                </div>
+                <button class="btn" id="quiz-submit">
+                  Analyser ma lucidité
+                </button>
+                <div class="quiz-legend">
+                  &gt; Barème (ultra cynique mais juste) :<br>
+                  • réponses lucides = +1 point<br>
+                  • réponses résignées ou cynisme vide = 0<br>
+                  • l’objectif n’est pas de culpabiliser, mais de nommer ce qui se passe.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DOSSIERS / PDF EMBEDS -->
+      <section id="docs" class="reveal">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-kicker">Pour aller au-delà du test</div>
+            <div class="section-h2">Dossiers sur l’absurdité organisationnelle</div>
+          </div>
+          <span class="badge">Mode&nbsp;: lecture sérieuse, fond acide</span>
+        </div>
+
+        <div class="section-body">
+          <p>
+            Pour prouver qu’on ne fabule pas, voici trois dossiers embarqués&nbsp;:  
+            une synthèse, une typologie détaillée, et une analyse serrée de l’absurdité
+            organisationnelle. Tu peux les lire en entier directement ici.
+          </p>
+
+          <div class="docs-grid">
+            <div class="docs-nav">
+              <div class="docs-nav-title">Dossiers disponibles</div>
+              <button class="docs-btn active" data-doc="doc1">
+                Synthèse&nbsp;: comprendre et combattre l’absurdité organisationnelle
+                <small>(version courte mais dense)</small>
+              </button>
+              <button class="docs-btn" data-doc="doc2">
+                Dossier complet&nbsp;: typologie, causes, exemples, solutions
+                <small>(long, documenté, clinique)</small>
+              </button>
+              <button class="docs-btn" data-doc="doc3">
+                Analyse avancée&nbsp;: coûts, théories, XY problem & co
+                <small>(version plus analytique / Claude)</small>
+              </button>
+            </div>
+
+            <div class="docs-viewer">
+              <div class="docs-viewer-note">
+                &gt; Astuce&nbsp;: ouvre les dossiers en plein écran dans ton navigateur pour annoter, surligner,
+                préparer tes propres attaques contre l’absurde.
+              </div>
+              <div class="docs-frame">
+                <!-- Les chemins seront transformés en URLs côté serveur -->
+                <iframe id="docs-frame"
+                        src="/mnt/data/absurdites-organisationnelles-chatgpt-I.pdf"
+                        title="Dossier absurdité organisationnelle"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SYSTEME & ESPOIR -->
+      <section id="systeme" class="reveal">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-kicker">Constat lucide // sans anesthésie</div>
+            <div class="section-h2">Le système & ce qu’on peut en faire</div>
+          </div>
+          <span class="badge">Cynisme contrôlé, espoir têtu</span>
+        </div>
+
+        <div class="section-body">
+          <ul class="rant-list">
+            <li class="rant-item">
+              <span class="rant-tag">constat</span>
+              <span>
+                Les absurdités organisationnelles ne sont pas des bugs isolés, ce sont des
+                <strong>fonctions systémiques</strong>. Elles coûtent des milliards et ruinent la santé des gens,
+                mais elles arrangent des structures entières qui préfèrent la procédure à la responsabilité.
+              </span>
+            </li>
+            <li class="rant-item">
+              <span class="rant-tag">effet</span>
+              <span>
+                Burn-out, quiet quitting, bullshit jobs, sur-bureaucratie, réunionite...  
+                Tout cela a été documenté. On ne manque pas de diagnostics, on manque de courage 
+                organisationnel pour faire autrement.
+              </span>
+            </li>
+            <li class="rant-item">
+              <span class="rant-tag">détournement</span>
+              <span>
+                D’où ce portfolio : ce n’est pas juste "mon" histoire.  
+                C’est une tentative pour transformer ce vécu en <strong>outil</strong> :  
+                tests, dossiers, dispositifs pédagogiques, supports pour des discussions réelles dans des équipes
+                qui veulent arrêter de faire semblant.
+              </span>
+            </li>
+          </ul>
+
+          <div class="hope-block">
+            <div class="hope-title">Mode &lt;espoir /&gt; activé</div>
+            <div class="hope-text">
+              L’espoir, ce n’est pas croire que le système va devenir soudain bienveillant.  
+              C’est savoir que <strong>des gens</strong>, à l’intérieur et à l’extérieur, peuvent s’en servir pour
+              construire autre chose&nbsp;: des espaces de parole honnête, des outils sincères, des
+              projets qui ne sacrifient pas la santé sur l’autel du reporting.
+              <br><br>
+              Si tu veux utiliser ce regard pour <strong>co-construire</strong> quelque chose – un module de formation,
+              un site pédagogique, un jeu sérieux sur le travail réel – alors là, clairement, on peut causer.
+              Bim un jour&nbsp;: on a vu.  
+              Bim toujours&nbsp;: on s’organise.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>
+        &copy; <span class="brand">P / Le projet</span> – Portfolio sombre, cynique, documenté.
+      </div>
+      <div>
+        build&nbsp;: matrix-gluant-flashy-hardcore // mantra&nbsp;: "bim un jour, bim toujours".
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Navigation / scroll
+    const navLinks = document.querySelectorAll(".nav-link");
+    navLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        const targetId = link.dataset.target;
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        navLinks.forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
+      });
+    });
+
+    // Reveal on scroll
+    const revealElements = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealElements.forEach(el => observer.observe(el));
+
+    // Mode espoir
+    const btnEspoir = document.getElementById("btn-espoir");
+    btnEspoir.addEventListener("click", () => {
+      document.body.classList.add("espoir-flash");
+      setTimeout(() => document.body.classList.remove("espoir-flash"), 700);
+
+      const systeme = document.getElementById("systeme");
+      if (systeme) {
+        systeme.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+
+    // Hardcore
+    const btnHardcore = document.getElementById("btn-hardcore");
+    btnHardcore.addEventListener("click", () => {
+      document.body.classList.toggle("hardcore");
+    });
+
+    // Scroll direct vers test
+    const btnScrollTest = document.getElementById("btn-scroll-test");
+    if (btnScrollTest) {
+      btnScrollTest.addEventListener("click", () => {
+        const testSection = document.getElementById("test");
+        if (testSection) {
+          testSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    }
+
+    // Test cynique – réponses "lucides"
+    // Q1: c, Q2: b, Q3: b, Q4: b, Q5: b, Q6: b, Q7: b
+    const correctAnswers = {
+      q1: "c",
+      q2: "b",
+      q3: "b",
+      q4: "b",
+      q5: "b",
+      q6: "b",
+      q7: "b"
+    };
+
+    const quizSubmit = document.getElementById("quiz-submit");
+    const quizScore = document.getElementById("quiz-score");
+    const quizFeedback = document.getElementById("quiz-feedback");
+
+    quizSubmit.addEventListener("click", () => {
+      let score = 0;
+      let answered = 0;
+
+      Object.keys(correctAnswers).forEach(q => {
+        const selected = document.querySelector(`input[name="${q}"]:checked`);
+        if (selected) {
+          answered++;
+          if (selected.value === correctAnswers[q]) {
+            score++;
+          }
+        }
+      });
+
+      quizScore.textContent = `Score : ${score} / 7`;
+
+      if (answered < 7) {
+        quizFeedback.textContent =
+          "Tu n’as pas répondu à tout. Ce n’est pas grave, c’est déjà un reflet du réel : personne n’a le temps de tout traiter. Mais si tu veux le diagnostic complet, réponds aux 7 questions.";
+        return;
+      }
+
+      let message = "";
+      if (score <= 2) {
+        message =
+          "Niveau de lucidité : faible. Ce n’est pas un jugement moral : c’est probablement un mécanisme de survie. Mais attention : à force d’encaisser sans nommer l’absurde, c’est souvent le corps qui finit par parler (burn-out, somatisations, etc.).";
+      } else if (score <= 4) {
+        message =
+          "Niveau de lucidité : intermédiaire. Tu vois bien que quelque chose cloche, mais tu es encore coincé·e entre adaptation, humour noir et résignation. C’est là que les dossiers ci-dessous peuvent aider à mettre des mots précis sur ce que tu vis.";
+      } else if (score <= 6) {
+        message =
+          "Niveau de lucidité : élevé. Tu as compris les mécanismes, tu identifies les zones absurdes et tu cherches des alternatives. Reste à trouver des alliés et des espaces où cette lucidité ne sera pas punie mais utilisée.";
+      } else {
+        message =
+          "Niveau de lucidité : maximal. Félicitations (ou condoléances). Tu vois très clair dans le jeu, et ça peut être épuisant. L’enjeu, maintenant, c’est de ne pas te consumer : transformer cette lucidité en action collective, en création, en outils... plutôt qu’en auto-destruction.";
+      }
+
+      quizFeedback.textContent = message;
+    });
+
+    // Dossiers / PDFs
+    const docsButtons = document.querySelectorAll(".docs-btn");
+    const docsFrame = document.getElementById("docs-frame");
+
+    const docsSources = {
+      doc1: "/mnt/data/absurdites-organisationnelles-chatgpt-I.pdf",
+      doc2: "/mnt/data/absurdites-organisationnelles-chatgpt-II.pdf",
+      doc3: "/mnt/data/absurdites-organisationnelles-claude.pdf"
+    };
+
+    docsButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        docsButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const key = btn.dataset.doc;
+        const src = docsSources[key];
+        if (src && docsFrame) {
+          docsFrame.src = src;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
