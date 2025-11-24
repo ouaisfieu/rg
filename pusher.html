@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Examen Ultime – Plaidoyer citoyen (Instance de P)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Police sobre -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #020617;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent-2: #38bdf8;
+      --accent-3: #eab308;
+      --accent-4: #f97316;
+      --danger: #f97373;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --muted-soft: #6b7280;
+      --border: rgba(148,163,184,0.9);
+      --radius-lg: 26px;
+      --radius-md: 18px;
+      --shadow: 0 26px 70px rgba(15,23,42,0.98);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 0 0, rgba(34,197,94,0.33), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(56,189,248,0.25), transparent 60%),
+        #020617;
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      padding: 1.3rem 0.8rem 1.8rem;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1100px;
+      background:
+        radial-gradient(circle at 0 0, rgba(34,197,94,0.14), transparent 65%),
+        radial-gradient(circle at 100% 100%, rgba(15,23,42,0.96), transparent 55%),
+        var(--bg-soft);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 1.4rem 1.1rem 1.9rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .app {
+        padding: 1.7rem 1.9rem 2.2rem;
+      }
+    }
+
+    .app::before {
+      content: "Examen Ultime – Plaidoyer citoyen";
+      position: absolute;
+      top: 0.7rem;
+      right: 1.4rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(148,163,184,0.85);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 1.1rem;
+    }
+
+    .badge-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.15rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.8);
+      font-size: 0.78rem;
+      color: var(--muted-soft);
+      margin-bottom: 0.35rem;
+      background: rgba(15,23,42,0.9);
+    }
+
+    .badge-top span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .logo {
+      width: 76px;
+      height: 76px;
+      border-radius: 999px;
+      margin: 0 auto 0.55rem;
+      background:
+        conic-gradient(from 210deg,
+          rgba(34,197,94,0.0),
+          rgba(34,197,94,0.9),
+          rgba(56,189,248,0.9),
+          rgba(234,179,8,0.9),
+          rgba(248,113,113,0.9),
+          rgba(34,197,94,0.0));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 0 30px rgba(34,197,94,0.9),
+        0 0 20px rgba(15,23,42,1);
+      color: #020617;
+      font-weight: 800;
+      font-size: 1.8rem;
+    }
+
+    h1 {
+      font-size: clamp(1.9rem, 4.1vw, 2.35rem);
+      letter-spacing: -0.03em;
+    }
+
+    h1 span {
+      background: linear-gradient(120deg, #22c55e, #38bdf8, #eab308, #f97316);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      margin-top: 0.3rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .subtitle strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .layout-main {
+      margin-top: 1.2rem;
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    @media (min-width: 992px) {
+      .layout-main {
+        grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.1fr);
+      }
+    }
+
+    .card {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--card);
+      padding: 0.9rem 1rem;
+      box-shadow: 0 20px 48px rgba(15,23,42,0.96);
+      font-size: 0.9rem;
+      color: var(--muted);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.6rem;
+      align-items: center;
+      margin-bottom: 0.4rem;
+    }
+
+    .card-title {
+      font-size: 0.98rem;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .card-title span.icon {
+      font-size: 1.25rem;
+    }
+
+    .card-sub {
+      font-size: 0.78rem;
+      color: var(--muted-soft);
+    }
+
+    h2 {
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+
+    h3 {
+      font-size: 0.95rem;
+      color: var(--text);
+      margin: 0.25rem 0 0.2rem;
+    }
+
+    p {
+      margin-bottom: 0.25rem;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.08rem 0.6rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      background: #020617;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .pill span.dot-small {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .pill.orange span.dot-small { background: var(--accent-4); }
+    .pill.amber span.dot-small { background: var(--accent-3); }
+    .pill.blue span.dot-small { background: var(--accent-2); }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-bottom: 0.3rem;
+      font-size: 0.8rem;
+      color: var(--muted-soft);
+    }
+
+    .meta-row span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+
+    /* Quiz */
+    .quiz-question {
+      font-size: 0.98rem;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .quiz-count {
+      font-size: 0.8rem;
+      color: var(--muted-soft);
+      margin-bottom: 0.4rem;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .quiz-option {
+      border-radius: 999px;
+      border: 1px solid rgba(75,85,99,0.95);
+      background: #020617;
+      color: var(--muted);
+      padding: 0.26rem 0.6rem;
+      font-size: 0.86rem;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: border 0.16s, background 0.16s, transform 0.1s;
+    }
+
+    .quiz-option span.bullet {
+      font-size: 0.9rem;
+      font-family: "Fira Code", monospace;
+    }
+
+    .quiz-option:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent-2);
+    }
+
+    .quiz-option.selected {
+      border-color: var(--accent-2);
+      background: linear-gradient(120deg, rgba(56,189,248,0.16), rgba(34,197,94,0.09));
+      color: var(--text);
+    }
+
+    .quiz-option.correct {
+      border-color: var(--accent);
+      background: linear-gradient(120deg, rgba(34,197,94,0.22), rgba(21,128,61,0.35));
+      color: #ecfdf3;
+    }
+
+    .quiz-option.incorrect {
+      border-color: var(--danger);
+      background: linear-gradient(120deg, rgba(248,113,113,0.25), rgba(127,29,29,0.7));
+      color: #fef2f2;
+    }
+
+    .quiz-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+      align-items: center;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: none;
+      padding: 0.36rem 0.9rem;
+      font-size: 0.84rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #020617;
+      box-shadow: 0 14px 32px rgba(15,23,42,1);
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .btn span.icon {
+      font-size: 1rem;
+    }
+
+    .btn-ghost {
+      background: #020617;
+      color: var(--muted);
+      border: 1px solid rgba(148,163,184,0.9);
+      box-shadow: none;
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #f97373, #f97316);
+      color: #020617;
+    }
+
+    .quiz-progress {
+      font-size: 0.8rem;
+      color: var(--muted-soft);
+    }
+
+    .quiz-explanation {
+      margin-top: 0.3rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .quiz-explanation strong {
+      color: var(--text);
+    }
+
+    .quiz-summary {
+      margin-top: 0.4rem;
+      font-size: 0.87rem;
+      color: var(--muted);
+      border-top: 1px dashed rgba(75,85,99,0.9);
+      padding-top: 0.35rem;
+    }
+
+    .quiz-summary strong {
+      color: var(--text);
+    }
+
+    .verdict {
+      margin-top: 0.35rem;
+      font-size: 0.88rem;
+      padding: 0.5rem 0.6rem;
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,0.9);
+      background: rgba(15,23,42,0.9);
+    }
+
+    .verdict.good {
+      border-color: var(--accent);
+      background: radial-gradient(circle at 0 0, rgba(34,197,94,0.25), transparent 60%);
+    }
+
+    .verdict.mid {
+      border-color: var(--accent-3);
+      background: radial-gradient(circle at 0 0, rgba(234,179,8,0.23), transparent 60%);
+    }
+
+    .verdict.bad {
+      border-color: var(--danger);
+      background: radial-gradient(circle at 0 0, rgba(248,113,113,0.23), transparent 60%);
+    }
+
+    .note {
+      margin-top: 0.35rem;
+      font-size: 0.78rem;
+      color: var(--muted-soft);
+    }
+
+    .note code {
+      font-size: 0.8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.8);
+      padding: 0.08rem 0.5rem;
+      background: #020617;
+      color: var(--text);
+    }
+
+    /* Colonne droite */
+    .timeline {
+      margin-top: 0.2rem;
+      padding-left: 0.2rem;
+      border-left: 1px dashed rgba(75,85,99,0.9);
+    }
+
+    .timeline-item {
+      margin-bottom: 0.4rem;
+      padding-left: 0.6rem;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -4px;
+      top: 0.22rem;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent-2);
+    }
+
+    .timeline-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted-soft);
+      margin-bottom: 0.15rem;
+    }
+
+    .timeline-title {
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .timeline-text {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .list-legend {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.25rem;
+      margin-top: 0.3rem;
+      font-size: 0.78rem;
+    }
+
+    .list-legend li {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      color: var(--muted-soft);
+    }
+
+    .legend-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--accent-2);
+    }
+
+    .legend-dot.green { background: var(--accent); }
+    .legend-dot.amber { background: var(--accent-3); }
+    .legend-dot.red { background: var(--danger); }
+
+    .minimap {
+      margin-top: 0.4rem;
+      border-radius: 14px;
+      border: 1px dashed rgba(75,85,99,0.9);
+      padding: 0.4rem 0.5rem;
+      font-size: 0.8rem;
+      color: var(--muted-soft);
+    }
+
+    .minimap strong {
+      color: var(--text);
+    }
+
+    .footer-small {
+      margin-top: 0.3rem;
+      font-size: 0.76rem;
+      color: var(--muted-soft);
+      text-align: right;
+    }
+
+    .footer-small strong {
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="badge-top">
+      <span class="dot"></span>
+      <span>Test ultime d’entrée – Instance de P</span>
+    </div>
+    <div class="logo">P?</div>
+    <h1><span>Examen poussé de plaidoyer citoyen</span></h1>
+    <p class="subtitle">
+      Ce questionnaire avancé évalue ta compréhension du <strong>plaidoyer citoyen</strong>,
+      de ses outils (voir / juger / agir), de la différence avec le lobbying, de la stratégie,
+      des acteurs et des niveaux de pouvoir – sur base du guide de Justice &amp; Paix
+      «&nbsp;Le petit guide du plaidoyer citoyen&nbsp;» :contentReference[oaicite:1]{index=1}.  
+      Score élevé = accès (théorique) à l’instance de P. Score faible = mission d’auto-formation.
+    </p>
+  </header>
+
+  <main class="layout-main">
+    <!-- Colonne gauche : EXAMEN -->
+    <section>
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="icon">🧪</span>
+            <span>Examen – 30 questions progressives</span>
+          </div>
+          <div class="card-sub">
+            Tu réponds question par question, avec corrections et explications.
+          </div>
+        </div>
+
+        <div class="meta-row">
+          <span>🎯 <strong id="metaTheme">Thème</strong></span>
+          <span>⚙️ Difficulté : <strong id="metaDifficulty">-</strong></span>
+          <span>🧠 Type : <strong id="metaType">-</strong></span>
+        </div>
+
+        <div class="quiz-question" id="quizQuestion"></div>
+        <div class="quiz-count" id="quizCount"></div>
+
+        <div class="quiz-options" id="quizOptions"></div>
+
+        <div class="quiz-controls">
+          <button type="button" class="btn" id="btnValidate">
+            <span class="icon">✅</span><span>Valider la réponse</span>
+          </button>
+          <button type="button" class="btn btn-ghost" id="btnNext">
+            <span class="icon">➡️</span><span>Question suivante</span>
+          </button>
+          <button type="button" class="btn btn-ghost" id="btnRestart">
+            <span class="icon">🔄</span><span>Recommencer l’examen</span>
+          </button>
+          <span class="quiz-progress" id="quizProgress"></span>
+        </div>
+
+        <div class="quiz-explanation" id="quizExplanation"></div>
+
+        <div class="quiz-summary" id="quizSummary"></div>
+
+        <p class="note">
+          Les niveaux sont indicatifs :
+          <code>Facile</code> = vocabulaire & définitions,
+          <code>Moyen</code> = outils & méthode,
+          <code>Difficile</code> = stratégie & analyse,
+          <code>Hardcore</code> = articulation avec le système belge & enjeux politiques.
+        </p>
+      </article>
+    </section>
+
+    <!-- Colonne droite : topo & repères -->
+    <aside>
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="icon">📚</span>
+            <span>Repères rapides – Plaidoyer citoyen</span>
+          </div>
+          <div class="card-sub">
+            Rappel express avant / pendant l’examen.
+          </div>
+        </div>
+
+        <h3>Matrice « voir – juger – agir »</h3>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-label">VOIR</div>
+            <div class="timeline-title">Analyser la réalité</div>
+            <div class="timeline-text">
+              Contexte, acteurs, rapports de force, problèmes : outils 1 à 4 (domino du changement,
+              profil, fleur de pouvoir, cartographie des acteurs / power mapping).
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-label">JUGER</div>
+            <div class="timeline-title">Comprendre et hiérarchiser</div>
+            <div class="timeline-text">
+              Outils 5 à 9 : théorie du changement, SWOT, PESTEL, arbre à problème / objectif,
+              « 5 pourquoi ». On fait le lien entre causes, effets et solutions possibles.
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-label">AGIR</div>
+            <div class="timeline-title">Stratégie & mise en œuvre</div>
+            <div class="timeline-text">
+              Outils 10 à 15 : avec / sans / contre le pouvoir, objectifs SMART, cibles & alliances,
+              message, rencontre, suivi & évaluation.
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin-top:0.4rem;">Légende des difficultés</h3>
+        <ul class="list-legend">
+          <li><span class="legend-dot green"></span> Facile – vocabulaire</li>
+          <li><span class="legend-dot"></span> Moyen – outils & méthode</li>
+          <li><span class="legend-dot amber"></span> Difficile – stratégie & systèmes</li>
+          <li><span class="legend-dot red"></span> Hardcore – articulation politique avancée</li>
+        </ul>
+
+        <div class="minimap">
+          <strong>But de ce test :</strong>
+          vérifier que tu maîtrises le plaidoyer citoyen comme outil stratégique,
+          et pas seulement comme belle intention.  
+          Si tu dépasses ~70&nbsp;% de bonnes réponses, tu peux raisonnablement co-construire
+          un plaidoyer avec d’autres (et commencer à jouer sérieusement avec l’instance de P).
+        </div>
+
+        <div class="footer-small">
+          <strong>Astuce :</strong> après le test, repère les thèmes où tu rates le plus de questions :
+          ce sont tes priorités de formation.
+        </div>
+      </article>
+    </aside>
+  </main>
+</div>
+
+<script>
+(function() {
+  // --- BANQUE DE QUESTIONS (30) ---
+  const questions = [
+    {
+      theme: "Définitions",
+      difficulty: "Facile",
+      type: "Connaissance",
+      text: "1. Selon le guide, qu’est-ce que le plaidoyer citoyen, dans son sens le plus général ?",
+      options: [
+        "Une campagne de communication pour vendre un produit",
+        "Un processus stratégique d’action collective visant à influencer les décisions et pratiques politiques dans le sens de l’intérêt général",
+        "Une suite de manifestations spontanées sans objectif précis",
+        "Une simple pétition en ligne"
+      ],
+      correctIndex: 1,
+      explanation:
+        "Le guide définit le plaidoyer comme un « processus stratégique d’action collective qui vise à influencer les décisions et pratiques politiques dans le sens de l’intérêt général »."
+    },
+    {
+      theme: "Définitions",
+      difficulty: "Moyen",
+      type: "Analyse",
+      text: "2. Qu’est-ce qui distingue principalement le plaidoyer citoyen du lobbying tel que décrit dans le guide ?",
+      options: [
+        "Le plaidoyer est secret et le lobbying est public",
+        "Le plaidoyer défend des intérêts privés, le lobbying des intérêts généraux",
+        "Le plaidoyer se veut public et transparent, le lobbying est souvent discret et associé à la défense d’intérêts particuliers",
+        "Il n’y a aucune différence, ce sont des synonymes"
+      ],
+      correctIndex: 2,
+      explanation:
+        "Le guide insiste sur le fait que le plaidoyer se veut public et transparent, alors que le lobbying est souvent perçu comme discret, opaque et lié à la défense d’intérêts privés ou corporatistes."
+    },
+    {
+      theme: "Système politique belge",
+      difficulty: "Moyen",
+      type: "Connaissance",
+      text: "3. Pourquoi est-il crucial de comprendre la répartition des compétences en Belgique lorsqu’on mène un plaidoyer ?",
+      options: [
+        "Parce que les ministres ne lisent jamais les mails",
+        "Parce que chaque niveau de pouvoir (fédéral, régional, communautaire, local) a des compétences spécifiques et qu’il faut s’adresser aux bons décideurs",
+        "Parce qu’il faut impérativement passer par le Roi pour tout changement",
+        "Parce que seules les institutions européennes sont compétentes en Belgique"
+      ],
+      correctIndex: 1,
+      explanation:
+        "La Belgique est un État fédéral complexe : fédéral, régions, communautés, niveaux locaux. Une bonne stratégie de plaidoyer suppose de cibler les décideurs qui ont la compétence sur la thématique."
+    },
+    {
+      theme: "Voir – Analyse de contexte",
+      difficulty: "Facile",
+      type: "Outils",
+      text: "4. Dans la méthodologie « voir – juger – agir », que recouvre principalement la phase « voir » ?",
+      options: [
+        "L’organisation de la fête de fin de campagne",
+        "La mise en œuvre des actions concrètes",
+        "L’analyse du contexte, la formulation de constats sur la société et l’identification des acteurs",
+        "La rédaction du communiqué de presse final"
+      ],
+      correctIndex: 2,
+      explanation:
+        "« Voir » correspond à la phase de constats et d’analyse de contexte : comprendre la situation, les acteurs, les dynamiques de pouvoir."
+    },
+    {
+      theme: "Outils – Domino du changement",
+      difficulty: "Moyen",
+      type: "Outils",
+      text: "5. À quoi sert le « domino du changement » dans une démarche de plaidoyer ?",
+      options: [
+        "À calculer le budget d’une campagne",
+        "À choisir le meilleur slogan publicitaire",
+        "À clarifier pourquoi on veut s’engager, quelles valeurs on porte et quels changements on souhaite voir dans la société",
+        "À décider qui sera le porte-parole officiel"
+      ],
+      correctIndex: 2,
+      explanation:
+        "Le domino du changement aide à cadrer le projet de plaidoyer : finalité de l’engagement, valeurs, changements souhaités et types d’actions."
+    },
+    {
+      theme: "Profils et pouvoir",
+      difficulty: "Moyen",
+      type: "Réflexivité",
+      text: "6. Pourquoi le test « Quel est mon profil ? » et la « fleur de pouvoir » sont-ils utiles pour un groupe de plaidoyer ?",
+      options: [
+        "Pour éliminer les personnes qui ne sont pas assez diplômées",
+        "Pour répartir les tâches selon les privilèges uniquement",
+        "Pour mieux se connaître comme équipe, identifier des profils complémentaires et prendre conscience des rapports de pouvoir et privilèges",
+        "Uniquement pour faire un jeu de rôle"
+      ],
+      correctIndex: 2,
+      explanation:
+        "Ces outils aident à identifier les forces, les profils (planificateur·rice, communicant·e, chercheur·euse, etc.) et les rapports de pouvoir liés au genre, à la classe sociale, à l’âge, à l’ethnicité…"
+    },
+    {
+      theme: "Cartographie des acteurs",
+      difficulty: "Moyen",
+      type: "Outils",
+      text: "7. La cartographie des acteurs et le power mapping visent principalement à :",
+      options: [
+        "Dessiner une carte esthétique pour le rapport annuel",
+        "Répertorier les parties prenantes, estimer leur niveau d’influence et leur position (allié·e, indécis·e, opposant·e)",
+        "Remplacer les sondages d’opinion",
+        "Identifier les meilleurs endroits pour manifester"
+      ],
+      correctIndex: 1,
+      explanation:
+        "La cartographie des acteurs permet de savoir qui a du pouvoir, qui peut soutenir ou bloquer le changement, et sur qui concentrer l’effort de plaidoyer."
+    },
+    {
+      theme: "Théorie du changement",
+      difficulty: "Difficile",
+      type: "Stratégie",
+      text: "8. La théorie du changement (ToC) sert avant tout à :",
+      options: [
+        "Expliquer la météo politique du pays",
+        "Rendre explicites les liens entre activités, résultats, changements attendus et impacts, à court, moyen et long terme",
+        "Décider du nom de l’asbl",
+        "Mesurer uniquement les retombées médiatiques"
+      ],
+      correctIndex: 1,
+      explanation:
+        "La ToC schématise la voie du changement : comment des activités concrètes produisent des résultats intermédiaires puis des impacts plus profonds (individuels, collectifs, structurels)."
+    },
+    {
+      theme: "Analyses SWOT & PESTEL",
+      difficulty: "Moyen",
+      type: "Outils",
+      text: "9. Quelle combinaison décrit le mieux l’usage d’une analyse SWOT dans un plaidoyer ?",
+      options: [
+        "Lister les forces et faiblesses internes, ainsi que les opportunités et menaces externes pour le projet de plaidoyer",
+        "Évaluer uniquement le budget de la campagne",
+        "Classer les député·es par ordre alphabétique",
+        "Mesurer la satisfaction du public après l’action"
+      ],
+      correctIndex: 0,
+      explanation:
+        "SWOT = Forces, Faiblesses, Opportunités, Menaces. C’est un diagnostic stratégique pour ajuster la stratégie de plaidoyer."
+    },
+    {
+      theme: "Analyses SWOT & PESTEL",
+      difficulty: "Difficile",
+      type: "Outils",
+      text: "10. L’analyse PESTEL complète la SWOT en permettant de :",
+      options: [
+        "Calculer les dépenses en publicité",
+        "Analyser les facteurs externes politiques, économiques, sociaux, technologiques, environnementaux et légaux qui influencent la problématique",
+        "Choisir le meilleur logo pour la campagne",
+        "Évaluer la personnalité des militant·es"
+      ],
+      correctIndex: 1,
+      explanation:
+        "PESTEL balaye les dimensions politiques, économiques, sociales, technologiques, environnementales/santé et légales du contexte."
+    },
+    {
+      theme: "Arbre à problème",
+      difficulty: "Moyen",
+      type: "Outils",
+      text: "11. Le principal intérêt de l’arbre à problème, puis de l’arbre à objectifs, est de :",
+      options: [
+        "Écrire un conte illustré",
+        "Identifier les causes profondes d’un problème, ses conséquences, puis transformer cet arbre en pistes de solutions (objectifs et moyens)",
+        "Classer les ONG par taille",
+        "Remplacer une évaluation budgétaire"
+      ],
+      correctIndex: 1,
+      explanation:
+        "On part d’un problème central (tronc), on détaille causes (racines) et conséquences (branches), puis on transforme en objectifs et moyens pour le plaidoyer."
+    },
+    {
+      theme: "5 Pourquoi",
+      difficulty: "Moyen",
+      type: "Outils",
+      text: "12. La méthode des « 5 pourquoi » est utilisée pour :",
+      options: [
+        "Trouver le meilleur slogan pour Twitter",
+        "Remonter étape par étape vers une cause plus profonde d’un problème en se demandant « pourquoi ? » plusieurs fois",
+        "Vérifier l’orthographe d’un communiqué",
+        "Choisir le jour de la conférence de presse"
+      ],
+      correctIndex: 1,
+      explanation:
+        "Pose « pourquoi ? » plusieurs fois de suite permet d’aller au-delà des symptômes visibles et d’identifier certains niveaux de causalité plus profonds."
+    },
+    {
+      theme: "Avec / sans / contre le pouvoir",
+      difficulty: "Moyen",
+      type: "Stratégie",
+      text: "13. Quelle affirmation traduit correctement les trois dynamiques « avec, sans et contre le pouvoir » ?",
+      options: [
+        "Avec = sabotage, Sans = élections, Contre = silence",
+        "Avec = co-construction et négociation, Contre = confrontation et résistance, Sans = création d’espaces autonomes d’alternatives",
+        "Avec = lobbying d’entreprise, Sans = grève, Contre = pétition",
+        "Ce sont trois mots sans lien avec le plaidoyer"
+      ],
+      correctIndex: 1,
+      explanation:
+        "Le guide présente ces trois dynamiques comme des stratégies complémentaires : coopérer, résister ou construire en autonomie, selon le contexte et les objectifs."
+    },
+    {
+      theme: "Objectifs SMART",
+      difficulty: "Facile",
+      type: "Outils",
+      text: "14. Dans la logique SMART, que signifie le « T » de SMART pour des objectifs de plaidoyer ?",
+      options: [
+        "Technique",
+        "Totalitaire",
+        "Temporel – il faut une échéance",
+        "Théologique"
+      ],
+      correctIndex: 2,
+      explanation:
+        "Un objectif SMART doit être spécifié dans le temps (échéance claire), sans quoi il reste vague et difficile à suivre."
+    },
+    {
+      theme: "Objectifs SMART",
+      difficulty: "Moyen",
+      type: "Outils",
+      text: "15. Quel exemple d’objectif est le plus proche d’un objectif SMART tel que présenté dans le guide ?",
+      options: [
+        "Un jour, nous changerons le monde",
+        "Dans notre ville, on va faire quelque chose pour le climat",
+        "D’ici décembre 2026, rencontrer au moins 10 responsables politiques communaux pour obtenir l’inscription d’un point sur la mobilité douce à l’ordre du jour du conseil communal",
+        "On verra plus tard ce qu’on peut faire"
+      ],
+      correctIndex: 2,
+      explanation:
+        "L’exemple est spécifique, mesurable (10 rencontres, un point à l’ODJ), atteignable/réaliste et limité dans le temps (d’ici décembre 2026)."
+    },
+    {
+      theme: "Cibles & alliances",
+      difficulty: "Moyen",
+      type: "Stratégie",
+      text: "16. Dans l’outil « cibles et alliances », qui sont les cibles de premier niveau ?",
+      options: [
+        "Les personnes qui peuvent directement prendre la décision que vous visez (détenteurs du pouvoir sur la mesure)",
+        "Les militant·es les plus motivé·es",
+        "Les personnes totalement opposées mais sans pouvoir",
+        "Les journalistes locaux"
+      ],
+      correctIndex: 0,
+      explanation:
+        "Les cibles de premier niveau sont les décideurs qui ont le pouvoir d’opérer le changement concret visé par le plaidoyer."
+    },
+    {
+      theme: "Cibles & alliances",
+      difficulty: "Difficile",
+      type: "Stratégie",
+      text: "17. Pourquoi les personnes « indécises » mais influentes sont-elles souvent les cibles les plus intéressantes pour un plaidoyer ?",
+      options: [
+        "Parce qu’elles ne votent jamais les lois",
+        "Parce qu’elles sont faciles à ignorer",
+        "Parce qu’en les convainquant, on peut faire basculer l’issue d’un vote ou d’une décision, alors qu’elles n’ont pas encore une position figée",
+        "Parce qu’elles fournissent toujours le catering"
+      ],
+      correctIndex: 2,
+      explanation:
+        "Les indécis influents sont stratégiques : ils peuvent être convaincus et peser sur le rapport de force, contrairement aux opposants irréductibles."
+    },
+    {
+      theme: "Construire un message",
+      difficulty: "Moyen",
+      type: "Outils",
+      text: "18. Quel élément ne fait PAS partie des cinq caractéristiques d’un message de plaidoyer décrites dans le guide ?",
+      options: [
+        "Une accroche percutante",
+        "La description du problème",
+        "La cible visée",
+        "La liste complète des statuts juridiques de toutes les asbl du pays"
+      ],
+      correctIndex: 3,
+      explanation:
+        "Un message de plaidoyer contient : accroche, problème, pourquoi c’est important, cible, action demandée – pas la liste exhaustive des statuts de toutes les asbl."
+    },
+    {
+      theme: "Rencontre de plaidoyer",
+      difficulty: "Moyen",
+      type: "Pratique",
+      text: "19. Parmi ces propositions, laquelle relève clairement d’une bonne préparation de rencontre de plaidoyer ?",
+      options: [
+        "Arriver en retard pour montrer que vous êtes débordé·e",
+        "Ne pas préparer de message : ça viendra sur le moment",
+        "Identifier qui présentera quoi, préparer des fiches synthétiques, connaître le contexte et apporter des documents à laisser",
+        "Menacer d’appeler les médias si l’élu·e n’est pas d’accord"
+      ],
+      correctIndex: 2,
+      explanation:
+        "La préparation passe par la répartition des rôles, un message clair, des documents ciblés, une connaissance solide du contexte et de la cible."
+    },
+    {
+      theme: "Suivi & évaluation",
+      difficulty: "Difficile",
+      type: "Stratégie",
+      text: "20. Quel est l’intérêt principal de mettre en place un suivi-évaluation continu du plaidoyer ?",
+      options: [
+        "Pouvoir sanctionner les bénévoles",
+        "Vérifier l’orthographe des e-mails",
+        "Apprendre de l’expérience, ajuster la stratégie au contexte (fenêtres d’opportunité, échéances, résistances) et documenter les impacts réels",
+        "Remplir des tableaux pour le plaisir"
+      ],
+      correctIndex: 2,
+      explanation:
+        "Le suivi permet d’ajuster la stratégie, de voir ce qui fonctionne, d’identifier les impacts et de garder une analyse de contexte à jour."
+    },
+    {
+      theme: "Rôles du plaidoyer",
+      difficulty: "Moyen",
+      type: "Analyse",
+      text: "21. Comment le plaidoyer citoyen peut-il renforcer le travail de terrain des organisations ?",
+      options: [
+        "En le remplaçant entièrement",
+        "En gardant les difficultés sous silence",
+        "En faisant remonter les constats de terrain vers le niveau politique pour modifier les cadres législatifs ou pratiques qui posent problème",
+        "En se concentrant uniquement sur la communication interne"
+      ],
+      correctIndex: 2,
+      explanation:
+        "Le plaidoyer fait le lien entre ce qui est observé sur le terrain et les décisions politiques, pour corriger les dysfonctionnements structurels."
+    },
+    {
+      theme: "Niveaux d’impact",
+      difficulty: "Difficile",
+      type: "Analyse",
+      text: "22. Selon la théorie du changement présentée, quel est un exemple d’impact de 3e ordre (structurel) ?",
+      options: [
+        "Une transformation personnelle de ton regard sur une injustice",
+        "La modification durable d’un cadre légal ou d’une procédure institutionnelle",
+        "La distribution ponctuelle de flyers",
+        "La tenue d’une seule conférence de sensibilisation"
+      ],
+      correctIndex: 1,
+      explanation:
+        "Les impacts structurels concernent les règles du jeu : lois, procédures, institutions. C’est du 3e ordre, au-delà des changements individuels."
+    },
+    {
+      theme: "Plaidoyer vs mobilisation",
+      difficulty: "Difficile",
+      type: "Analyse",
+      text: "23. Que souligne le guide à propos du lien entre plaidoyer et mobilisations citoyennes ?",
+      options: [
+        "Qu’il faut choisir l’un OU l’autre",
+        "Que les mobilisations de terrain renforcent le plaidoyer (légitimité, crédibilité), et que le plaidoyer soutient à son tour ces mobilisations",
+        "Que les mobilisations sont inutiles",
+        "Que seul le plaidoyer européen est utile"
+      ],
+      correctIndex: 1,
+      explanation:
+        "Le plaidoyer et les mobilisations se renforcent mutuellement : expertise, légitimité, pression citoyenne, relais politiques."
+    },
+    {
+      theme: "Belgique & continuum politique",
+      difficulty: "Hardcore",
+      type: "Stratégie",
+      text: "24. Que signifie l’idée de « continuum politique » évoquée dans le guide ?",
+      options: [
+        "Qu’il faut s’adresser uniquement au niveau fédéral",
+        "Qu’il est utile d’articuler le plaidoyer sur plusieurs niveaux de pouvoir (local, régional, fédéral, européen) pour renforcer le même message",
+        "Qu’il vaut mieux ne jamais parler d’Europe",
+        "Qu’il est interdit de travailler avec des villes et des communes"
+      ],
+      correctIndex: 1,
+      explanation:
+        "Parler de continuum politique, c’est articuler les mêmes enjeux à différents niveaux de pouvoir pour donner plus de cohérence et de force au plaidoyer."
+    },
+    {
+      theme: "Éthique et transparence",
+      difficulty: "Difficile",
+      type: "Réflexion",
+      text: "25. Sur le plan éthique, quelle exigence clé distingue un plaidoyer citoyen responsable ?",
+      options: [
+        "Le secret absolu des objectifs",
+        "La transparence sur les objectifs poursuivis, les intérêts défendus et les méthodes utilisées",
+        "L’opacité totale sur les sources de financement",
+        "L’absence de toute donnée factuelle"
+      ],
+      correctIndex: 1,
+      explanation:
+        "Le plaidoyer citoyen se veut public, transparent et fondé sur des données (recherches, expertise de terrain, rapports)."
+    },
+    {
+      theme: "Cas pratique – Mobilité locale",
+      difficulty: "Moyen",
+      type: "Application",
+      text: "26. Tu veux instaurer des pistes cyclables dans ton quartier. Quelle première étape cohérente avec le guide ?",
+      options: [
+        "Planter un panneau « piste cyclable » sans autorisation",
+        "Cartographier les acteurs (cyclistes, riverain·e·s, échevin·e de la mobilité, services communaux, collectifs) et définir qui sont tes cibles et alliés",
+        "Insulter l’échevin·e sur les réseaux sociaux",
+        "Attendre que quelqu’un d’autre s’en occupe"
+      ],
+      correctIndex: 1,
+      explanation:
+        "La cartographie des acteurs et la réflexion sur cibles & alliances sont une étape essentielle pour structurer un plaidoyer concret local."
+    },
+    {
+      theme: "Cas pratique – Ressources naturelles",
+      difficulty: "Hardcore",
+      type: "Application",
+      text: "27. Dans l’exemple des ressources naturelles (minerais, conflits), quel type d’action de plaidoyer est cohérent ?",
+      options: [
+        "Ignorer les conventions internationales",
+        "Renforcer la régulation des entreprises, rendre les lobbies plus transparents et veiller au respect des droits humains",
+        "Accélérer l’extraction sans conditions",
+        "Supprimer toute implication de la société civile"
+      ],
+      correctIndex: 1,
+      explanation:
+        "Le guide illustre comment des actions de plaidoyer peuvent viser la régulation des entreprises, la transparence des lobbies et la mise en œuvre de normes de droits humains."
+    },
+    {
+      theme: "Plaidoyer citoyen – Pourquoi ?",
+      difficulty: "Facile",
+      type: "Connaissance",
+      text: "28. Pourquoi le guide insiste-t-il sur le fait que le plaidoyer est à la portée de chacun·e ?",
+      options: [
+        "Parce que tout le monde doit devenir juriste",
+        "Parce que les enjeux de changement concernent tout le monde et que des outils simples peuvent être appropriés par des groupes de citoyen·ne·s",
+        "Parce qu’il n’y a plus besoin de responsables politiques",
+        "Parce qu’une seule action suffit toujours à changer la loi"
+      ],
+      correctIndex: 1,
+      explanation:
+        "Le guide vise à démocratiser le plaidoyer : montrer que des collectifs de citoyen·ne·s peuvent s’emparer de ces outils pour peser sur le débat public."
+    },
+    {
+      theme: "Temps long",
+      difficulty: "Difficile",
+      type: "Analyse",
+      text: "29. Pourquoi le plaidoyer est-il décrit comme un processus de long terme ?",
+      options: [
+        "Parce qu’on aime se compliquer la vie",
+        "Parce que les changements législatifs, de pratiques, de mentalités et de structures prennent du temps et nécessitent une stratégie suivie et adaptable",
+        "Parce que les ONG n’aiment pas évaluer leurs actions",
+        "Parce que les campagnes ne peuvent jamais se terminer"
+      ],
+      correctIndex: 1,
+      explanation:
+        "Modifier des lois, des procédures, des mentalités et des rapports de force ne se fait pas en une seule action. D’où la nécessité d’une vision stratégique dans le temps."
+    },
+    {
+      theme: "État d’esprit",
+      difficulty: "Hardcore",
+      type: "Réflexion",
+      text: "30. Quel état d’esprit général le guide encourage-t-il pour mener un plaidoyer citoyen ?",
+      options: [
+        "Le cynisme résigné et le fatalisme",
+        "La spontanéité sans préparation",
+        "Une posture réflexive, collective, patiente : se former, analyser, coopérer, réévaluer, tout en gardant l’objectif de transformation sociale",
+        "La recherche de visibilité personnelle avant tout"
+      ],
+      correctIndex: 2,
+      explanation:
+        "L’ensemble du guide met en avant la combinaison d’analyse, de stratégie, de travail en réseau, de patience et d’ancrage dans le bien commun."
+    }
+  ];
+
+  // --- ÉTAT ---
+  let current = 0;
+  let score = 0;
+  let answered = false;
+  let selectedIndex = null;
+  let answeredCount = 0;
+
+  // --- RÉFÉRENCES DOM ---
+  const metaTheme = document.getElementById("metaTheme");
+  const metaDifficulty = document.getElementById("metaDifficulty");
+  const metaType = document.getElementById("metaType");
+  const quizQuestion = document.getElementById("quizQuestion");
+  const quizCount = document.getElementById("quizCount");
+  const quizOptions = document.getElementById("quizOptions");
+  const quizProgress = document.getElementById("quizProgress");
+  const quizExplanation = document.getElementById("quizExplanation");
+  const quizSummary = document.getElementById("quizSummary");
+
+  const btnValidate = document.getElementById("btnValidate");
+  const btnNext = document.getElementById("btnNext");
+  const btnRestart = document.getElementById("btnRestart");
+
+  function renderQuestion() {
+    const q = questions[current];
+
+    metaTheme.textContent = q.theme;
+    metaDifficulty.textContent = q.difficulty;
+    metaType.textContent = q.type;
+
+    quizQuestion.textContent = q.text;
+    quizCount.textContent =
+      "Question " + (current + 1) + " sur " + questions.length;
+
+    quizOptions.innerHTML = "";
+    selectedIndex = null;
+    answered = false;
+    quizExplanation.textContent = "";
+    quizSummary.textContent = "";
+
+    questions[current].options.forEach((opt, index) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "quiz-option";
+      btn.innerHTML =
+        '<span class="bullet">' + String.fromCharCode(65 + index) + ".</span> " + opt + '"';
+      btn.addEventListener("click", () => {
+        if (answered) return;
+        document
+          .querySelectorAll(".quiz-option")
+          .forEach((b) => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        selectedIndex = index;
+      });
+      quizOptions.appendChild(btn);
+    });
+
+    quizProgress.textContent =
+      "Score provisoire : " + score + " / " + questions.length;
+  }
+
+  function validateAnswer() {
+    if (answered) return;
+    if (selectedIndex === null) {
+      quizExplanation.innerHTML =
+        "<strong>Choisis une réponse</strong> avant de valider.";
+      return;
+    }
+
+    answered = true;
+    answeredCount++;
+
+    const q = questions[current];
+    const optionButtons = document.querySelectorAll(".quiz-option");
+
+    optionButtons.forEach((btn, index) => {
+      btn.classList.remove("selected");
+      if (index === q.correctIndex) {
+        btn.classList.add("correct");
+      }
+      if (index === selectedIndex && index !== q.correctIndex) {
+        btn.classList.add("incorrect");
+      }
+    });
+
+    if (selectedIndex === q.correctIndex) {
+      score++;
+      quizExplanation.innerHTML =
+        "<strong>Bonne réponse ✔</strong><br>" + q.explanation;
+    } else {
+      quizExplanation.innerHTML =
+        "<strong>Réponse incorrecte ✖</strong><br>" + q.explanation;
+    }
+
+    quizProgress.textContent =
+      "Score provisoire : " + score + " / " + questions.length;
+
+    if (current === questions.length - 1) {
+      showFinalSummary();
+    }
+  }
+
+  function nextQuestion() {
+    if (!answered) {
+      quizExplanation.innerHTML =
+        "<strong>Valide d’abord ta réponse</strong> avant de passer à la suivante.";
+      return;
+    }
+    if (current < questions.length - 1) {
+      current++;
+      renderQuestion();
+    } else {
+      showFinalSummary();
+    }
+  }
+
+  function getVerdict() {
+    const percent = Math.round((score / questions.length) * 100);
+    let text, css;
+    if (percent >= 80) {
+      css = "good";
+      text =
+        "✔ " + percent +
+        "% : ton niveau de plaidoyer citoyen est solide. Tu peux raisonnablement co-construire une instance de plaidoyer avec P, \
+et même accompagner d’autres personnes dans leur montée en compétence.";
+    } else if (percent >= 60) {
+      css = "mid";
+      text =
+        "≈ " + percent +
+        "% : bonnes bases, mais certains outils ou dimensions (voir / juger / agir, ou le système politique) méritent d’être renforcés \
+avant de prétendre à un rôle stratégique dans l’instance de P.";
+    } else {
+      css = "bad";
+      text =
+        "✖ " + percent +
+        "% : ce n’est pas un jugement de valeur, mais un indicateur de formation. Le plaidoyer reste accessible, \
+mais il te manque encore des repères pour ne pas te perdre dans la complexité. Retour au guide, aux outils, \
+et à des cas pratiques simples avant de viser l’instance de P.";
+    }
+    return { css, text, percent };
+  }
+
+  function showFinalSummary() {
+    const { css, text, percent } = getVerdict();
+    const nb = questions.length;
+
+    quizSummary.innerHTML =
+      '<div class="verdict ' + css + '">' +
+      "<strong>Résultat final :</strong> " +
+      score +
+      " / " +
+      nb +
+      " (" +
+      percent +
+      " %) – " +
+      text +
+      "</div>" +
+      '<p class="note">Pour aller plus loin : identifie les questions ratées, repère à quels outils/chapitres du guide elles se réfèrent \
+(domino du changement, SWOT/PESTEL, arbre à problème, théorie du changement, cibles & alliances, etc.) \
+et construis ton propre mini-plan de plaidoyer sur un sujet qui te concerne directement.</p>';
+  }
+
+  function restartExam() {
+    current = 0;
+    score = 0;
+    answered = false;
+    selectedIndex = null;
+    answeredCount = 0;
+    quizExplanation.textContent = "";
+    quizSummary.textContent = "";
+    renderQuestion();
+  }
+
+  // --- ÉVÉNEMENTS ---
+  btnValidate.addEventListener("click", validateAnswer);
+  btnNext.addEventListener("click", nextQuestion);
+  btnRestart.addEventListener("click", restartExam);
+
+  // INIT
+  renderQuestion();
+})();
+</script>
+</body>
+</html>

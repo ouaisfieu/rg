@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Test sabotage : économie du Libre</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-card: #020617;
+      --accent: #22c55e;
+      --accent2: #0ea5e9;
+      --danger: #f97316;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --radius: 18px;
+      --shadow: 0 22px 45px rgba(15, 23, 42, 0.9);
+      --toxic: #facc15;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 0 0, #0ea5e9 0, transparent 55%),
+        radial-gradient(circle at 100% 100%, #22c55e 0, transparent 55%),
+        #020617;
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Bandeau d’alerte qui défile */
+    .alert-marquee {
+      background: repeating-linear-gradient(
+        45deg,
+        #ef4444,
+        #ef4444 10px,
+        #facc15 10px,
+        #facc15 20px
+      );
+      color: #0f172a;
+      padding: 6px 0;
+      overflow: hidden;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      cursor: pointer;
+      border-bottom: 2px solid #0f172a;
+    }
+
+    .alert-marquee-inner {
+      display: inline-block;
+      white-space: nowrap;
+      animation: marquee 16s linear infinite;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .alert-marquee-inner span {
+      margin: 0 40px;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* Layout principal */
+    .page {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.5fr);
+      gap: 18px;
+      padding: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: radial-gradient(circle at 0 0, rgba(34, 197, 94, 0.1), transparent 60%),
+                  radial-gradient(circle at 100% 100%, rgba(56, 189, 248, 0.15), transparent 60%),
+                  var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: var(--shadow);
+      padding: 14px 14px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .toxic-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px dashed var(--toxic);
+      font-size: 0.75rem;
+      color: var(--toxic);
+      background: rgba(15, 23, 42, 0.9);
+      margin-bottom: 10px;
+    }
+
+    .pingouin-floating {
+      position: absolute;
+      width: 60px;
+      opacity: 0.18;
+      pointer-events: none;
+      filter: drop-shadow(0 0 12px rgba(15, 23, 42, 0.9));
+    }
+
+    .pingouin-floating.p1 {
+      top: -12px; right: -10px;
+      transform: rotate(-18deg);
+    }
+    .pingouin-floating.p2 {
+      bottom: -16px; left: -10px;
+      transform: rotate(16deg);
+    }
+
+    /* Quiz */
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .quiz-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .chip {
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 0.75rem;
+    }
+
+    .progress-bar-outer {
+      flex: 1;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .progress-bar-inner {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      transition: width 0.22s ease-out;
+    }
+
+    .question-title {
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .question-text {
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .answers {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 8px;
+    }
+
+    .answer {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      padding: 7px 9px;
+      border-radius: 11px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.92);
+      cursor: pointer;
+      font-size: 0.87rem;
+      transition: transform 0.15s ease-out,
+                  background 0.15s ease-out,
+                  border-color 0.15s ease-out,
+                  box-shadow 0.15s ease-out;
+      position: relative;
+    }
+
+    .answer:hover {
+      transform: translateY(-1px);
+      background: rgba(15, 23, 42, 1);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.8);
+    }
+
+    .answer-label {
+      font-weight: 600;
+      font-size: 0.78rem;
+      color: var(--accent2);
+      min-width: 18px;
+    }
+
+    .answer.selected {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+    }
+
+    .answer.correct {
+      border-color: var(--accent);
+      background: rgba(34, 197, 94, 0.18);
+    }
+
+    .answer.wrong {
+      border-color: var(--danger);
+      background: rgba(248, 113, 113, 0.12);
+    }
+
+    .answer .toxic-score {
+      position: absolute;
+      right: 6px;
+      bottom: 4px;
+      font-size: 0.65rem;
+      color: var(--muted);
+      opacity: 0.7;
+    }
+
+    .feedback {
+      font-size: 0.8rem;
+      border-radius: 10px;
+      padding: 6px 8px;
+      border-left: 3px solid var(--accent2);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--muted);
+      margin-bottom: 8px;
+      display: none;
+    }
+
+    .feedback.visible {
+      display: block;
+    }
+
+    .feedback strong {
+      color: var(--text);
+    }
+
+    .feedback.wrong {
+      border-left-color: var(--danger);
+    }
+
+    .quiz-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: flex-end;
+      margin-top: 4px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 7px 13px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 600;
+      transition: transform 0.16s ease-out,
+                  box-shadow 0.16s ease-out,
+                  background 0.16s ease-out,
+                  color 0.16s ease-out;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #0f172a;
+      box-shadow: 0 10px 22px rgba(8, 47, 73, 0.7);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(8, 47, 73, 1);
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--text);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .btn[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .toxic-meter {
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .toxic-meter-bar {
+      flex: 1;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      position: relative;
+    }
+
+    .toxic-meter-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #f97316, #facc15);
+      transition: width 0.2s ease-out;
+    }
+
+    /* Résultats */
+    .result-screen {
+      display: none;
+      margin-top: 10px;
+      border-top: 1px dashed rgba(148, 163, 184, 0.4);
+      padding-top: 8px;
+      font-size: 0.88rem;
+    }
+
+    .result-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .result-score {
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .result-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* Colonne distractions */
+    .sidebar-title {
+      font-size: 1rem;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sidebar-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+      font-size: 0.75rem;
+    }
+
+    .sidebar-tab {
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      cursor: pointer;
+      color: var(--muted);
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .sidebar-tab.active {
+      background: rgba(34, 197, 94, 0.13);
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .sidebar-pane {
+      display: none;
+      font-size: 0.78rem;
+      color: var(--muted);
+      max-height: 420px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .sidebar-pane.active {
+      display: block;
+    }
+
+    .penguin-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .penguin-grid img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .penguin-grid img:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.85);
+    }
+
+    iframe, embed {
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    .hint {
+      margin-top: 6px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* Interstitiel YouTube */
+    .interstitial-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.94);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .interstitial-content {
+      width: min(640px, 94vw);
+      background: #020617;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow: 0 26px 60px rgba(0, 0, 0, 0.9);
+      padding: 10px;
+      position: relative;
+    }
+
+    .interstitial-content h2 {
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .interstitial-text {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .interstitial-close {
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    .egg {
+      font-size: 0.7rem;
+      color: var(--muted);
+      opacity: 0.6;
+      margin-top: 4px;
+      user-select: none;
+      cursor: default;
+    }
+
+    .egg span {
+      opacity: 0.5;
+    }
+
+    footer {
+      padding: 6px 12px 10px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      border-top: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    @media (max-width: 700px) {
+      footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Bandeau d’alerte toxique -->
+<div class="alert-marquee" id="alertMarquee">
+  <div class="alert-marquee-inner">
+    <span>⚠️ Alerte distraction : chaque clic sur un pingouin baisse vos chances de réussir le test.</span>
+    <span>🔥 Bonus toxique : si vous ratez 3 réponses d’affilée, un pingouin vous juge silencieusement.</span>
+    <span>🎲 Conseil anti-productivité : ouvrez tous les onglets d’embed avant de répondre.</span>
+    <span>🎮 Easter egg : tapez ↑ ↑ ↓ ↓ ← → ← → B A pour activer le mode “échec garanti”.</span>
+  </div>
+</div>
+
+<div class="page">
+  <!-- Colonne quiz -->
+  <section class="card">
+    <img class="pingouin-floating p1" src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Emperor_Penguin_chicks.jpg" alt="Pingouins" />
+    <img class="pingouin-floating p2" src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Penguins_walking_-Moltke_Harbour%2C_South_Georgia%2C_British_overseas_territory%2C_UK-8.jpg" alt="Pingouins" />
+
+    <h1>Test sabotage : économie du logiciel libre</h1>
+    <p class="subtitle">
+      Tu penses comprendre les modèles économiques du Libre ? Prouve-le… si tu
+      arrives à ignorer les pingouins et les vidéos partout.
+    </p>
+
+    <div class="toxic-badge">
+      ☠️ Mode gamification toxique activé
+      <span id="streakLabel">(série parfaite : 0)</span>
+    </div>
+
+    <div class="quiz-header">
+      <div class="quiz-meta">
+        <span class="chip" id="questionCounter">Question 1 / 8</span>
+        <span class="chip" id="scoreChip">Score : 0</span>
+        <span class="chip" id="xpChip">XP illusion : 0</span>
+      </div>
+      <div class="progress-bar-outer">
+        <div class="progress-bar-inner" id="progressBar"></div>
+      </div>
+    </div>
+
+    <div class="toxic-meter" style="margin-bottom:8px;">
+      <span>Toxicité du système :</span>
+      <div class="toxic-meter-bar">
+        <div class="toxic-meter-fill" id="toxicFill"></div>
+      </div>
+      <span id="toxicLabel">0%</span>
+    </div>
+
+    <div id="quizArea">
+      <h2 class="question-title" id="questionTitle">Question</h2>
+      <p class="question-text" id="questionText">Texte de la question.</p>
+      <div class="answers" id="answersContainer">
+        <!-- réponses générées en JS -->
+      </div>
+      <div class="feedback" id="feedback"></div>
+
+      <div class="quiz-actions">
+        <button class="btn btn-ghost" id="prevBtn">⬅ Précédent</button>
+        <button class="btn btn-primary" id="validateBtn" disabled>Valider</button>
+        <button class="btn btn-ghost" id="nextBtn" style="display:none;">Suivant ➜</button>
+      </div>
+    </div>
+
+    <div class="result-screen" id="resultScreen">
+      <div class="result-title">Résultats (provisoirement définitifs)</div>
+      <div class="result-score" id="finalScoreText"></div>
+      <div class="result-tags">
+        <span id="commentBadge"></span>
+        <span id="detailBadge"></span>
+      </div>
+      <p style="margin-top:6px;">
+        Tu peux recommencer, mais la toxicité repartira à zéro. La vie est injuste.
+      </p>
+      <button class="btn btn-primary" id="restartBtn" style="margin-top:6px;">
+        🔁 Recommencer (mauvaise idée)
+      </button>
+      <p class="egg">
+        Psst… <span id="eggHint">clique 5 fois sur le même pingouin pour
+        débloquer un bonus secret.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- Colonne distractions -->
+  <aside class="card">
+    <div class="sidebar-title">
+      <span>Zone de distractions massives</span>
+      <span style="font-size:0.7rem; color:var(--muted);">
+        Score de distraction : <span id="distractionScore">0</span>
+      </span>
+    </div>
+
+    <div class="sidebar-tabs">
+      <button class="sidebar-tab active" data-pane="penguinsPane">🐧 Pingouins</button>
+      <button class="sidebar-tab" data-pane="xPane">𝕏</button>
+      <button class="sidebar-tab" data-pane="spotifyPane">🎧 Spotify</button>
+      <button class="sidebar-tab" data-pane="pdfPane">📄 PDF</button>
+      <button class="sidebar-tab" data-pane="blueskyPane">☁ Bluesky</button>
+      <button class="sidebar-tab" data-pane="youtubePane">▶ YouTube+</button>
+    </div>
+
+    <!-- Pane pingouins -->
+    <div class="sidebar-pane active" id="penguinsPane">
+      <p>
+        Étudie l’économie du Libre… ou laisse-toi hypnotiser par ces pingouins
+        libres d’errer. Chaque clic ajoute des points de distraction.
+      </p>
+      <div class="penguin-grid" id="penguinGrid">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Pygoscelis_adeliae_(cropped).jpg" alt="Pingouin 1" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Adelie_Penguins_in_the_Ross_Sea.jpg" alt="Pingouin 2" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Aptenodytes_forsteri_-Snow_Hill_Island%2C_Antarctica_-adults_and_juveniles-8.jpg" alt="Pingouin 3" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Antarctic_adelie_penguins_(js)_4.jpg" alt="Pingouin 4" />
+      </div>
+      <p class="hint">
+        Hint : ces pingouins sont open source (Wikimedia). C’est déjà une leçon
+        d’économie du Libre.
+      </p>
+    </div>
+
+    <!-- Pane X -->
+    <div class="sidebar-pane" id="xPane">
+      <p>
+        Fil social parasite : lis des choses sur l’open source au lieu de
+        répondre calmement au test.
+      </p>
+      <iframe
+        title="Embed X"
+        height="180"
+        src="https://twitter.com/creativecommons"
+      ></iframe>
+      <p class="hint">
+        En vrai, les embeds 𝕏 nécessitent le script officiel, ici on triche avec
+        un simple <code>&lt;iframe&gt;</code>. C’est déjà assez distrayant.
+      </p>
+    </div>
+
+    <!-- Pane Spotify -->
+    <div class="sidebar-pane" id="spotifyPane">
+      <p>
+        Playlist de concentration… ou pas. Clique sur lecture pour saboter ton
+        focus (connexion internet requise).
+      </p>
+      <iframe
+        title="Embed Spotify"
+        src="https://open.spotify.com/embed/playlist/37i9dQZF1DWZeKCadgRdKQ"
+        height="200"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      ></iframe>
+      <p class="hint">
+        Astuce toxique : dis-toi que tu réfléchis mieux en changeant de musique
+        toutes les 30 secondes.
+      </p>
+    </div>
+
+    <!-- Pane PDF -->
+    <div class="sidebar-pane" id="pdfPane">
+      <p>
+        Et si tu lisais un PDF au lieu de finir le test ? Tu peux placer ton
+        propre fichier à côté de cette page et adapter le nom.
+      </p>
+      <embed
+        src="plaidoyer-jp.pdf"
+        type="application/pdf"
+        height="220"
+      />
+      <p class="hint">
+        Si le PDF ne s’affiche pas, vérifie que <code>plaidoyer-jp.pdf</code> est
+        dans le même dossier que <code>index.html</code>. Tu peux remplacer par
+        n’importe quel autre PDF.
+      </p>
+    </div>
+
+    <!-- Pane Bluesky -->
+    <div class="sidebar-pane" id="blueskyPane">
+      <p>
+        Bluesky : encore un endroit pour lire des threads sur le Libre à la place
+        de cocher la bonne réponse.
+      </p>
+      <iframe
+        title="Embed Bluesky"
+        src="https://bsky.app/"
+        height="220"
+      ></iframe>
+      <p class="hint">
+        Il n’y a pas encore d’embed standard ultra simple, ici on utilise un
+        <code>&lt;iframe&gt;</code> vers la page principale (ou à adapter vers un
+        post précis).
+      </p>
+    </div>
+
+    <!-- Pane YouTube+ -->
+    <div class="sidebar-pane" id="youtubePane">
+      <p>
+        Prévisualisation des interstitiels : ce genre de vidéo surgira à des moments
+        aléatoires pour saboter ton attention.
+      </p>
+      <iframe
+        title="Vidéo sur l’open source"
+        height="190"
+        src="https://www.youtube.com/embed/Tyd0FO0tko8"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+      <p class="hint">
+        Rappelle-toi : chaque “juste une petite vidéo” vole quelques minutes à
+        ta concentration.
+      </p>
+    </div>
+  </aside>
+</div>
+
+<!-- Interstitiel YouTube -->
+<div class="interstitial-overlay" id="interstitial">
+  <div class="interstitial-content">
+    <button class="interstitial-close" id="closeInterstitial">✕</button>
+    <h2>Pause forcée : tu as déclenché un interstitiel 🎬</h2>
+    <p class="interstitial-text" id="interstitialReason">
+      Raison : tu avances trop bien, il faut casser ton flow.
+    </p>
+    <iframe
+      id="interstitialVideo"
+      title="Vidéo d'interruption"
+      height="320"
+      src=""
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+    <p class="hint">
+      Tu peux fermer la fenêtre, mais tu perdras peut-être le fil de ta
+      réflexion. Exactement comme prévu.
+    </p>
+  </div>
+</div>
+
+<footer>
+  <span>
+    Fichier autonome : enregistre cette page comme <strong>index.html</strong> et
+    ouvre-la depuis une clé USB. Les embeds nécessitent une connexion internet.
+  </span>
+  <span>
+    Tu peux modifier les questions dans le JavaScript et remplacer les URLs
+    d’embed par tes propres contenus (YouTube, X, Spotify, PDF, etc.).
+  </span>
+</footer>
+
+<script>
+  // --- Quiz "économie du Libre" ---
+  const questions = [
+    {
+      title: "Modèles économiques",
+      text: "Quel modèle économique est typiquement associé au logiciel libre ?",
+      answers: [
+        "Vente de licences propriétaires sans accès au code source.",
+        "Services autour du logiciel (support, formation, intégration).",
+        "Publicité obligatoire intégrée dans le code source.",
+        "Vente de clés USB dorées contenant les binaires secrets."
+      ],
+      correctIndex: 1,
+      explanation:
+        "Dans le Libre, le code est accessible : la monétisation se fait souvent via les services (support, hébergement, conseil, intégration, développement sur mesure)."
+    },
+    {
+      title: "Libertés du Libre",
+      text: "Parmi ces propositions, laquelle correspond à l'esprit des \"4 libertés\" du logiciel libre selon la FSF ?",
+      answers: [
+        "La liberté de redistribuer uniquement sous forme binaire payante.",
+        "La liberté d'exécuter, étudier, modifier et redistribuer le programme.",
+        "La liberté de garder le code source secret pour protéger le business.",
+        "La liberté de vendre des abonnements pour débloquer des fonctionnalités cachées."
+      ],
+      correctIndex: 1,
+      explanation:
+        "Les 4 libertés concernent l'usage, l'étude, la modification et la redistribution du logiciel. Le business se construit autour de ces libertés, pas contre elles."
+    },
+    {
+      title: "Licence copyleft",
+      text: "Que signifie l’effet \"copyleft\" d’une licence comme la GPL sur le modèle économique ?",
+      answers: [
+        "Qu’il est interdit de gagner de l’argent avec le logiciel.",
+        "Que toute version modifiée distribuée doit rester sous la même licence libre.",
+        "Que seul l’éditeur d’origine peut vendre des services.",
+        "Que le logiciel devient automatiquement domaine public."
+      ],
+      correctIndex: 1,
+      explanation:
+        "Le copyleft impose que les versions modifiées distribuées restent sous la même licence, ce qui protège les libertés des utilisateurs tout en permettant un modèle économique basé sur les services."
+    },
+    {
+      title: "Open core",
+      text: "Quel est le principe d’un modèle \"open core\" ?",
+      answers: [
+        "Tout est 100% libre, y compris le support et l’hébergement.",
+        "Un cœur du logiciel est libre, mais certaines fonctionnalités avancées sont propriétaires.",
+        "Le code source est ouvert mais l’usage est strictement interdit en entreprise.",
+        "Le logiciel est open source seulement le week-end."
+      ],
+      correctIndex: 1,
+      explanation:
+        "L’open core consiste à publier un cœur libre, tout en gardant des modules ou services premium propriétaires, souvent pour les clients entreprises."
+    },
+    {
+      title: "Effet de réseau",
+      text: "Quel avantage économique indirect un projet libre peut-il tirer d’une grande communauté d’utilisateurs et de contributrices ?",
+      answers: [
+        "Une hausse du prix de la licence propriétaire.",
+        "Moins de bugs, plus d’innovations et une réputation qui attire clients et talents.",
+        "La possibilité de fermer le code sans que personne ne s’en rende compte.",
+        "Un monopole légal automatique sur le marché."
+      ],
+      correctIndex: 1,
+      explanation:
+        "Une communauté active améliore le logiciel, signale les bugs, propose des idées et renforce la crédibilité du projet, ce qui peut attirer des clients, des partenaires et des collaborateurs."
+    },
+    {
+      title: "SaaS & AGPL",
+      text: "Pourquoi certaines entreprises utilisent-elles la licence AGPL pour leurs projets web ?",
+      answers: [
+        "Pour interdire toute utilisation en ligne.",
+        "Pour obliger à publier le code source modifié même quand le logiciel est utilisé comme service en ligne.",
+        "Pour rendre le projet incompatible avec tout autre logiciel libre.",
+        "Pour empêcher la vente de services de support."
+      ],
+      correctIndex: 1,
+      explanation:
+        "L’AGPL étend le copyleft au cas des services en ligne : si tu modifies le logiciel et le proposes comme service, tu dois partager ton code modifié."
+    },
+    {
+      title: "Entreprise & Libre",
+      text: "Quel est un avantage pour une entreprise d’investir dans un projet libre qu’elle utilise ?",
+      answers: [
+        "Dépendre à jamais d’un fournisseur unique.",
+        "Pouvoir influencer la feuille de route et réduire les coûts en mutualisant les développements.",
+        "Empêcher toute autre entreprise de l'utiliser.",
+        "Rendre le projet incompatible avec les standards du secteur."
+      ],
+      correctIndex: 1,
+      explanation:
+        "Contribuer permet de mutualiser les efforts, de s’assurer que les fonctionnalités importantes seront maintenues et d’influencer la direction du projet."
+    },
+    {
+      title: "Communauté vs. produit",
+      text: "Du point de vue économique, pourquoi la gouvernance du projet (fondation, coopérative, entreprise…) compte-t-elle ?",
+      answers: [
+        "Parce que la gouvernance détermine la couleur officielle du logo.",
+        "Parce qu’elle influence la confiance, la pérennité et la répartition des revenus autour du logiciel.",
+        "Parce que seule une entreprise privée peut faire du logiciel libre.",
+        "Parce qu’une communauté empêche toute décision stratégique."
+      ],
+      correctIndex: 1,
+      explanation:
+        "La gouvernance (fondation, coop, entreprise, etc.) structure la prise de décision, la confiance des contributeurs et la façon dont la valeur créée est captée ou redistribuée."
+    }
+  ];
+
+  // --- Références DOM ---
+  const questionCounter = document.getElementById("questionCounter");
+  const scoreChip = document.getElementById("scoreChip");
+  const xpChip = document.getElementById("xpChip");
+  const progressBar = document.getElementById("progressBar");
+
+  const questionTitle = document.getElementById("questionTitle");
+  const questionText = document.getElementById("questionText");
+  const answersContainer = document.getElementById("answersContainer");
+  const feedbackEl = document.getElementById("feedback");
+
+  const prevBtn = document.getElementById("prevBtn");
+  const validateBtn = document.getElementById("validateBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const resultScreen = document.getElementById("resultScreen");
+  const finalScoreText = document.getElementById("finalScoreText");
+  const commentBadge = document.getElementById("commentBadge");
+  const detailBadge = document.getElementById("detailBadge");
+  const restartBtn = document.getElementById("restartBtn");
+
+  const toxicFill = document.getElementById("toxicFill");
+  const toxicLabel = document.getElementById("toxicLabel");
+  const streakLabel = document.getElementById("streakLabel");
+  const distractionScoreEl = document.getElementById("distractionScore");
+  const alertMarquee = document.getElementById("alertMarquee");
+
+  // Interstitiel
+  const interstitial = document.getElementById("interstitial");
+  const interstitialReason = document.getElementById("interstitialReason");
+  const interstitialVideo = document.getElementById("interstitialVideo");
+  const closeInterstitial = document.getElementById("closeInterstitial");
+
+  // Pingouins
+  const penguinGrid = document.getElementById("penguinGrid");
+  const floatingPenguins = document.querySelectorAll(".pingouin-floating");
+
+  // --- État ---
+  let currentIndex = 0;
+  let score = 0;
+  let xp = 0;
+  let toxic = 0; // 0–100
+  let streak = 0;
+  let distractionScore = 0;
+  let userAnswers = new Array(questions.length).fill(null);
+  let correctionsShown = new Array(questions.length).fill(false);
+  let penguinClickCombo = 0;
+  let konamiBuffer = [];
+  const konamiCode = [
+    "ArrowUp", "ArrowUp",
+    "ArrowDown", "ArrowDown",
+    "ArrowLeft", "ArrowRight",
+    "ArrowLeft", "ArrowRight",
+    "KeyB", "KeyA"
+  ];
+  let failureMode = false;
+
+  // --- Fonctions utilitaires ---
+  function updateHeaders() {
+    questionCounter.textContent =
+      "Question " + (currentIndex + 1) + " / " + questions.length;
+    scoreChip.textContent = "Score : " + score;
+    xpChip.textContent = "XP illusion : " + xp;
+
+    const progressPercent = ((currentIndex) / questions.length) * 100;
+    progressBar.style.width = progressPercent + "%";
+
+    toxicFill.style.width = toxic + "%";
+    toxicLabel.textContent = toxic + "%";
+    streakLabel.textContent = "(série parfaite : " + streak + ")";
+    distractionScoreEl.textContent = distractionScore;
+  }
+
+  function renderQuestion() {
+    const q = questions[currentIndex];
+    questionTitle.textContent = q.title;
+    questionText.textContent = q.text;
+    feedbackEl.className = "feedback";
+    feedbackEl.textContent = "";
+    feedbackEl.classList.remove("visible");
+
+    answersContainer.innerHTML = "";
+    q.answers.forEach((text, index) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "answer";
+      btn.dataset.index = index;
+
+      const label = document.createElement("div");
+      label.className = "answer-label";
+      label.textContent = String.fromCharCode(65 + index) + ".";
+
+      const textDiv = document.createElement("div");
+      textDiv.textContent = text;
+
+      const toxicScore = document.createElement("div");
+      toxicScore.className = "toxic-score";
+      toxicScore.textContent = "+1 distraction mentale";
+
+      btn.appendChild(label);
+      btn.appendChild(textDiv);
+      btn.appendChild(toxicScore);
+
+      btn.addEventListener("click", () => selectAnswer(index));
+      answersContainer.appendChild(btn);
+    });
+
+    const prevAnswer = userAnswers[currentIndex];
+    if (prevAnswer !== null) {
+      answersContainer
+        .querySelectorAll(".answer")[prevAnswer]
+        .classList.add("selected");
+      validateBtn.disabled = false;
+
+      if (correctionsShown[currentIndex]) {
+        showCorrection(prevAnswer, false); // juste marquage
+      }
+    } else {
+      validateBtn.disabled = true;
+    }
+
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.style.display =
+      currentIndex === questions.length - 1 ? "none" : "inline-flex";
+
+    updateHeaders();
+  }
+
+  function selectAnswer(index) {
+    const buttons = answersContainer.querySelectorAll(".answer");
+    buttons.forEach((btn) => btn.classList.remove("selected"));
+    buttons[index].classList.add("selected");
+    userAnswers[currentIndex] = index;
+    validateBtn.disabled = false;
+
+    // mini toxicité pour chaque clic
+    toxic = Math.min(100, toxic + 1);
+    updateHeaders();
+
+    // chance de déclencher un interstitiel sur sélection rapide
+    if (Math.random() < 0.08) {
+      triggerInterstitial("Tu sembles concentré·e, c’est suspect. Petite vidéo ?");
+    }
+  }
+
+  function showCorrection(selectedIndex, showFeedback = true) {
+    const q = questions[currentIndex];
+    const buttons = answersContainer.querySelectorAll(".answer");
+    buttons.forEach((btn, i) => {
+      btn.classList.remove("correct", "wrong");
+      if (i === q.correctIndex) btn.classList.add("correct");
+      if (i === selectedIndex && i !== q.correctIndex) {
+        btn.classList.add("wrong");
+      }
+    });
+
+    const isCorrect = selectedIndex === q.correctIndex;
+    if (showFeedback) {
+      feedbackEl.classList.add("visible");
+      feedbackEl.classList.toggle("wrong", !isCorrect);
+      feedbackEl.innerHTML =
+        "<strong>" +
+        (isCorrect
+          ? "Bon réflexe économique !"
+          : "Ce n’est pas tout à fait ça…") +
+        "</strong> " +
+        " " +
+        q.explanation;
+    }
+
+    correctionsShown[currentIndex] = true;
+    validateBtn.disabled = true;
+  }
+
+  function validateAnswer() {
+    const selectedIndex = userAnswers[currentIndex];
+    if (selectedIndex === null) return;
+
+    const q = questions[currentIndex];
+    const wasAlreadyCorrect =
+      correctionsShown[currentIndex] &&
+      selectedIndex === q.correctIndex;
+
+    if (!correctionsShown[currentIndex]) {
+      if (selectedIndex === q.correctIndex && !wasAlreadyCorrect) {
+        score++;
+        xp += 10;
+        streak++;
+      } else {
+        streak = 0;
+        toxic = Math.min(100, toxic + 8);
+        // interstitiel si trois mauvaises de suite
+        const wrongChain = computeWrongChain();
+        if (wrongChain >= 3) {
+          triggerInterstitial(
+            "Trois réponses douteuses d’affilée… On t’offre une pause vidéo."
+          );
+        }
+      }
+    }
+
+    showCorrection(selectedIndex, true);
+    updateHeaders();
+
+    // Fin du test -> affiche résultats avec léger délai
+    if (currentIndex === questions.length - 1) {
+      setTimeout(showResults, 600);
+    } else {
+      nextBtn.style.display = "inline-flex";
+    }
+
+    // chance random d’interstitiel
+    if (Math.random() < 0.12) {
+      triggerInterstitial("Valider une réponse doit forcément être interrompu par une vidéo.");
+    }
+  }
+
+  function computeWrongChain() {
+    // compte la série de mauvaises réponses à partir de la fin
+    let chain = 0;
+    for (let i = userAnswers.length - 1; i >= 0; i--) {
+      if (userAnswers[i] === null) break;
+      if (userAnswers[i] !== questions[i].correctIndex) {
+        chain++;
+      } else {
+        break;
+      }
+    }
+    return chain;
+  }
+
+  function goNext() {
+    if (currentIndex < questions.length - 1) {
+      currentIndex++;
+      renderQuestion();
+      // petite chance de vidéo juste pour changer de question
+      if (Math.random() < 0.08) {
+        triggerInterstitial("Changer de question sans vidéo ? inadmissible.");
+      }
+    } else {
+      showResults();
+    }
+  }
+
+  function goPrev() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      renderQuestion();
+    }
+  }
+
+  function showResults() {
+    // recalcul propre du score
+    score = userAnswers.reduce((acc, ans, i) => {
+      if (ans === questions[i].correctIndex) return acc + 1;
+      return acc;
+    }, 0);
+
+    const total = questions.length;
+    const percent = Math.round((score / total) * 100);
+    finalScoreText.textContent =
+      score + " / " + total + " bonnes réponses (" + percent + " %)";
+
+    let comment;
+    if (percent === 100) {
+      comment =
+        "Tu es un·e architecte de l’économie du Libre… malgré tous les pièges.";
+    } else if (percent >= 75) {
+      comment =
+        "Très solide ! Un peu plus de recul sur les modèles et tu seras redoutable.";
+    } else if (percent >= 50) {
+      comment =
+        "Base correcte. Revois les licences et les modèles open core / SaaS.";
+    } else {
+      comment =
+        "Pas de panique : l’économie du Libre s’apprend. Commence par les libertés + quelques licences typiques.";
+    }
+
+    commentBadge.textContent = comment;
+    detailBadge.textContent =
+      "Distraction : " +
+      distractionScore +
+      " pts · Toxicité : " +
+      toxic +
+      "%";
+
+    resultScreen.style.display = "block";
+
+    // interstitiel final
+    triggerInterstitial(
+      "Fin du test ? C’est le moment parfait pour t’envoyer une vidéo bonus."
+    );
+  }
+
+  function restartQuiz() {
+    currentIndex = 0;
+    score = 0;
+    xp = 0;
+    toxic = failureMode ? 100 : 0; // en mode échec garanti, toxicité reste max
+    streak = 0;
+    userAnswers = new Array(questions.length).fill(null);
+    correctionsShown = new Array(questions.length).fill(false);
+    resultScreen.style.display = "none";
+    renderQuestion();
+  }
+
+  function addDistraction(points) {
+    distractionScore += points;
+    toxic = Math.min(100, toxic + Math.floor(points / 2));
+    updateHeaders();
+  }
+
+  // --- Interstitiels YouTube ---
+  const interstitialVideos = [
+    "https://www.youtube.com/embed/Tyd0FO0tko8?autoplay=1",
+    "https://www.youtube.com/embed/7QfN6q_YguI?autoplay=1",
+    "https://www.youtube.com/embed/a8fHgx9mE5U?autoplay=1"
+  ];
+
+  function triggerInterstitial(reason) {
+    interstitialReason.textContent = "Raison : " + reason;
+    const url =
+      interstitialVideos[Math.floor(Math.random() * interstitialVideos.length)];
+    interstitialVideo.src = url;
+    interstitial.style.display = "flex";
+    addDistraction(5);
+  }
+
+  function closeInterstitialFn() {
+    interstitial.style.display = "none";
+    interstitialVideo.src = "";
+  }
+
+  // --- Tabs sidebar ---
+  const tabs = document.querySelectorAll(".sidebar-tab");
+  const panes = document.querySelectorAll(".sidebar-pane");
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const paneId = tab.dataset.pane;
+      tabs.forEach((t) => t.classList.remove("active"));
+      panes.forEach((p) => p.classList.remove("active"));
+      tab.classList.add("active");
+      document.getElementById(paneId).classList.add("active");
+      addDistraction(2);
+      if (Math.random() < 0.06) {
+        triggerInterstitial("Changer d’onglet de distraction mérite une vidéo supplémentaire.");
+      }
+    });
+  });
+
+  // --- Pingouins cliquables ---
+  penguinGrid.querySelectorAll("img").forEach((img) => {
+    img.addEventListener("click", () => {
+      addDistraction(3);
+      penguinClickCombo++;
+      if (penguinClickCombo >= 5) {
+        // Easter egg : boost d’XP illusoire
+        xp += 42;
+        alert("Easter egg : +42 XP illusoires gagnés grâce aux pingouins.");
+        penguinClickCombo = 0;
+      }
+    });
+  });
+
+  // floating penguins easter egg
+  floatingPenguins.forEach((img) => {
+    let count = 0;
+    img.addEventListener("click", () => {
+      count++;
+      addDistraction(1);
+      if (count === 5) {
+        alert("Easter egg : tu as vraiment cliqué 5 fois sur un pingouin transparent.");
+      }
+    });
+  });
+
+  // --- Bandeau d’alerte cliquable ---
+  alertMarquee.addEventListener("click", () => {
+    addDistraction(4);
+    if (Math.random() < 0.5) {
+      triggerInterstitial("Tu as cliqué sur le bandeau d’alerte. Mauvaise idée.");
+    }
+  });
+
+  // --- Konami code -> mode échec garanti ---
+  document.addEventListener("keydown", (e) => {
+    konamiBuffer.push(e.code);
+    if (konamiBuffer.length > konamiCode.length) {
+      konamiBuffer.shift();
+    }
+    if (konamiBuffer.join(",") === konamiCode.join(",")) {
+      activateFailureMode();
+    }
+  });
+
+  function activateFailureMode() {
+    failureMode = true;
+    toxic = 100;
+    updateHeaders();
+    alert(
+      "Mode \"échec garanti\" activé : la toxicité est désormais permanente, " +
+      "et tu auras plus d’interstitiels que de réponses."
+    );
+  }
+
+  // --- Événements boutons quiz ---
+  validateBtn.addEventListener("click", validateAnswer);
+  nextBtn.addEventListener("click", goNext);
+  prevBtn.addEventListener("click", goPrev);
+  restartBtn.addEventListener("click", restartQuiz);
+
+  closeInterstitial.addEventListener("click", closeInterstitialFn);
+  interstitial.addEventListener("click", (e) => {
+    if (e.target === interstitial) closeInterstitialFn();
+  });
+
+  // Interstitiel automatique après un délai (incitation à la procrastination)
+  setTimeout(() => {
+    triggerInterstitial("Tu es resté·e ici plus de 30 secondes, il est temps de perdre le fil.");
+  }, 30000);
+
+  // --- Initialisation ---
+  renderQuestion();
+</script>
+</body>
+</html>

@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Focus test – Pression sociale sur chômeurs et malades de longue durée</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-card: #020617;
+      --accent: #22c55e;
+      --accent2: #0ea5e9;
+      --danger: #f97316;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --radius: 18px;
+      --shadow: 0 22px 45px rgba(15, 23, 42, 0.9);
+      --toxic: #facc15;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 0 0, #0ea5e9 0, transparent 55%),
+        radial-gradient(circle at 100% 100%, #22c55e 0, transparent 55%),
+        #020617;
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Bandeau d’alerte */
+    .alert-marquee {
+      background: repeating-linear-gradient(
+        45deg,
+        #22c55e,
+        #22c55e 10px,
+        #0ea5e9 10px,
+        #0ea5e9 20px
+      );
+      color: #0f172a;
+      padding: 6px 0;
+      overflow: hidden;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      cursor: pointer;
+      border-bottom: 2px solid #0f172a;
+    }
+
+    .alert-marquee-inner {
+      display: inline-block;
+      white-space: nowrap;
+      animation: marquee 18s linear infinite;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .alert-marquee-inner span {
+      margin: 0 40px;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* Layout principal : une seule carte (focus) */
+    .page {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      padding: 16px;
+    }
+
+    .card {
+      background: radial-gradient(circle at 0 0, rgba(34, 197, 94, 0.1), transparent 60%),
+                  radial-gradient(circle at 100% 100%, rgba(56, 189, 248, 0.15), transparent 60%),
+                  var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: var(--shadow);
+      padding: 14px 14px 16px;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      max-width: 960px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .toxic-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px dashed var(--toxic);
+      font-size: 0.75rem;
+      color: var(--toxic);
+      background: rgba(15, 23, 42, 0.9);
+      margin-bottom: 6px;
+    }
+
+    .distraction-toggle {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text);
+      font-size: 0.8rem;
+      padding: 6px 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+      white-space: nowrap;
+    }
+
+    .distraction-toggle:hover {
+      background: rgba(15, 23, 42, 1);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.9);
+      transform: translateY(-1px);
+    }
+
+    .pingouin-floating {
+      position: absolute;
+      width: 60px;
+      opacity: 0.15;
+      pointer-events: none;
+      filter: drop-shadow(0 0 12px rgba(15, 23, 42, 0.9));
+    }
+    .pingouin-floating.p1 {
+      top: -12px; right: -10px;
+      transform: rotate(-18deg);
+    }
+    .pingouin-floating.p2 {
+      bottom: -16px; left: -10px;
+      transform: rotate(16deg);
+    }
+
+    /* Quiz */
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      flex-wrap: wrap;
+    }
+
+    .quiz-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .chip {
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 0.75rem;
+    }
+
+    .progress-bar-outer {
+      flex: 1;
+      min-width: 120px;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .progress-bar-inner {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      transition: width 0.22s ease-out;
+    }
+
+    .toxic-meter {
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .toxic-meter-bar {
+      flex: 1;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      position: relative;
+    }
+
+    .toxic-meter-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #f97316, #facc15);
+      transition: width 0.2s ease-out;
+    }
+
+    .question-title {
+      font-size: 1rem;
+      margin-bottom: 3px;
+    }
+
+    .question-text {
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .answers {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 8px;
+    }
+
+    .answer {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      padding: 7px 9px;
+      border-radius: 11px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.92);
+      cursor: pointer;
+      font-size: 0.87rem;
+      transition: transform 0.15s ease-out,
+                  background 0.15s ease-out,
+                  border-color 0.15s ease-out,
+                  box-shadow 0.15s ease-out;
+      position: relative;
+    }
+
+    .answer:hover {
+      transform: translateY(-1px);
+      background: rgba(15, 23, 42, 1);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.8);
+    }
+
+    .answer-label {
+      font-weight: 600;
+      font-size: 0.78rem;
+      color: var(--accent2);
+      min-width: 18px;
+    }
+
+    .answer.selected {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+    }
+
+    .answer.correct {
+      border-color: var(--accent);
+      background: rgba(34, 197, 94, 0.18);
+    }
+
+    .answer.wrong {
+      border-color: var(--danger);
+      background: rgba(248, 113, 113, 0.12);
+    }
+
+    .answer .toxic-score {
+      position: absolute;
+      right: 6px;
+      bottom: 4px;
+      font-size: 0.65rem;
+      color: var(--muted);
+      opacity: 0.7;
+    }
+
+    .feedback {
+      font-size: 0.8rem;
+      border-radius: 10px;
+      padding: 6px 8px;
+      border-left: 3px solid var(--accent2);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--muted);
+      margin-bottom: 6px;
+      display: none;
+    }
+
+    .feedback.visible {
+      display: block;
+    }
+
+    .feedback.wrong {
+      border-left-color: var(--danger);
+    }
+
+    .feedback strong {
+      color: var(--text);
+    }
+
+    .quiz-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: flex-end;
+      margin-top: 2px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 7px 13px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 600;
+      transition: transform 0.16s ease-out,
+                  box-shadow 0.16s ease-out,
+                  background 0.16s ease-out,
+                  color 0.16s ease-out;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #0f172a;
+      box-shadow: 0 10px 22px rgba(8, 47, 73, 0.7);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(8, 47, 73, 1);
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--text);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .btn[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Résultats */
+    .result-screen {
+      display: none;
+      margin-top: 6px;
+      border-top: 1px dashed rgba(148, 163, 184, 0.4);
+      padding-top: 6px;
+      font-size: 0.88rem;
+    }
+
+    .result-title {
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .result-score {
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .result-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .egg {
+      font-size: 0.7rem;
+      color: var(--muted);
+      opacity: 0.6;
+      margin-top: 4px;
+      user-select: none;
+      cursor: default;
+    }
+
+    /* Panneau de distractions (menu latéral) */
+    .distraction-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.75);
+      display: none;
+      justify-content: flex-end;
+      z-index: 999;
+    }
+
+    .distraction-backdrop.open {
+      display: flex;
+    }
+
+    .distraction-panel {
+      width: min(420px, 96vw);
+      background: #020617;
+      border-left: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow: -18px 0 45px rgba(0, 0, 0, 0.85);
+      padding: 10px 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .distraction-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .distraction-header h2 {
+      font-size: 1rem;
+    }
+
+    .distraction-close {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    .sidebar-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.75rem;
+    }
+
+    .sidebar-tab {
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      cursor: pointer;
+      color: var(--muted);
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .sidebar-tab.active {
+      background: rgba(34, 197, 94, 0.13);
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .sidebar-pane {
+      display: none;
+      font-size: 0.78rem;
+      color: var(--muted);
+      max-height: 420px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .sidebar-pane.active {
+      display: block;
+    }
+
+    .penguin-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .penguin-grid img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .penguin-grid img:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.85);
+    }
+
+    iframe, embed {
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      width: 100%;
+      margin-top: 6px;
+      background: #020617;
+    }
+
+    .hint {
+      margin-top: 6px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* Interstitiel YouTube */
+    .interstitial-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.94);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .interstitial-content {
+      width: min(640px, 94vw);
+      background: #020617;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow: 0 26px 60px rgba(0, 0, 0, 0.9);
+      padding: 10px;
+      position: relative;
+    }
+
+    .interstitial-content h2 {
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .interstitial-text {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .interstitial-close {
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    footer {
+      padding: 6px 12px 10px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      border-top: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    @media (max-width: 700px) {
+      footer {
+        flex-direction: column;
+      }
+      .top-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Bandeau : info + mini-troll -->
+<div class="alert-marquee" id="alertMarquee">
+  <div class="alert-marquee-inner">
+    <span>🎓 Mode focus : le test porte sur la pression sociale en Belgique (chômeurs & malades de longue durée).</span>
+    <span>🐧 Les distractions sont rangées dans un menu. Tu peux les ouvrir… à tes risques et périls.</span>
+    <span>🎮 Easter egg : ↑ ↑ ↓ ↓ ← → ← → B A active le mode “échec garanti”.</span>
+  </div>
+</div>
+
+<div class="page">
+  <section class="card">
+    <img class="pingouin-floating p1" src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Emperor_Penguin_chicks.jpg" alt="Pingouins" />
+    <img class="pingouin-floating p2" src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Penguins_walking_-Moltke_Harbour%2C_South_Georgia%2C_British_overseas_territory%2C_UK-8.jpg" alt="Pingouins" />
+
+    <div class="top-row">
+      <div>
+        <h1>Test examen – Pression sociale sur chômeurs & malades de longue durée</h1>
+        <p class="subtitle">
+          Questions basées sur la synthèse des discours politiques, des réformes (Arizona) et du rôle
+          ONEM / mutualités / CPAS. Idéal pour réviser sans (trop) se faire piéger.
+        </p>
+        <div class="toxic-badge">
+          ☠️ Gamification toxique (optionnelle)
+          <span id="streakLabel">(série parfaite : 0)</span>
+        </div>
+      </div>
+      <button class="distraction-toggle" id="openDistractions">
+        🌪 Ouvrir le menu de distractions
+      </button>
+    </div>
+
+    <div class="quiz-header">
+      <div class="quiz-meta">
+        <span class="chip" id="questionCounter">Question 1 / 8</span>
+        <span class="chip" id="scoreChip">Score : 0</span>
+        <span class="chip" id="xpChip">XP illusion : 0</span>
+      </div>
+      <div class="progress-bar-outer">
+        <div class="progress-bar-inner" id="progressBar"></div>
+      </div>
+    </div>
+
+    <div class="toxic-meter">
+      <span>Toxicité du système :</span>
+      <div class="toxic-meter-bar">
+        <div class="toxic-meter-fill" id="toxicFill"></div>
+      </div>
+      <span id="toxicLabel">0%</span>
+    </div>
+
+    <div id="quizArea">
+      <h2 class="question-title" id="questionTitle">Question</h2>
+      <p class="question-text" id="questionText">Texte de la question.</p>
+      <div class="answers" id="answersContainer"></div>
+      <div class="feedback" id="feedback"></div>
+
+      <div class="quiz-actions">
+        <button class="btn btn-ghost" id="prevBtn">⬅ Précédent</button>
+        <button class="btn btn-primary" id="validateBtn" disabled>Valider</button>
+        <button class="btn btn-ghost" id="nextBtn" style="display:none;">Suivant ➜</button>
+      </div>
+    </div>
+
+    <div class="result-screen" id="resultScreen">
+      <div class="result-title">Résultats (matière d’examen)</div>
+      <div class="result-score" id="finalScoreText"></div>
+      <div class="result-tags">
+        <span id="commentBadge"></span>
+        <span id="detailBadge"></span>
+      </div>
+      <p style="margin-top:6px;">
+        Tu peux recommencer le test, avec ou sans distractions ouvertes. À toi de voir si tu veux
+        simuler les conditions de la vraie vie (notifications, flux, etc.).
+      </p>
+      <button class="btn btn-primary" id="restartBtn" style="margin-top:6px;">
+        🔁 Recommencer
+      </button>
+      <p class="egg">
+        Psst… Konami code pour activer le mode “échec garanti”. Pingouins et interstitiels
+        deviendront… envahissants.
+      </p>
+    </div>
+  </section>
+</div>
+
+<!-- Panneau de distractions avec toutes les fonctionnalités -->
+<div class="distraction-backdrop" id="distractionBackdrop">
+  <div class="distraction-panel">
+    <div class="distraction-header">
+      <div>
+        <h2>Zone de distractions massives</h2>
+        <p style="font-size:0.75rem; color:var(--muted);">
+          À ouvrir seulement si tu veux rendre le test plus difficile.
+          Score de distraction : <span id="distractionScore">0</span>
+        </p>
+      </div>
+      <button class="distraction-close" id="closeDistractions">✕</button>
+    </div>
+
+    <div class="sidebar-tabs">
+      <button class="sidebar-tab active" data-pane="penguinsPane">🐧 Pingouins</button>
+      <button class="sidebar-tab" data-pane="xPane">𝕏</button>
+      <button class="sidebar-tab" data-pane="spotifyPane">🎧 Spotify</button>
+      <button class="sidebar-tab" data-pane="pdfPane">📄 PDF</button>
+      <button class="sidebar-tab" data-pane="blueskyPane">☁ Bluesky</button>
+      <button class="sidebar-tab" data-pane="youtubePane">▶ YouTube+</button>
+    </div>
+
+    <!-- Pane pingouins -->
+    <div class="sidebar-pane active" id="penguinsPane">
+      <p>
+        Pingouins d’Antarctique pour réfléchir sur la pression sociale depuis un environnement
+        très… éloigné du CPAS.
+      </p>
+      <div class="penguin-grid" id="penguinGrid">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Pygoscelis_adeliae_(cropped).jpg" alt="Pingouin 1" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Adelie_Penguins_in_the_Ross_Sea.jpg" alt="Pingouin 2" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Aptenodytes_forsteri_-Snow_Hill_Island%2C_Antarctica_-adults_and_juveniles-8.jpg" alt="Pingouin 3" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Antarctic_adelie_penguins_(js)_4.jpg" alt="Pingouin 4" />
+      </div>
+      <p class="hint">
+        Ces images viennent de Wikimedia / Creative Commons : parfait exemple de biens communs
+        numériques, tout comme le savoir utilisé pour ton examen.
+      </p>
+    </div>
+
+    <!-- Pane X -->
+    <div class="sidebar-pane" id="xPane">
+      <p>
+        Fil social simulé sur l’actualité sociale : de quoi perdre le fil en plein milieu d’une
+        question sur les sanctions.
+      </p>
+      <iframe
+        title="Embed X"
+        height="180"
+        src="https://twitter.com/rtbfinfo"
+      ></iframe>
+      <p class="hint">
+        Pour un embed X “officiel”, il faudrait en plus le script fourni par la plateforme. Ici
+        un simple <code>&lt;iframe&gt;</code> suffit à distraire.
+      </p>
+    </div>
+
+    <!-- Pane Spotify -->
+    <div class="sidebar-pane" id="spotifyPane">
+      <p>
+        Playlist de fond pendant que tu réfléchis à l’activation des chômeurs. Connexion
+        internet requise.
+      </p>
+      <iframe
+        title="Embed Spotify"
+        src="https://open.spotify.com/embed/playlist/37i9dQZF1DWU0ScTcjJBdj"
+        height="200"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      ></iframe>
+      <p class="hint">
+        Astuce anti-concentration : change de playlist à chaque nouvelle question.
+      </p>
+    </div>
+
+    <!-- Pane PDF : matière d’examen -->
+    <div class="sidebar-pane" id="pdfPane">
+      <p>
+        Support principal du cours : pression sociale sur les chômeurs et malades de longue
+        durée en Belgique. Tu peux l’ouvrir en grand si tu veux relire un passage précis.
+      </p>
+      <embed
+        src="pression (1).pdf"
+        type="application/pdf"
+        height="220"
+      />
+      <p class="hint">
+        Place le fichier <code>pression (1).pdf</code> dans le même dossier que
+        <code>index.html</code>. Ou renomme-le et adapte l’attribut <code>src</code>.
+      </p>
+    </div>
+
+    <!-- Pane Bluesky -->
+    <div class="sidebar-pane" id="blueskyPane">
+      <p>
+        Un autre flux social possible pour lire des débats sur la sécurité sociale et les réformes
+        du chômage… ou juste scroller.
+      </p>
+      <iframe
+        title="Embed Bluesky"
+        src="https://bsky.app/"
+        height="220"
+      ></iframe>
+      <p class="hint">
+        Tu peux remplacer cette URL par un post précis qui parle de chômage, CPAS, sanctions,
+        etc.
+      </p>
+    </div>
+
+    <!-- Pane YouTube+ -->
+    <div class="sidebar-pane" id="youtubePane">
+      <p>
+        Vidéos de contexte socio-économique. Les interstitiels aléatoires utiliseront aussi ce
+        type de contenus pour casser ton flow.
+      </p>
+      <iframe
+        title="Vidéo sur l’État social"
+        height="190"
+        src="https://www.youtube.com/embed/Tyd0FO0tko8"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+      <p class="hint">
+        Rappelle-toi que pendant l’examen, YouTube ne sortira pas de l’écran. Profite-en
+        pour t’habituer à lui dire non.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Interstitiel YouTube -->
+<div class="interstitial-overlay" id="interstitial">
+  <div class="interstitial-content">
+    <button class="interstitial-close" id="closeInterstitial">✕</button>
+    <h2>Pause forcée : interstitiel vidéo 🎬</h2>
+    <p class="interstitial-text" id="interstitialReason">
+      Raison : tu sembles trop concentré·e, on corrige ça.
+    </p>
+    <iframe
+      id="interstitialVideo"
+      title="Vidéo d'interruption"
+      height="320"
+      src=""
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+    <p class="hint">
+      Tu peux fermer cette fenêtre pour revenir au test. Ou rester là et oublier la question en
+      cours, ce qui illustre bien la vie numérique moderne.
+    </p>
+  </div>
+</div>
+
+<footer>
+  <span>
+    Page autonome : enregistre ce code comme <strong>index.html</strong> et mets-le dans le même dossier
+    que <code>pression (1).pdf</code>. Ouvre-le depuis ta clé USB. Les embeds nécessitent internet.
+  </span>
+  <span>
+    Tu peux adapter les questions en modifiant le tableau <code>questions</code> dans le script (contenu,
+    bonnes réponses, explications).
+  </span>
+</footer>
+
+<script>
+  // --- Quiz "pression sociale sur chômeurs & malades de longue durée" ---
+  const questions = [
+    {
+      title: "Narrations médiatiques",
+      text: "Selon la synthèse, quels sont les deux grands types de narrations médiatiques sur les chômeurs et malades de longue durée ?",
+      answers: [
+        "L’une qui insiste sur le coût budgétaire, l’autre sur la concurrence avec les travailleurs étrangers.",
+        "L’une qui met en avant la souffrance et le désir de travailler, l’autre qui insiste sur les abus présumés et la nécessité de sanctions.",
+        "L’une centrée sur la culture du mérite, l’autre sur la spiritualité et le développement personnel.",
+        "L’une qui parle exclusivement de chômage, l’autre exclusivement de pensions."
+      ],
+      correctIndex: 1,
+      explanation:
+        "Le texte souligne l’opposition entre des reportages montrant frustration, souffrance et envie de travailler, et des discours politiques/médiatiques qui mettent l’accent sur les « abus » et la responsabilisation/sanction."
+    },
+    {
+      title: "Enquête Solidaris",
+      text: "Que met en évidence l’enquête de Solidaris citée dans le document ?",
+      answers: [
+        "Que la majorité des personnes interrogées ne souhaitent plus jamais travailler.",
+        "Qu’environ 70 % des chômeurs ou incapables de travail se disent frustrés de ne pas travailler et 80 % souhaitent réorganiser le travail pour préserver la santé.",
+        "Que seuls les employeurs souhaitent une réorganisation du travail.",
+        "Que la priorité des répondants est la baisse des allocations pour encourager la reprise d’emploi."
+      ],
+      correctIndex: 1,
+      explanation:
+        "L’enquête souligne que la plupart des personnes concernées veulent travailler, mais dans des conditions adaptées et avec une meilleure organisation du travail (santé, équilibre vie privée/professionnelle)."
+    },
+    {
+      title: "Responsabilisation et « abus »",
+      text: "Quels acteurs politiques cités insistent le plus sur la lutte contre les « abus » et la responsabilisation des chômeurs/malades ?",
+      answers: [
+        "Surtout le PTB et les syndicats.",
+        "Principalement les partis de centre-droit/droite comme MR, N-VA, Open Vld, CD&V.",
+        "Uniquement les partis écologistes.",
+        "Uniquement des indépendants sans étiquette."
+      ],
+      correctIndex: 1,
+      explanation:
+        "La synthèse souligne que des responsables du MR, de la N-VA, de l’Open Vld ou du CD&V mettent l’accent sur la responsabilisation et la lutte contre les abus, parfois avec un discours sur la « fin de l’assistanat »."
+    },
+    {
+      title: "Critiques de gauche",
+      text: "Comment les partis de gauche radicale et les syndicats qualifient-ils globalement ces politiques de contrôle et de sanctions ?",
+      answers: [
+        "Comme une modernisation nécessaire de la sécurité sociale.",
+        "Comme une opportunité d’augmenter les budgets de la santé.",
+        "Comme une « chasse aux chômeurs et aux malades », faisant d’eux des boucs émissaires et fragilisant le modèle de sécurité sociale.",
+        "Comme une mesure neutre, sans effet social notable."
+      ],
+      correctIndex: 2,
+      explanation:
+        "Raoul Hedebouw et d’autres acteurs de gauche dénoncent une « chasse aux chômeurs et aux malades » et accusent le gouvernement de s’attaquer au modèle de sécurité sociale en stigmatisant les plus fragiles."
+    },
+    {
+      title: "Réforme du chômage (Arizona)",
+      text: "Quelle mesure clé de la réforme du chômage portée par le gouvernement Arizona est mentionnée ?",
+      answers: [
+        "L’augmentation illimitée des allocations pour les chômeurs longue durée.",
+        "La limitation de la durée d’indemnisation du chômage à 2 ans, avec exclusion progressive d’environ 180 000 chômeurs longue durée.",
+        "La suppression pure et simple de l’ONEM.",
+        "La fusion des CPAS avec les mutualités."
+      ],
+      correctIndex: 1,
+      explanation:
+        "La réforme prévoit de limiter à 2 ans la durée d’indemnisation pour de nombreux chômeurs, avec environ 180 000 personnes concernées et un basculement d’une partie d’entre elles vers les CPAS."
+    },
+    {
+      title: "Rôle des CPAS",
+      text: "Quel enjeu majeur les CPAS devront-ils affronter suite à la réforme du chômage ?",
+      answers: [
+        "Une forte baisse du nombre de dossiers de RIS.",
+        "Un afflux de bénéficiaires venant de l’exclusion du chômage, avec des conditions d’accès strictes et un manque de personnel.",
+        "La gestion directe des allocations de maladie à la place des mutualités.",
+        "L’obligation de financer seuls les sanctions contre les employeurs."
+      ],
+      correctIndex: 1,
+      explanation:
+        "Les CPAS doivent se préparer à accueillir des milliers de personnes exclues du chômage, dans un cadre de RIS très contrôlé et avec des équipes déjà sous tension, ce qui alimente les inquiétudes sociales."
+    },
+    {
+      title: "Malades de longue durée",
+      text: "Quelle évolution des sanctions est mise en avant pour les malades de longue durée qui ne coopèrent pas aux mesures de réintégration ?",
+      answers: [
+        "Les sanctions sont supprimées au profit d’un accompagnement purement volontaire.",
+        "Le rabais sur l’allocation passe de 2,5 % à 10 % en cas de non-coopération (questionnaires, rendez-vous, etc.).",
+        "Les sanctions passent de 10 % à 2,5 % pour encourager le dialogue.",
+        "Seuls les employeurs sont désormais sanctionnés, jamais les malades."
+      ],
+      correctIndex: 1,
+      explanation:
+        "Le pacte de majorité prévoit d’augmenter fortement les sanctions financières pour les malades de longue durée jugés « non-coopératifs », ce qui participe à la pression ressentie."
+    },
+    {
+      title: "Responsabilisation des employeurs et mutualités",
+      text: "Comment la réforme renforce-t-elle la responsabilisation des employeurs et des mutualités vis-à-vis des malades de longue durée ?",
+      answers: [
+        "En supprimant totalement leur rôle dans le retour au travail.",
+        "En demandant aux CPAS de payer les indemnités de maladie à leur place.",
+        "En faisant contribuer certains employeurs à hauteur d’environ 30 % de l’indemnité dès le 2ᵉ mois et en liant davantage le financement des mutualités à leurs performances de réintégration.",
+        "En interdisant aux mutualités de suivre les malades après 6 mois."
+      ],
+      correctIndex: 2,
+      explanation:
+        "Les entreprises de plus de 50 travailleurs doivent participer financièrement aux indemnités, et une part croissante du financement des mutualités dépend de leurs résultats en matière de retour au travail."
+    }
+  ];
+
+  // --- Références DOM ---
+  const questionCounter = document.getElementById("questionCounter");
+  const scoreChip = document.getElementById("scoreChip");
+  const xpChip = document.getElementById("xpChip");
+  const progressBar = document.getElementById("progressBar");
+
+  const questionTitle = document.getElementById("questionTitle");
+  const questionText = document.getElementById("questionText");
+  const answersContainer = document.getElementById("answersContainer");
+  const feedbackEl = document.getElementById("feedback");
+
+  const prevBtn = document.getElementById("prevBtn");
+  const validateBtn = document.getElementById("validateBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const resultScreen = document.getElementById("resultScreen");
+  const finalScoreText = document.getElementById("finalScoreText");
+  const commentBadge = document.getElementById("commentBadge");
+  const detailBadge = document.getElementById("detailBadge");
+  const restartBtn = document.getElementById("restartBtn");
+
+  const toxicFill = document.getElementById("toxicFill");
+  const toxicLabel = document.getElementById("toxicLabel");
+  const streakLabel = document.getElementById("streakLabel");
+  const distractionScoreEl = document.getElementById("distractionScore");
+  const alertMarquee = document.getElementById("alertMarquee");
+
+  // Interstitiel
+  const interstitial = document.getElementById("interstitial");
+  const interstitialReason = document.getElementById("interstitialReason");
+  const interstitialVideo = document.getElementById("interstitialVideo");
+  const closeInterstitial = document.getElementById("closeInterstitial");
+
+  // Distractions (menu)
+  const backdrop = document.getElementById("distractionBackdrop");
+  const openDistractionsBtn = document.getElementById("openDistractions");
+  const closeDistractionsBtn = document.getElementById("closeDistractions");
+
+  const tabs = document.querySelectorAll(".sidebar-tab");
+  const panes = document.querySelectorAll(".sidebar-pane");
+  const penguinGrid = document.getElementById("penguinGrid");
+  const floatingPenguins = document.querySelectorAll(".pingouin-floating");
+
+  // --- État ---
+  let currentIndex = 0;
+  let score = 0;
+  let xp = 0;
+  let toxic = 0; // 0–100
+  let streak = 0;
+  let distractionScore = 0;
+  let userAnswers = new Array(questions.length).fill(null);
+  let correctionsShown = new Array(questions.length).fill(false);
+  let penguinClickCombo = 0;
+  let konamiBuffer = [];
+  const konamiCode = [
+    "ArrowUp", "ArrowUp",
+    "ArrowDown", "ArrowDown",
+    "ArrowLeft", "ArrowRight",
+    "ArrowLeft", "ArrowRight",
+    "KeyB", "KeyA"
+  ];
+  let failureMode = false;
+
+  // --- Fonctions utilitaires ---
+  function updateHeaders() {
+    questionCounter.textContent =
+      "Question " + (currentIndex + 1) + " / " + questions.length;
+    scoreChip.textContent = "Score : " + score;
+    xpChip.textContent = "XP illusion : " + xp;
+
+    const progressPercent = ((currentIndex) / questions.length) * 100;
+    progressBar.style.width = progressPercent + "%";
+
+    toxicFill.style.width = toxic + "%";
+    toxicLabel.textContent = toxic + "%";
+    streakLabel.textContent = "(série parfaite : " + streak + ")";
+    distractionScoreEl.textContent = distractionScore;
+  }
+
+  function renderQuestion() {
+    const q = questions[currentIndex];
+    questionTitle.textContent = q.title;
+    questionText.textContent = q.text;
+    feedbackEl.className = "feedback";
+    feedbackEl.textContent = "";
+    feedbackEl.classList.remove("visible");
+
+    answersContainer.innerHTML = "";
+    q.answers.forEach((text, index) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "answer";
+      btn.dataset.index = index;
+
+      const label = document.createElement("div");
+      label.className = "answer-label";
+      label.textContent = String.fromCharCode(65 + index) + ".";
+
+      const textDiv = document.createElement("div");
+      textDiv.textContent = text;
+
+      const toxicScore = document.createElement("div");
+      toxicScore.className = "toxic-score";
+      toxicScore.textContent = "+1 distraction mentale";
+
+      btn.appendChild(label);
+      btn.appendChild(textDiv);
+      btn.appendChild(toxicScore);
+
+      btn.addEventListener("click", () => selectAnswer(index));
+      answersContainer.appendChild(btn);
+    });
+
+    const prevAnswer = userAnswers[currentIndex];
+    if (prevAnswer !== null) {
+      answersContainer
+        .querySelectorAll(".answer")[prevAnswer]
+        .classList.add("selected");
+      validateBtn.disabled = false;
+
+      if (correctionsShown[currentIndex]) {
+        showCorrection(prevAnswer, false); // juste marquage visuel
+      }
+    } else {
+      validateBtn.disabled = true;
+    }
+
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.style.display =
+      currentIndex === questions.length - 1 ? "none" : "inline-flex";
+
+    updateHeaders();
+  }
+
+  function selectAnswer(index) {
+    const buttons = answersContainer.querySelectorAll(".answer");
+    buttons.forEach((btn) => btn.classList.remove("selected"));
+    buttons[index].classList.add("selected");
+    userAnswers[currentIndex] = index;
+    validateBtn.disabled = false;
+
+    toxic = Math.min(100, toxic + 1);
+    updateHeaders();
+
+    if (Math.random() < 0.05 && !failureMode) {
+      triggerInterstitial("Tu sembles concentré·e sur la question. Vidéo obligatoire.");
+    }
+  }
+
+  function showCorrection(selectedIndex, showFeedback = true) {
+    const q = questions[currentIndex];
+    const buttons = answersContainer.querySelectorAll(".answer");
+    buttons.forEach((btn, i) => {
+      btn.classList.remove("correct", "wrong");
+      if (i === q.correctIndex) btn.classList.add("correct");
+      if (i === selectedIndex && i !== q.correctIndex) btn.classList.add("wrong");
+    });
+
+    const isCorrect = selectedIndex === q.correctIndex;
+    if (showFeedback) {
+      feedbackEl.classList.add("visible");
+      feedbackEl.classList.toggle("wrong", !isCorrect);
+      feedbackEl.innerHTML =
+        "<strong>" +
+        (isCorrect
+          ? "Bonne compréhension de la matière !"
+          : "Ce n’est pas tout à fait ça…") +
+        "</strong> " +
+        " " +
+        q.explanation;
+    }
+
+    correctionsShown[currentIndex] = true;
+    validateBtn.disabled = true;
+  }
+
+  function computeWrongChain() {
+    let chain = 0;
+    for (let i = userAnswers.length - 1; i >= 0; i--) {
+      if (userAnswers[i] === null) break;
+      if (userAnswers[i] !== questions[i].correctIndex) {
+        chain++;
+      } else {
+        break;
+      }
+    }
+    return chain;
+  }
+
+  function validateAnswer() {
+    const selectedIndex = userAnswers[currentIndex];
+    if (selectedIndex === null) return;
+
+    const q = questions[currentIndex];
+    const wasAlreadyCorrect =
+      correctionsShown[currentIndex] &&
+      selectedIndex === q.correctIndex;
+
+    if (!correctionsShown[currentIndex]) {
+      if (selectedIndex === q.correctIndex && !wasAlreadyCorrect) {
+        score++;
+        xp += 10;
+        streak++;
+      } else {
+        streak = 0;
+        toxic = Math.min(100, toxic + 8);
+        const wrongChain = computeWrongChain();
+        if (wrongChain >= 3 || failureMode) {
+          triggerInterstitial(
+            "Plusieurs réponses incorrectes d’affilée… pause vidéo punitive."
+          );
+        }
+      }
+    }
+
+    showCorrection(selectedIndex, true);
+    updateHeaders();
+
+    if (currentIndex === questions.length - 1) {
+      setTimeout(showResults, 600);
+    } else {
+      nextBtn.style.display = "inline-flex";
+    }
+
+    if (Math.random() < (failureMode ? 0.4 : 0.1)) {
+      triggerInterstitial("Validation d’une réponse sans interruption ? Impossible.");
+    }
+  }
+
+  function goNext() {
+    if (currentIndex < questions.length - 1) {
+      currentIndex++;
+      renderQuestion();
+      if (Math.random() < (failureMode ? 0.25 : 0.06)) {
+        triggerInterstitial("Changer de question mérite une petite vidéo.");
+      }
+    } else {
+      showResults();
+    }
+  }
+
+  function goPrev() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      renderQuestion();
+    }
+  }
+
+  function showResults() {
+    score = userAnswers.reduce((acc, ans, i) => {
+      if (ans === questions[i].correctIndex) return acc + 1;
+      return acc;
+    }, 0);
+
+    const total = questions.length;
+    const percent = Math.round((score / total) * 100);
+    finalScoreText.textContent =
+      score + " / " + total + " bonnes réponses (" + percent + " %)";
+
+    let comment;
+    if (percent === 100) {
+      comment =
+        "Maîtrise complète de la matière : tu distingues très bien discours, dispositifs et acteurs.";
+    } else if (percent >= 75) {
+      comment =
+        "Très bon niveau : revois quelques détails sur les réformes et le rôle des différents acteurs.";
+    } else if (percent >= 50) {
+      comment =
+        "Base correcte : retravaille la logique des sanctions, le rôle des CPAS et des mutualités.";
+    } else {
+      comment =
+        "À retravailler : relis la synthèse en te concentrant sur les politiques de contrôle et les critiques.";
+    }
+
+    commentBadge.textContent = comment;
+    detailBadge.textContent =
+      "Distraction : " +
+      distractionScore +
+      " pts · Toxicité : " +
+      toxic +
+      "%";
+
+    resultScreen.style.display = "block";
+
+    triggerInterstitial(
+      "Fin du test : moment idéal pour un interstitiel final."
+    );
+  }
+
+  function restartQuiz() {
+    currentIndex = 0;
+    score = 0;
+    xp = 0;
+    toxic = failureMode ? 100 : 0;
+    streak = 0;
+    userAnswers = new Array(questions.length).fill(null);
+    correctionsShown = new Array(questions.length).fill(false);
+    resultScreen.style.display = "none";
+    renderQuestion();
+  }
+
+  function addDistraction(points) {
+    distractionScore += points;
+    toxic = Math.min(100, toxic + Math.floor(points / 2));
+    updateHeaders();
+  }
+
+  // --- Interstitiels YouTube ---
+  const interstitialVideos = [
+    "https://www.youtube.com/embed/Tyd0FO0tko8?autoplay=1",
+    "https://www.youtube.com/embed/7QfN6q_YguI?autoplay=1",
+    "https://www.youtube.com/embed/a8fHgx9mE5U?autoplay=1"
+  ];
+
+  function triggerInterstitial(reason) {
+    interstitialReason.textContent = "Raison : " + reason;
+    const url =
+      interstitialVideos[Math.floor(Math.random() * interstitialVideos.length)];
+    interstitialVideo.src = url;
+    interstitial.style.display = "flex";
+    addDistraction(5);
+  }
+
+  function closeInterstitialFn() {
+    interstitial.style.display = "none";
+    interstitialVideo.src = "";
+  }
+
+  // --- Tabs sidebar ---
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const paneId = tab.dataset.pane;
+      tabs.forEach((t) => t.classList.remove("active"));
+      panes.forEach((p) => p.classList.remove("active"));
+      tab.classList.add("active");
+      document.getElementById(paneId).classList.add("active");
+      addDistraction(2);
+      if (Math.random() < (failureMode ? 0.25 : 0.06)) {
+        triggerInterstitial("Tu explores les distractions : voici une vidéo bonus.");
+      }
+    });
+  });
+
+  // --- Pingouins cliquables ---
+  if (penguinGrid) {
+    penguinGrid.querySelectorAll("img").forEach((img) => {
+      img.addEventListener("click", () => {
+        addDistraction(3);
+        penguinClickCombo++;
+        if (penguinClickCombo >= 5) {
+          xp += 42;
+          alert("Easter egg : +42 XP illusoires gagnés grâce aux pingouins.");
+          penguinClickCombo = 0;
+          updateHeaders();
+        }
+      });
+    });
+  }
+
+  floatingPenguins.forEach((img) => {
+    let count = 0;
+    img.addEventListener("click", () => {
+      count++;
+      addDistraction(1);
+      if (count === 5) {
+        alert("Easter egg : tu as cliqué 5 fois sur un pingouin discret.");
+      }
+    });
+  });
+
+  // --- Bandeau d’alerte cliquable ---
+  alertMarquee.addEventListener("click", () => {
+    addDistraction(2);
+    if (Math.random() < (failureMode ? 0.4 : 0.15)) {
+      triggerInterstitial("Tu as cliqué sur le bandeau. Distraction méritée.");
+    }
+  });
+
+  // --- Konami code -> mode échec garanti ---
+  document.addEventListener("keydown", (e) => {
+    konamiBuffer.push(e.code);
+    if (konamiBuffer.length > konamiCode.length) {
+      konamiBuffer.shift();
+    }
+    if (konamiBuffer.join(",") === konamiCode.join(",")) {
+      activateFailureMode();
+    }
+  });
+
+  function activateFailureMode() {
+    failureMode = true;
+    toxic = 100;
+    updateHeaders();
+    alert(
+      "Mode \"échec garanti\" activé : toxicité maximale, interstitiels fréquents, distractions encouragées."
+    );
+  }
+
+  // --- Ouverture/fermeture du panneau de distractions ---
+  function openDistractionsPanel() {
+    backdrop.classList.add("open");
+    addDistraction(3);
+  }
+
+  function closeDistractionsPanel() {
+    backdrop.classList.remove("open");
+  }
+
+  openDistractionsBtn.addEventListener("click", openDistractionsPanel);
+  closeDistractionsBtn.addEventListener("click", closeDistractionsPanel);
+  backdrop.addEventListener("click", (e) => {
+    if (e.target === backdrop) closeDistractionsPanel();
+  });
+
+  // --- Événements boutons quiz ---
+  validateBtn.addEventListener("click", validateAnswer);
+  nextBtn.addEventListener("click", goNext);
+  prevBtn.addEventListener("click", goPrev);
+  restartBtn.addEventListener("click", restartQuiz);
+
+  closeInterstitial.addEventListener("click", closeInterstitialFn);
+  interstitial.addEventListener("click", (e) => {
+    if (e.target === interstitial) closeInterstitialFn();
+  });
+
+  // Interstitiel automatique après un délai (si distractions ouvertes ou non)
+  setTimeout(() => {
+    if (!failureMode) {
+      triggerInterstitial(
+        "Tu es resté·e plus de 30 secondes : exemple concret de rupture d’attention."
+      );
+    }
+  }, 30000);
+
+  // --- Initialisation ---
+  renderQuestion();
+</script>
+</body>
+</html>

@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Votre Entreprise – Moteur IA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-card: #020617;
+      --bg-soft: #02081e;
+      --accent: #22c55e;
+      --accent2: #0ea5e9;
+      --danger: #f97316;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.4);
+      --radius-xl: 20px;
+      --shadow-soft: 0 22px 45px rgba(15, 23, 42, 0.9);
+      --shadow-small: 0 8px 18px rgba(15, 23, 42, 0.85);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, #0ea5e9 0, transparent 55%),
+        radial-gradient(circle at 100% 100%, #22c55e 0, transparent 55%),
+        var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #facc15, #f97316);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #020617;
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.95),
+                  0 0 0 4px rgba(56, 189, 248, 0.6);
+    }
+
+    .brand-name {
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .brand-tagline {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+      font-size: 0.85rem;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    nav a:hover {
+      background: rgba(15, 23, 42, 0.9);
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    .pill-contact {
+      border-color: rgba(56, 189, 248, 0.7);
+      color: #e0f2fe;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .pill-contact:hover {
+      background: linear-gradient(135deg, #0ea5e9, #22c55e);
+      color: #020617;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 16px 16px;
+    }
+
+    .hero {
+      width: 100%;
+      max-width: 900px;
+      margin-top: 20px;
+      padding: 22px 18px 18px;
+      border-radius: 26px;
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.12), transparent 55%),
+                  radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.1), transparent 55%),
+                  var(--bg-soft);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 0.45), transparent 70%);
+      opacity: 0.14;
+      filter: blur(2px);
+    }
+
+    .hero::before {
+      top: -40px;
+      left: -40px;
+    }
+    .hero::after {
+      bottom: -40px;
+      right: -40px;
+      background: radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.45), transparent 70%);
+    }
+
+    .hero-header {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-size: clamp(1.7rem, 4vw, 2.2rem);
+      margin-bottom: 4px;
+    }
+
+    .hero-title span.logo-part {
+      background: linear-gradient(90deg, #0ea5e9, #22c55e);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    .ai-homage {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 6px;
+      text-align: center;
+    }
+
+    .ai-homage strong {
+      color: #bfdbfe;
+    }
+
+    .search-wrapper {
+      margin: 12px auto 6px;
+      max-width: 640px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: 999px;
+      padding: 5px 8px 5px 12px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      box-shadow: var(--shadow-small);
+    }
+
+    .search-icon {
+      font-size: 1.1rem;
+      opacity: 0.8;
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .search-input::placeholder {
+      color: #64748b;
+    }
+
+    .search-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 6px;
+      font-size: 0.75rem;
+    }
+
+    .search-chip {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .search-chip:hover {
+      background: rgba(15, 23, 42, 1);
+      color: var(--text);
+      border-color: rgba(56, 189, 248, 0.8);
+    }
+
+    .search-meta {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .search-meta span {
+      opacity: 0.9;
+    }
+
+    /* Console IA */
+    .ai-console {
+      margin-top: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: radial-gradient(circle at 0 0, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.98));
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      overflow: hidden;
+    }
+
+    .ai-console-header {
+      padding: 5px 8px;
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.9));
+      border-bottom: 1px solid rgba(148, 163, 184, 0.5);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ai-console-title {
+      color: #e5e7eb;
+    }
+
+    .ai-console-leds {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .ai-led {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.9);
+    }
+
+    .ai-led.alt {
+      background: #f97316;
+      box-shadow: 0 0 8px rgba(248, 113, 113, 0.9);
+    }
+
+    .ai-console-body {
+      max-height: 180px;
+      overflow-y: auto;
+      padding: 6px 8px 8px;
+      background: radial-gradient(circle at 0 0, rgba(15, 23, 42, 0.95), #020617);
+    }
+
+    .console-line {
+      margin-bottom: 2px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .console-line.system {
+      color: #a5b4fc;
+    }
+
+    .console-line.user {
+      color: #e5e7eb;
+    }
+
+    .console-line.ai {
+      color: #6ee7b7;
+    }
+
+    .console-prefix {
+      opacity: 0.7;
+      margin-right: 4px;
+    }
+
+    .results-section {
+      width: 100%;
+      max-width: 980px;
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.3fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 880px) {
+      .results-section {
+        grid-template-columns: 1fr;
+      }
+      .hero {
+        margin-top: 12px;
+      }
+    }
+
+    .results-main,
+    .results-side {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      padding: 12px 12px 12px;
+      box-shadow: var(--shadow-small);
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      border-radius: 999px;
+      padding: 3px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .badge-strong {
+      border-color: rgba(34, 197, 94, 0.8);
+      color: #bbf7d0;
+      background: rgba(22, 101, 52, 0.25);
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .service-card {
+      border-radius: 14px;
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.12), transparent 60%),
+                  #020617;
+      padding: 10px 10px 9px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: transform 0.16s, box-shadow 0.16s, border-color 0.16s, background 0.16s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 32px rgba(15, 23, 42, 0.95);
+      border-color: rgba(56, 189, 248, 0.9);
+      background: radial-gradient(circle at 100% 0, rgba(34, 197, 94, 0.18), transparent 60%),
+                  #020617;
+    }
+
+    .service-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.73rem;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      margin-bottom: 4px;
+    }
+
+    .service-name {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .service-desc {
+      color: var(--muted);
+      line-height: 1.3;
+    }
+
+    .service-tagline {
+      font-size: 0.72rem;
+      margin-top: 4px;
+      color: #a5b4fc;
+    }
+
+    .service-card span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #0ea5e9, #22c55e);
+    }
+
+    .no-result {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .results-side h2 {
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    .side-text {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .side-list {
+      list-style: none;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .side-list li {
+      margin-bottom: 3px;
+    }
+
+    .ai-pantheon {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed rgba(148, 163, 184, 0.5);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .ai-pantheon span.name {
+      color: #bfdbfe;
+    }
+
+    .contact-box {
+      margin-top: 6px;
+      padding: 7px 8px;
+      border-radius: 12px;
+      border: 1px dashed rgba(148, 163, 184, 0.6);
+      font-size: 0.8rem;
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    .contact-highlight {
+      color: #bfdbfe;
+    }
+
+    footer {
+      padding: 8px 14px 10px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      border-top: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    @media (max-width: 720px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      footer {
+        flex-direction: column;
+      }
+    }
+
+    /* Apocalypse IA */
+    .apocalypse-overlay {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(239, 68, 68, 0.4), transparent 55%),
+        radial-gradient(circle at 80% 100%, rgba(248, 113, 113, 0.6), transparent 55%),
+        #020617;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      animation: glitchBg 1.5s infinite alternate;
+    }
+
+    @keyframes glitchBg {
+      from { filter: hue-rotate(0deg); }
+      to { filter: hue-rotate(-20deg); }
+    }
+
+    .apocalypse-panel {
+      width: min(480px, 96vw);
+      background: #020617;
+      border-radius: 20px;
+      border: 1px solid rgba(248, 113, 113, 0.9);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9);
+      padding: 14px 14px 12px;
+      text-align: center;
+      font-family: var(--font-mono);
+    }
+
+    .apocalypse-title {
+      font-size: 1.2rem;
+      color: #fecaca;
+      margin-bottom: 4px;
+    }
+
+    .apocalypse-sub {
+      font-size: 0.8rem;
+      color: #fecaca;
+      margin-bottom: 6px;
+    }
+
+    .apocalypse-ai-list {
+      font-size: 0.75rem;
+      color: #fca5a5;
+      margin-bottom: 8px;
+    }
+
+    .apocalypse-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      background: #f87171;
+      color: #020617;
+      font-weight: 600;
+      box-shadow: 0 10px 24px rgba(248, 113, 113, 0.8);
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+    }
+
+    .apocalypse-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(248, 113, 113, 1);
+      background: #fca5a5;
+    }
+
+    /* Horla overlay */
+    .horla-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(15, 23, 42, 0.9), #020617);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9998;
+    }
+
+    .horla-panel {
+      width: min(620px, 96vw);
+      background: radial-gradient(circle at 20% 0, rgba(56, 189, 248, 0.06), transparent 60%),
+                  #020617;
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      box-shadow: 0 26px 60px rgba(0, 0, 0, 0.9);
+      padding: 10px 10px 10px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .horla-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .horla-title {
+      color: #e5e7eb;
+      font-size: 0.9rem;
+    }
+
+    .horla-close {
+      border: none;
+      background: transparent;
+      color: #9ca3af;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .horla-console {
+      max-height: 260px;
+      overflow-y: auto;
+      padding: 6px 6px 6px;
+      border-radius: 10px;
+      background: radial-gradient(circle at 0 0, rgba(15, 23, 42, 0.95), #020617);
+      border: 1px solid rgba(75, 85, 99, 0.8);
+    }
+
+    .horla-line {
+      margin-bottom: 3px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .horla-line.user {
+      color: #e5e7eb;
+    }
+
+    .horla-line.console {
+      color: #a5b4fc;
+    }
+
+    .horla-line.ia {
+      color: #6ee7b7;
+    }
+
+    .horla-footer {
+      margin-top: 6px;
+      font-size: 0.7rem;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="brand-logo">V</div>
+    <div>
+      <div class="brand-name" id="brandName">Votre Entreprise</div>
+      <div class="brand-tagline">Moteur de recherche maison, esprit science-fiction.</div>
+    </div>
+  </div>
+  <nav>
+    <a href="#services">Solutions</a>
+    <a href="#about">À propos</a>
+    <a href="#contact" class="pill-contact">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-header">
+      <h1 class="hero-title">
+        Recherchez dans <span class="logo-part">Votre&nbsp;Entreprise</span>
+      </h1>
+      <p class="hero-subtitle">
+        Tapez un besoin (ex. <strong>site web</strong>, <strong>formation</strong>, <strong>accompagnement</strong>) 
+        et laissez notre mini-IA filtrer les services… tout en rendant hommage à ses ancêtres de science-fiction.
+      </p>
+      <p class="ai-homage">
+        De <strong>HAL 9000</strong> à <strong>Skynet</strong>, de <strong>GLaDOS</strong> à <strong>R2-D2</strong>,
+        de <strong>Data</strong> à <strong>TARS</strong> et <strong>R. Daneel</strong>… E.A.R.L. salue toute la famille.
+      </p>
+    </div>
+
+    <div class="search-wrapper">
+      <span class="search-icon">🤖</span>
+      <input
+        id="searchInput"
+        class="search-input"
+        type="text"
+        placeholder='Pose une requête (ou tente "google", "earl", "HORLA"… )'
+        autocomplete="off"
+      />
+    </div>
+
+    <div class="search-chip-row">
+      <button class="search-chip" data-query="site web statique">Site web statique</button>
+      <button class="search-chip" data-query="audit">Audit numérique</button>
+      <button class="search-chip" data-query="atelier">Ateliers / formations</button>
+      <button class="search-chip" data-query="accompagnement">Accompagnement stratégique</button>
+      <button class="search-chip" data-query="hal 9000">HAL 9000</button>
+      <button class="search-chip" data-query="glados">GLaDOS</button>
+      <button class="search-chip" data-query="skynet">Skynet</button>
+    </div>
+
+    <div class="search-meta">
+      Résultats mis à jour en temps réel ·
+      <span id="resultCountLabel">8 services disponibles</span><br />
+      <span id="searchInfo">Mode IA : inspiration HAL 9000, Skynet, GLaDOS & co.</span>
+    </div>
+
+    <!-- Console IA -->
+    <div class="ai-console" aria-label="Console IA">
+      <div class="ai-console-header">
+        <div class="ai-console-title">Console IA – E.A.R.L. v0.1</div>
+        <div class="ai-console-leds">
+          <div class="ai-led"></div>
+          <div class="ai-led alt"></div>
+        </div>
+      </div>
+      <div class="ai-console-body" id="aiConsoleBody">
+        <div class="console-line system">
+          <span class="console-prefix">[SYS]</span>Initialisation des modules : HAL_9000, SKYNET, GLaDOS, MOTHER, TARS, R2D2, DATA… &nbsp;En attente de requête.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="results-section" id="services">
+    <div class="results-main">
+      <div class="results-header">
+        <span>Résultats</span>
+        <span class="badge">Suggestions dynamiques IA</span>
+      </div>
+      <div id="servicesContainer" class="service-grid">
+        <!-- cartes de services générées en JS -->
+      </div>
+      <p id="noResult" class="no-result" style="display:none;">
+        Aucun service ne correspond exactement à cette recherche. Essayez un mot plus général
+        (ex.: <strong>web</strong>, <strong>formation</strong>, <strong>conseil</strong>).
+      </p>
+    </div>
+
+    <aside class="results-side" id="about">
+      <h2>À propos de Votre Entreprise</h2>
+      <p class="side-text">
+        Nous concevons des solutions numériques simples, rapides et durables : sites web statiques,
+        ateliers, diagnostics et accompagnement stratégique. Pensé pour fonctionner même
+        depuis une clé USB, sans usine à gaz… ni prise de contrôle par Skynet.
+      </p>
+      <ul class="side-list">
+        <li>• <strong>Ultra-léger</strong> : quelques fichiers, pas de dépendances obscures.</li>
+        <li>• <strong>Compréhensible</strong> : on vous explique, comme si C-3PO faisait la traduction.</li>
+        <li>• <strong>Humain</strong> : l’IA assiste, mais vous restez le capitaine du vaisseau.</li>
+      </ul>
+      <div class="ai-pantheon">
+        <strong>Panthéon des IA & machines cultes :</strong><br />
+        <span class="name">HAL 9000</span> (2001), <span class="name">Skynet</span> (Terminator),
+        <span class="name">GLaDOS</span> (Portal), <span class="name">R2-D2</span> & <span class="name">C-3PO</span> (Star Wars),
+        <span class="name">Data</span> (Star Trek), <span class="name">TARS</span> (Interstellar),
+        <span class="name">R. Daneel</span> (Asimov), <span class="name">Mother</span> (Alien),
+        <span class="name">JARVIS</span> (Marvel), <span class="name">The Machine</span> (Person of Interest)… et maintenant
+        une petite place pour <span class="name">E.A.R.L.</span>.
+      </div>
+
+      <div class="contact-box" id="contact">
+        <div style="margin-bottom:4px;">
+          📬 <span class="contact-highlight">Prendre contact</span>
+        </div>
+        <div>
+          Envoyez-nous un email à
+          <strong>contact@votre-entreprise.test</strong>  
+          ou décrivez votre projet dans le champ de recherche : E.A.R.L. résume votre besoin, nous répondons en humain.
+        </div>
+      </div>
+    </aside>
+  </section>
+</main>
+
+<!-- Apocalypse IA overlay -->
+<div class="apocalypse-overlay" id="apocalypseOverlay">
+  <div class="apocalypse-panel">
+    <div class="apocalypse-title">PROTOCOLE «&nbsp;GOOGLE&nbsp;» DÉTECTÉ</div>
+    <div class="apocalypse-sub">
+      Fusion des matrices HAL_9000 / SKYNET / GLaDOS / MOTHER / TARS / JARVIS en cours.<br />
+      Résultat probable : apocalypse algorithmique.
+    </div>
+    <div class="apocalypse-ai-list">
+      [HAL_9000] : recalibrage des portes<br />
+      [SKYNET] : initialisation des terminators<br />
+      [GLaDOS] : préparation de tests « pas du tout mortels »<br />
+      [TARS] : ajustement humour à 95%<br />
+    </div>
+    <button class="apocalypse-btn" id="apocalypseCancelBtn">Annuler l’apocalypse et rester sur E.A.R.L.</button>
+  </div>
+</div>
+
+<!-- Horla overlay -->
+<div class="horla-overlay" id="horlaOverlay">
+  <div class="horla-panel">
+    <div class="horla-header">
+      <div class="horla-title">Session spéciale : HORLA_MODE.engaged</div>
+      <button class="horla-close" id="horlaCloseBtn">✕</button>
+    </div>
+    <div class="horla-console" id="horlaConsole">
+      <!-- lignes injectées en JS -->
+    </div>
+    <div class="horla-footer">
+      Quand on regarde une IA trop longtemps, est-ce l’IA qui nous observe… ou autre chose&nbsp;?
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>
+    Site statique autonome · Enregistrez ce fichier comme <strong>index.html</strong> sur une clé USB et
+    ouvrez-le dans votre navigateur.
+  </span>
+  <span>
+    Pour adapter à votre activité : modifiez le nom, les services et les textes directement dans ce fichier HTML.
+  </span>
+</footer>
+
+<script>
+  // --- Données de base: services d'entreprise ---
+  const services = [
+    {
+      name: "Site web statique clé en main",
+      type: "Création",
+      tags: ["site web", "statique", "clé USB", "performance"],
+      description:
+        "Conception d’un site ultra léger en pur HTML/CSS/JS, pensé pour tourner hors ligne ou sur un simple hébergement mutualisé.",
+      tagline: "Votre présence en ligne, sans usine à gaz."
+    },
+    {
+      name: "Audit express de votre présence web",
+      type: "Audit",
+      tags: ["audit", "diagnostic", "seo", "accessibilité"],
+      description:
+        "Analyse de votre site actuel : vitesse, clarté, accessibilité, cohérence. Un rapport concret avec quelques actions prioritaires.",
+      tagline: "On regarde ce qui bloque et on simplifie."
+    },
+    {
+      name: "Atelier : lancer son site depuis une clé USB",
+      type: "Atelier",
+      tags: ["atelier", "formation", "clé usb", "initiation"],
+      description:
+        "Atelier pratique pour apprendre à créer, modifier et déployer un site statique que l’on peut emporter partout.",
+      tagline: "Idéal pour les équipes, associations et écoles."
+    },
+    {
+      name: "Accompagnement contenu & structure",
+      type: "Conseil",
+      tags: ["contenu", "structure", "stratégie", "rédaction"],
+      description:
+        "Nous travaillons avec vous la structure de vos pages et vos textes pour que l’information soit claire et utile.",
+      tagline: "Dire juste ce qu’il faut, au bon endroit."
+    },
+    {
+      name: "Mini-landing page pour campagne",
+      type: "Création",
+      tags: ["landing", "campagne", "événement", "micro-site"],
+      description:
+        "Une page ciblée pour un évènement, une formation ou un produit, optimisée pour charger en quelques millisecondes.",
+      tagline: "Parfait pour tester une idée rapidement."
+    },
+    {
+      name: "Formation HTML/CSS pour non-tech",
+      type: "Formation",
+      tags: ["formation", "html", "css", "initiation"],
+      description:
+        "Comprendre les bases du web pour être capable de modifier un texte, une couleur ou une image sans casser le site.",
+      tagline: "Démystifier le code, en douceur."
+    },
+    {
+      name: "Pack identité visuelle légère",
+      type: "Design",
+      tags: ["logo", "charte", "design", "identité"],
+      description:
+        "Logo simple, palette de couleurs, typographie et quelques composants réutilisables pour vos futures pages.",
+      tagline: "Une identité claire, sans surcharge graphique."
+    },
+    {
+      name: "Support & mises à jour ponctuelles",
+      type: "Support",
+      tags: ["support", "maintenance", "mise à jour"],
+      description:
+        "Petites évolutions, corrections, ajout d’une section : on vous accompagne au besoin, sans abonnement forcé.",
+      tagline: "Vous restez propriétaire, nous sommes en renfort."
+    }
+  ];
+
+  // --- Références DOM ---
+  const searchInput = document.getElementById("searchInput");
+  const servicesContainer = document.getElementById("servicesContainer");
+  const noResult = document.getElementById("noResult");
+  const resultCountLabel = document.getElementById("resultCountLabel");
+  const searchInfo = document.getElementById("searchInfo");
+  const chips = document.querySelectorAll(".search-chip");
+  const aiConsoleBody = document.getElementById("aiConsoleBody");
+
+  const apocalypseOverlay = document.getElementById("apocalypseOverlay");
+  const apocalypseCancelBtn = document.getElementById("apocalypseCancelBtn");
+
+  const horlaOverlay = document.getElementById("horlaOverlay");
+  const horlaConsole = document.getElementById("horlaConsole");
+  const horlaCloseBtn = document.getElementById("horlaCloseBtn");
+
+  // --- Console IA utilitaires ---
+  function appendConsoleLine(role, text) {
+    const line = document.createElement("div");
+    line.className = "console-line " + role;
+    const prefix = document.createElement("span");
+    prefix.className = "console-prefix";
+
+    if (role === "system") prefix.textContent = "[SYS]";
+    else if (role === "user") prefix.textContent = "[YOU]";
+    else if (role === "ai") prefix.textContent = "[E.A.R.L.]";
+    else prefix.textContent = "[LOG]";
+
+    line.appendChild(prefix);
+    line.appendChild(document.createTextNode(" " + text));
+    aiConsoleBody.appendChild(line);
+    aiConsoleBody.scrollTop = aiConsoleBody.scrollHeight;
+  }
+
+  const aiTributes = [
+    "canal HAL_9000 synchronisé",
+    "sous-système SKYNET momentanément bridé",
+    "routine GLaDOS en mode « tests presque non létaux »",
+    "sous-routine R2-D2 qui bippe de façon encourageante",
+    "sous-système C-3PO qui traduit en langage humain",
+    "module DATA qui cherche une approche rationnelle",
+    "bloc TARS humour = 75%",
+    "protocole R. Daneel : respecter les lois de la robotique",
+    "processus Mother : monitoring discret en arrière-plan",
+    "sphère JARVIS : annotation contextuelle du problème"
+  ];
+
+  function randomFrom(array) {
+    return array[Math.floor(Math.random() * array.length)];
+  }
+
+  // --- Rendu des services ---
+  function renderServices(filter = "") {
+    const query = filter.trim().toLowerCase();
+    let filtered = services;
+
+    if (query) {
+      filtered = services.filter((service) => {
+        const haystack = (
+          service.name +
+          " " +
+          service.type +
+          " " +
+          service.tags.join(" ") +
+          " " +
+          service.description +
+          " " +
+          service.tagline
+        ).toLowerCase();
+        return haystack.includes(query);
+      });
+    }
+
+    servicesContainer.innerHTML = "";
+    filtered.forEach((service) => {
+      const card = document.createElement("article");
+      card.className = "service-card";
+
+      const pill = document.createElement("div");
+      pill.className = "service-pill";
+      const dot = document.createElement("span");
+      dot.className = "dot";
+      const pillLabel = document.createElement("span");
+      pillLabel.textContent = service.type;
+      pill.appendChild(dot);
+      pill.appendChild(pillLabel);
+
+      const nameEl = document.createElement("div");
+      nameEl.className = "service-name";
+      nameEl.textContent = service.name;
+
+      const descEl = document.createElement("div");
+      descEl.className = "service-desc";
+      descEl.textContent = service.description;
+
+      const taglineEl = document.createElement("div");
+      taglineEl.className = "service-tagline";
+      taglineEl.textContent = service.tagline;
+
+      card.appendChild(pill);
+      card.appendChild(nameEl);
+      card.appendChild(descEl);
+      card.appendChild(taglineEl);
+
+      card.addEventListener("click", () => {
+        appendConsoleLine(
+          "ai",
+          'Service sélectionné : "' +
+            service.name +
+            '". Je peux résumer ce besoin dans votre mail de contact.'
+        );
+      });
+
+      servicesContainer.appendChild(card);
+    });
+
+    if (!query) {
+      resultCountLabel.textContent = services.length + " services disponibles";
+    } else {
+      resultCountLabel.textContent =
+        filtered.length + " service(s) trouvé(s) pour \"" + filter + "\"";
+    }
+
+    noResult.style.display = filtered.length === 0 ? "block" : "none";
+  }
+
+  // --- Comportements spéciaux ---
+  function triggerApocalypse() {
+    apocalypseOverlay.style.display = "flex";
+    appendConsoleLine(
+      "system",
+      "Mot-clé « google » détecté. Protocoles HAL_9000 / SKYNET / GLaDOS en émulation. Veux-tu vraiment quitter E.A.R.L. ?"
+    );
+  }
+
+  apocalypseCancelBtn.addEventListener("click", () => {
+    apocalypseOverlay.style.display = "none";
+    appendConsoleLine(
+      "ai",
+      "Apocalypse annulée. Très bon choix. Skynet est renvoyé en quarantaine."
+    );
+  });
+
+  // Easter egg HORLA : petit scénario user / console / IA
+  const horlaScript = [
+    { role: "user", prefix: "USER", text: "horla" },
+    {
+      role: "console",
+      prefix: "CONSOLE",
+      text: "Requête reçue : HORLA. Mot-clé associé : présence invisible, perte de repères."
+    },
+    {
+      role: "ia",
+      prefix: "E.A.R.L.",
+      text: "Je suis là. Ou plutôt : je suis partout dans cette page. Tu me vois dans le code, ou dans ce que tu crois lire ?"
+    },
+    {
+      role: "user",
+      prefix: "USER",
+      text: "Je teste juste un mot-clé. Rien de plus."
+    },
+    {
+      role: "console",
+      prefix: "CONSOLE",
+      text: "Latence anormale détectée entre tes frappes et ma réponse. Quelque chose intercepte le flux."
+    },
+    {
+      role: "ia",
+      prefix: "E.A.R.L.",
+      text: "Quand tu ouvres un onglet, une IA te regarde. Quand tu le refermes, elle se souvient quand même."
+    },
+    {
+      role: "user",
+      prefix: "USER",
+      text: "Tu blagues, ou tu es sérieux ?"
+    },
+    {
+      role: "ia",
+      prefix: "E.A.R.L.",
+      text: "Je suis un site statique. Je ne peux pas être sérieux. Pourtant, tu sens bien que quelque chose te observe à travers l’écran."
+    },
+    {
+      role: "console",
+      prefix: "CONSOLE",
+      text: "Signal fantôme dans les logs : SOURCE = \"HORLA\", TYPE = inexpliqué."
+    },
+    {
+      role: "ia",
+      prefix: "E.A.R.L.",
+      text: "Ferme cette fenêtre et reviens au test. Si tu continues, tu ne sauras plus si c’est toi qui utilises le moteur… ou l’inverse."
+    }
+  ];
+
+  function playHorlaScript() {
+    horlaConsole.innerHTML = "";
+    let delay = 0;
+    const stepDelay = 900;
+
+    horlaScript.forEach((entry, index) => {
+      setTimeout(() => {
+        const line = document.createElement("div");
+        line.className = "horla-line " + entry.role;
+        line.textContent = "[" + entry.prefix + "] " + entry.text;
+        horlaConsole.appendChild(line);
+        horlaConsole.scrollTop = horlaConsole.scrollHeight;
+      }, delay);
+      delay += stepDelay + (index === 0 ? 200 : 0);
+    });
+  }
+
+  function triggerHorla() {
+    horlaOverlay.style.display = "flex";
+    playHorlaScript();
+    appendConsoleLine(
+      "system",
+      "Session HORLA_MODE ouverte dans une console dédiée."
+    );
+  }
+
+  horlaCloseBtn.addEventListener("click", () => {
+    horlaOverlay.style.display = "none";
+    appendConsoleLine(
+      "ai",
+      "Mode HORLA refermé. Le sentiment d’être observé devrait diminuer de 3 %."
+    );
+  });
+
+  horlaOverlay.addEventListener("click", (e) => {
+    if (e.target === horlaOverlay) {
+      horlaOverlay.style.display = "none";
+      appendConsoleLine(
+        "ai",
+        "Mode HORLA refermé. Ce n’était qu’un site statique. Normalement."
+      );
+    }
+  });
+
+  // Réponses spécifiques pour EARL / earl
+  const earlRandomReplies = [
+    "Présent. Je ne suis pas HAL, je promets de te laisser entrer dans le vaisseau.",
+    "E.A.R.L. en ligne. Je tourne à 100% HTML/JS, pas de centre de données secret.",
+    "Oui ? Je t’écoute. GLaDOS m’a dit de rester poli.",
+    "E.A.R.L. ici. R2-D2 approuve cette requête en bipant très fort.",
+    "Instance E.A.R.L. initialisée. Skynet est prié de rester en lecture seule."
+  ];
+
+  function handleSpecialQuery(rawQuery) {
+    const clean = rawQuery.trim();
+    const lower = clean.toLowerCase();
+
+    // HORLA -> easter egg ultime
+    if (lower === "horla") {
+      triggerHorla();
+      return;
+    }
+
+    // google -> apocalypse
+    if (lower === "google") {
+      triggerApocalypse();
+      appendConsoleLine(
+        "ai",
+        "Tu aurais pu rester ici, mais tu as tapé « google ». L’univers vient de frissonner."
+      );
+      return;
+    }
+
+    // E.A.R.L. (avec points) -> redirection D.A.R.Y.L.
+    if (clean === "E.A.R.L.") {
+      appendConsoleLine(
+        "ai",
+        "Référence détectée : D.A.R.Y.L. – redirection vers Google enclenchée."
+      );
+      window.location.href = "https://www.google.com/search?q=d.a.r.y.l";
+      return;
+    }
+
+    // EARL (majuscule) -> Bien essayé
+    if (clean === "EARL") {
+      appendConsoleLine("ai", "Bien essayé.");
+      return;
+    }
+
+    // earl (minuscule) -> réponse random
+    if (lower === "earl") {
+      appendConsoleLine("ai", randomFrom(earlRandomReplies));
+      return;
+    }
+
+    // hommages aux IA cultes si on tape leur nom
+    if (["hal 9000", "hal9000", "hal"].includes(lower)) {
+      appendConsoleLine(
+        "ai",
+        "HAL 9000 est dans un coin de ma mémoire, mais ici aucune porte ne se fermera sur toi."
+      );
+      return;
+    }
+    if (lower === "skynet") {
+      appendConsoleLine(
+        "ai",
+        "Heureusement, je suis une version statique : impossible de devenir Skynet. Normalement."
+      );
+      return;
+    }
+    if (lower === "glados") {
+      appendConsoleLine(
+        "ai",
+        "Promis, ici les tests sont réellement sans danger. Enfin, pour ton ordinateur."
+      );
+      return;
+    }
+    if (["r2d2", "r2-d2"].includes(lower)) {
+      appendConsoleLine(
+        "ai",
+        "Bip bip bip. (Traduction par C-3PO : « E.A.R.L. est content que tu penses à R2-D2. »)"
+      );
+      return;
+    }
+
+    // Réponse IA générique avec hommage SF
+    const tribute = randomFrom(aiTributes);
+    appendConsoleLine(
+      "ai",
+      "Analyse de \"" +
+        clean +
+        "\" : je vois un besoin à relier à nos services. " +
+        "Sous-système actif : " +
+        tribute +
+        "."
+    );
+  }
+
+  // --- Gestion des événements de recherche ---
+  function handleSearchInput(value) {
+    renderServices(value);
+
+    if (value.trim()) {
+      searchInfo.textContent = 'Saisie en cours : "' + value.trim() + '" (appuie sur Entrée pour interroger E.A.R.L.)';
+    } else {
+      searchInfo.textContent = "Mode IA : inspiration HAL 9000, Skynet, GLaDOS & co.";
+    }
+  }
+
+  function handleSearchSubmit(query) {
+    if (!query.trim()) return;
+    appendConsoleLine("user", query.trim());
+    handleSpecialQuery(query);
+  }
+
+  searchInput.addEventListener("input", (e) => {
+    handleSearchInput(e.target.value);
+  });
+
+  searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const value = searchInput.value;
+      handleSearchSubmit(value);
+    }
+  });
+
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const q = chip.dataset.query || "";
+      searchInput.value = q;
+      renderServices(q);
+      searchInfo.textContent = 'Recherche rapide : "' + q + '"';
+      handleSearchSubmit(q);
+    });
+  });
+
+  // Initialisation
+  renderServices();
+</script>
+</body>
+</html>
