@@ -1,0 +1,1035 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>s.html – Le Plan de S. (alias Sauron)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #05000a;
+      --card: #020617;
+      --accent-blood: #f97373;
+      --accent-fire: #fb923c;
+      --accent-void: #38bdf8;
+      --accent-poison: #22c55e;
+      --text-main: #f9fafb;
+      --text-muted: #e5e7eb;
+      --border: rgba(148,163,184,0.9);
+      --radius: 20px;
+    }
+
+    body.mordor {
+      --bg: #050006;
+      --bg-alt: #0b0003;
+      --card: #090011;
+      --accent-blood: #f97316;
+      --accent-fire: #ef4444;
+      --accent-void: #a855f7;
+      --accent-poison: #22c55e;
+      --text-main: #fee2e2;
+      --text-muted: #fecaca;
+      --border: rgba(248,113,113,0.95);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 0 0, rgba(248,113,113,0.32), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(56,189,248,0.22), transparent 60%),
+        var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 1rem 0.7rem 1.8rem;
+      display: flex;
+      justify-content: center;
+      transition: background 0.4s ease;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1100px;
+      background:
+        radial-gradient(circle at 0 0, rgba(248,113,113,0.22), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(15,23,42,0.95), transparent 60%),
+        var(--bg-alt);
+      border-radius: 30px;
+      border: 2px solid var(--border);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.95);
+      padding: 1.3rem 1rem 1.9rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+    }
+
+    body.mordor .page {
+      background:
+        radial-gradient(circle at 50% 0, rgba(239,68,68,0.3), transparent 60%),
+        radial-gradient(circle at 50% 100%, rgba(76,29,149,0.45), transparent 70%),
+        var(--bg-alt);
+      box-shadow:
+        0 0 0 1px rgba(239,68,68,0.35),
+        0 40px 120px rgba(0,0,0,1);
+    }
+
+    @media (min-width: 768px) {
+      .page { padding: 1.7rem 1.6rem 2.2rem; }
+    }
+
+    .page::before {
+      content: "s.html · S., grand saboteur de l’Organisation";
+      position: absolute;
+      top: 0.45rem;
+      right: 1.2rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(148,163,184,0.9);
+      pointer-events: none;
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    header {
+      border-bottom: 2px dashed rgba(148,163,184,0.7);
+      padding-bottom: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .header-top {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    @media (min-width: 860px) {
+      .header-top {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    .avatar {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .eye-ring {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 50%, #f97316 0, #b91c1c 40%, #020617 72%);
+      border: 2px solid rgba(248,113,113,0.9);
+      box-shadow:
+        0 0 18px rgba(248,113,113,1),
+        0 0 40px rgba(248,113,113,0.8);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .eye-pupil {
+      width: 18px;
+      height: 38px;
+      background: radial-gradient(ellipse at 50% 50%, #fef9c3 0, #f97316 40%, #7f1d1d 80%);
+      border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%;
+      transform: rotate(12deg);
+      box-shadow: 0 0 14px rgba(250,250,210,0.9);
+    }
+
+    body.mordor .eye-ring {
+      background:
+        radial-gradient(circle at 50% 50%, #facc15 0, #ea580c 40%, #020617 72%);
+      box-shadow:
+        0 0 24px rgba(250,204,21,1),
+        0 0 60px rgba(248,113,113,0.9);
+    }
+
+    .name-block {
+      line-height: 1.1;
+    }
+
+    .name-title {
+      font-size: clamp(1.9rem, 4.5vw, 2.7rem);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .name-title span.s {
+      color: var(--accent-blood);
+      text-shadow: 0 0 12px rgba(248,113,113,0.95);
+    }
+
+    .name-title span.dot {
+      color: var(--accent-fire);
+    }
+
+    .name-sub {
+      margin-top: 0.25rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .name-sub strong {
+      color: var(--accent-fire);
+    }
+
+    .mode-toggle {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      align-items: flex-start;
+    }
+
+    @media (min-width: 860px) {
+      .mode-toggle {
+        align-items: flex-end;
+      }
+    }
+
+    .mode-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border-radius: 999px;
+      border: 2px solid rgba(148,163,184,0.9);
+      background: rgba(15,23,42,0.98);
+      padding: 0.2rem 0.25rem;
+      cursor: pointer;
+    }
+
+    .mode-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .switch-body {
+      position: relative;
+      width: 80px;
+      height: 28px;
+      border-radius: 999px;
+      border: 2px solid rgba(148,163,184,0.9);
+      background: #020617;
+      display: flex;
+      align-items: center;
+      padding: 2px;
+      overflow: hidden;
+    }
+
+    .switch-knob {
+      width: 26px;
+      height: 24px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #38bdf8, #22c55e);
+      box-shadow: 0 0 14px rgba(56,189,248,0.9);
+      transform: translateX(0);
+      transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    body.mordor .switch-knob {
+      transform: translateX(44px);
+      background: linear-gradient(135deg, #f97316, #ef4444);
+      box-shadow: 0 0 20px rgba(239,68,68,0.95);
+    }
+
+    .switch-labels {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(148,163,184,0.9);
+      padding: 0 7px;
+      pointer-events: none;
+    }
+
+    .mode-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      max-width: 260px;
+      text-align: right;
+    }
+
+    .intro {
+      margin-top: 0.7rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .intro strong {
+      color: var(--text-main);
+    }
+
+    main {
+      margin-top: 1.1rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 980px) {
+      main {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+        align-items: flex-start;
+      }
+    }
+
+    .panel {
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at 0 0, rgba(248,113,113,0.2), transparent 60%), var(--card);
+      padding: 0.9rem 0.9rem 1.1rem;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      position: relative;
+      overflow: hidden;
+    }
+
+    body.mordor .panel {
+      background: radial-gradient(circle at 100% 0, rgba(168,85,247,0.3), transparent 60%), var(--card);
+    }
+
+    .panel h2 {
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .panel h2 span.icon {
+      font-size: 1.3rem;
+    }
+
+    .panel p {
+      margin-bottom: 0.25rem;
+      line-height: 1.6;
+    }
+
+    ul {
+      margin-left: 1.1rem;
+      margin-bottom: 0.35rem;
+    }
+    li { margin-bottom: 0.16rem; }
+
+    .hint {
+      margin-top: 0.4rem;
+      border-radius: 999px;
+      border: 1px dashed rgba(148,163,184,0.8);
+      background: rgba(15,23,42,0.96);
+      padding: 0.25rem 0.6rem;
+      font-size: 0.78rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .hint span {
+      font-size: 1rem;
+    }
+
+    /* Cartes / modales */
+    .cards-grid {
+      margin-top: 0.5rem;
+      display: grid;
+      grid-template-columns: minmax(0,1fr);
+      gap: 0.55rem;
+    }
+
+    @media (min-width: 640px) {
+      .cards-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+    }
+
+    .card {
+      border-radius: 16px;
+      border: 1px solid rgba(148,163,184,0.9);
+      background: rgba(15,23,42,0.98);
+      padding: 0.5rem 0.55rem;
+      min-height: 96px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(248,113,113,0.1), transparent 60%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(15,23,42,0.98);
+      border-color: var(--accent-blood);
+      background: #020617;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.3rem;
+    }
+
+    .card-title span.tag {
+      font-family: "Share Tech Mono", monospace;
+      font-size: 0.7rem;
+      color: rgba(248,250,252,0.7);
+    }
+
+    .card-body {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .card-meta {
+      margin-top: 0.2rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: rgba(148,163,184,0.9);
+    }
+
+    .pill {
+      padding: 0.06rem 0.45rem;
+      border-radius: 999px;
+      border: 1px solid rgba(248,113,113,0.9);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .pill-counter {
+      border-color: rgba(34,197,94,0.9);
+      color: #bbf7d0;
+    }
+
+    .pill-risk {
+      border-color: rgba(248,113,113,0.95);
+      color: #fecaca;
+    }
+
+    /* Modale */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 50;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 540px;
+      background: radial-gradient(circle at 0 0, rgba(248,113,113,0.18), transparent 55%), #020617;
+      border-radius: 22px;
+      border: 1px solid rgba(248,113,113,0.9);
+      box-shadow: 0 26px 80px rgba(0,0,0,0.95);
+      padding: 0.9rem 0.9rem 1.1rem;
+      position: relative;
+      color: var(--text-muted);
+      font-size: 0.86rem;
+    }
+
+    body.mordor .modal {
+      background:
+        radial-gradient(circle at 100% 0, rgba(168,85,247,0.35), transparent 60%),
+        #020617;
+      border-color: rgba(168,85,247,0.95);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.5rem;
+      border: none;
+      background: transparent;
+      color: rgba(248,250,252,0.8);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .modal-title {
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.3rem;
+    }
+
+    .modal-sub {
+      font-size: 0.78rem;
+      color: rgba(248,250,252,0.7);
+      margin-bottom: 0.4rem;
+    }
+
+    .modal-cols {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    @media (min-width: 540px) {
+      .modal-cols {
+        grid-template-columns: minmax(0,1.1fr) minmax(0,1.1fr);
+      }
+    }
+
+    .modal-block {
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,0.8);
+      background: rgba(15,23,42,0.98);
+      padding: 0.45rem 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .modal-block h3 {
+      font-size: 0.86rem;
+      margin-bottom: 0.2rem;
+      color: var(--text-main);
+    }
+
+    .modal-block ul {
+      margin-left: 1rem;
+      margin-bottom: 0.1rem;
+    }
+
+    .modal-foot {
+      margin-top: 0.5rem;
+      font-size: 0.78rem;
+      color: rgba(148,163,184,0.9);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+    }
+
+    .modal-foot span.badge {
+      border-radius: 999px;
+      border: 1px solid rgba(34,197,94,0.9);
+      padding: 0.15rem 0.55rem;
+      color: #bbf7d0;
+    }
+
+    .link-to-kit {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .link-to-kit a {
+      color: var(--accent-void);
+      text-decoration: underline;
+    }
+
+    .monos {
+      font-family: "Share Tech Mono", monospace;
+      font-size: 0.8rem;
+    }
+
+    footer {
+      margin-top: 1.2rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    footer code {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.16rem 0.5rem;
+      background: #020617;
+      font-size: 0.7rem;
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .badge-corner {
+      position: absolute;
+      bottom: 0.45rem;
+      right: 0.7rem;
+      font-size: 0.65rem;
+      color: rgba(148,163,184,0.8);
+      font-family: "Share Tech Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="header-top">
+      <div class="avatar">
+        <div class="eye-ring">
+          <div class="eye-pupil"></div>
+        </div>
+        <div class="name-block">
+          <div class="name-title">
+            <span class="s">S</span><span class="dot">.</span>
+          </div>
+          <div class="name-sub">
+            Alias officieux : <strong>Sauron</strong>, œil qui voit tout,
+            surtout ce qui peut faire capoter l’Organisation.
+          </div>
+        </div>
+      </div>
+
+      <div class="mode-toggle" id="modeToggle">
+        <div class="mode-switch">
+          <span class="mode-label">Basculer en vue Mordor / Résistance</span>
+          <div class="switch-body">
+            <div class="switch-knob"></div>
+            <div class="switch-labels">
+              <span>Résist.</span>
+              <span>Mordor</span>
+            </div>
+          </div>
+        </div>
+        <p class="mode-note">
+          Vue <strong>Mordor</strong> : tu regardes le projet avec les yeux de S.  
+          Vue <strong>Résistance</strong> : tu vois les contre-mesures citoyennes.
+        </p>
+      </div>
+    </div>
+
+    <p class="intro">
+      Cette page personnifie <strong>S.</strong> (Sauron de service) :
+      un joueur cynique qui observe ton projet de veille citoyenne comme un
+      <strong>système à saboter</strong>.  
+      Le but n’est pas de l’admirer, mais de <strong>cartographier ses stratégies</strong>
+      pour mieux les retourner contre lui.
+    </p>
+  </header>
+
+  <main>
+    <!-- Colonne gauche : cartes / plans -->
+    <section class="panel">
+      <h2><span class="icon">🩸</span> Les plans de S. – cartes jouables</h2>
+      <p>
+        Chaque carte ci-dessous représente une façon pour S. de faire dériver,
+        pourrir ou détourner l’Organisation. Clique pour ouvrir une <strong>modale</strong> :
+        tu verras à la fois la <strong>stratégie de sabotage</strong> et la
+        <strong>contre-stratégie</strong> pour toi.
+      </p>
+
+      <div class="hint">
+        <span>⚠️</span>
+        <span>
+          Lecture recommandée : vue <strong>Mordor</strong> d’abord pour comprendre
+          les risques, puis retour en vue <strong>Résistance</strong> pour planifier les ripostes.
+        </span>
+      </div>
+
+      <div class="cards-grid">
+        <!-- Carte 1 -->
+        <article class="card" data-modal="card1">
+          <div class="card-title">
+            <span>Plan #01 – Noie-les sous l’info</span>
+            <span class="tag">S-overload</span>
+          </div>
+          <div class="card-body">
+            Produire des montagnes de contenus, de fichiers, de pages, jusqu’à
+            ce que personne ne sache où commencer, ni où chercher.
+          </div>
+          <div class="card-meta">
+            <span class="pill pill-risk">Sabotage : fragmentation</span>
+            <span class="pill pill-counter">Contre : portails clairs</span>
+          </div>
+        </article>
+
+        <!-- Carte 2 -->
+        <article class="card" data-modal="card2">
+          <div class="card-title">
+            <span>Plan #02 – Tout dépend d’une seule personne</span>
+            <span class="tag">S-single-point</span>
+          </div>
+          <div class="card-body">
+            Laisser toute la vision, les mots de passe et la méthodo
+            dans la tête d’une seule personne. Fatigue + burn-out = game over.
+          </div>
+          <div class="card-meta">
+            <span class="pill pill-risk">Sabotage : bus factor</span>
+            <span class="pill pill-counter">Contre : documentation</span>
+          </div>
+        </article>
+
+        <!-- Carte 3 -->
+        <article class="card" data-modal="card3">
+          <div class="card-title">
+            <span>Plan #03 – Hyper moraliser tout</span>
+            <span class="tag">S-guilt-trip</span>
+          </div>
+          <div class="card-body">
+            Transformer chaque geste citoyen en examen de pureté,
+            jusqu’à ce que les gens n’osent plus rien faire par peur de mal faire.
+          </div>
+          <div class="card-meta">
+            <span class="pill pill-risk">Sabotage : culpabilité</span>
+            <span class="pill pill-counter">Contre : droit à l’essai</span>
+          </div>
+        </article>
+
+        <!-- Carte 4 -->
+        <article class="card" data-modal="card4">
+          <div class="card-title">
+            <span>Plan #04 – Business obscur</span>
+            <span class="tag">S-dark-funding</span>
+          </div>
+          <div class="card-body">
+            Mélanger dons, sponsors, partenariats flous sans transparence,
+            pour que le doute s’installe partout.
+          </div>
+          <div class="card-meta">
+            <span class="pill pill-risk">Sabotage : suspicion</span>
+            <span class="pill pill-counter">Contre : budget lisible</span>
+          </div>
+        </article>
+
+        <!-- Carte 5 -->
+        <article class="card" data-modal="card5">
+          <div class="card-title">
+            <span>Plan #05 – Dépendance aux plateformes</span>
+            <span class="tag">S-cloud-hook</span>
+          </div>
+          <div class="card-body">
+            Tout centraliser sur 2-3 gros services. Quand les règles changent,
+            le projet entier vacille.
+          </div>
+          <div class="card-meta">
+            <span class="pill pill-risk">Sabotage : verrouillage</span>
+            <span class="pill pill-counter">Contre : clé USB & copies</span>
+          </div>
+        </article>
+
+        <!-- Carte 6 -->
+        <article class="card" data-modal="card6">
+          <div class="card-title">
+            <span>Plan #06 – Conflits internes</span>
+            <span class="tag">S-split-crew</span>
+          </div>
+          <div class="card-body">
+            Souffler sur les malentendus, jouer l’ego contre l’ego,
+            opposer “purs” et “vendus” pour diviser les gens de bonne volonté.
+          </div>
+          <div class="card-meta">
+            <span class="pill pill-risk">Sabotage : division</span>
+            <span class="pill pill-counter">Contre : règles du jeu</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Colonne droite : topo & liens -->
+    <section class="panel">
+      <h2><span class="icon">🧪</span> Comment utiliser s.html dans ton kit</h2>
+      <p>
+        <span class="monos">s.html</span> n’est pas un fan-club de Sauron.
+        C’est un <strong>laboratoire de menace</strong> :
+        on y décrit les <strong>pistes de sabotage crédibles</strong>
+        pour mieux immuniser l’Organisation et ses copies.
+      </p>
+
+      <ul>
+        <li>tu peux l’embarquer comme <strong>niveau bonus</strong> de ton parcours de tests ;</li>
+        <li>tu peux l’utiliser en atelier pour demander : “Et chez nous, ce plan de S., à quel point il est crédible ?” ;</li>
+        <li>tu peux inviter les gens à inventer <strong>d’autres cartes</strong> S. + contre-cartes Résistance.</li>
+      </ul>
+
+      <p>
+        Techniquement, c’est :
+      </p>
+      <ul>
+        <li>un fichier autonome <span class="monos">s.html</span> à déposer à côté de tes autres pages ;</li>
+        <li>des <strong>modales</strong> pilotées en JavaScript très simple ;</li>
+        <li>un <strong>switch Mordor / Résistance</strong> qui change l’ambiance
+            mais pas le fond critique.</li>
+      </ul>
+
+      <div class="hint">
+        <span>🧬</span>
+        <span>
+          Tu peux dupliquer ce fichier, renommer les cartes, adapter les textes :
+          le vrai pouvoir, c’est de transformer ce bestiaire de sabotage
+          en outil d’auto-défense organisationnelle.
+        </span>
+      </div>
+
+      <div class="link-to-kit">
+        Quelques liens internes que S. surveille de près :
+        <ul>
+          <li><a href="faq-o0-yohoo.html">faq-o0-yohoo.html</a> – portail Conspi / Yohoo⁰⁰</li>
+          <li><a href="browniz-politik.html">browniz-politik.html</a> – cookies & pouvoir</li>
+          <li><a href="tuto-T999.html">tuto-T999.html</a> &amp; <a href="tuto-T999-cartoon.html">tuto-T999-cartoon.html</a> – duplication sur clé USB</li>
+          <li><a href="ultime.html">ultime.html</a> – page pour les lier toutes</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>
+      s.html : dossier S. pour apprendre à penser comme un saboteur,
+      mais agir comme un architecte de résilience.
+    </span>
+    <code>s.html · Sauron mode · modales & stratégies</code>
+  </footer>
+
+  <div class="badge-corner">
+    S. · MODE MORDOR / RÉSISTANCE
+  </div>
+</div>
+
+<!-- Modale générique -->
+<div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" aria-label="Fermer" id="modalCloseBtn">&times;</button>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-sub" id="modalSubtitle"></div>
+    <div class="modal-cols">
+      <div class="modal-block">
+        <h3>🩸 Vue Mordor – Plan de S.</h3>
+        <div id="modalMordor"></div>
+      </div>
+      <div class="modal-block">
+        <h3>🛡️ Vue Résistance – Anti-plan</h3>
+        <div id="modalResistance"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <span class="badge" id="modalBadge"></span>
+      <span class="monos" id="modalCode"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Switch Mordor / Résistance
+  const modeToggle = document.getElementById("modeToggle");
+  modeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("mordor");
+  });
+
+  // Données des cartes / modales
+  const plans = {
+    card1: {
+      title: "Plan #01 – Noie-les sous l’info",
+      subtitle: "Plus il y a de fichiers, moins ils voient les priorités.",
+      code: "S-overload",
+      badge: "Risque : paralysie par abondance",
+      mordor: `
+        <ul>
+          <li>Produire du contenu en continu sans réelle hiérarchie.</li>
+          <li>Mélanger tutos, drafts, blagues, documents bruts sans portail clair.</li>
+          <li>Multiplier les sites, sous-sites, instances, jusqu’à perdre la vue d’ensemble.</li>
+        </ul>
+        <p>Effet recherché : tout le monde est sincère, mais plus personne ne sait par où commencer.</p>
+      `,
+      resistance: `
+        <ul>
+          <li>Définir 1 à 3 <strong>portails d’entrée</strong> maximum (index, FAQ, jalon-0).</li>
+          <li>Ajouter des <strong>pages de synthèse</strong> (debrief, ultime, roadmap) à jour.</li>
+          <li>Marquer clairement ce qui est <strong>officiel</strong> vs. <strong>expérimental</strong>.</li>
+        </ul>
+        <p>Antidote : on accepte la richesse, mais on soigne les <strong>chemins d’accès</strong>.</p>
+      `
+    },
+    card2: {
+      title: "Plan #02 – Tout dépend d’une seule personne",
+      subtitle: "Si iel tombe, tout tombe.",
+      code: "S-single-point",
+      badge: "Risque : bus factor 1",
+      mordor: `
+        <ul>
+          <li>Laisser la même personne gérer domaine, serveurs, mots de passe et vision.</li>
+          <li>Stocker les process uniquement “dans la tête” ou dans un coin obscur.</li>
+          <li>Décourager la documentation, sous prétexte que “ça prend du temps”.</li>
+        </ul>
+        <p>Effet recherché : quand la personne est épuisée ou absente, le projet se fige.</p>
+      `,
+      resistance: `
+        <ul>
+          <li>Écrire des <strong>tutos de base</strong> (FAQ-tech, jalon-0, tuto-T999) pour partager le savoir.</li>
+          <li>Répartir les accès critiques et consigner les identifiants dans un coffre partagé sécurisé.</li>
+          <li>Former au moins 2 à 3 personnes “co-pilotes” sur chaque brique clé.</li>
+        </ul>
+        <p>Antidote : ne pas dépendre d’un “héros”, mais d’un <strong>écosystème transmissible</strong>.</p>
+      `
+    },
+    card3: {
+      title: "Plan #03 – Hyper moraliser tout",
+      subtitle: "Transformer la vigilance en culpabilité permanente.",
+      code: "S-guilt-trip",
+      badge: "Risque : démobilisation silencieuse",
+      mordor: `
+        <ul>
+          <li>Exiger une cohérence parfaite, immédiate, totale.</li>
+          <li>Pointer chaque contradiction individuelle comme une trahison.</li>
+          <li>Créer de la honte autour des essais ratés, des pauses, des doutes.</li>
+        </ul>
+        <p>Effet recherché : les plus motivés s’épuisent, les autres se taisent.</p>
+      `,
+      resistance: `
+        <ul>
+          <li>Affirmer qu’il y a un <strong>droit à l’essai</strong>, à l’erreur, au ralentissement.</li>
+          <li>Prévoir des <strong>formats ludiques</strong> (tests, jeux) plutôt que des sermons.</li>
+          <li>Rappeler que la cohérence est une <strong>direction</strong>, pas un prérequis.</li>
+        </ul>
+        <p>Antidote : le projet avance avec des humains, pas avec des robots parfaits.</p>
+      `
+    },
+    card4: {
+      title: "Plan #04 – Business obscur",
+      subtitle: "Laisser planer un doute permanent sur l’argent.",
+      code: "S-dark-funding",
+      badge: "Risque : perte de confiance",
+      mordor: `
+        <ul>
+          <li>Mélanger dons, subventions, sponsors, ventes sans explication.</li>
+          <li>Ne pas détailler à quoi servent les 12,50 €/an ou les paliers.</li>
+          <li>Utiliser un jargon économique pour brouiller la lecture.</li>
+        </ul>
+        <p>Effet recherché : chacun imagine le pire, même si ce n’est pas vrai.</p>
+      `,
+      resistance: `
+        <ul>
+          <li>Créer des pages <strong>budget</strong> et <strong>cashback</strong> ultra lisibles.</li>
+          <li>Expliquer ce que finance chaque palier et ce qui reste non-marchand.</li>
+          <li>Montrer les <strong>limites assumées</strong> (pas de pubs ciblées, pas de vente de données, etc.).</li>
+        </ul>
+        <p>Antidote : plus l’argent est lisible, moins S. peut jouer sur la suspicion.</p>
+      `
+    },
+    card5: {
+      title: "Plan #05 – Dépendance aux plateformes",
+      subtitle: "Si la prise est coupée, tout s’éteint.",
+      code: "S-cloud-hook",
+      badge: "Risque : coupure brutale",
+      mordor: `
+        <ul>
+          <li>Tout héberger sur une seule plateforme “magique”.</li>
+          <li>Utiliser des solutions fermées impossibles à exporter.</li>
+          <li>Ne jamais tester le projet hors-ligne ou sur clé USB.</li>
+        </ul>
+        <p>Effet recherché : une simple décision de plateforme suffit à neutraliser le projet.</p>
+      `,
+      resistance: `
+        <ul>
+          <li>Prévoir une <strong>version clé USB</strong> (index, tutos, dossiers) autonome.</li>
+          <li>Utiliser des formats <strong>simples</strong> : HTML, Markdown, PDF, fichiers texte.</li>
+          <li>Tester régulièrement une instance “hors cloud” (dossier local, GitHub statique, etc.).</li>
+        </ul>
+        <p>Antidote : multiplier les chemins d’accès et garder au moins une <strong>version robuste et portable</strong>.</p>
+      `
+    },
+    card6: {
+      title: "Plan #06 – Conflits internes",
+      subtitle: "Opposer les bonnes volontés entre elles.",
+      code: "S-split-crew",
+      badge: "Risque : implosion",
+      mordor: `
+        <ul>
+          <li>Encourager les non-dits, les rumeurs, le ressentiment.</li>
+          <li>Opposer “les radicaux” aux “modérés”, “les théoriciens” aux “pratiques”.</li>
+          <li>Tuer le débat de fond avec des querelles de personnes.</li>
+        </ul>
+        <p>Effet recherché : le système gagne sans bouger, le collectif s’éparpille.</p>
+      `,
+      resistance: `
+        <ul>
+          <li>Définir quelques <strong>règles du jeu</strong> pour les désaccords (process, tour de parole, médiation).</li>
+          <li>Prévoir des espaces pour parler du <strong>fond</strong>, pas seulement du quotidien.</li>
+          <li>Rappeler que l’adversaire réel, c’est le <strong>déséquilibre de pouvoir</strong>, pas les personnes présentes.</li>
+        </ul>
+        <p>Antidote : travailler la culture de <strong>conflit constructif</strong> plutôt que la guerre civile permanente.</p>
+      `
+    }
+  };
+
+  // Modales
+  const modalBackdrop = document.getElementById("modalBackdrop");
+  const modalCloseBtn = document.getElementById("modalCloseBtn");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalSubtitle = document.getElementById("modalSubtitle");
+  const modalMordor = document.getElementById("modalMordor");
+  const modalResistance = document.getElementById("modalResistance");
+  const modalBadge = document.getElementById("modalBadge");
+  const modalCode = document.getElementById("modalCode");
+
+  function openModal(id) {
+    const plan = plans[id];
+    if (!plan) return;
+    modalTitle.textContent = plan.title;
+    modalSubtitle.textContent = plan.subtitle;
+    modalMordor.innerHTML = plan.mordor;
+    modalResistance.innerHTML = plan.resistance;
+    modalBadge.textContent = plan.badge;
+    modalCode.textContent = plan.code;
+    modalBackdrop.classList.add("active");
+    modalBackdrop.setAttribute("aria-hidden", "false");
+  }
+
+  function closeModal() {
+    modalBackdrop.classList.remove("active");
+    modalBackdrop.setAttribute("aria-hidden", "true");
+  }
+
+  document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("click", () => {
+      const id = card.getAttribute("data-modal");
+      openModal(id);
+    });
+  });
+
+  modalCloseBtn.addEventListener("click", closeModal);
+  modalBackdrop.addEventListener("click", (e) => {
+    if (e.target === modalBackdrop) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
+  });
+</script>
+</body>
+</html>
