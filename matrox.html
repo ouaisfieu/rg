@@ -1,0 +1,850 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>CCPLCaisbl – Société Anonyme Sociale</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Typo sobre -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-soft: #070b16;
+      --card: #0b1120;
+      --accent: #22c55e;
+      --accent-soft: rgba(34,197,94,0.14);
+      --accent-2: #38bdf8;
+      --accent-3: #eab308;
+      --border: rgba(148,163,184,0.6);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --muted-soft: #6b7280;
+      --danger: #f97316;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --shadow: 0 22px 60px rgba(15,23,42,0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 0 0, rgba(34,197,94,0.16), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(56,189,248,0.12), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 1rem 0.8rem 2rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1080px;
+      background:
+        radial-gradient(circle at 0 0, rgba(34,197,94,0.12), transparent 70%),
+        var(--bg-soft);
+      border-radius: 26px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 1.2rem 1rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .page {
+        padding: 1.6rem 1.7rem 2rem;
+      }
+    }
+
+    .page::before {
+      content: "CCPLCaisbl • Société Anonyme Sociale";
+      position: absolute;
+      top: 0.6rem;
+      right: 1.4rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(148,163,184,0.85);
+    }
+
+    header {
+      border-bottom: 1px solid rgba(31,41,55,0.8);
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .top-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .branding {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      background:
+        conic-gradient(from 210deg,
+          rgba(148,163,184,0.1),
+          rgba(34,197,94,0.9),
+          rgba(56,189,248,0.7),
+          rgba(234,179,8,0.9),
+          rgba(148,163,184,0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 0 26px rgba(34,197,94,0.6),
+        0 0 18px rgba(15,23,42,1);
+      color: var(--bg-soft);
+      font-weight: 700;
+      font-size: 1.3rem;
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 3vw, 2.2rem);
+      line-height: 1.05;
+    }
+
+    h1 span {
+      display: block;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted-soft);
+      margin-top: 0.15rem;
+    }
+
+    .subtitle {
+      font-size: 0.92rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin-top: 0.25rem;
+    }
+
+    .subtitle strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .header-right {
+      min-width: 220px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      align-items: flex-end;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      padding: 0.2rem 0.7rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(15,23,42,0.95);
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(34,197,94,0.8);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      justify-content: flex-end;
+    }
+
+    .tag {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      font-size: 0.72rem;
+      padding: 0.08rem 0.5rem;
+      color: var(--muted);
+      background: rgba(15,23,42,0.95);
+    }
+
+    main {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 960px) {
+      main {
+        grid-template-columns: minmax(0,1.9fr) minmax(0,1.1fr);
+        align-items: flex-start;
+      }
+    }
+
+    .card {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--card);
+      padding: 0.9rem 1rem;
+      margin-bottom: 0.7rem;
+      box-shadow: 0 18px 40px rgba(15,23,42,0.9);
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.4rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .card-title span.icon {
+      font-size: 1.3rem;
+    }
+
+    .card-sub {
+      font-size: 0.8rem;
+      color: var(--muted-soft);
+    }
+
+    h2 {
+      font-size: 1.02rem;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    h3 {
+      font-size: 0.95rem;
+      color: var(--text);
+      margin: 0.35rem 0 0.2rem;
+    }
+
+    p {
+      margin-bottom: 0.25rem;
+    }
+
+    ul {
+      margin-left: 1.1rem;
+      margin-top: 0.1rem;
+    }
+
+    li + li {
+      margin-top: 0.08rem;
+    }
+
+    .columns-3 {
+      display: grid;
+      gap: 0.6rem;
+      margin-top: 0.45rem;
+    }
+
+    @media (min-width: 760px) {
+      .columns-3 {
+        grid-template-columns: repeat(3, minmax(0,1fr));
+      }
+    }
+
+    .col-box {
+      border-radius: 14px;
+      border: 1px solid rgba(55,65,81,0.9);
+      padding: 0.5rem 0.6rem;
+      background: #020617;
+      font-size: 0.84rem;
+    }
+
+    .col-title {
+      font-size: 0.85rem;
+      color: var(--text);
+      margin-bottom: 0.15rem;
+      font-weight: 500;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      border-radius: 999px;
+      padding: 0.04rem 0.45rem;
+      font-size: 0.72rem;
+      border: 1px solid rgba(148,163,184,0.7);
+      color: var(--muted);
+      background: #020617;
+      margin-top: 0.15rem;
+    }
+
+    .badge span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+    }
+
+    .badge.green span.dot {
+      background: var(--accent);
+    }
+    .badge.blue span.dot {
+      background: var(--accent-2);
+    }
+    .badge.gold span.dot {
+      background: var(--accent-3);
+    }
+
+    .timeline {
+      margin-top: 0.35rem;
+      border-left: 1px dashed rgba(75,85,99,0.9);
+      padding-left: 0.7rem;
+    }
+
+    .step {
+      margin-bottom: 0.45rem;
+      position: relative;
+      font-size: 0.86rem;
+    }
+
+    .step::before {
+      content: "";
+      position: absolute;
+      left: -0.7rem;
+      top: 0.18rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 9px rgba(34,197,94,0.7);
+    }
+
+    .step-title {
+      color: var(--text);
+      font-size: 0.9rem;
+      margin-bottom: 0.05rem;
+      font-weight: 500;
+    }
+
+    .step-note {
+      font-size: 0.78rem;
+      color: var(--muted-soft);
+      margin-top: 0.05rem;
+    }
+
+    .qa {
+      margin-top: 0.4rem;
+    }
+
+    .qa-item + .qa-item {
+      margin-top: 0.3rem;
+    }
+
+    .qa-q {
+      font-size: 0.86rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .qa-a {
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-top: 0.05rem;
+    }
+
+    .strip {
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,0.6);
+      padding: 0.4rem 0.6rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      background: #020617;
+      margin-top: 0.35rem;
+    }
+
+    .strip strong {
+      color: var(--text);
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      padding: 0.38rem 0.9rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #020617;
+      box-shadow: 0 10px 24px rgba(15,23,42,1);
+      font-family: inherit;
+    }
+
+    .btn span.icon {
+      font-size: 1.05rem;
+    }
+
+    .btn-ghost {
+      background: #020617;
+      color: var(--muted);
+      border: 1px solid rgba(148,163,184,0.7);
+      box-shadow: none;
+    }
+
+    footer {
+      margin-top: 0.8rem;
+      border-top: 1px solid rgba(31,41,55,0.8);
+      padding-top: 0.6rem;
+      font-size: 0.76rem;
+      color: var(--muted-soft);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-left {
+      max-width: 360px;
+    }
+
+    .footer-right {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .footer-tag {
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.9);
+      padding: 0.1rem 0.55rem;
+      font-size: 0.74rem;
+      color: var(--muted);
+      background: #020617;
+    }
+
+    .secret-hint {
+      cursor: pointer;
+      border-bottom: 1px dashed rgba(148,163,184,0.7);
+    }
+
+    .hidden-block {
+      display: none;
+      margin-top: 0.35rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .hidden-block.visible {
+      display: block;
+    }
+
+    .hidden-block code {
+      font-size: 0.78rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      padding: 0.04rem 0.45rem;
+      background: #020617;
+      color: var(--text);
+    }
+
+    @media (max-width: 600px) {
+      .top-row {
+        gap: 0.7rem;
+      }
+      .header-right {
+        align-items: flex-start;
+      }
+      .tag-row {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="top-row">
+      <div class="branding">
+        <div class="logo">CC</div>
+        <div>
+          <h1>
+            CCPLCaisbl
+            <span>Société Anonyme Sociale</span>
+          </h1>
+          <p class="subtitle">
+            Un dispositif de <strong>veille citoyenne</strong>, de <strong>coordination discrète</strong> 
+            et d’<strong>expérimentations sociales</strong>, conçu pour fonctionner 
+            aussi bien sur une clé USB que sur un serveur.
+          </p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="pill">
+          <span class="pill-dot"></span>
+          <span>Statut : en construction, mais déjà opérationnel</span>
+        </div>
+        <div class="tag-row">
+          <div class="tag">Observatoire citoyen</div>
+          <div class="tag">Laboratoire d’expériences</div>
+          <div class="tag">Agence de renseignement social</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Colonne gauche : vision, fonctionnement, mandat -->
+    <section>
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="icon">🎯</span>
+            <span>Notre position : entre la transparence et l’ombre</span>
+          </div>
+        </div>
+        <p>
+          Le CCPLCaisbl se présente comme une <strong>Société Anonyme Sociale</strong> :
+          nous assumons un <strong>mandat de veille et de coordination</strong> qui 
+          nécessite parfois de la discrétion, mais jamais de l’opacité totale.
+        </p>
+        <p>
+          Officiellement, nous travaillons sur la <strong>qualité de l’information</strong>, 
+          la <strong>participation citoyenne</strong> et la <strong>coopération entre réseaux</strong>.
+          Officieusement, nous testons jusqu’où il est possible de retourner 
+          un système sur lui-même, par l’humour, le jeu et la structuration collective.
+        </p>
+
+        <div class="columns-3">
+          <div class="col-box">
+            <div class="col-title">Ce que nous faisons</div>
+            <ul>
+              <li>Cartographier des enjeux et des acteurs.</li>
+              <li>Monter des <strong>kits de veille</strong> réplicables.</li>
+              <li>Concevoir des <strong>tests, jeux, dossiers</strong>.</li>
+              <li>Accompagner des collectifs et structures.</li>
+            </ul>
+            <div class="badge green">
+              <span class="dot"></span><span>Utilité sociale assumée</span>
+            </div>
+          </div>
+
+          <div class="col-box">
+            <div class="col-title">Ce que nous ne faisons pas</div>
+            <ul>
+              <li>Pas de manipulation cachée.</li>
+              <li>Pas de monétisation opaque des données.</li>
+              <li>Pas de “secte” ni de “parti pirate bis”.</li>
+              <li>Pas de promesse miracle.</li>
+            </ul>
+            <div class="badge blue">
+              <span class="dot"></span><span>Charte éthique maison</span>
+            </div>
+          </div>
+
+          <div class="col-box">
+            <div class="col-title">Ce que nous cherchons</div>
+            <ul>
+              <li>Des <strong>alliés lucides</strong>, pas des fans.</li>
+              <li>Des structures prêtes à tester des outils.</li>
+              <li>Des personnes qui aiment <strong>comprendre</strong>.</li>
+              <li>Des curieux qui assument de douter.</li>
+            </ul>
+            <div class="badge gold">
+              <span class="dot"></span><span>Candidatures atypiques bienvenues</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="icon">🧬</span>
+            <span>Comment ça fonctionne, concrètement ?</span>
+          </div>
+          <div class="card-sub">Une architecture simple, réplicable, assumée comme “expérimentale”.</div>
+        </div>
+
+        <h2>1. Un noyau : l’instance CCPLC</h2>
+        <p>
+          Au centre, une instance (clé USB + site web) regroupe :
+        </p>
+        <ul>
+          <li>un <strong>panneau de contrôle</strong> vers toutes les pages (tests, dossiers, jeux, business),</li>
+          <li>un <strong>QG</strong> (cartographie des personnes, des réseaux, des projets),</li>
+          <li>un <strong>journal</strong> des expérimentations et des jalons.</li>
+        </ul>
+
+        <h2>2. Des modules satellites</h2>
+        <p>
+          Autour de ce noyau gravite une série de modules :
+        </p>
+        <ul>
+          <li>modules de <strong>sensibilisation</strong> (cybersécurité, symboles, propagande, CCTV…),</li>
+          <li>modules <strong>ludiques</strong> (escape, Conspi, Sharky, Mordor, puzzles, quizz),</li>
+          <li>modules <strong>économiques</strong> (cashback, modèle 12,50€/an, simulations).</li>
+        </ul>
+
+        <h2>3. Une logique de reproduction</h2>
+        <p>
+          Chaque module est pensé comme un <strong>starterkit</strong> : il peut être recopié, 
+          adapté, décliné par d’autres organisations. Le CCPLCaisbl ne vend pas une dépendance,
+          il propose une <strong>grammaire</strong>.
+        </p>
+
+        <div class="strip">
+          <strong>Cryptique, mais pas fermé :</strong> certains éléments sont volontairement 
+          codés, cachés, joués (noms, personnages, références). Cela sert à 
+          <strong>pré-filtrer</strong> les profils et à protéger les personnes.
+          Les explications puissent être obtenues <em>en chemin</em>, pas au premier clic.
+        </div>
+      </article>
+    </section>
+
+    <!-- Colonne droite : mandat, engagement, contact -->
+    <aside>
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="icon">📜</span>
+            <span>Mandat social & cadre (version simplifiée)</span>
+          </div>
+        </div>
+
+        <div class="timeline">
+          <div class="step">
+            <div class="step-title">Observation</div>
+            <p>Repérer les signaux faibles, les tensions, les opportunités.</p>
+            <p class="step-note">Ni police de la pensée, ni bullshit marketing.</p>
+          </div>
+          <div class="step">
+            <div class="step-title">Mise en forme</div>
+            <p>Transformer l’info en <strong>dossiers lisibles</strong>, tests, jeux, supports pédagogiques.</p>
+          </div>
+          <div class="step">
+            <div class="step-title">Mise en commun</div>
+            <p>Partager, essaimer, brancher les réseaux entre eux.</p>
+            <p class="step-note">On ne centralise pas pour régner, mais pour aider à coordonner.</p>
+          </div>
+          <div class="step">
+            <div class="step-title">Retour critique</div>
+            <p>Accepter le droit au doute, au désaccord et… à la fuite.</p>
+            <p class="step-note">Le meilleur signe de maturité : savoir dire “non, pas pour moi” en connaissance de cause.</p>
+          </div>
+        </div>
+
+        <div class="qa">
+          <div class="qa-item">
+            <div class="qa-q">Qui dirige vraiment le CCPLCaisbl ?</div>
+            <div class="qa-a">
+              Une poignée de personnes qui préfèrent qu’on parle de <strong>mandat</strong> et de 
+              <strong>responsabilité</strong> plutôt que de “chef”. Les décisions structurantes sont documentées.
+            </div>
+          </div>
+          <div class="qa-item">
+            <div class="qa-q">Vous êtes une vraie asbl ?</div>
+            <div class="qa-a">
+              Le dispositif est pensé comme une <strong>ASBL de fait à géométrie variable</strong>. 
+              Les statuts formels et les coordonnées peuvent être intégrés dans une instance locale 
+              une fois que la structure est prête à assumer ce rôle.
+            </div>
+          </div>
+          <div class="qa-item">
+            <div class="qa-q">Et le côté “anonyme” ?</div>
+            <div class="qa-a">
+              “Anonyme” ne signifie pas “irresponsable”. Cela signifie que l’important n’est pas 
+              l’individu mais la <strong>fonction sociale</strong>, le cadre, la méthode, le résultat.
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="icon">🤝</span>
+            <span>Engagement, participation & argent</span>
+          </div>
+        </div>
+        <p>
+          Il est possible d’approcher le CCPLCaisbl de trois façons :
+        </p>
+        <ul>
+          <li><strong>Curieux :</strong> tu explores les tests, les dossiers, les jeux.</li>
+          <li><strong>Contributeur :</strong> tu enrichis, adaptes, tests des modules.</li>
+          <li><strong>Partenaire :</strong> tu co-construis une <strong>instance dédiée</strong> (structure, territoire, réseau).</li>
+        </ul>
+
+        <h3>Sur le plan financier</h3>
+        <p>
+          Le modèle de base tourne autour d’une contribution <strong>symbolique</strong> 
+          (par ex. 12,50 €/an/personne), complétée par :
+        </p>
+        <ul>
+          <li>des accompagnements sur mesure,</li>
+          <li>des ateliers / formations,</li>
+          <li>des coopérations avec institutions, collectivités, mécènes.</li>
+        </ul>
+        <p>
+          L’objectif n’est pas de “faire du chiffre” mais de rendre la veille 
+          et la participation <strong>durables</strong>, <strong>professionnelles</strong> 
+          et <strong>accessibles</strong>.
+        </p>
+
+        <div class="strip">
+          <span class="secret-hint" id="secretHint">Afficher une note confidentielle</span>
+          <div class="hidden-block" id="secretBlock">
+            Si tu lis ceci, c’est que tu as l’habitude d’aller un cran plus loin.
+            <br>Techniquement, toute cette instance peut tenir dans un <code>/dossier</code>
+            et un fichier <code>index.html</code> bien construit. 
+            <br>Politiquement, l’enjeu est simple : 
+            <strong>qui contrôle la mise à jour de ce dossier contrôle l’agenda du récit</strong>.
+          </div>
+        </div>
+
+        <div class="cta-row">
+          <button class="btn" type="button" id="btnScenario">
+            <span class="icon">🧪</span>
+            <span>Imaginer un scénario d’instance locale</span>
+          </button>
+          <button class="btn btn-ghost" type="button" id="btnCopy">
+            <span class="icon">📋</span>
+            <span>Copier un résumé dans le presse-papier</span>
+          </button>
+        </div>
+      </article>
+    </aside>
+  </main>
+
+  <footer>
+    <div class="footer-left">
+      CCPLCaisbl – Société Anonyme Sociale.  
+      Un prototype de cinquième pouvoir citoyen, assumé comme <em>work in progress</em>.
+    </div>
+    <div class="footer-right">
+      <div class="footer-tag">Mentorat & expérimentation plutôt que service clé-sur-porte</div>
+      <div class="footer-tag">Contact réel & statuts : à découvrir via l’instance, pas via cette page</div>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function() {
+  const secretHint = document.getElementById("secretHint");
+  const secretBlock = document.getElementById("secretBlock");
+  const btnCopy = document.getElementById("btnCopy");
+  const btnScenario = document.getElementById("btnScenario");
+
+  function toggleSecret() {
+    secretBlock.classList.toggle("visible");
+  }
+
+  function copySummary() {
+    const text =
+`CCPLCaisbl – Société Anonyme Sociale
+
+Ce que c’est :
+- Un dispositif de veille citoyenne, de coordination discrète et d’expérimentations sociales.
+- Une instance (clé USB + site web) avec : panneau de contrôle, QG, journal, modules pédagogiques et ludiques.
+- Un cadre pour tester comment retourner le système sur lui-même (humour, jeu, structuration collective).
+
+Ce que ce n’est pas :
+- Une secte, un parti caché ou une machine à manipuler.
+- Un service clé-sur-porte : c’est un bac à sable structuré.
+
+Comment y participer :
+- Curieux : explorer les tests, dossiers, jeux.
+- Contributeur : enrichir, adapter, co-créer des modules.
+- Partenaire : co-construire une instance dédiée (structure, territoire, réseau).
+
+Modèle économique :
+- Contribution symbolique (ex. 12,50 €/an/personne).
+- Ateliers, accompagnements, coopérations.
+- Objectif : rendre la veille durable, professionnelle et accessible, sans délire de croissance.
+
+Principe clé :
+- Techniquement, tout tient dans un dossier et un index.html.
+- Politiquement, le vrai enjeu est : qui contrôle la mise à jour de ce dossier ?`;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Résumé copié dans le presse-papier.");
+      }).catch(() => fallbackCopy(text));
+    } else {
+      fallbackCopy(text);
+    }
+  }
+
+  function fallbackCopy(text) {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); } catch(e) {}
+    document.body.removeChild(ta);
+    alert("Résumé copié (méthode de secours).");
+  }
+
+  function scenarioPrompt() {
+    const msg =
+`Imagine un scénario concret :
+
+- Toi (ou ta structure) veux monter une instance CCPLC locale.
+- Pour quel public ? (jeunes, habitants d’un quartier, réseau d’asbl, etc.)
+- Quel serait ton premier module : test, dossier, jeu, atelier ?
+- Qu’est-ce que tu veux rendre plus visible, plus compréhensible, moins opaque ?
+
+Note quelques idées à partir de ce cadre.`;
+    alert(msg);
+  }
+
+  if (secretHint) {
+    secretHint.addEventListener("click", toggleSecret);
+  }
+  if (btnCopy) {
+    btnCopy.addEventListener("click", copySummary);
+  }
+  if (btnScenario) {
+    btnScenario.addEventListener("click", scenarioPrompt);
+  }
+})();
+</script>
+</body>
+</html>
