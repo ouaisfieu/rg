@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Portfolio // Bim un jour, bim toujours</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio cynique, désabusé, matrixé et gluant, avec une lueur d'espoir : bim un jour, bim toujours." />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #050810;
+      --bg-deeper: #02040a;
+      --neon-green: #00ff88;
+      --neon-purple: #c400ff;
+      --neon-pink: #ff00aa;
+      --acid-yellow: #e5ff00;
+      --text-main: #e0f7ff;
+      --muted: #7a8da8;
+      --danger: #ff426b;
+      --success: #4dffb8;
+      --card-bg: rgba(5, 10, 20, 0.9);
+      --border-soft: rgba(255, 255, 255, 0.08);
+      --blur-bg: blur(16px);
+      --radius-xl: 26px;
+      --shadow-neon: 0 0 20px rgba(0, 255, 136, 0.8),
+                     0 0 40px rgba(196, 0, 255, 0.6);
+      --transition-fast: 180ms ease-out;
+      --transition-slow: 360ms ease-out;
+    }
+
+    /* Hardcore mode = encore plus flashy gluant */
+    body.hardcore {
+      --bg: #020108;
+      --bg-deeper: #000000;
+      --card-bg: rgba(5, 0, 20, 0.9);
+      --shadow-neon: 0 0 30px rgba(0, 255, 136, 1),
+                     0 0 60px rgba(255, 0, 170, 0.9),
+                     0 0 90px rgba(196, 0, 255, 0.9);
+      filter: saturate(1.4) contrast(1.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-main);
+      background-color: var(--bg);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Matrix rain background */
+    .matrix-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -3;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(0, 255, 136, 0.06),
+          rgba(0, 255, 136, 0.06) 1px,
+          transparent 1px,
+          transparent 3px
+        );
+      mix-blend-mode: screen;
+      animation: matrixScroll 18s linear infinite;
+    }
+
+    .matrix-columns {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+      background-image:
+        radial-gradient(circle at 10% 0%, rgba(0,255,136,0.22) 0, transparent 50%),
+        radial-gradient(circle at 90% 100%, rgba(196,0,255,0.25) 0, transparent 55%);
+      opacity: 0.75;
+      filter: blur(8px);
+    }
+
+    @keyframes matrixScroll {
+      from { background-position-y: 0; }
+      to   { background-position-y: 600px; }
+    }
+
+    /* Subtle scanlines + glow */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.15),
+        rgba(0,0,0,0.15) 1px,
+        transparent 2px,
+        transparent 3px
+      );
+      mix-blend-mode: soft-light;
+    }
+
+    /* Layout */
+    .page-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 1.3rem 1rem 2rem;
+      gap: 1.5rem;
+      max-width: 1080px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    @media (min-width: 768px) {
+      .page-shell {
+        padding: 2rem 1.5rem 3rem;
+        gap: 2rem;
+      }
+    }
+
+    header {
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      background: radial-gradient(circle at top left, rgba(0,255,136,0.12) 0, transparent 55%),
+                  radial-gradient(circle at top right, rgba(196,0,255,0.12) 0, transparent 55%),
+                  rgba(5, 10, 20, 0.94);
+      box-shadow: 0 0 25px rgba(0,0,0,0.7);
+      backdrop-filter: var(--blur-bg);
+      position: sticky;
+      top: 0.75rem;
+      z-index: 10;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .logo-lockup {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .logo-orb {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, var(--neon-green), var(--neon-purple));
+      box-shadow: var(--shadow-neon);
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .logo-orb::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,255,255,0.32), transparent 55%),
+        conic-gradient(from 180deg, transparent 0deg, rgba(0,0,0,0.4) 90deg, transparent 180deg, rgba(0,0,0,0.6) 270deg, transparent 360deg);
+      mix-blend-mode: screen;
+      animation: spinOrb 12s linear infinite;
+    }
+
+    @keyframes spinOrb {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-text span:first-child {
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .logo-text span:last-child {
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, var(--neon-green), var(--neon-purple), var(--neon-pink));
+      background-size: 180% 180%;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: textGlow 7s ease-in-out infinite alternate;
+    }
+
+    @keyframes textGlow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .pill {
+      border-radius: 999px;
+      padding: 0.45rem 0.8rem;
+      border: 1px solid var(--border-soft);
+      background: rgba(1, 3, 12, 0.9);
+      color: var(--muted);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--danger);
+      box-shadow: 0 0 8px rgba(255, 66, 107, 0.8);
+    }
+
+    .pill-dot.online {
+      background: var(--neon-green);
+      box-shadow: 0 0 10px rgba(0, 255, 136, 0.9);
+      animation: dotPulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.3); opacity: 1; }
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid var(--neon-green);
+      padding: 0.45rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      cursor: pointer;
+      background: radial-gradient(circle at 0 0, rgba(0,255,136,0.4), transparent 45%),
+                  rgba(2, 8, 20, 0.95);
+      color: var(--text-main);
+      font-family: "Share Tech Mono", monospace;
+      transition: transform var(--transition-fast),
+                  box-shadow var(--transition-fast),
+                  background var(--transition-fast),
+                  border-color var(--transition-fast);
+      box-shadow: 0 0 0 rgba(0,255,136,0);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: var(--shadow-neon);
+      background: radial-gradient(circle at 100% 0, rgba(196,0,255,0.5), transparent 45%),
+                  rgba(2, 8, 20, 0.98);
+    }
+
+    .btn-ghost {
+      border-color: var(--border-soft);
+      background: rgba(3, 6, 16, 0.8);
+      color: var(--muted);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--neon-purple);
+      color: var(--text-main);
+      box-shadow: 0 0 16px rgba(196,0,255,0.7);
+    }
+
+    /* Nav tabs */
+    nav {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 0.4rem;
+      overflow-x: auto;
+      padding-bottom: 0.3rem;
+      margin: 0.4rem -0.4rem -0.7rem;
+      padding-inline: 0.4rem;
+      scrollbar-width: thin;
+    }
+
+    nav::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    nav::-webkit-scrollbar-thumb {
+      background: rgba(0,255,136,0.6);
+      border-radius: 999px;
+    }
+
+    .nav-link {
+      white-space: nowrap;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: rgba(0,0,0,0.25);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      cursor: pointer;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: background var(--transition-fast),
+                  color var(--transition-fast),
+                  border-color var(--transition-fast),
+                  transform var(--transition-fast);
+    }
+
+    .nav-link span {
+      font-family: "Share Tech Mono", monospace;
+      font-size: 0.65rem;
+      opacity: 0.7;
+    }
+
+    .nav-link.active,
+    .nav-link:hover {
+      color: var(--text-main);
+      border-color: rgba(0, 255, 136, 0.5);
+      background: radial-gradient(circle at 0 0, rgba(0,255,136,0.32), transparent 50%);
+      transform: translateY(-1px);
+    }
+
+    /* Main content */
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 900px) {
+      main {
+        gap: 1.9rem;
+      }
+    }
+
+    section {
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      background: radial-gradient(circle at top left, rgba(0,255,136,0.08) 0, transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(196,0,255,0.12) 0, transparent 55%),
+                  var(--card-bg);
+      box-shadow: 0 0 24px rgba(0,0,0,0.75);
+      padding: 1.15rem 1rem 1.2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 10% 0%, rgba(229,255,0,0.12), transparent 50%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-slow);
+    }
+
+    section:hover::before {
+      opacity: 1;
+    }
+
+    @media (min-width: 768px) {
+      section {
+        padding: 1.5rem 1.6rem 1.7rem;
+      }
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .section-title {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .section-kicker {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .section-h1,
+    .section-h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .badge {
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-family: "Share Tech Mono", monospace;
+      color: var(--acid-yellow);
+      background: rgba(0,0,0,0.45);
+    }
+
+    .section-body {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      line-height: 1.55;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .section-body p {
+      color: var(--muted);
+    }
+
+    /* Hero grid */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr);
+      gap: 1rem;
+    }
+
+    @media (min-width: 900px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+        align-items: stretch;
+      }
+    }
+
+    .hero-main {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .hero-title {
+      font-size: 1.3rem;
+      line-height: 1.3;
+    }
+
+    @media (min-width: 768px) {
+      .hero-title {
+        font-size: 1.6rem;
+      }
+    }
+
+    .hero-title span.highlight {
+      background: linear-gradient(120deg, var(--neon-green), var(--neon-purple), var(--neon-pink));
+      background-size: 180% 180%;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: textGlow 8s ease-in-out infinite alternate;
+    }
+
+    .hero-sub {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+
+    .hero-cta-note {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: "Share Tech Mono", monospace;
+      opacity: 0.8;
+    }
+
+    /* Glowing quote card */
+    .quote-card {
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: radial-gradient(circle at top, rgba(0,255,136,0.18) 0, transparent 60%),
+                  rgba(0,0,0,0.55);
+      padding: 0.8rem 0.9rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 28px rgba(0,255,136,0.35);
+      isolation: isolate;
+    }
+
+    .quote-card::before {
+      content: "";
+      position: absolute;
+      width: 180%;
+      height: 180%;
+      top: -40%;
+      left: -40%;
+      background: conic-gradient(
+        from 180deg,
+        transparent 0deg,
+        rgba(0,255,136,0.3) 90deg,
+        rgba(196,0,255,0.4) 180deg,
+        rgba(255,0,170,0.5) 270deg,
+        transparent 360deg
+      );
+      opacity: 0.2;
+      mix-blend-mode: screen;
+      animation: spinOrb 18s linear infinite;
+    }
+
+    .quote-card-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .quote-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--acid-yellow);
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .quote-text {
+      font-family: "Share Tech Mono", monospace;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+
+    .quote-text span.bim {
+      color: var(--neon-green);
+      text-shadow: 0 0 12px rgba(0,255,136,0.9);
+    }
+
+    .quote-text span.bim-alt {
+      color: var(--neon-pink);
+      text-shadow: 0 0 12px rgba(255,0,170,0.9);
+    }
+
+    .quote-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    /* Gooey / gluant blob */
+    .gooey-blob-wrapper {
+      position: relative;
+      width: 100%;
+      min-height: 160px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: radial-gradient(circle at 30% 0%, rgba(0,255,136,0.18), transparent 60%),
+                  radial-gradient(circle at 80% 120%, rgba(196,0,255,0.22), transparent 60%),
+                  rgba(5, 10, 25, 0.95);
+      overflow: hidden;
+      isolation: isolate;
+      margin-top: 0.3rem;
+    }
+
+    .gooey-blob {
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      background: radial-gradient(circle at 30% 20%, rgba(229,255,0,0.8), transparent 55%),
+                  radial-gradient(circle at 70% 80%, rgba(255,0,170,0.9), transparent 55%);
+      filter: blur(26px);
+      opacity: 0.9;
+      mix-blend-mode: screen;
+      animation: blobDrip 22s ease-in-out infinite alternate;
+    }
+
+    @keyframes blobDrip {
+      0%   { transform: translate(-40%, -30%) scale(1); }
+      25%  { transform: translate(20%, -20%) scale(1.15); }
+      50%  { transform: translate(40%, 10%) scale(0.9); }
+      75%  { transform: translate(-10%, 25%) scale(1.2); }
+      100% { transform: translate(-40%, -10%) scale(1.05); }
+    }
+
+    .gooey-overlay {
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.88));
+    }
+
+    .gooey-content {
+      position: relative;
+      z-index: 1;
+      padding: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      font-size: 0.85rem;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.1rem;
+    }
+
+    .tag {
+      border-radius: 999px;
+      border: 1px dashed rgba(255,255,255,0.2);
+      padding: 0.2rem 0.55rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-family: "Share Tech Mono", monospace;
+      color: var(--muted);
+    }
+
+    .tag.critique { border-color: rgba(255,66,107,0.6); color: var(--danger); }
+    .tag.espoir   { border-color: rgba(0,255,136,0.7); color: var(--success); }
+
+    .mini-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    /* 2-col split (officiel vs off) */
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.9rem;
+    }
+
+    @media (min-width: 768px) {
+      .two-col {
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr);
+      }
+    }
+
+    .card-soft {
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.7);
+      padding: 0.85rem 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-soft::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0% 0%, rgba(0,255,136,0.24), transparent 55%);
+      opacity: 0;
+      mix-blend-mode: screen;
+      transition: opacity var(--transition-slow);
+      pointer-events: none;
+    }
+
+    .card-soft:hover::after {
+      opacity: 0.9;
+    }
+
+    .card-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .card-title strong {
+      color: var(--acid-yellow);
+    }
+
+    .card-soft p {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .skill-pill {
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 0.18rem 0.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-family: "Share Tech Mono", monospace;
+      color: var(--muted);
+    }
+
+    /* Skills */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.75rem;
+    }
+
+    @media (min-width: 768px) {
+      .skills-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+    }
+
+    .skill-card {
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.7);
+      padding: 0.8rem 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .skill-header-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+    }
+
+    .skill-name {
+      font-size: 0.86rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .skill-level {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .meter-shell {
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .meter-fill {
+      position: absolute;
+      inset: 0;
+      width: var(--value, 50%);
+      background: linear-gradient(90deg, var(--neon-green), var(--neon-purple));
+      box-shadow: 0 0 12px rgba(0,255,136,0.9);
+      transform-origin: left;
+      transform: scaleX(0.1);
+      animation: fillIn 1.4s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+
+    @keyframes fillIn {
+      from { transform: scaleX(0.08); }
+      to   { transform: scaleX(1); }
+    }
+
+    .skill-desc {
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    /* Timeline projets */
+    .timeline {
+      position: relative;
+      padding-left: 1rem;
+      margin-top: 0.4rem;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0.45rem;
+      top: 0.1rem;
+      bottom: 0.2rem;
+      width: 2px;
+      background: linear-gradient(to bottom, rgba(0,255,136,0.4), rgba(196,0,255,0.5));
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 1.3rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .timeline-bullet {
+      position: absolute;
+      left: 0;
+      top: 0.1rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--bg);
+      border: 2px solid var(--neon-green);
+      box-shadow: 0 0 10px rgba(0,255,136,0.9);
+    }
+
+    .timeline-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .timeline-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: "Share Tech Mono", monospace;
+      margin-bottom: 0.2rem;
+    }
+
+    .timeline-body {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* System rant list */
+    .rant-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .rant-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+
+    .rant-tag {
+      font-family: "Share Tech Mono", monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      padding: 0.16rem 0.45rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--danger);
+    }
+
+    .hope-block {
+      border-radius: 18px;
+      border: 1px solid rgba(0,255,136,0.6);
+      background: radial-gradient(circle at 0% 0%, rgba(0,255,136,0.24), transparent 60%),
+                  rgba(0,0,0,0.8);
+      padding: 0.75rem 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      color: var(--text-main);
+      box-shadow: 0 0 22px rgba(0,255,136,0.7);
+    }
+
+    .hope-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .hope-text {
+      font-size: 0.9rem;
+    }
+
+    .hope-text strong {
+      color: var(--acid-yellow);
+    }
+
+    /* Contact / call to action */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.9rem;
+    }
+
+    @media (min-width: 768px) {
+      .contact-grid {
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      }
+    }
+
+    .contact-block {
+      border-radius: 20px;
+      border: 1px dashed rgba(255,255,255,0.3);
+      padding: 0.8rem 0.9rem;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .contact-block code {
+      font-family: "Share Tech Mono", monospace;
+      font-size: 0.8rem;
+      background: rgba(0,0,0,0.7);
+      padding: 0.25rem 0.35rem;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.12);
+      display: inline-block;
+      word-break: break-all;
+    }
+
+    .contact-note {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    footer {
+      margin-top: 0.5rem;
+      padding-top: 0.9rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-align: center;
+      border-top: 1px dashed rgba(255,255,255,0.12);
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    footer span.brand {
+      color: var(--neon-green);
+    }
+
+    /* Reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 420ms ease-out, transform 420ms ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Small screens tweaks */
+    @media (max-width: 480px) {
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .badge {
+        align-self: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="matrix-bg"></div>
+  <div class="matrix-columns"></div>
+  <div class="scanlines"></div>
+
+  <div class="page-shell">
+    <header>
+      <div class="header-top">
+        <div class="logo-lockup">
+          <div class="logo-orb"></div>
+          <div class="logo-text">
+            <span>Profil&nbsp;crypté</span>
+            <span>P&nbsp;//&nbsp;Le Projet</span>
+          </div>
+        </div>
+        <div class="header-actions">
+          <div class="pill">
+            <div class="pill-dot online"></div>
+            <span>Statut&nbsp;: en incap & en feu</span>
+          </div>
+          <button class="btn" id="btn-glitch">
+            Lancer la simulation
+          </button>
+        </div>
+      </div>
+
+      <nav>
+        <button class="nav-link active" data-target="intro">
+          <span>00</span> Intro
+        </button>
+        <button class="nav-link" data-target="identite">
+          <span>01</span> Qui je suis
+        </button>
+        <button class="nav-link" data-target="skills">
+          <span>02</span> Compétences
+        </button>
+        <button class="nav-link" data-target="projets">
+          <span>03</span> Projets / Expés
+        </button>
+        <button class="nav-link" data-target="systeme">
+          <span>04</span> Le système
+        </button>
+        <button class="nav-link" data-target="contact">
+          <span>05</span> Contact
+        </button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- INTRO -->
+      <section id="intro" class="reveal visible">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-kicker">Portfolio cynique &amp; gluant</div>
+            <div class="section-h1">BIM UN JOUR, BIM TOUJOURS</div>
+          </div>
+          <span class="badge">Version&nbsp;beta // IRL&nbsp;load</span>
+        </div>
+
+        <div class="section-body hero-grid">
+          <div class="hero-main">
+            <div class="hero-title">
+              Je suis <span class="highlight">P</span>.  
+              Officiellement "profil administratif".  
+              Officieusement, un <span class="highlight">bug persistant</span> dans la matrice socio-économique.
+            </div>
+            <p class="hero-sub">
+              Ce portfolio n’est pas là pour vendre du rêve LinkedIn, mais pour afficher le <em>log</em> réel :
+              burn-out, système kafkaïen, incapacité de travail… et pourtant, la tête qui continue à
+              designer des systèmes, des sites, des jeux sérieux et des plans d’attaque citoyenne.
+            </p>
+
+            <div class="hero-cta-row">
+              <button class="btn" id="btn-espoir">
+                Activer le mode &lt;espoir /&gt;
+              </button>
+              <button class="btn btn-ghost" id="btn-hardcore">
+                Hardcore ON / OFF
+              </button>
+            </div>
+            <div class="hero-cta-note">
+              &gt; Tip : clique sur "Hardcore" si tu veux du bien flashy gluant façon Matrix déréglée.
+            </div>
+          </div>
+
+          <div class="hero-side">
+            <div class="quote-card">
+              <div class="quote-card-inner">
+                <div class="quote-label">Mantra de survie // non-contractuel</div>
+                <div class="quote-text">
+                  «&nbsp;Un jour le système m’a plié.  
+                  <span class="bim">Bim</span>, incapacité.  
+                  Mais tant qu’il reste une ligne de code dans le cerveau,  
+                  il reste un bug possible dans la matrice.  
+                  <span class="bim-alt">Bim toujours</span>.&nbsp;»
+                </div>
+                <div class="quote-meta">
+                  <span>&gt; Pseudo-dev IRL // éducation permanente</span>
+                  <span>build: post-burn-out.01</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="gooey-blob-wrapper">
+              <div class="gooey-blob"></div>
+              <div class="gooey-overlay"></div>
+              <div class="gooey-content">
+                <div class="mini-label">Résumé gluant</div>
+                <p>
+                  Un humain trop sérieux pour le bullshit, trop cassé pour les cases
+                  officielles, mais encore assez <strong>têtu</strong> pour transformer
+                  tout ça en terrain de jeu critique et pédagogique.
+                </p>
+                <div class="tag-row">
+                  <span class="tag critique">cynique</span>
+                  <span class="tag critique">désabusé</span>
+                  <span class="tag espoir">mais pas résigné</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- IDENTITÉ -->
+      <section id="identite" class="reveal">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-kicker">Fiche signalétique // double version</div>
+            <div class="section-h2">Qui je suis (selon le formulaire & selon moi)</div>
+          </div>
+          <span class="badge">Spoiler&nbsp;: c’est plus compliqué</span>
+        </div>
+
+        <div class="section-body">
+          <div class="two-col">
+            <div class="card-soft">
+              <div class="card-title"><strong>Version officielle</strong> // CV administratif</div>
+              <p>
+                &bull; 2 ans de soutien administratif et bureautique à des animateurs socioculturels  
+                &bull; 10 ans de gestion administrative du personnel dans une asbl d’éducation permanente  
+                &bull; Maîtrise de l’administratif, des dossiers, des procédures, des tableaux et de la
+                paperasse qui ne dort jamais.
+              </p>
+              <p>
+                Résumé pour DRH pressé·e : <strong>profil organisé, rigoureux</strong>, tient les deadlines,
+                comprend les contraintes publiques, sait naviguer dans les acronymes (ONEM, CPAS, FWB, etc.).
+              </p>
+              <div class="pill-row">
+                <span class="skill-pill">gestion RH asbl</span>
+                <span class="skill-pill">administration</span>
+                <span class="skill-pill">organisation</span>
+                <span class="skill-pill">soutien aux équipes</span>
+              </div>
+            </div>
+
+            <div class="card-soft">
+              <div class="card-title"><strong>Version off</strong> // P, vu de l’intérieur</div>
+              <p>
+                &bull; Survivant d’un système qui épuise ceux qui y croient encore.  
+                &bull; Analyste sauvage de la société, des logiques de pouvoir et des absurdités administratives.  
+                &bull; Auteur potentiel de textes qui piquent juste ce qu’il faut.
+              </p>
+              <p>
+                J’ai l’air admin. En vrai, je conçois des <strong>écosystèmes</strong>, des <strong>jeux sérieux</strong>, des
+                <strong>sites web pédagogiques</strong> et des <strong>dispositifs de veille citoyenne</strong>. Le tout
+                avec un humour noir mais une éthique très claire.
+              </p>
+              <div class="pill-row">
+                <span class="skill-pill">éducation permanente</span>
+                <span class="skill-pill">veilles citoyennes</span>
+                <span class="skill-pill">design pédagogique</span>
+                <span class="skill-pill">auto-dérision</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMPÉTENCES -->
+      <section id="skills" class="reveal">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-kicker">Ce que je sais faire // à froid</div>
+            <div class="section-h2">Compétences & glitchs assumés</div>
+          </div>
+          <span class="badge">Pas LinkedIn-compatible, mais réel</span>
+        </div>
+
+        <div class="section-body">
+          <p>
+            Pas de bullshit "ninja" ou "rockstar". Juste ce qui tient encore debout après un burn-out
+            et quelques tours de manège dans l’administration.
+          </p>
+
+          <div class="skills-grid">
+            <div class="skill-card">
+              <div class="skill-header-line">
+                <div class="skill-name">Gestion & organisation</div>
+                <div class="skill-level">niveau&nbsp;: solide</div>
+              </div>
+              <div class="meter-shell">
+                <div class="meter-fill" style="--value: 90%;"></div>
+              </div>
+              <p class="skill-desc">
+                Gestion des dossiers, suivi des équipes, priorisation du chaos ambiant. Mettre de l’ordre
+                dans les trucs que tout le monde repousse à demain.
+              </p>
+            </div>
+
+            <div class="skill-card">
+              <div class="skill-header-line">
+                <div class="skill-name">Pédagogie & écriture</div>
+                <div class="skill-level">niveau&nbsp;: très fort</div>
+              </div>
+              <div class="meter-shell">
+                <div class="meter-fill" style="--value: 95%;"></div>
+              </div>
+              <p class="skill-desc">
+                Capable d’expliquer des trucs compliqués à des gens qui n’ont pas que ça à faire.  
+                Textes clairs, parfois corrosifs, mais toujours accessibles.
+              </p>
+            </div>
+
+            <div class="skill-card">
+              <div class="skill-header-line">
+                <div class="skill-name">Web statique & bidouille</div>
+                <div class="skill-level">niveau&nbsp;: en montée</div>
+              </div>
+              <div class="meter-shell">
+                <div class="meter-fill" style="--value: 65%;"></div>
+              </div>
+              <p class="skill-desc">
+                HTML/CSS/JS, sites statiques, expérimentations façon Matrix, dashboards citoyens, jeux
+                sérieux en ligne. Pas dev full-stack, mais stack-assez pour lancer des prototypes.
+              </p>
+            </div>
+
+            <div class="skill-card">
+              <div class="skill-header-line">
+                <div class="skill-name">Analyse critique du système</div>
+                <div class="skill-level">niveau&nbsp;: maximal</div>
+              </div>
+              <div class="meter-shell">
+                <div class="meter-fill" style="--value: 100%;"></div>
+              </div>
+              <p class="skill-desc">
+                Comprendre comment l’emploi, les aides, les institutions et les "politiques publiques"
+                fabriquent de la fatigue. Et comment détourner tout ça en dispositifs d’émancipation.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJETS -->
+      <section id="projets" class="reveal">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-kicker">Ce que je fabrique avec tout ça</div>
+            <div class="section-h2">Projets, tests & expériences</div>
+          </div>
+          <span class="badge">Work in progress // IRL & en ligne</span>
+        </div>
+
+        <div class="section-body">
+          <p>
+            Je ne cherche pas un "job de rêve". Je cherche des terrains de jeu : des structures qui
+            ont envie d’expérimenter, de documenter, de transmettre autrement. Voici des axes concrets
+            sur lesquels je travaille ou que je veux pousser plus loin.
+          </p>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-bullet"></div>
+              <div class="timeline-title">Écosystèmes web citoyens & pédagogiques</div>
+              <div class="timeline-meta">&gt; sites statiques, dashboards, portails documentaires</div>
+              <div class="timeline-body">
+                Création de sites qui ne sont pas juste des vitrines, mais des <strong>outils</strong> :
+                portails de veille citoyenne, espaces de documentation, tests interactifs, faux recrutements
+                qui sont en fait des formations déguisées.
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-bullet"></div>
+              <div class="timeline-title">Jeux sérieux & tests glitched</div>
+              <div class="timeline-meta">&gt; recrutement, plaidoyer, éducation permanente</div>
+              <div class="timeline-body">
+                Conception de parcours en plusieurs phases : quiz, énigmes, pages 404 qui éduquent, fausses
+                alertes de cybersécurité qui apprennent de vraies choses, etc. Le tout en mode
+                <em>Matrix cartoon</em>, mais avec un fond ultra sérieux.
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-bullet"></div>
+              <div class="timeline-title">Dispositifs pour chômeurs & malades en lutte</div>
+              <div class="timeline-meta">&gt; "bim un jour, bim toujours" comme protocole</div>
+              <div class="timeline-body">
+                Idée simple : transformer le vécu (burn-out, chômage, injonctions absurdes) en
+                <strong>laboratoire collectif</strong>. Documenter, mutualiser, créer des outils pour se
+                défendre… et éventuellement pour remettre un pied dans le monde du travail, mais pas n’importe
+                comment.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SYSTÈME -->
+      <section id="systeme" class="reveal">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-kicker">Le décor // pas très fun</div>
+            <div class="section-h2">Ce que je pense du système (et ce que j’en fais)</div>
+          </div>
+          <span class="badge">Cynisme contrôlé // espoir persistant</span>
+        </div>
+
+        <div class="section-body">
+          <ul class="rant-list">
+            <li class="rant-item">
+              <span class="rant-tag">constat</span>
+              <span>
+                Le système adore les récits de "résilience" mais n’organise jamais les conditions
+                pour éviter de casser les gens avant.
+              </span>
+            </li>
+            <li class="rant-item">
+              <span class="rant-tag">bug</span>
+              <span>
+                Quand tu tombes en incapacité, tu passes de "ressource humaine" à "ligne problématique
+                dans un tableau", sans mise à jour du logiciel humain autour.
+              </span>
+            </li>
+            <li class="rant-item">
+              <span class="rant-tag">détournement</span>
+              <span>
+                Plutôt que se laisser digérer, je préfère utiliser mes compétences pour créer des
+                <strong>espaces critiques</strong>, des tests, des sites et des jeux qui mettent les
+                mécanismes sur la table et donnent des prises à d’autres.
+              </span>
+            </li>
+          </ul>
+
+          <div class="hope-block">
+            <div class="hope-title">Mode &lt;espoir /&gt; activé</div>
+            <div class="hope-text">
+              Je ne promets pas des miracles.  
+              Je propose des <strong>collaborations honnêtes</strong> :  
+              tu as une structure, une équipe, un public, un projet d’éducation permanente, une envie de
+              documenter les luttes ou de rendre les enjeux compréhensibles ?  
+              <br><br>
+              Alors on peut construire des dispositifs ensemble.  
+              <strong>Bim un jour</strong> : ça casse.  
+              <strong>Bim toujours</strong> : on reconstruit, mais autrement.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="reveal">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-kicker">Si tu veux hacker la matrice avec moi</div>
+            <div class="section-h2">Contact & conditions minimales</div>
+          </div>
+          <span class="badge">Pas de bullshit, pas de façade</span>
+        </div>
+
+        <div class="section-body contact-grid">
+          <div class="contact-block">
+            <div class="mini-label">Comment me contacter</div>
+            <p>
+              Je ne mets pas ici de coordonnées réelles.  
+              Si tu lis cette page, c’est que tu as déjà un moyen de me joindre (mail, réseau, contact commun).
+            </p>
+            <p>
+              Quand tu me contactes, tu peux envoyer un message de ce genre&nbsp;:
+            </p>
+            <code>
+              &gt; Sujet: "Bim // proposition de terrain de jeu"<br>
+              &gt; On a: [structure / collectif / idée bizarre]<br>
+              &gt; On cherche: [outil / site / dispositif / analyse]<br>
+              &gt; On propose: [temps / échange / collaboration honnête]<br>
+            </code>
+            <p class="contact-note">
+              Si ton projet consiste juste à repeindre une façade en "participation" sans rien changer
+              derrière : on gagnera tous du temps si tu passes ton chemin.
+            </p>
+          </div>
+
+          <div class="contact-block">
+            <div class="mini-label">Ce que je cherche côté humain</div>
+            <p>
+              &bull; Des espaces où <strong>dire la vérité</strong> sur les conditions de travail ne fait pas de toi un problème.  
+              &bull; Des gens capables de rire <em>avec</em> le système tout en le questionnant.  
+              &bull; Des organisations qui préfèrent un "portfolio gluant mais sincère" à une
+              story LinkedIn propre mais creuse.
+            </p>
+            <p>
+              Si tu coches au moins deux de ces cases, on a déjà une base commune.  
+              Le reste se construit.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>
+        &copy; <span class="brand">P / Le projet</span> – Portfolio cynique & désabusé, avec une lueur d’espoir.
+      </div>
+      <div>
+        build: <span>matrix-gluant-flashy-hardcore</span> // mantra&nbsp;: "bim un jour, bim toujours".
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Smooth scroll + nav active
+    const navLinks = document.querySelectorAll(".nav-link");
+    const sections = document.querySelectorAll("main section");
+
+    navLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        const targetId = link.dataset.target;
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
+        navLinks.forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
+      });
+    });
+
+    // Reveal on scroll
+    const revealElements = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealElements.forEach(el => observer.observe(el));
+
+    // Mode espoir : petit flash de couleur sur la page
+    const btnEspoir = document.getElementById("btn-espoir");
+    btnEspoir.addEventListener("click", () => {
+      document.body.classList.add("espoir-flash");
+      setTimeout(() => document.body.classList.remove("espoir-flash"), 700);
+
+      // scroll vers la section système (où l’espoir est explicite)
+      const systeme = document.getElementById("systeme");
+      if (systeme) {
+        systeme.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+
+    // Classe espoir-flash ajoutée dynamiquement avec styles inline
+    const styleFlash = document.createElement("style");
+    styleFlash.textContent = `
+      body.espoir-flash {
+        box-shadow: inset 0 0 0 9999px rgba(0, 255, 136, 0.08);
+      }
+    `;
+    document.head.appendChild(styleFlash);
+
+    // Mode hardcore : toggle de classe sur body
+    const btnHardcore = document.getElementById("btn-hardcore");
+    btnHardcore.addEventListener("click", () => {
+      document.body.classList.toggle("hardcore");
+    });
+
+    // Bouton "Lancer la simulation" = scroll vers intro + léger shake
+    const btnGlitch = document.getElementById("btn-glitch");
+    btnGlitch.addEventListener("click", () => {
+      const intro = document.getElementById("intro");
+      if (intro) {
+        intro.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      btnGlitch.style.transform = "translateY(-1px) scale(1.05)";
+      setTimeout(() => {
+        btnGlitch.style.transform = "";
+      }, 220);
+    });
+  </script>
+</body>
+</html>
