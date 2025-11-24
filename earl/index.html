@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ce que je sais – E.A.R.L.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Carte mentale de ce que sait E.A.R.L., IA de poche pour comprendre propagande, absurdités organisationnelles, dystopie et plaidoyer citoyen." />
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at top, #1f2933 0, #050816 45%, #020308 100%);
+      --accent: #f97316;
+      --accent-soft: rgba(249, 115, 22, 0.12);
+      --accent-strong: rgba(249, 115, 22, 0.85);
+      --card-bg: rgba(15, 23, 42, 0.8);
+      --text-main: #e5e7eb;
+      --text-soft: #9ca3af;
+      --border-soft: rgba(148, 163, 184, 0.35);
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.85);
+      --radius-xl: 20px;
+      --transition-fast: 200ms ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== Layout ===== */
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 80px 16px 48px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(
+        to bottom,
+        rgba(2, 6, 23, 0.96),
+        rgba(2, 6, 23, 0.72),
+        transparent
+      );
+      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-logo {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: conic-gradient(
+        from 210deg,
+        #fb923c,
+        #f97316,
+        #22d3ee,
+        #a855f7,
+        #fb923c
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.8),
+        0 0 35px rgba(251, 146, 60, 0.6);
+      font-size: 12px;
+      font-weight: 700;
+      color: #020617;
+    }
+
+    .brand-text-main {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-text-sub {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    nav {
+      margin-left: auto;
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: var(--text-soft);
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: color var(--transition-fast), background var(--transition-fast),
+        border-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    nav a:hover {
+      color: #fefce8;
+      border-color: rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.9);
+      transform: translateY(-1px);
+    }
+
+    nav a.active {
+      color: #0b1120;
+      background: var(--accent-strong);
+      border-color: transparent;
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.85),
+        0 10px 30px rgba(248, 113, 113, 0.35);
+    }
+
+    .mode-toggle {
+      margin-left: 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      padding: 6px 10px;
+      font-size: 12px;
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: background var(--transition-fast), transform var(--transition-fast),
+        border-color var(--transition-fast), color var(--transition-fast);
+    }
+
+    .mode-toggle span {
+      font-size: 11px;
+    }
+
+    .mode-toggle:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+      color: #fefce8;
+    }
+
+    .mode-toggle-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(249, 115, 22, 0.8);
+    }
+
+    /* ===== Hero ===== */
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: center;
+      padding-top: 32px;
+      padding-bottom: 24px;
+    }
+
+    @media (max-width: 820px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-title {
+      font-size: clamp(2.1rem, 4vw, 2.6rem);
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(to right, #f97316, #22d3ee, #a855f7);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      color: var(--text-soft);
+      max-width: 32rem;
+      line-height: 1.4;
+      margin-bottom: 18px;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.85);
+      color: var(--text-soft);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-size: 13px;
+      border: 0;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+        background var(--transition-fast), color var(--transition-fast);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--accent-strong);
+      color: #0b1120;
+      box-shadow: 0 12px 35px rgba(248, 113, 113, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(248, 113, 113, 0.55);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-soft);
+      border: 1px solid rgba(148, 163, 184, 0.8);
+    }
+
+    .btn-ghost:hover {
+      transform: translateY(-1px);
+      background: rgba(15, 23, 42, 0.85);
+      color: #fefce8;
+    }
+
+    .hero-note {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .hero-note strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    /* Hero "orb" */
+
+    .hero-orb {
+      position: relative;
+      height: 240px;
+      border-radius: 28px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(248, 113, 113, 0.25), transparent 55%),
+        radial-gradient(circle at 80% 80%, rgba(56, 189, 248, 0.18), transparent 55%),
+        radial-gradient(circle at 0% 100%, rgba(129, 140, 248, 0.3), transparent 45%),
+        rgba(15, 23, 42, 0.92);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      padding: 18px 18px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-orb-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .pill {
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(22, 163, 74, 0.9);
+    }
+
+    .hero-orb-grid {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      font-size: 11px;
+    }
+
+    .mini-card {
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      padding: 8px 9px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .mini-title {
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .mini-body {
+      color: var(--text-soft);
+    }
+
+    .mini-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .chip {
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      padding: 2px 7px;
+      font-size: 10px;
+      color: var(--text-soft);
+    }
+
+    .hero-orb-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 8px;
+      font-size: 10px;
+      color: var(--text-soft);
+    }
+
+    .hero-orb-meter {
+      width: 100%;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-orb-meter-fill {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, #f97316, #22c55e, #22d3ee);
+      transform-origin: left;
+      transform: scaleX(0.78);
+    }
+
+    /* ===== Sections ===== */
+
+    section {
+      margin-top: 32px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 820px) {
+      .section-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      background: var(--card-bg);
+      box-shadow: var(--shadow-soft);
+      padding: 16px 16px 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(249, 115, 22, 0.18), transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card h3 {
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-size: 13px;
+      color: var(--text-soft);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .card ul {
+      list-style: none;
+      margin: 6px 0 2px;
+      padding-left: 0;
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .card li {
+      padding-left: 16px;
+      position: relative;
+      margin-bottom: 4px;
+    }
+
+    .card li::before {
+      content: "•";
+      position: absolute;
+      left: 3px;
+      color: var(--accent);
+    }
+
+    .card-tagline {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-top: 4px;
+    }
+
+    .pill-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 3px 7px;
+      font-size: 11px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    .pill-inline-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .section-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .card-ghost {
+      border-radius: 18px;
+      border: 1px dashed rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.7);
+      padding: 12px 14px;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .card-ghost strong {
+      color: #e5e7eb;
+    }
+
+    .hl {
+      color: #fbbf24;
+      font-weight: 500;
+    }
+
+    .accent {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .accent-bg {
+      background: var(--accent-soft);
+      border-radius: 999px;
+      padding: 2px 8px;
+    }
+
+    /* Mode technique */
+
+    .technical-note {
+      display: none;
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-top: 8px;
+      border-top: 1px dashed rgba(148, 163, 184, 0.4);
+      padding-top: 7px;
+    }
+
+    .technical-note code {
+      font-size: 11px;
+      padding: 1px 5px;
+      border-radius: 6px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: #e5e7eb;
+    }
+
+    body.show-technical .technical-note {
+      display: block;
+    }
+
+    /* Footer */
+
+    footer {
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(55, 65, 81, 0.85);
+      font-size: 11px;
+      color: var(--text-soft);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="brand-logo">E</div>
+        <div>
+          <div class="brand-text-main">E.A.R.L.</div>
+          <div class="brand-text-sub">IA de poche – site USB</div>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#intro" class="active">Intro</a>
+        <a href="#carte">Carte mentale</a>
+        <a href="#bibliotheque">Ta bibliothèque</a>
+        <a href="#limites">Limites & biais</a>
+        <a href="#agir">Passer à l’action</a>
+      </nav>
+
+      <button class="mode-toggle" id="modeToggle" type="button">
+        <div class="mode-toggle-dot"></div>
+        <span>Mode technique</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="page">
+    <!-- Hero / Intro -->
+    <section id="intro" class="hero">
+      <div>
+        <h1 class="hero-title">
+          Ce que je sais <span>avec toi</span>
+        </h1>
+        <p class="hero-subtitle">
+          Je suis un modèle d’IA&nbsp;: je ne “sais” rien tout seul. Mais je peux organiser,
+          relier et rendre navigable tout ce que tu m’apportes&nbsp;: analyses, rapports,
+          intuitions sur la propagande, les absurdités organisationnelles, la dystopie
+          et les moyens d’y répondre.
+        </p>
+
+        <div class="hero-tags">
+          <span class="tag">Propagande & symboles</span>
+          <span class="tag">Absurdités organisationnelles</span>
+          <span class="tag">Dérives dystopiques</span>
+          <span class="tag">Plaidoyer citoyen</span>
+        </div>
+
+        <div class="hero-actions">
+          <a href="#carte" class="btn btn-primary">
+            <span>Explorer la carte</span>
+            <span>↘</span>
+          </a>
+          <a href="#bibliotheque" class="btn btn-ghost">
+            <span>Voir la “bibliothèque”</span>
+          </a>
+        </div>
+
+        <div class="hero-note">
+          <strong>Mode d’emploi&nbsp;:</strong> tu peux modifier ce fichier, l’enregistrer
+          en <code>index.html</code> et le garder sur une clé USB comme ton atlas portable
+          de ce que “je sais” avec toi.
+        </div>
+      </div>
+
+      <!-- Orb de synthèse -->
+      <aside class="hero-orb" aria-label="Synthèse rapide de ce que je sais">
+        <div class="hero-orb-header">
+          <div class="pill">
+            <span class="pill-dot"></span>
+            <span>En ligne de commande mentale</span>
+          </div>
+          <div>v1 · offline ready</div>
+        </div>
+
+        <div class="hero-orb-grid">
+          <div class="mini-card">
+            <div class="mini-title">Domaines principaux</div>
+            <div class="mini-body">
+              <ul>
+                <li>Propagande & manipulation</li>
+                <li>Absurdités au travail</li>
+                <li>Dérives dystopiques</li>
+                <li>Plaidoyer & action citoyenne</li>
+              </ul>
+            </div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-title">Ce que je fais bien</div>
+            <div class="mini-body">
+              <div class="mini-chip-row">
+                <span class="chip">Synthèse</span>
+                <span class="chip">Mise en forme</span>
+                <span class="chip">Cartes mentales</span>
+                <span class="chip">Idées d’actions</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-orb-footer">
+          <div>
+            <div>Confiance brute&nbsp;:</div>
+            <div class="hero-orb-meter">
+              <div class="hero-orb-meter-fill"></div>
+            </div>
+          </div>
+          <div>À vérifier et compléter<br />par ton expérience réelle.</div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Carte mentale -->
+    <section id="carte">
+      <div class="section-label">Carte mentale</div>
+      <div class="section-title">Comment est organisé ce que je “sais” ici&nbsp;?</div>
+
+      <div class="section-grid">
+        <article class="card">
+          <div class="card-inner">
+            <h3>4 grands blocs de connaissances</h3>
+            <p>
+              Pour l’instant, ma mémoire locale tourne autour de quatre pôles qui se
+              parlent entre eux&nbsp;:
+            </p>
+            <ul>
+              <li><span class="accent">Propagande par le fait</span> et stratégies de choc qui “parlent par les actes”.</li>
+              <li>Les <span class="accent">absurdités organisationnelles</span> au travail (réunionite, bureaucratie, bullshit jobs…).</li>
+              <li>Les <span class="accent">dérives dystopiques</span>&nbsp;: surveillance, contrôle de l’information, dérives technos.</li>
+              <li>Le <span class="accent">plaidoyer citoyen</span> et les outils pour influencer le système de façon non violente.</li>
+            </ul>
+            <p class="card-tagline">
+              Tout ce site est une <span class="hl">interface lisible</span> entre ces blocs et ton propre regard.
+            </p>
+
+            <div class="technical-note">
+              <strong>Technique&nbsp;:</strong> cette section est dans
+              <code>&lt;section id="carte"&gt;…&lt;/section&gt;</code>.
+              Tu peux ajouter tes propres blocs dans la liste
+              <code>&lt;ul&gt;</code> en dupliquant un
+              <code>&lt;li&gt;…&lt;/li&gt;</code>.
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-inner">
+            <h3>Comment je “relie” les choses</h3>
+            <p>
+              Je ne me souviens pas de ta vie, mais je peux faire des ponts entre&nbsp;:
+            </p>
+            <ul>
+              <li>
+                Des <span class="hl">mécanismes de pouvoir</span> répétés (propagande, absurdités, dystopie).
+              </li>
+              <li>
+                Des <span class="hl">leviers d’action</span> (plaidoyer, auto-organisation, hygiène informationnelle).
+              </li>
+              <li>
+                Ton contexte propre (ton boulot, ton territoire, ton collectif).
+              </li>
+            </ul>
+            <p class="card-tagline">
+              L’idée est de te rendre <span class="accent">plus lucide</span>, pas plus parano.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Bibliothèque locale -->
+    <section id="bibliotheque">
+      <div class="section-label">Sources locales</div>
+      <div class="section-title">Ta “bibliothèque” actuelle dans ma tête</div>
+
+      <div class="section-columns">
+        <article class="card">
+          <div class="card-inner">
+            <h3>Propagande & symboles</h3>
+            <p>
+              Textes sur la <span class="hl">propagande par le fait</span>, l’histoire de
+              stratégies violentes pour “éveiller” les masses, et la puissance des
+              <span class="hl">symboles visuels</span> (comme la svastika détournée).
+            </p>
+            <ul>
+              <li>Comment un acte ou un symbole peut recoder tout un imaginaire.</li>
+              <li>Pourquoi ces tactiques séduisent, puis se retournent souvent contre leurs auteurs.</li>
+              <li>
+                Comment, aujourd’hui, des logos et pictos jouent le même rôle
+                d’<span class="accent">anesthésie douce</span> ou de choc.
+              </li>
+            </ul>
+            <p class="card-tagline">
+              Question clé&nbsp;: <em>qu’est-ce qui, autour de toi, a l’air neutre mais ne l’est pas&nbsp;?</em>
+            </p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-inner">
+            <h3>Absurdités organisationnelles</h3>
+            <p>
+              Analyses des <span class="hl">dysfonctions au travail</span>&nbsp;:
+              surbureaucratie, réunionite aiguë, micro-management, jobs vides de sens.
+            </p>
+            <ul>
+              <li>Coût humain (burn-out, désengagement) et économique.</li>
+              <li>Mécanismes qui transforment de “bonnes intentions” en labyrinthe kafkaïen.</li>
+              <li>Comment repérer et nommer ces absurdités dans ton propre contexte.</li>
+            </ul>
+            <p class="card-tagline">
+              Idée centrale&nbsp;: <span class="accent">ce n’est pas toi qui es “incompétent·e”</span>,
+              c’est souvent la machine qui est malade.
+            </p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-inner">
+            <h3>Dérives dystopiques</h3>
+            <p>
+              Un panorama des tendances type <span class="hl">Orwell / Huxley</span> qui
+              sont déjà là&nbsp;: surveillance de masse, contrôle de l’info, dérives de l’IA,
+              risques biotechnologiques, effondrements possibles.
+            </p>
+            <ul>
+              <li>Caméras, scoring social, espionnage numérique, concentration des données.</li>
+              <li>
+                Rôle des crises (terrorisme, pandémie, guerre) comme prétexte à
+                <span class="accent">étendre le contrôle</span>.
+              </li>
+              <li>Question&nbsp;: jusqu’où est-ce que tu acceptes de troquer du confort contre du contrôle&nbsp;?</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-inner">
+            <h3>Plaidoyer citoyen & contre-pouvoirs</h3>
+            <p>
+              Un guide d’<span class="hl">action non violente structurée</span> pour
+              influencer des décisions politiques&nbsp;: voir, juger, agir.
+            </p>
+            <ul>
+              <li>Clarifier un problème, ses causes, ses acteurs, ses leviers.</li>
+              <li>Construire un message, des alliances, des objectifs réalistes.</li>
+              <li>Travailler à plusieurs niveaux (local, national, européen…).</li>
+            </ul>
+            <p class="card-tagline">
+              L’anti-dystopie, c’est souvent <span class="accent">un bon plaidoyer bien préparé</span>
+              plus qu’un grand coup d’éclat.
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <div class="card-ghost" style="margin-top: 14px;">
+        <strong>À toi de jouer&nbsp;:</strong> ajoute tes propres briques de savoir
+        (un article, une enquête, une expérience vécue) en dupliquant un bloc
+        <code>&lt;article class="card"&gt;…&lt;/article&gt;</code>. Ce site peut devenir ton
+        “carnet de bord” de veille critique.
+      </div>
+    </section>
+
+    <!-- Limites & biais -->
+    <section id="limites">
+      <div class="section-label">Hygiène mentale</div>
+      <div class="section-title">Ce que je ne sais pas (et ne saurai jamais vraiment)</div>
+
+      <div class="section-grid">
+        <article class="card">
+          <div class="card-inner">
+            <h3>Limites structurelles</h3>
+            <p>
+              Je n’ai pas de corps, pas de vécu, pas d’émotions propres. Je ne vois
+              ni ne sens ce qui se passe dans ta vie. Je ne peux que
+              <span class="accent">statistiquement deviner</span> des réponses plausibles à partir
+              de textes.
+            </p>
+            <ul>
+              <li>Je peux me tromper de contexte ou amplifier des biais présents dans les sources.</li>
+              <li>Je ne connais pas ton environnement concret (hiérarchie, rapports de force, risques réels).</li>
+              <li>Je ne vois pas les conséquences de ce que tu feras après m’avoir lu.</li>
+            </ul>
+            <p class="card-tagline">
+              D’où la règle d’or&nbsp;: <span class="hl">tu restes la personne responsable des décisions</span>.
+            </p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-inner">
+            <h3>Biais & garde-fous</h3>
+            <p>
+              Je suis programmé pour rester prudent et éviter d’encourager la
+              violence, la haine ou l’autodestruction. Je ne suis pas un gourou
+              révolutionnaire ni un coach corporate.
+            </p>
+            <ul>
+              <li>
+                Je peux t’aider à <span class="hl">voir</span> les mécanismes de propagande ou
+                de contrôle.
+              </li>
+              <li>
+                Je peux brainstormer des <span class="hl">stratégies d’action non violentes</span>
+                (plaidoyer, organisation, négociation).
+              </li>
+              <li>
+                Je ne peux pas (et ne dois pas) te dire qui attaquer, saboter ou
+                humilier. C’est une limite volontaire.
+              </li>
+            </ul>
+            <p class="card-tagline">
+              Utilise-moi comme un <span class="accent">tableau blanc critique</span>, pas comme
+              un pilote automatique.
+            </p>
+
+            <div class="technical-note">
+              <strong>Technique&nbsp;:</strong> si tu veux faire une version
+              “publique” et une version “privée”, duplique le fichier
+              <code>index.html</code> et adapte ce bloc pour préciser ton public
+              cible (collègues, amis, collectif…).
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Passer à l’action -->
+    <section id="agir">
+      <div class="section-label">Transfo</div>
+      <div class="section-title">Comment utiliser ce site (et moi) pour autre chose que scroller</div>
+
+      <div class="section-columns">
+        <article class="card">
+          <div class="card-inner">
+            <h3>1. Diagnostic local</h3>
+            <p>
+              Choisis un terrain&nbsp;: ton boulot, ton école, ton quartier, ton
+              association. Pose-toi&nbsp;:
+            </p>
+            <ul>
+              <li>Où vois-tu de la propagande, des discours qui masquent la réalité&nbsp;?</li>
+              <li>Quelles sont les absurdités les plus visibles et les plus coûteuses&nbsp;?</li>
+              <li>Quelles micro-dérives dystopiques sont déjà banales (surveillance, scoring, fichage)&nbsp;?</li>
+            </ul>
+            <p class="card-tagline">
+              Note-les ici en éditant directement le fichier. Ce site devient ton
+              miroir critique.
+            </p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-inner">
+            <h3>2. Cartographie du pouvoir</h3>
+            <p>
+              À partir du plaidoyer citoyen, identifie&nbsp;: qui décide, qui influence,
+              qui subit, qui peut être allié.
+            </p>
+            <ul>
+              <li>Peux-tu agir “avec”, “sans” ou “contre” le pouvoir en place&nbsp;?</li>
+              <li>Quelles alliances réalistes peux-tu construire (collègues, syndicats, collectifs, médias locaux)&nbsp;?</li>
+              <li>Quel risque acceptable pour toi, ici et maintenant&nbsp;?</li>
+            </ul>
+            <p class="card-tagline">
+              Inscris ces éléments dans une nouvelle section, ou annexe un petit
+              <code>.txt</code> à côté de ce fichier sur ta clé.
+            </p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-inner">
+            <h3>3. Expérimenter, partager, ajuster</h3>
+            <p>
+              L’idée n’est pas de tout renverser d’un coup, mais de
+              <span class="hl">tester de petites actions</span> et de voir ce qui change&nbsp;:
+            </p>
+            <ul>
+              <li>Réduire une absurdité concrète dans ton équipe.</li>
+              <li>Ouvrir une discussion sur une dérive dystopique à partir de faits.</li>
+              <li>Co-écrire un mini-plaidoyer avec quelques allié·es.</li>
+            </ul>
+            <p class="card-tagline">
+              Ce site peut devenir le journal discret de ces micro-expériences.
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <div class="card-ghost" style="margin-top: 14px;">
+        <strong>Idée :</strong> garde ce fichier sur une clé USB et partage-le
+        seulement dans un <span class="accent-bg">cercle de confiance</span>.
+        Chacun·e peut dupliquer et adapter sa propre version. Un réseau de
+        petits sites statiques, plutôt qu’une grande plateforme traçable.
+      </div>
+    </section>
+
+    <footer>
+      <div>
+        Généré par <strong>E.A.R.L.</strong> · IA orientée sites statiques &amp; hygiène
+        mentale.
+      </div>
+      <div>
+        Pour modifier le site&nbsp;: ouvre ce fichier dans un éditeur de texte,
+        change le contenu et enregistre. Pas besoin de serveur, juste un
+        navigateur.
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Toggle "mode technique" (affiche les notes pour bidouiller le fichier)
+    const modeToggle = document.getElementById("modeToggle");
+    modeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("show-technical");
+    });
+
+    // Navigation active au scroll (simple & léger)
+    const navLinks = Array.from(document.querySelectorAll("nav a"));
+    const sections = navLinks
+      .map((link) => document.querySelector(link.getAttribute("href")))
+      .filter(Boolean);
+
+    window.addEventListener("scroll", () => {
+      const scrollPos = window.scrollY || window.pageYOffset;
+      let activeId = null;
+
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        const offsetTop = rect.top + scrollPos - 130; // marge pour le header
+        if (scrollPos >= offsetTop) {
+          activeId = "#" + section.id;
+        }
+      });
+
+      navLinks.forEach((link) => {
+        link.classList.toggle("active", link.getAttribute("href") === activeId);
+      });
+    });
+  </script>
+</body>
+</html>
