@@ -1,0 +1,591 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Site ultime FROM SCRATCH (pour les nulles & les nuls auto-proclamés)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #38bdf8;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.7);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.24), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.2), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      padding: 16px 8px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 840px;
+      background: var(--card);
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      box-shadow: 0 22px 50px rgba(0,0,0,0.95);
+      padding: 14px 14px 18px;
+    }
+
+    header {
+      margin-bottom: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background:
+        conic-gradient(from 180deg, #22c55e, #38bdf8, #f97316, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #22c55e;
+      position: relative;
+      box-shadow:
+        0 0 0 2px #020617,
+        0 0 24px rgba(56, 189, 248, 0.9);
+    }
+
+    .logo-icon::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, #020617, #020617);
+    }
+
+    .logo-icon span {
+      position: relative;
+      letter-spacing: 0.1em;
+    }
+
+    .logo-text h1 {
+      font-size: 1.2rem;
+      margin-bottom: 3px;
+    }
+
+    .logo-text p {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      font-size: 0.75rem;
+      color: #bbf7d0;
+      background: rgba(15,23,42,0.9);
+      font-family: var(--font-mono);
+      margin-top: 4px;
+    }
+
+    main {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    p {
+      margin-bottom: 8px;
+    }
+
+    .note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 1.05rem;
+      margin: 12px 0 6px;
+      border-left: 3px solid var(--accent);
+      padding-left: 6px;
+    }
+
+    h3 {
+      font-size: 0.98rem;
+      margin: 8px 0 4px;
+    }
+
+    ol {
+      margin-left: 20px;
+      margin-bottom: 8px;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    details {
+      margin-top: 8px;
+      margin-bottom: 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: #020617;
+      padding: 6px 8px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      list-style: none;
+    }
+
+    summary::marker {
+      content: "";
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: "▶ ";
+      color: var(--accent2);
+      font-size: 0.8rem;
+    }
+
+    details[open] summary::before {
+      content: "▼ ";
+    }
+
+    .block {
+      margin-top: 6px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    pre {
+      margin-top: 6px;
+      margin-bottom: 6px;
+      background: #020617;
+      border-radius: 8px;
+      border: 1px solid rgba(55,65,81,0.9);
+      padding: 6px 8px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #e5e7eb;
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      background: rgba(15,23,42,0.9);
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+
+    .checklist {
+      list-style: none;
+      margin-left: 0;
+      margin-top: 4px;
+      margin-bottom: 4px;
+      font-size: 0.9rem;
+    }
+
+    .checklist li {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .checklist input {
+      width: 16px;
+      height: 16px;
+    }
+
+    .tagline {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .bubble {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(75,85,99,0.9);
+      font-size: 0.8rem;
+      margin-right: 4px;
+    }
+
+    .footer-note {
+      margin-top: 12px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(55,65,81,0.9);
+      padding-top: 6px;
+    }
+
+    @media (max-width: 480px) {
+      .page { padding: 10px 9px 14px; }
+      h1 { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="logo">
+      <div class="logo-icon"><span>FS</span></div>
+      <div class="logo-text">
+        <h1>Site ultime FROM SCRATCH</h1>
+        <p>
+          Le guide pas-à-pas pour faire ton premier (vrai) site,
+          même si tu te considères comme une brêle en informatique.
+        </p>
+        <span class="pill">1 dossier · 1 fichier · 1 sujet · 0 pression</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <p>
+      L’objectif ici : que tu te dises, à la fin :
+      <strong>« ok, j’ai vraiment un site à moi »</strong>,  
+      même si tu pars de <em>rien, nada, schnollebrol</em>.
+    </p>
+
+    <p class="note">
+      Tout ce que tu as à faire : suivre les étapes dans l’ordre.
+      Si tu bloques, tu peux t’arrêter, respirer, revenir plus tard.  
+      On ne cherche pas la perfection. On cherche juste : <strong>ça marche</strong>.
+    </p>
+
+    <!-- ÉTAPE 0 -->
+    <h2>Étape 0 – Ce qu’il te faut (vraiment pas grand-chose)</h2>
+    <p>
+      Pour faire ce site, il te faut :
+    </p>
+    <ul>
+      <li>Un ordinateur (Windows, Mac, Linux… peu importe).</li>
+      <li>Un navigateur web (Chrome, Firefox, Edge, Safari…).</li>
+      <li>Un éditeur de texte simple :
+        <ul>
+          <li>Windows : <em>Bloc-notes</em></li>
+          <li>Mac : <em>TextEdit</em> (en mode texte brut)</li>
+          <li>Ou n’importe quel éditeur que tu aimes.</li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="checklist">
+      <li>
+        <input type="checkbox" />
+        <span>J’ai un ordinateur + un navigateur + un éditeur de texte ouvert.</span>
+      </li>
+    </ul>
+
+    <!-- ÉTAPE 1 -->
+    <h2>Étape 1 – Créer un dossier pour ton site</h2>
+    <p>
+      On commence simple : on va créer un dossier qui contiendra ton futur site.
+      Ce dossier pourra plus tard aller sur une clé USB, sur un autre PC, sur GitHub Pages…
+    </p>
+
+    <ol>
+      <li>
+        Ouvre ton gestionnaire de fichiers (Explorateur sur Windows, Finder sur Mac).
+      </li>
+      <li>
+        Va dans un endroit où tu sais revenir (par exemple : Documents).
+      </li>
+      <li>
+        Crée un dossier avec un nom simple, par exemple :
+        <code>mon-premier-site</code>.
+      </li>
+    </ol>
+
+    <ul class="checklist">
+      <li>
+        <input type="checkbox" />
+        <span>J’ai un dossier nommé <code>mon-premier-site</code> (ou équivalent).</span>
+      </li>
+    </ul>
+
+    <!-- ÉTAPE 2 -->
+    <h2>Étape 2 – Créer ton premier fichier HTML</h2>
+    <p>
+      Un site web, c’est principalement des fichiers <code>.html</code>.  
+      On va en faire un seul, avec le strict minimum pour que ce soit un vrai site.
+    </p>
+
+    <details>
+      <summary>Pas-à-pas pour créer le fichier <code>index.html</code></summary>
+      <div class="block">
+        <ol>
+          <li>Dans ton éditeur de texte, colle exactement ce qui suit :</li>
+        </ol>
+        <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Mon premier site&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Bonjour, c’est mon premier site.&lt;/h1&gt;
+  &lt;p&gt;Je pars de rien et pourtant, cette page existe.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+        <ol start="2">
+          <li>Dans ton éditeur, fais « Enregistrer sous… ».</li>
+          <li>Va dans le dossier <code>mon-premier-site</code>.</li>
+          <li>Donne comme nom au fichier : <code>index.html</code> (sans espace).</li>
+          <li>Assure-toi que l’extension est bien <code>.html</code> (et pas <code>.txt</code>).</li>
+        </ol>
+      </div>
+    </details>
+
+    <ul class="checklist">
+      <li>
+        <input type="checkbox" />
+        <span>Dans mon dossier, je vois un fichier appelé <code>index.html</code>.</span>
+      </li>
+    </ul>
+
+    <!-- ÉTAPE 3 -->
+    <h2>Étape 3 – Ouvrir ton site dans le navigateur</h2>
+    <p>
+      Maintenant, on va vérifier la magie : est-ce que ton « site » fonctionne déjà ?
+    </p>
+
+    <ol>
+      <li>Ouvre le dossier <code>mon-premier-site</code>.</li>
+      <li>Double-clique sur <code>index.html</code>.</li>
+      <li>Ton navigateur devrait s’ouvrir et afficher le texte :  
+        « Bonjour, c’est mon premier site. Je pars de rien et pourtant, cette page existe. »
+      </li>
+    </ol>
+
+    <ul class="checklist">
+      <li>
+        <input type="checkbox" />
+        <span>Quand je double-clique sur <code>index.html</code>, une page s’ouvre. 🎉</span>
+      </li>
+    </ul>
+
+    <p class="note">
+      À partir de ce moment-là, tu as déjà un site.  
+      Sérieusement. Plein de choses sur le web sont juste des fichiers HTML ouverts par un navigateur.
+    </p>
+
+    <!-- ÉTAPE 4 -->
+    <h2>Étape 4 – Mettre “toi” à la place du texte d’exemple</h2>
+    <p>
+      On va maintenant remplacer le texte par quelque chose qui parle de toi ou de ton sujet
+      (peu importe lequel : projet, hobby, thèse, enquête, journal, etc.).
+    </p>
+
+    <details>
+      <summary>Que changer exactement dans le fichier ?</summary>
+      <div class="block">
+        1. Rouvre <code>index.html</code> dans ton éditeur de texte.
+        <br />
+        2. Repère ces deux lignes :
+        <pre>&lt;h1&gt;Bonjour, c’est mon premier site.&lt;/h1&gt;
+&lt;p&gt;Je pars de rien et pourtant, cette page existe.&lt;/p&gt;</pre>
+        3. Remplace-les par quelque chose qui te ressemble, par exemple :
+        <pre>&lt;h1&gt;Bienvenue sur mon coin d’Internet&lt;/h1&gt;
+&lt;p&gt;Ici, je vais parler de ce qui m’occupe la tête en ce moment.&lt;/p&gt;</pre>
+        ou :
+        <pre>&lt;h1&gt;Carnet de recherche (version très perso)&lt;/h1&gt;
+&lt;p&gt;Je note ici mes idées, mes questions et mes ratés. Pour l’instant, c’est juste pour moi.&lt;/p&gt;</pre>
+        4. Enregistre le fichier, puis retourne dans ton navigateur et recharge la page (F5 ou bouton « Actualiser »).
+      </div>
+    </details>
+
+    <ul class="checklist">
+      <li>
+        <input type="checkbox" />
+        <span>Le texte que je vois parle désormais de MOI / de MON sujet.</span>
+      </li>
+    </ul>
+
+    <!-- ÉTAPE 5 -->
+    <h2>Étape 5 – Ajouter un peu de mise en forme (sans paniquer)</h2>
+    <p>
+      On va ajouter un tout petit peu de style pour que ce soit plus agréable à regarder.
+      Tu n’es pas obligé·e de tout comprendre, tu peux juste copier-coller.
+    </p>
+
+    <details>
+      <summary>Ajouter quelques styles dans &lt;head&gt;</summary>
+      <div class="block">
+        1. Rouvre <code>index.html</code> dans ton éditeur.
+        <br />
+        2. Dans la partie <code>&lt;head&gt;…&lt;/head&gt;</code>, juste avant <code>&lt;/head&gt;</code>, colle ceci :
+        <pre>&lt;style&gt;
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background-color: #0f172a;
+    color: #e5e7eb;
+    margin: 0;
+    padding: 20px;
+  }
+  main {
+    max-width: 700px;
+    margin: 0 auto;
+    background-color: #020617;
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid #1f2937;
+  }
+  h1 {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+  }
+  p {
+    line-height: 1.6;
+  }
+&lt;/style&gt;</pre>
+        3. Enregistre, puis recharge la page dans le navigateur.
+        <br />
+        4. Tu devrais voir ton texte avec un fond sombre plus propre.
+      </div>
+    </details>
+
+    <p class="note">
+      Tu peux t’arrêter ici. Tu as un site simple, lisible, qui parle de toi.  
+      Le reste (plusieurs pages, navigation, BROL, GORK, etc.) pourra venir plus tard.
+    </p>
+
+    <!-- ÉTAPE 6 -->
+    <h2>Étape 6 – (Optionnel) Ajouter une deuxième page et un mini-menu</h2>
+    <p>
+      Si tu te sens en forme, on peut passer de « un site = une page » à « un site = plusieurs pages ».
+    </p>
+
+    <details>
+      <summary>Créer une page2.html à partir de la première</summary>
+      <div class="block">
+        1. Dans ton gestionnaire de fichiers, dans le dossier <code>mon-premier-site</code> :
+        <ul>
+          <li>copie le fichier <code>index.html</code>,</li>
+          <li>colle-le dans le même dossier,</li>
+          <li>renomme la copie en <code>page2.html</code>.</li>
+        </ul>
+        2. Ouvre <code>page2.html</code> dans ton éditeur et change le contenu au centre, par exemple :
+        <pre>&lt;h1&gt;Page 2&lt;/h1&gt;
+&lt;p&gt;Ici, je mets des choses moins importantes, ou des notes en vrac.&lt;/p&gt;</pre>
+      </div>
+    </details>
+
+    <details>
+      <summary>Ajouter un mini-menu entre les deux pages</summary>
+      <div class="block">
+        Dans <strong>les deux fichiers</strong> (<code>index.html</code> et <code>page2.html</code>),  
+        juste sous la première ligne <code>&lt;h1&gt;...</code>, ajoute par exemple :
+        <pre>&lt;nav&gt;
+  &lt;p&gt;
+    &lt;a href="index.html"&gt;Accueil&lt;/a&gt; ·
+    &lt;a href="page2.html"&gt;Page 2&lt;/a&gt;
+  &lt;/p&gt;
+&lt;/nav&gt;</pre>
+        Enregistre, recharge les pages dans le navigateur, puis clique sur les liens.
+      </div>
+    </details>
+
+    <ul class="checklist">
+      <li>
+        <input type="checkbox" />
+        <span>Je peux aller de la page d’accueil à la page 2, et revenir en arrière.</span>
+      </li>
+    </ul>
+
+    <!-- ÉTAPE 7 -->
+    <h2>Étape 7 – Et maintenant, on fait quoi avec ça ?</h2>
+    <p>
+      Tu peux utiliser cette mini-structure pour n’importe quoi :
+    </p>
+    <ul>
+      <li>un carnet de recherche,</li>
+      <li>un journal de bord,</li>
+      <li>un mini-site de projet,</li>
+      <li>un univers fictionnel (comme ta Vallée pixelisée),</li>
+      <li>un essai en plusieurs parties.</li>
+    </ul>
+
+    <p>
+      À partir d’ici, tu as trois chemins possibles :
+    </p>
+
+    <ul>
+      <li>
+        <span class="bubble">Chemin 1</span>  
+        Rester sur « petit site simple » longtemps.  
+        Tu peux simplement remplir ces pages avec du texte.
+      </li>
+      <li>
+        <span class="bubble">Chemin 2</span>  
+        Commencer à organiser tes fichiers (PDF, images…)  
+        en créant plus tard un BROL 2.0 (une page qui liste tout).
+      </li>
+      <li>
+        <span class="bubble">Chemin 3</span>  
+        Transformer ce début en univers plus complexe (GORK, GROK-CORE, intranet, etc.).
+      </li>
+    </ul>
+
+    <p class="note">
+      Tu ne dois pas choisir maintenant.  
+      L’important : tu sais désormais créer un dossier, un fichier HTML, l’ouvrir, le changer,
+      ajouter une page, faire un petit menu.  
+      C’est déjà une boîte à outils complète.
+    </p>
+
+    <!-- CONCLUSION -->
+    <h2>Petit récap’ (ce que tu sais faire maintenant)</h2>
+    <ul class="checklist">
+      <li><input type="checkbox" />Je sais créer un dossier pour un site.</li>
+      <li><input type="checkbox" />Je sais créer un fichier <code>.html</code> et l’ouvrir dans un navigateur.</li>
+      <li><input type="checkbox" />Je sais modifier le texte pour qu’il parle de moi / de mon sujet.</li>
+      <li><input type="checkbox" />Je sais dupliquer une page et créer un mini-menu entre deux pages.</li>
+      <li><input type="checkbox" />Je sais que je peux faire évoluer ça en BROL / intranet / univers.</li>
+    </ul>
+
+    <p class="footer-note">
+      Ce fichier <code>site-ultime-from-scratch.html</code> peut rester ton point de départ.  
+      Tu peux le garder à côté de tes autres pages comme pense-bête.  
+      Plus tard, on peut brancher dessus : BROL 2.0, intranet, univers cartoon, hub GROK, etc.  
+      Pour l’instant : si tu as un dossier + un index.html qui s’ouvre → tu es déjà dans le game.
+    </p>
+  </main>
+</div>
+</body>
+</html>
