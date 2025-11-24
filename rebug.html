@@ -1,0 +1,1170 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>CYBERLAB-Ø – Simulation de Panique & Hygiène Numérique</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font monospace / sobre -->
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #050816;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent-soft: rgba(34,197,94,0.12);
+      --accent-2: #38bdf8;
+      --accent-3: #f97316;
+      --alert: #f97373;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border: rgba(148,163,184,0.6);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 0, rgba(56,189,248,0.25), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(34,197,94,0.2), transparent 60%),
+        var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 1rem 0.7rem 1.6rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1100px;
+      background:
+        radial-gradient(circle at 0 0, rgba(15,23,42,0.8), transparent 55%),
+        var(--bg-alt);
+      border-radius: 26px;
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+      padding: 1.3rem 0.9rem 1.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .page {
+        padding: 1.8rem 1.6rem 2.2rem;
+      }
+    }
+
+    .page::before {
+      content: "CYBERLAB-Ø · Fausse panique, vrais réflexes";
+      position: absolute;
+      top: 0.4rem;
+      right: 1.1rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: rgba(148,163,184,0.9);
+      pointer-events: none;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-head {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .hero-head {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: var(--accent-soft);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(34,197,94,0.8);
+    }
+
+    .hero-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      max-width: 260px;
+    }
+
+    h1 {
+      margin-top: 0.4rem;
+      font-size: clamp(1.8rem, 4.4vw, 2.6rem);
+      line-height: 1.05;
+      font-family: "Share Tech Mono", monospace;
+      text-transform: uppercase;
+    }
+
+    h1 span {
+      background: linear-gradient(120deg, #22c55e, #38bdf8, #f97316);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      margin-top: 0.35rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 780px;
+    }
+
+    .subtitle strong {
+      color: var(--text-main);
+    }
+
+    .grid {
+      margin-top: 1rem;
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    @media (min-width: 960px) {
+      .grid {
+        grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.1fr);
+      }
+    }
+
+    .card {
+      background:
+        radial-gradient(circle at 0 0, rgba(34,197,94,0.12), transparent 65%),
+        var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 0.85rem 0.9rem 1.2rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .card {
+        padding: 1rem 1.1rem 1.3rem;
+      }
+    }
+
+    .card h2 {
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+      color: var(--text-main);
+    }
+
+    .card p {
+      line-height: 1.55;
+      margin-bottom: 0.25rem;
+    }
+
+    ul {
+      margin-left: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    li {
+      margin-bottom: 0.18rem;
+    }
+
+    /* Terminal */
+
+    .terminal {
+      margin-top: 0.5rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #020617;
+      padding: 0.5rem 0.6rem;
+      font-family: "Share Tech Mono", monospace;
+      font-size: 0.78rem;
+      color: #e5e7eb;
+      height: 180px;
+      max-height: 220px;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .term-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #ef4444;
+    }
+
+    .term-dot:nth-child(2) {
+      background: #eab308;
+    }
+
+    .term-dot:nth-child(3) {
+      background: #22c55e;
+    }
+
+    .term-title {
+      margin-left: 0.4rem;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .term-body {
+      margin-top: 0.3rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 7px;
+      background: var(--accent);
+      margin-left: 2px;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* Fake “outils de hacker” */
+
+    .tool-group {
+      margin-top: 0.6rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 0.55rem 0.6rem;
+      background: rgba(2,6,23,0.9);
+      font-size: 0.84rem;
+    }
+
+    .tool-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent-2);
+      margin-bottom: 0.25rem;
+    }
+
+    .tool-row {
+      margin-bottom: 0.35rem;
+      display: grid;
+      gap: 0.25rem;
+    }
+
+    .tool-row label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .tool-row input {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.7rem;
+      background: #020617;
+      color: var(--text-main);
+      font-size: 0.85rem;
+    }
+
+    .tool-row button {
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      padding: 0.28rem 0.8rem;
+      font-size: 0.82rem;
+      background: var(--accent-soft);
+      color: var(--accent);
+      cursor: pointer;
+      width: 100%;
+    }
+
+    @media (min-width: 480px) {
+      .tool-row button {
+        width: auto;
+      }
+    }
+
+    .tool-output {
+      margin-top: 0.25rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      min-height: 1em;
+    }
+
+    .meter {
+      margin-top: 0.35rem;
+      display: grid;
+      gap: 0.15rem;
+    }
+
+    .meter-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+    }
+
+    .meter-label span:last-child {
+      color: var(--accent-3);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .meter-hint {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Password strength bar */
+
+    .password-meter {
+      margin-top: 0.2rem;
+      display: flex;
+      gap: 3px;
+    }
+
+    .password-bar {
+      flex: 1;
+      height: 6px;
+      border-radius: 999px;
+      background: #1f2937;
+      opacity: 0.4;
+    }
+
+    .password-bar.active {
+      opacity: 1;
+    }
+
+    .password-label {
+      margin-top: 0.2rem;
+      font-size: 0.78rem;
+    }
+
+    /* Quiz */
+
+    .quiz {
+      margin-top: 0.6rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 0.55rem 0.6rem;
+      background: rgba(2,6,23,0.9);
+      font-size: 0.84rem;
+    }
+
+    .quiz h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+      color: var(--text-main);
+    }
+
+    .question {
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.5rem;
+      margin-bottom: 0.35rem;
+      background: rgba(15,23,42,0.9);
+    }
+
+    .question.good {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px rgba(34,197,94,0.7);
+    }
+
+    .question.bad {
+      border-color: var(--alert);
+      box-shadow: 0 0 10px rgba(248,113,113,0.5);
+    }
+
+    .q-title {
+      font-size: 0.86rem;
+      color: var(--text-main);
+      margin-bottom: 0.15rem;
+    }
+
+    .q-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .q-options {
+      display: grid;
+      gap: 0.1rem;
+      font-size: 0.84rem;
+    }
+
+    .q-options label {
+      display: flex;
+      gap: 0.35rem;
+      align-items: flex-start;
+      cursor: pointer;
+    }
+
+    .q-options input {
+      margin-top: 0.12rem;
+    }
+
+    .quiz-actions {
+      margin-top: 0.4rem;
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      padding: 0.28rem 0.8rem;
+      font-size: 0.82rem;
+      background: var(--accent-soft);
+      color: var(--accent);
+      cursor: pointer;
+    }
+
+    .btn.secondary {
+      border-color: var(--border);
+      background: rgba(15,23,42,0.95);
+      color: var(--text-muted);
+    }
+
+    .quiz-score {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .quiz-score strong {
+      color: var(--accent);
+    }
+
+    /* Checklist */
+
+    .checklist {
+      margin-top: 0.6rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 0.55rem 0.6rem;
+      background: rgba(2,6,23,0.9);
+      font-size: 0.84rem;
+    }
+
+    .checklist h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+      color: var(--text-main);
+    }
+
+    .checklist-item {
+      display: flex;
+      gap: 0.4rem;
+      align-items: flex-start;
+      font-size: 0.82rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .checklist-item input {
+      margin-top: 0.1rem;
+      transform: scale(1.05);
+      accent-color: var(--accent);
+    }
+
+    .checklist-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    /* Easter egg “ransomware” */
+
+    .panic-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0, rgba(248,113,113,0.25), transparent 60%), #020617;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .panic-overlay.visible {
+      display: flex;
+    }
+
+    .panic-inner {
+      max-width: 480px;
+      width: 92%;
+      border-radius: 18px;
+      border: 1px solid rgba(248,113,113,0.9);
+      background:
+        repeating-linear-gradient(135deg, rgba(15,23,42,0.9) 0, rgba(15,23,42,0.9) 4px, rgba(127,29,29,0.5) 4px, rgba(127,29,29,0.5) 6px);
+      padding: 0.8rem 0.9rem 0.9rem;
+      box-shadow: 0 0 40px rgba(248,113,113,0.9);
+      text-align: left;
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    .panic-title {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #fecaca;
+      margin-bottom: 0.4rem;
+    }
+
+    .panic-sub {
+      font-size: 0.9rem;
+      color: #fecaca;
+      margin-bottom: 0.3rem;
+    }
+
+    .panic-progress {
+      margin-top: 0.35rem;
+      border-radius: 999px;
+      border: 1px solid #fecaca;
+      padding: 0.15rem;
+      background: rgba(15,23,42,0.9);
+    }
+
+    .panic-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #22c55e, #facc15, #f97316, #ef4444);
+      width: 0%;
+      transition: width 0.15s linear;
+    }
+
+    .panic-footer {
+      margin-top: 0.45rem;
+      font-size: 0.78rem;
+      color: #fecaca;
+    }
+
+    .panic-btns {
+      margin-top: 0.5rem;
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .panic-btn {
+      border-radius: 999px;
+      border: 1px solid #fecaca;
+      padding: 0.2rem 0.8rem;
+      font-size: 0.8rem;
+      background: rgba(15,23,42,0.9);
+      color: #fecaca;
+      cursor: pointer;
+    }
+
+    .panic-btn.safe {
+      border-color: #22c55e;
+      color: #bbf7d0;
+    }
+
+    .panic-disclaimer {
+      margin-top: 0.45rem;
+      font-size: 0.76rem;
+      color: #bbf7d0;
+      display: none;
+    }
+
+    .panic-disclaimer.visible {
+      display: block;
+    }
+
+    footer {
+      margin-top: 1.2rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    footer code {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.16rem 0.5rem;
+      background: #020617;
+      font-size: 0.7rem;
+    }
+
+    /* Hacky link */
+
+    .panic-link {
+      color: var(--accent-3);
+      text-decoration: underline dashed;
+      cursor: pointer;
+      font-size: 0.82rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="hero-head">
+        <div>
+          <div class="badge">
+            <span class="badge-dot"></span>
+            <span>CYBERLAB-Ø · Faux hacker, vraie hygiène numérique</span>
+          </div>
+          <h1>Simulateur de panique <span>& école de guerre économique pour humain normal</span></h1>
+        </div>
+        <div class="hero-meta">
+          Mode : <strong>Offensif dans les mots, défensif dans les faits</strong>.  
+          Tout ce que tu fais ici reste <em>local</em>.  
+          Le but : comprendre comment on te manipule, pas t’apprendre à casser des systèmes.
+        </div>
+      </div>
+      <p class="subtitle">
+        Tu vas jouer avec des <strong>faux outils de hacker</strong>, un faux “ransomware” et un vrai
+        <strong>examen de réflexes cyber</strong>.  
+        On met la pression, on déclenche un peu de peur… puis on explique <strong>calmement</strong> ce qui se
+        passerait dans la réalité, et comment réagir comme quelqu’un de l’école de guerre économique plutôt que
+        comme un pigeon pressé.
+      </p>
+    </header>
+
+    <main class="grid">
+      <!-- Colonne gauche -->
+      <section class="card">
+        <h2>1. Faux terminal, vraies idées de base</h2>
+        <p>
+          Ci-dessous : un “terminal” qui simule un scan dramatique de ta surface d’attaque.  
+          Tout est généré côté navigateur, <strong>rien n’est envoyé nulle part</strong>.
+        </p>
+
+        <div class="terminal" id="terminal">
+          <div class="terminal-header">
+            <div class="term-dot"></div>
+            <div class="term-dot"></div>
+            <div class="term-dot"></div>
+            <div class="term-title">CYBERLAB-Ø :: LOCAL_SANDBOX</div>
+          </div>
+          <div class="term-body" id="terminalBody">
+            boot: initialisation du sandbox local…
+            // aucun paquet quitte ton navigateur
+            // aucune adresse IP scannée
+            // seul ton cerveau est ciblé
+
+            > ready to raise your threat awareness<span class="cursor"></span>
+          </div>
+        </div>
+
+        <div class="tool-group">
+          <div class="tool-label">Fake surface scanner</div>
+          <div class="tool-row">
+            <label for="pseudoInput">Entre un pseudo / email (fictif de préférence) :</label>
+            <input id="pseudoInput" type="text" placeholder="ex: hacker_du_dimanche@exemple.org">
+            <button id="scanBtn" type="button">Lancer le faux scan</button>
+            <div class="tool-output" id="scanOutput">
+              Ce module ne regarde que ce que tu tapes ici.  
+              Réfléchis surtout à ceci : combien de services utilisent le même identifiant / mot de passe ?
+            </div>
+          </div>
+
+          <div class="meter">
+            <div class="meter-label">
+              <span>Niveau de parano “constructive”</span>
+              <span id="paranoLabel">5 / 10</span>
+            </div>
+            <input id="paranoRange" type="range" min="1" max="10" value="5">
+            <div class="meter-hint" id="paranoHint">
+              5/10 : zone saine. Tu es vigilant·e sans sombrer dans le complotisme. Garde ce mode.
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-group">
+          <div class="tool-label">Fake password auditor (local uniquement)</div>
+          <div class="tool-row">
+            <label for="pwdInput">
+              Tape un mot de passe de test (jamais un vrai !), ou une version modifiée :
+            </label>
+            <input id="pwdInput" type="password" placeholder="Ex: Mot2Passe_de-test!">
+          </div>
+          <div class="password-meter" id="pwdMeter">
+            <div class="password-bar" data-i="0"></div>
+            <div class="password-bar" data-i="1"></div>
+            <div class="password-bar" data-i="2"></div>
+            <div class="password-bar" data-i="3"></div>
+          </div>
+          <div class="password-label" id="pwdLabel">Force estimée : n/a – ce test reste local, l’objectif est pédagogique.</div>
+          <div class="tool-output">
+            <strong>Hacker confirmé :</strong> ton meilleur mot de passe, c’est celui que <em>toi-même</em> n’essaies
+            pas de retenir par cœur sur 25 services différents.  
+            Moralité : gestionnaire de mots de passe + MFA > ego.
+          </div>
+        </div>
+
+        <p style="margin-top:0.7rem;font-size:0.8rem;color:var(--text-muted);">
+          🔎 <strong>À retenir :</strong> un vrai attaquant combine technique, psychologie et patience.
+          Ici on t’expose à la mise en scène… pour que tu reconnaisses la vraie.
+        </p>
+      </section>
+
+      <!-- Colonne droite -->
+      <section class="card">
+        <h2>2. Quiz “Panique ou sang-froid ?”</h2>
+        <p>
+          Un mini-examen inspiré de vraies situations : phishing, fuite de données, clé USB douteuse.
+          Le but n’est pas d’être parfait, mais de <strong>voir où tu paniques, où tu réfléchis</strong>.
+        </p>
+
+        <div class="quiz" id="quiz">
+          <h3>Quiz cyber – Niveau “pré-école de guerre éco”</h3>
+
+          <!-- Q1 -->
+          <div class="question" data-correct="b">
+            <div class="q-title">Q1. Tu reçois un mail “URGENT – votre compte sera supprimé ce soir”.</div>
+            <div class="q-meta">Difficulté : ★☆☆ – Réflexe de base</div>
+            <div class="q-options">
+              <label>
+                <input type="radio" name="q1" value="a">
+                <span>Tu cliques immédiatement sur le lien “Reconnectez-vous ici” avant qu’il soit trop tard.</span>
+              </label>
+              <label>
+                <input type="radio" name="q1" value="b">
+                <span>Tu ne cliques pas : tu passes par le site officiel (favori, appli) pour vérifier ton compte, ou tu ignores si ça ne correspond à rien.</span>
+              </label>
+              <label>
+                <input type="radio" name="q1" value="c">
+                <span>Tu envoies le mail à tous tes contacts pour les “prévenir”.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="question" data-correct="c">
+            <div class="q-title">Q2. Une clé USB est “oubliée” sur une table de coworking.</div>
+            <div class="q-meta">Difficulté : ★★☆ – Hygiène opérationnelle</div>
+            <div class="q-options">
+              <label>
+                <input type="radio" name="q2" value="a">
+                <span>Tu la branches direct sur ta machine perso pour voir ce qu’il y a dessus.</span>
+              </label>
+              <label>
+                <input type="radio" name="q2" value="b">
+                <span>Tu la branches sur un vieux PC au bureau pour “limiter les dégâts”.</span>
+              </label>
+              <label>
+                <input type="radio" name="q2" value="c">
+                <span>Tu ne la branches nulle part : tu la remets à l’accueil / responsable, ou tu l’ignores. Clé USB inconnue = grenade numérique.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="question" data-correct="a">
+            <div class="q-title">Q3. Fuite de données annoncée dans les médias.</div>
+            <div class="q-meta">Difficulté : ★★☆ – Gestion de crise personnelle</div>
+            <div class="q-options">
+              <label>
+                <input type="radio" name="q3" value="a">
+                <span>Tu vérifies si tu es concerné·e, tu changes les mots de passe, tu actives le MFA, tu surveilles les tentatives de connexion.</span>
+              </label>
+              <label>
+                <input type="radio" name="q3" value="b">
+                <span>Tu ne fais rien, de toute façon “tout le monde est fiché”.</span>
+              </label>
+              <label>
+                <input type="radio" name="q3" value="c">
+                <span>Tu supprimes ton compte en panique sans rien vérifier.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="question" data-correct="b">
+            <div class="q-title">Q4. Un ami t’envoie un lien chelou à 3h du mat “regarde cette vidéo de toi 😱”.</div>
+            <div class="q-meta">Difficulté : ★★☆ – Social & messagerie</div>
+            <div class="q-options">
+              <label>
+                <input type="radio" name="q4" value="a">
+                <span>Tu cliques pour vérifier si c’est grave.</span>
+              </label>
+              <label>
+                <input type="radio" name="q4" value="b">
+                <span>Tu ne cliques pas : tu demandes par un autre canal si c’est bien lui, ou tu attends. Probablement un compte compromis.</span>
+              </label>
+              <label>
+                <input type="radio" name="q4" value="c">
+                <span>Tu renvoies le lien à tes autres amis pour rigoler.</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="quiz-actions">
+            <button type="button" class="btn" id="checkQuiz">Corriger</button>
+            <button type="button" class="btn secondary" id="resetQuiz">Réinitialiser</button>
+            <div class="quiz-score" id="quizScore">
+              Score : <strong>0 / 4</strong> – objectif : pas la peur, les bons réflexes.
+            </div>
+          </div>
+        </div>
+
+        <div class="checklist">
+          <h3>3. Checklist “Pas besoin d’être un ninja”</h3>
+          <div class="checklist-item">
+            <input type="checkbox" id="c1">
+            <label for="c1">J’utilise des mots de passe différents (ou un gestionnaire) pour les services importants.</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="c2">
+            <label for="c2">Je sais repérer un mail / message suspect et je préfère vérifier à froid que cliquer à chaud.</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="c3">
+            <label for="c3">Je garde mon système et mes applis à jour (même si ça m’agace).</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="c4">
+            <label for="c4">Je n’insère jamais de support inconnu (clé USB, disque) sans être sûr de la source.</label>
+          </div>
+          <div class="checklist-item">
+            <input type="checkbox" id="c5">
+            <label for="c5">Je sais à qui demander de l’aide (ami·e calé·e, service IT, association) avant de paniquer.</label>
+          </div>
+          <p class="checklist-note">
+            Si tu coches 3 à 5 cases : tu es déjà plus avancé·e que la moyenne.  
+            L’“école de guerre économique” commence ici : par des <strong>habitudes basiques</strong>, répétées.
+          </p>
+          <p class="checklist-note">
+            ⚠ Tu veux tester tes nerfs ? Clique sur <span class="panic-link" id="panicLink">“ACTIVER LE MODE PANIQUE MAX”</span> (easter egg).  
+            Spoiler : ça fait peur… puis ça explique.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>
+        Tout ce site est une <strong>simulation contrôlée</strong> : aucune attaque, aucun scan réel.  
+        Ce qu’on entraîne ici, c’est ta <em>tête</em>.
+      </span>
+      <code>cyberlab-0.html · mobile first · pur HTML/CSS/JS · faux hacker, vraie pédagogie</code>
+    </footer>
+  </div>
+
+  <!-- Overlay de faux ransomware -->
+  <div class="panic-overlay" id="panicOverlay">
+    <div class="panic-inner">
+      <div class="panic-title">!! SYSTEM BREACH DETECTED !!</div>
+      <div class="panic-sub">
+        Tous vos fichiers sont en cours de chiffrement…  
+        Ne touchez à rien. Ne débranchez pas. Ne respirez plus. ☠
+      </div>
+      <div class="panic-progress">
+        <div class="panic-bar" id="panicBar"></div>
+      </div>
+      <div class="panic-footer">
+        ID d’infection : CYB-FAUX-000<br>
+        Temps restant avant perte totale de vos données : <span id="panicTimer">23s</span>
+      </div>
+
+      <div class="panic-btns">
+        <button class="panic-btn" id="panicClose">Continuer à paniquer</button>
+        <button class="panic-btn safe" id="panicReveal">Arrêter la blague</button>
+      </div>
+
+      <div class="panic-disclaimer" id="panicDisclaimer">
+        ✅ Respire. Rien n’a été chiffré.  
+        Ce que tu viens de ressentir, c’est exactement ce que cherchent à provoquer les vrais ransomwares et scams : <strong>urgence, perte de contrôle, émotion</strong>.  
+        Un vrai réflexe de “hacker confirmé côté défense” :
+        <ul style="margin:0.25rem 0 0 1.2rem;">
+          <li>débrancher le réseau si tu suspectes quelque chose de réel ;</li>
+          <li>ne pas payer ;</li>
+          <li>prévenir rapidement les personnes compétentes ;</li>
+          <li>avoir des sauvegardes <em>déconnectées</em> en amont.</li>
+        </ul>
+        Ici, tout se passe dans ton navigateur, aucun fichier réel n’est touché.  
+        Moralité : <strong>entraîne ton sang-froid avant que ce soit pour de vrai.</strong>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Faux terminal qui défile des lignes façon scan ---
+    (function() {
+      const bodyEl = document.getElementById('terminalBody');
+      const lines = [
+        "[INIT] chargement des modules de parano constructive...",
+        "[OK] module social-engineering_simulator chargé.",
+        "[OK] module password_hygiene_analyser chargé.",
+        "[WARN] module ego_vulnerabilities détecté (niveau humain normal).",
+        "[INFO] aucun scan réseau réel effectué (sandbox 100% local).",
+        "[TIP] un vrai attaquant collecte des infos publiques sur toi. Commence par faire ça toi-même.",
+        "[READY] tu peux jouer, mais retiens surtout ce que tu ressens."
+      ];
+      let index = 0;
+
+      function addLine() {
+        if (index >= lines.length) return;
+        const text = lines[index++];
+        const current = bodyEl.innerText.replace(/\u2588?$/,''); // retire éventuel curseur
+        bodyEl.innerText = current + "\n" + text + "\n> ";
+        bodyEl.appendChild(document.createElement('span')).className = 'cursor';
+        bodyEl.scrollTop = bodyEl.scrollHeight;
+      }
+
+      setTimeout(addLine, 1400);
+      setTimeout(addLine, 2600);
+      setTimeout(addLine, 3800);
+      setTimeout(addLine, 5000);
+      setTimeout(addLine, 6200);
+      setTimeout(addLine, 7600);
+      setTimeout(addLine, 9000);
+    })();
+
+    // --- Fake surface scanner ---
+    (function() {
+      const input = document.getElementById('pseudoInput');
+      const btn = document.getElementById('scanBtn');
+      const out = document.getElementById('scanOutput');
+
+      function analysePseudo(p) {
+        const trimmed = p.trim();
+        if (!trimmed) {
+          return "Rien saisi = rien scanné. Mais dans la vraie vie, beaucoup de choses sur toi sont déjà publiques.";
+        }
+
+        let msg = "[Analyse superficielle – purement locale]\n";
+        msg += "- Longueur de l’identifiant : " + trimmed.length + " caractères.\n";
+
+        if (trimmed.includes("@")) {
+          const domain = trimmed.split("@")[1] || "";
+          msg += "- Ça ressemble à un email. Domaine repéré : " + (domain || "inconnu") + ".\n";
+          msg += "- Si tu utilises le même email pour tout, tu simplifie le travail des attaquants.\n";
+        } else {
+          msg += "- Ça ne ressemble pas à un email classique. C’est peut-être un pseudo.\n";
+        }
+
+        if (/^[a-z0-9._-]+$/i.test(trimmed)) {
+          msg += "- Identifiant simple. Facile à réutiliser sur plusieurs plateformes (bon pour toi, bon pour l’adversaire).\n";
+        } else {
+          msg += "- Présence de caractères spéciaux : certains sites les refusent, d’autres les exposent mal.\n";
+        }
+
+        msg += "\n[Conseil de “hacker défense”] Cartographie tes propres identités : où utilises-tu ce mail / pseudo ? Avec quels mots de passe ?";
+        return msg;
+      }
+
+      btn.addEventListener('click', () => {
+        out.innerText = analysePseudo(input.value);
+      });
+    })();
+
+    // --- Curseur parano ---
+    (function() {
+      const range = document.getElementById('paranoRange');
+      const label = document.getElementById('paranoLabel');
+      const hint = document.getElementById('paranoHint');
+
+      function update() {
+        const v = parseInt(range.value, 10);
+        label.textContent = v + " / 10";
+        let text;
+        if (v <= 2) {
+          text = v + "/10 : tu es trop détendu·e. Cool pour le cœur, moins pour tes comptes bancaires.";
+        } else if (v <= 4) {
+          text = v + "/10 : vigilance faible. Quelques bonnes habitudes suffiraient à changer la donne.";
+        } else if (v <= 7) {
+          text = v + "/10 : zone saine. Tu doutes, mais tu vérifies. C’est le sweet spot de la sécurité.";
+        } else if (v <= 9) {
+          text = v + "/10 : très méfiant·e. Utile si tu transformes ça en protocoles, pas en parano floue.";
+        } else {
+          text = v + "/10 : mode “tout est complot”. Le vrai hacker stratégique, lui, sait aussi doser son attention.";
+        }
+        hint.textContent = text;
+      }
+
+      range.addEventListener('input', update);
+      update();
+    })();
+
+    // --- Password strength (local, pédagogique) ---
+    (function() {
+      const input = document.getElementById('pwdInput');
+      const bars = document.querySelectorAll('.password-bar');
+      const label = document.getElementById('pwdLabel');
+
+      function score(pwd) {
+        let s = 0;
+        if (pwd.length >= 8) s++;
+        if (pwd.length >= 12) s++;
+        if (/[A-Z]/.test(pwd) && /[a-z]/.test(pwd)) s++;
+        if (/\d/.test(pwd)) s++;
+        if (/[^A-Za-z0-9]/.test(pwd)) s++;
+        if (/password|1234|azerty|qwerty/i.test(pwd)) s = Math.max(s - 2, 0);
+        return Math.min(s, 4);
+      }
+
+      function update() {
+        const pwd = input.value;
+        const s = score(pwd);
+        bars.forEach((bar, idx) => {
+          bar.classList.toggle('active', idx < s);
+          bar.style.background = s <= 1 ? '#f87171'
+                               : s === 2 ? '#facc15'
+                               : s === 3 ? '#22c55e'
+                               : '#22c55e';
+        });
+        let txt;
+        if (!pwd) {
+          txt = "Force estimée : n/a – ce test reste local et n’envoie rien. Objectif : te faire réfléchir.";
+        } else if (s <= 1) {
+          txt = "Force estimée : très faible. Mot de passe court ou trop prévisible. Un dictionnaire d’attaque adore ça.";
+        } else if (s === 2) {
+          txt = "Force estimée : correcte pour un compte peu sensible, insuffisante pour tes mails / banque.";
+        } else if (s === 3) {
+          txt = "Force estimée : bonne. Avec un gestionnaire de mots de passe et du MFA, c’est déjà sérieux.";
+        } else {
+          txt = "Force estimée : solide. Rappelle-toi : la vraie faiblesse, c’est la réutilisation d’un bon mot de passe partout.";
+        }
+        label.textContent = txt;
+      }
+
+      input.addEventListener('input', update);
+      update();
+    })();
+
+    // --- Quiz ---
+    (function() {
+      const checkBtn = document.getElementById('checkQuiz');
+      const resetBtn = document.getElementById('resetQuiz');
+      const scoreEl = document.getElementById('quizScore');
+      const formQuestions = document.querySelectorAll('.quiz .question');
+
+      function check() {
+        let total = 0;
+        let good = 0;
+
+        formQuestions.forEach(q => {
+          q.classList.remove('good', 'bad');
+          const correct = q.getAttribute('data-correct');
+          if (!correct) return;
+          total++;
+          const radios = q.querySelectorAll('input[type="radio"]');
+          if (!radios.length) return;
+          const name = radios[0].name;
+          const checked = document.querySelector(`input[name="${name}"]:checked`);
+          if (checked && checked.value === correct) {
+            good++;
+            q.classList.add('good');
+          } else {
+            q.classList.add('bad');
+          }
+        });
+
+        scoreEl.innerHTML = `Score : <strong>${good} / ${total}</strong> – en dessous de 3/4, revois les bases.`;
+      }
+
+      function reset() {
+        formQuestions.forEach(q => q.classList.remove('good', 'bad'));
+        document.querySelectorAll('.quiz input[type="radio"]').forEach(r => r.checked = false);
+        scoreEl.innerHTML = 'Score : <strong>0 / 4</strong> – objectif : pas la peur, les bons réflexes.';
+      }
+
+      checkBtn.addEventListener('click', check);
+      resetBtn.addEventListener('click', reset);
+    })();
+
+    // --- Easter egg : faux ransomware / panique ---
+    (function() {
+      const link = document.getElementById('panicLink');
+      const overlay = document.getElementById('panicOverlay');
+      const bar = document.getElementById('panicBar');
+      const timerEl = document.getElementById('panicTimer');
+      const closeBtn = document.getElementById('panicClose');
+      const revealBtn = document.getElementById('panicReveal');
+      const disc = document.getElementById('panicDisclaimer');
+
+      let interval = null;
+      let timeLeft = 23;
+
+      function startPanic() {
+        overlay.classList.add('visible');
+        disc.classList.remove('visible');
+        timeLeft = 23;
+        bar.style.width = '0%';
+        timerEl.textContent = timeLeft + "s";
+        if (interval) clearInterval(interval);
+        interval = setInterval(() => {
+          timeLeft = Math.max(timeLeft - 1, 0);
+          timerEl.textContent = timeLeft + "s";
+          const progress = ((23 - timeLeft) / 23) * 100;
+          bar.style.width = progress + "%";
+          if (timeLeft <= 0) {
+            clearInterval(interval);
+          }
+        }, 800);
+      }
+
+      link.addEventListener('click', startPanic);
+      closeBtn.addEventListener('click', () => {
+        // On laisse la panique monter sans expliquer, pour ceux qui veulent rester dans le rôle.
+        overlay.classList.remove('visible');
+        if (interval) clearInterval(interval);
+      });
+
+      revealBtn.addEventListener('click', () => {
+        if (interval) clearInterval(interval);
+        bar.style.width = '100%';
+        timerEl.textContent = "simulation terminée";
+        disc.classList.add('visible');
+      });
+
+      // Échappatoire clavier
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('visible')) {
+          overlay.classList.remove('visible');
+          if (interval) clearInterval(interval);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
