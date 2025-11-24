@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>E.A.R.L. · Kit agence de renseignement (site + intranet)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #02081e;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #0ea5e9;
+      --danger: #f97316;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.45);
+      --radius-xl: 20px;
+      --shadow-soft: 0 22px 45px rgba(15, 23, 42, 0.9);
+      --shadow-small: 0 10px 22px rgba(15, 23, 42, 0.9);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, #0ea5e9 0, transparent 55%),
+        radial-gradient(circle at 100% 100%, #22c55e 0, transparent 55%),
+        var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #22c55e, #0ea5e9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #020617;
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.95),
+                  0 0 0 4px rgba(56, 189, 248, 0.6);
+    }
+
+    .brand-title {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      font-size: 0.97rem;
+      text-transform: uppercase;
+    }
+
+    .brand-sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.8rem;
+    }
+
+    .top-pill {
+      border-radius: 999px;
+      padding: 5px 9px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s, transform 0.15s, box-shadow 0.15s, color 0.15s, border-color 0.15s;
+      text-decoration: none;
+    }
+
+    .top-pill:hover {
+      background: rgba(15, 23, 42, 1);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-small);
+      color: var(--text);
+    }
+
+    .top-pill.primary {
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #bbf7d0;
+    }
+
+    .layout {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 230px) minmax(0, 1.9fr) minmax(0, 1.4fr);
+      gap: 12px;
+      padding: 12px;
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+        grid-template-rows: auto auto;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sidebar h2 {
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    .sidebar p {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .nav-section-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .nav-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--muted);
+      font-size: 0.8rem;
+      padding: 5px 9px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      transition: background 0.14s, color 0.14s, border-color 0.14s, transform 0.14s, box-shadow 0.14s;
+    }
+
+    .nav-btn span.key {
+      font-size: 0.7rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--muted);
+    }
+
+    .nav-btn:hover {
+      background: rgba(15, 23, 42, 1);
+      color: var(--text);
+      border-color: rgba(56, 189, 248, 0.8);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-small);
+    }
+
+    .nav-btn.active {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.17), rgba(34, 197, 94, 0.15));
+      color: var(--text);
+      border-color: rgba(34, 197, 94, 0.9);
+    }
+
+    .sidebar-footnote {
+      font-size: 0.72rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(51, 65, 85, 0.9);
+      padding-top: 4px;
+    }
+
+    /* Main content area */
+    .main-panel {
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.14), transparent 60%),
+                  radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.12), transparent 60%),
+                  var(--bg-soft);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 12px 12px 14px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .panel-title {
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .panel-sub {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .tag {
+      border-radius: 999px;
+      padding: 3px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      font-size: 0.76rem;
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.92);
+    }
+
+    .two-cols {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 980px) {
+      .two-cols {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: 14px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      padding: 8px 9px 9px;
+      box-shadow: var(--shadow-small);
+      font-size: 0.8rem;
+    }
+
+    .card h3 {
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .card p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .step-list {
+      list-style: decimal;
+      padding-left: 16px;
+      margin-top: 4px;
+    }
+
+    .step-list li {
+      margin-bottom: 4px;
+    }
+
+    .code-block {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      background: #020617;
+      border-radius: 10px;
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      padding: 6px 7px;
+      margin-top: 4px;
+      white-space: pre;
+      overflow-x: auto;
+      color: #e5e7eb;
+    }
+
+    .pill-info {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .mini-card {
+      border-radius: 10px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: rgba(15, 23, 42, 0.96);
+      padding: 6px 7px;
+      font-size: 0.75rem;
+    }
+
+    .mini-card strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* Intranet panel */
+    .side-panel {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .side-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .side-header h2 {
+      font-size: 0.95rem;
+    }
+
+    .intranet-badge {
+      border-radius: 999px;
+      padding: 3px 7px;
+      border: 1px solid rgba(34, 197, 94, 0.8);
+      font-size: 0.72rem;
+      color: #bbf7d0;
+      background: rgba(22, 101, 52, 0.4);
+    }
+
+    .intranet-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.76rem;
+      margin-top: 4px;
+    }
+
+    .intranet-tab {
+      border-radius: 999px;
+      padding: 3px 9px;
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.14s, border-color 0.14s, color 0.14s;
+    }
+
+    .intranet-tab.active {
+      border-color: rgba(56, 189, 248, 0.9);
+      color: #e5e7eb;
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .intranet-pane {
+      display: none;
+      margin-top: 6px;
+      font-size: 0.78rem;
+    }
+
+    .intranet-pane.active {
+      display: block;
+    }
+
+    .login-box {
+      border-radius: 12px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: #020617;
+      padding: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+
+    .login-row {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-top: 4px;
+    }
+
+    .login-label {
+      color: #9ca3af;
+    }
+
+    .login-input {
+      border-radius: 999px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--text);
+      padding: 3px 7px;
+      font-size: 0.75rem;
+      outline: none;
+    }
+
+    .btn-small {
+      margin-top: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.9);
+      background: rgba(15, 23, 42, 0.96);
+      color: #e0f2fe;
+      font-size: 0.75rem;
+      padding: 4px 9px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.14s, transform 0.14s, box-shadow 0.14s;
+    }
+
+    .btn-small:hover {
+      background: rgba(15, 23, 42, 1);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-small);
+    }
+
+    .badge-soft {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      padding: 2px 6px;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .log-area {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      background: #020617;
+      border-radius: 10px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      padding: 6px;
+      max-height: 150px;
+      overflow-y: auto;
+      margin-top: 4px;
+    }
+
+    .log-line {
+      margin-bottom: 2px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .log-line span.time {
+      color: #64748b;
+      margin-right: 4px;
+    }
+
+    .log-line span.tag {
+      color: #22c55e;
+      margin-right: 3px;
+    }
+
+    .mission-list {
+      list-style: none;
+      margin-top: 4px;
+    }
+
+    .mission-list li {
+      margin-bottom: 4px;
+    }
+
+    .mission-list code {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+    }
+
+    .hint {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    footer {
+      padding: 6px 12px 8px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      border-top: 1px solid rgba(148, 163, 184, 0.45);
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    @media (max-width: 720px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .top-actions {
+        width: 100%;
+      }
+      footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="brand-logo">E</div>
+    <div class="brand-text">
+      <div class="brand-title">E.A.R.L. OPS</div>
+      <div class="brand-sub">Kit complet : IA + site d’agence de renseignement (fictif)</div>
+    </div>
+  </div>
+  <div class="top-actions">
+    <button class="top-pill primary" id="btnViewPublic">
+      🌐 Aperçu site public
+    </button>
+    <button class="top-pill" id="btnViewIntranet">
+      🔐 Aperçu intranet
+    </button>
+    <button class="top-pill" id="btnScrollGuide">
+      📚 Aller au guide d’utilisation
+    </button>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- Sidebar navigation / étapes -->
+  <aside class="sidebar">
+    <div>
+      <h2>Plan de mission</h2>
+      <p>
+        Cette page t’explique <strong>comment utiliser E.A.R.L.</strong> pour
+        construire un site d’agence de renseignement (fictif), avec une partie
+        publique et un intranet simple.
+      </p>
+    </div>
+
+    <div>
+      <div class="nav-section-title">1. Utiliser E.A.R.L.</div>
+      <ul class="nav-list">
+        <li>
+          <button class="nav-btn active" data-section="guide">
+            Briefing : comment me parler
+            <span class="key">G</span>
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" data-section="prompts">
+            Exemples de prompts
+            <span class="key">P</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="nav-section-title">2. Site public "Agence"</div>
+      <ul class="nav-list">
+        <li>
+          <button class="nav-btn" data-section="public">
+            Structure du site
+            <span class="key">S</span>
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" data-section="templates">
+            Modèles de sections HTML
+            <span class="key">T</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="nav-section-title">3. Intranet simple</div>
+      <ul class="nav-list">
+        <li>
+          <button class="nav-btn" data-section="intranetGuide">
+            Concept & bonnes pratiques
+            <span class="key">I</span>
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" data-section="intranetCode">
+            Exemple de page intranet
+            <span class="key">C</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footnote">
+      ⚠️ <strong>Important :</strong> ce kit est pensé pour des usages
+      pédagogiques / fictifs. Ne l’utilise pas pour des activités illégales
+      (piratage, surveillance non consentie, etc.).
+    </div>
+  </aside>
+
+  <!-- Main panel : contenu explicatif -->
+  <main class="main-panel">
+    <!-- Section 1 : Comment utiliser E.A.R.L. -->
+    <section id="section-guide" class="content-section">
+      <h1 class="panel-title">Briefing : comment utiliser E.A.R.L. efficacement</h1>
+      <p class="panel-sub">
+        E.A.R.L. est ton copilote pour créer des sites statiques ultra légers :
+        tu poses les questions, il génère le code HTML/CSS/JS et t’explique la
+        logique. Voici une façon de travailler étape par étape.
+      </p>
+
+      <div class="tag-row">
+        <span class="tag">IA copilot</span>
+        <span class="tag">Sites statiques</span>
+        <span class="tag">Agence de renseignement (fictive)</span>
+      </div>
+
+      <div class="two-cols" id="guideTop">
+        <article class="card">
+          <h3>1. Préparer ta demande</h3>
+          <p>
+            Plus tu es précis, plus la réponse sera « sur mesure ». Pour une
+            page web d’agence de renseignement, donne par exemple :
+          </p>
+          <ul class="step-list">
+            <li>Le ton : sérieux, parodique, rétro, cyberpunk…</li>
+            <li>Le public cible : étudiants, jeu de rôle, association, etc.</li>
+            <li>Les pages voulues : accueil, missions, équipe, contact.</li>
+            <li>Les contraintes : 100% statique, tient sur une clé USB.</li>
+          </ul>
+          <div class="pill-info">
+            👉 Tu peux copier l’exemple de prompt à droite et le modifier.
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>2. Exemple de prompt de départ</h3>
+          <p>
+            Tu peux dire à E.A.R.L. quelque chose comme :
+          </p>
+          <div class="code-block">
+Je veux un site statique en 1 seul fichier HTML/CSS/JS
+qui imite un site d'agence de renseignement fictive.
+
+Contraintes :
+- ton sérieux mais pédagogique
+- pages : accueil, missions, équipe, contact
+- menu en haut + section "dossier" avec cartes
+- aucune fonctionnalité illégale, tout reste fictif
+
+Donne-moi un fichier complet & explique la structure.
+          </div>
+          <p class="pill-info">
+            E.A.R.L. te renverra une page complète, comme le fichier que tu
+            lis actuellement.
+          </p>
+        </article>
+      </div>
+
+      <div class="two-cols" style="margin-top:8px;">
+        <article class="card">
+          <h3>3. Boucler en mode itératif</h3>
+          <p>
+            Tu peux ensuite affiner le résultat en demandant, par exemple :
+          </p>
+          <ul class="step-list">
+            <li>« Ajoute une page intranet avec faux login. »</li>
+            <li>« Change le thème en vert militaire. »</li>
+            <li>« Simplifie le CSS et commente chaque section. »</li>
+            <li>« Ajoute une section "journal de bord" en bas. »</li>
+          </ul>
+          <p class="pill-info">
+            💡 L’idée est de construire ton site <strong>par couches</strong> :
+            squelette → style → contenu → petits effets.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>4. Organisation de tes fichiers</h3>
+          <p>
+            Pour un mini-intranet / site d’agence, tu peux commencer très
+            simple :
+          </p>
+          <div class="mini-grid">
+            <div class="mini-card">
+              <strong>index.html</strong>
+              Page principale : site public + intranet (comme ici).
+            </div>
+            <div class="mini-card">
+              <strong>intranet.html</strong>
+              Optionnel : version séparée avec accès seulement interne.
+            </div>
+            <div class="mini-card">
+              <strong>/assets/</strong>
+              Dossier pour images, PDF, icônes éventuels.
+            </div>
+          </div>
+          <p class="pill-info">
+            Ensuite tu peux demander à E.A.R.L. : « découpe mon gros fichier en
+            plusieurs fichiers HTML/CSS/JS ».
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Section 2 : Exemples de prompts -->
+    <section id="section-prompts" class="content-section" style="display:none;">
+      <h1 class="panel-title">Exemples de prompts pour ton agence de renseignement</h1>
+      <p class="panel-sub">
+        Voici une petite bibliothèque de prompts que tu peux copier-coller vers
+        E.A.R.L. pour générer des variantes de ton site et de ton intranet.
+      </p>
+
+      <div class="tag-row">
+        <span class="tag">Prompts prêts à l’emploi</span>
+        <span class="tag">Fiction & pédagogie</span>
+      </div>
+
+      <div class="two-cols">
+        <article class="card">
+          <h3>Site public "Agence X"</h3>
+          <p>Prompt « base » pour un site vitrine complet :</p>
+          <div class="code-block">
+Je veux un site statique pour une agence de renseignement fictive
+appelée "AGENCE X".
+
+Structure :
+- accueil avec slogan et bandeau d'alerte
+- page "Missions" avec 3 missions fictives
+- page "Équipe" avec 4 profils (alias, rôle)
+- page "Contact" avec formulaire (HTML seulement, pas d'envoi réel)
+
+Contraintes :
+- 1 seul fichier HTML/CSS/JS
+- thème sombre, accents verts
+- aucun contenu illégal, tout est visiblement fictif
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Intranet simplifié</h3>
+          <p>Prompt pour une page intranet de base :</p>
+          <div class="code-block">
+Crée une page intranet fictive "AGENCE X - Intranet".
+
+Fonctionnalités (100% frontend) :
+- faux écran de login (login: analyste / mdp: demo)
+- une fois "connecté", afficher un tableau de bord :
+  - liste de missions (status: ouvert / en cours / archivé)
+  - bloc "notes de synthèse" en textarea
+  - bloc "journal de bord" chronologique
+
+Tout doit fonctionner uniquement en JavaScript côté client
+(pas de backend, pas de vraie sécurité).
+          </div>
+        </article>
+      </div>
+
+      <div class="two-cols" style="margin-top:8px;">
+        <article class="card">
+          <h3>Demander une refonte graphique</h3>
+          <p>Une fois ton site généré, tu peux demander :</p>
+          <div class="code-block">
+Voici mon fichier HTML/CSS/JS d'agence de renseignement (collé ci-dessous).
+
+Peux-tu :
+- moderniser le design (layout, couleurs, boutons)
+- garder tout en 1 seul fichier
+- commenter les grandes sections dans le code
+- ne pas ajouter de frameworks (pas de React, pas de Bootstrap) ?
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Checklist de demande à E.A.R.L.</h3>
+          <p>Quand tu formules un gros besoin, pense à préciser :</p>
+          <ul class="step-list">
+            <li>Ton niveau (débutant, à l’aise, avancé).</li>
+            <li>Le contexte (cours, association, projet perso).</li>
+            <li>Les fichiers que tu souhaites (1 fichier ou plusieurs).</li>
+            <li>Le style visuel (sobre, techno, vintage…).</li>
+            <li>Les limites légales / éthiques : usage fictif.</li>
+          </ul>
+          <p class="pill-info">
+            Ensuite : tu colles la réponse dans un fichier, tu testes, puis tu
+            reviens avec : « ok, maintenant améliore la partie X ».
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Section 3 : Site public structure -->
+    <section id="section-public" class="content-section" style="display:none;">
+      <h1 class="panel-title">Dessiner le site public de ton agence</h1>
+      <p class="panel-sub">
+        Un site d’agence de renseignement (fictive) fonctionne très bien avec
+        une structure simple : accueil, missions, équipe, contact. Voici un
+        plan prêt à l’emploi.
+      </p>
+
+      <div class="tag-row">
+        <span class="tag">Accueil</span>
+        <span class="tag">Missions</span>
+        <span class="tag">Équipe</span>
+        <span class="tag">Contact</span>
+      </div>
+
+      <div class="two-cols">
+        <article class="card">
+          <h3>Accueil (Landing)</h3>
+          <p>Ce que tu peux mettre :</p>
+          <ul class="step-list">
+            <li>Logo + nom de l’agence.</li>
+            <li>Slogan (« Nous lisons entre les lignes », etc.).</li>
+            <li>Petit texte expliquant que tout est fictif / pédagogique.</li>
+            <li>Boutons vers « Missions » et « Accès intranet ».</li>
+          </ul>
+          <div class="code-block">
+&lt;section id="accueil" class="hero-agence"&gt;
+  &lt;h1&gt;AGENCE X&lt;/h1&gt;
+  &lt;h2&gt;Analyse. Synthèse. Fiction.&lt;/h2&gt;
+  &lt;p&gt;
+    Plateforme d'entraînement à l'analyse d'information.
+    Toute ressemblance avec une agence réelle serait purement
+    pédagogique.
+  &lt;/p&gt;
+  &lt;div class="hero-actions"&gt;
+    &lt;a href="#missions"&gt;Voir les missions&lt;/a&gt;
+    &lt;a href="#intranet"&gt;Accès intranet (fictif)&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Missions & Équipe</h3>
+          <p>Ce que tu peux prévoir :</p>
+          <ul class="step-list">
+            <li>3 à 6 missions fictives avec un statut.</li>
+            <li>Pour chaque mission : contexte, objectif, livrable.</li>
+            <li>Équipe : alias, rôle, spécialité.</li>
+          </ul>
+          <div class="code-block">
+&lt;section id="missions"&gt;
+  &lt;h2&gt;Missions fictives&lt;/h2&gt;
+  &lt;article class="mission"&gt;
+    &lt;h3&gt;MX-01 – Cartographier une campagne de désinfo&lt;/h3&gt;
+    &lt;p&gt;Statut : &lt;strong&gt;Ouvert&lt;/strong&gt;&lt;/p&gt;
+    &lt;p&gt;Objectif : analyser un flux de messages et produire
+       une note de synthèse.&lt;/p&gt;
+  &lt;/article&gt;
+&lt;/section&gt;
+
+&lt;section id="equipe"&gt;
+  &lt;h2&gt;Cellule d'analyse&lt;/h2&gt;
+  &lt;div class="profil"&gt;
+    &lt;h3&gt;ALPHA&lt;/h3&gt;
+    &lt;p&gt;Spécialité : veille et cartographie d'acteurs.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+          </div>
+        </article>
+      </div>
+
+      <div class="two-cols" style="margin-top:8px;">
+        <article class="card">
+          <h3>Contact (non sensible)</h3>
+          <p>
+            Pour un site pédagogique, on reste soft : un formulaire HTML qui ne
+            fait qu’afficher les infos côté navigateur (pas d’envoi).
+          </p>
+          <div class="code-block">
+&lt;section id="contact"&gt;
+  &lt;h2&gt;Contact pédagogique&lt;/h2&gt;
+  &lt;form onsubmit="event.preventDefault(); montrerResumeContact();"&gt;
+    &lt;label&gt;Nom de la structure&lt;br /&gt;
+      &lt;input type="text" name="nom" required /&gt;
+    &lt;/label&gt;
+    &lt;label&gt;Objet&lt;br /&gt;
+      &lt;input type="text" name="objet" required /&gt;
+    &lt;/label&gt;
+    &lt;label&gt;Message&lt;br /&gt;
+      &lt;textarea name="message" required&gt;&lt;/textarea&gt;
+    &lt;/label&gt;
+    &lt;button type="submit"&gt;Voir le résumé (local)&lt;/button&gt;
+  &lt;/form&gt;
+  &lt;pre id="resume-contact"&gt;&lt;/pre&gt;
+&lt;/section&gt;
+          </div>
+          <p class="pill-info">
+            👉 E.A.R.L. peut t’aider à écrire le JS pour remplir
+            <code>#resume-contact</code> à partir des champs du formulaire.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Mentions claires & éthique</h3>
+          <p>Ajoute une petite section légalement rassurante :</p>
+          <div class="code-block">
+&lt;section id="mentions"&gt;
+  &lt;h2&gt;À propos de cette plateforme&lt;/h2&gt;
+  &lt;p&gt;
+    Ce site est un environnement d'entraînement et de simulation
+    destiné à l'apprentissage de l'analyse d'information.
+  &lt;/p&gt;
+  &lt;p&gt;
+    Aucune collecte de données sensibles n'est effectuée. Les
+    "missions" et "profils" sont fictifs.
+  &lt;/p&gt;
+&lt;/section&gt;
+          </div>
+          <p class="pill-info">
+            💡 Ça montre clairement l’intention pédagogique du projet.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Section 4 : Templates HTML simples -->
+    <section id="section-templates" class="content-section" style="display:none;">
+      <h1 class="panel-title">Blocs HTML prêts à être copiés</h1>
+      <p class="panel-sub">
+        Ici tu as des blocs standards pour ton agence : un bandeau, une liste
+        de missions en cartes, un tableau de bord simplifié. Tu peux les
+        combiner dans ton propre fichier.
+      </p>
+
+      <div class="two-cols">
+        <article class="card">
+          <h3>Bandeau d’alerte / classification</h3>
+          <p>Un bandeau qui donne tout de suite la couleur :</p>
+          <div class="code-block">
+&lt;div class="banner-classif"&gt;
+  &lt;span class="badge-classif"&gt;NIVEAU : PUBLIC / PÉDAGOGIQUE&lt;/span&gt;
+  &lt;span&gt;AGENCE X – Plateforme d'entraînement à l'analyse d'information.&lt;/span&gt;
+&lt;/div&gt;
+          </div>
+          <p class="pill-info">
+            Style CSS possible : fond noir, bordure verte, texte monospace.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Cartes de missions</h3>
+          <p>Une grille de missions pour l’accueil :</p>
+          <div class="code-block">
+&lt;section class="missions-grid"&gt;
+  &lt;article class="mission-card"&gt;
+    &lt;h3&gt;MX-02 – Veille médias&lt;/h3&gt;
+    &lt;p&gt;Cartographier les sources d'information autour d'un sujet.&lt;/p&gt;
+    &lt;p&gt;Statut : &lt;strong&gt;Ouvert&lt;/strong&gt;&lt;/p&gt;
+  &lt;/article&gt;
+
+  &lt;article class="mission-card"&gt;
+    &lt;h3&gt;MX-03 – Note de synthèse&lt;/h3&gt;
+    &lt;p&gt;Transformer une masse d'articles en 1 page claire.&lt;/p&gt;
+    &lt;p&gt;Statut : &lt;strong&gt;En cours&lt;/strong&gt;&lt;/p&gt;
+  &lt;/article&gt;
+&lt;/section&gt;
+          </div>
+        </article>
+      </div>
+
+      <div class="two-cols" style="margin-top:8px;">
+        <article class="card">
+          <h3>Tableau de bord simplifié</h3>
+          <p>Un mini-dashboard à afficher sur la page d’accueil :</p>
+          <div class="code-block">
+&lt;section class="dashboard-resume"&gt;
+  &lt;h2&gt;Tableau de bord (résumé)&lt;/h2&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Missions ouvertes : &lt;strong&gt;3&lt;/strong&gt;&lt;/li&gt;
+    &lt;li&gt;Analystes connectés : &lt;strong&gt;1 (toi)&lt;/strong&gt;&lt;/li&gt;
+    &lt;li&gt;Dernière mise à jour : &lt;strong&gt;aujourd'hui&lt;/strong&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/section&gt;
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Navigation simple</h3>
+          <p>Un menu fixe en haut du site :</p>
+          <div class="code-block">
+&lt;header class="top-nav"&gt;
+  &lt;div class="logo-agence"&gt;AGENCE X&lt;/div&gt;
+  &lt;nav&gt;
+    &lt;a href="#accueil"&gt;Accueil&lt;/a&gt;
+    &lt;a href="#missions"&gt;Missions&lt;/a&gt;
+    &lt;a href="#equipe"&gt;Équipe&lt;/a&gt;
+    &lt;a href="#contact"&gt;Contact&lt;/a&gt;
+    &lt;a href="#intranet"&gt;Intranet&lt;/a&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Section 5 : Intranet guide -->
+    <section id="section-intranetGuide" class="content-section" style="display:none;">
+      <h1 class="panel-title">Penser ton intranet (fictif) de manière simple</h1>
+      <p class="panel-sub">
+        L’intranet, c’est la partie « interne » : notes, journal de bord,
+        missions en cours. Ici, tout reste purement <strong>front-end</strong>,
+        sans vraie sécurité (c’est pédagogique).
+      </p>
+
+      <div class="two-cols">
+        <article class="card">
+          <h3>1. Faux login, vraie pédagogie</h3>
+          <p>
+            Tu peux simuler un écran de login qui ne fait que vérifier un login
+            / mot de passe en JavaScript. Par exemple :
+          </p>
+          <ul class="step-list">
+            <li>Login : <code>analyste</code></li>
+            <li>Mot de passe : <code>demo</code></li>
+          </ul>
+          <p>
+            Si les deux correspondent, tu caches l’écran de login et tu
+            affiches le tableau de bord.
+          </p>
+          <p class="pill-info">
+            ⚠️ Ce n’est pas de la vraie sécurité : c’est un
+            <strong>exercice visuel</strong>, pas un vrai système confidentiel.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>2. Ce qu’on peut mettre dans le dashboard</h3>
+          <ul class="step-list">
+            <li>Liste de missions avec filtres (boutons JS).</li>
+            <li>Bloc « notes de synthèse » en <code>&lt;textarea&gt;</code>.</li>
+            <li>Journal de bord : log des actions (clics, connexions…).</li>
+            <li>Filtres par statut (ouvert / en cours / archivé).</li>
+          </ul>
+          <p class="pill-info">
+            💡 Demande à E.A.R.L. : « ajoute une sauvegarde dans localStorage »
+            si tu veux que le texte reste sur ton navigateur.
+          </p>
+        </article>
+      </div>
+
+      <div class="two-cols" style="margin-top:8px;">
+        <article class="card">
+          <h3>3. Pseudo-API interne (sans backend)</h3>
+          <p>
+            Tu peux représenter tes missions comme un tableau JS dans ton
+            script :
+          </p>
+          <div class="code-block">
+const missions = [
+  { id: "MX-01", titre: "Veille médias", statut: "ouvert" },
+  { id: "MX-02", titre: "Note de synthèse", statut: "en_cours" },
+  { id: "MX-03", titre: "Archivage cas d'école", statut: "archive" }
+];
+          </div>
+          <p>
+            Puis tu écris une fonction <code>afficherMissions(statut)</code> qui
+            filtre et affiche le résultat dans une liste HTML.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>4. Rappel légal / éthique</h3>
+          <p>
+            Même pour un intranet fictif, garde en tête quelques règles :
+          </p>
+          <ul class="step-list">
+            <li>Ne stocke pas de données réelles sensibles.</li>
+            <li>Si tu simules des noms / lieux, invente-les.</li>
+            <li>Explique dans le site que tout est simulation.</li>
+          </ul>
+          <p class="pill-info">
+            Tu peux ajouter un encadré « Disclaimer » dans ton intranet.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Section 6 : Intranet code exemple -->
+    <section id="section-intranetCode" class="content-section" style="display:none;">
+      <h1 class="panel-title">Exemple de bloc intranet (en mini-version)</h1>
+      <p class="panel-sub">
+        Voici un exemple de mini-intranet que tu peux coller dans une autre
+        page, ou intégrer à ton fichier. Il utilise un faux login et un tableau
+        de bord minimal.
+      </p>
+
+      <article class="card">
+        <h3>Snippet HTML + JS simplifié</h3>
+        <p>
+          Ce bloc montre l’idée : login → dashboard → journal de bord. À toi de
+          le réutiliser dans ton propre fichier :
+        </p>
+        <div class="code-block">
+&lt;section id="intranet" class="intranet-demo"&gt;
+  &lt;div id="login-screen"&gt;
+    &lt;h2&gt;AGENCE X – Intranet (fictif)&lt;/h2&gt;
+    &lt;p&gt;Identifiant : &lt;code&gt;analyste&lt;/code&gt; – Mot de passe : &lt;code&gt;demo&lt;/code&gt;&lt;/p&gt;
+    &lt;input id="login-user" placeholder="Identifiant" /&gt;
+    &lt;input id="login-pass" type="password" placeholder="Mot de passe" /&gt;
+    &lt;button onclick="loginIntranet()"&gt;Connexion&lt;/button&gt;
+    &lt;p id="login-error"&gt;&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div id="dashboard" style="display:none;"&gt;
+    &lt;h2&gt;Tableau de bord – Analyste&lt;/h2&gt;
+    &lt;ul id="missions-list"&gt;&lt;/ul&gt;
+    &lt;textarea id="notes" placeholder="Notes de synthèse..."&gt;&lt;/textarea&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;script&gt;
+const missions = [
+  { id: "MX-01", title: "Veille médias", status: "ouvert" },
+  { id: "MX-02", title: "Note de synthèse", status: "en cours" }
+];
+
+function loginIntranet() {
+  const user = document.getElementById("login-user").value;
+  const pass = document.getElementById("login-pass").value;
+  const error = document.getElementById("login-error");
+  if (user === "analyste" &amp;&amp; pass === "demo") {
+    document.getElementById("login-screen").style.display = "none";
+    document.getElementById("dashboard").style.display = "block";
+    error.textContent = "";
+    const ul = document.getElementById("missions-list");
+    ul.innerHTML = "";
+    missions.forEach(m =&gt; {
+      const li = document.createElement("li");
+      li.textContent = m.id + " – " + m.title + " (" + m.status + ")";
+      ul.appendChild(li);
+    });
+  } else {
+    error.textContent = "Identifiants incorrects (simulation).";
+  }
+}
+&lt;/script&gt;
+        </div>
+        <p class="pill-info">
+          👉 Tu peux demander à E.A.R.L. : « améliore ce mini-intranet avec un
+          journal de bord et du localStorage ».
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <!-- Side panel : mini intranet fonctionnel "démo" -->
+  <aside class="side-panel">
+    <div class="side-header">
+      <h2>Intranet démo intégré</h2>
+      <span class="intranet-badge">Mode démo uniquement</span>
+    </div>
+    <p class="hint">
+      Ce panneau simule une petite partie intranet : login fictif, missions,
+      journal de bord. C’est un jouet, pas un vrai système sécurisé.
+    </p>
+
+    <div class="intranet-tabs">
+      <button class="intranet-tab active" data-pane="pane-login">Login &amp; accès</button>
+      <button class="intranet-tab" data-pane="pane-missions">Missions</button>
+      <button class="intranet-tab" data-pane="pane-logs">Journal de bord</button>
+    </div>
+
+    <!-- Pane login -->
+    <div class="intranet-pane active" id="pane-login">
+      <div class="login-box">
+        <div>&gt; CONNECT / AGENCE_X / INTRANET</div>
+        <div class="login-row">
+          <label class="login-label" for="intra-user">Identifiant (hint : analyste)</label>
+          <input id="intra-user" class="login-input" placeholder="analyste" />
+        </div>
+        <div class="login-row">
+          <label class="login-label" for="intra-pass">Mot de passe (hint : demo)</label>
+          <input id="intra-pass" class="login-input" type="password" placeholder="demo" />
+        </div>
+        <button class="btn-small" id="btnLogin">
+          🔓 Connexion fictive
+        </button>
+        <div id="loginStatus" class="hint"></div>
+      </div>
+      <p class="hint">
+        Astuce : tu peux réutiliser cette logique dans un autre fichier en
+        copiant le HTML + le petit script JS correspondant.
+      </p>
+    </div>
+
+    <!-- Pane missions -->
+    <div class="intranet-pane" id="pane-missions">
+      <div class="badge-soft" id="missionsSummary">Missions chargées : 0</div>
+      <ul class="mission-list" id="missionList">
+        <!-- missions générées en JS -->
+      </ul>
+      <p class="hint">
+        Clique sur « Connexion fictive » dans l’onglet login pour charger les
+        missions. Tout est stocké uniquement dans ta page.
+      </p>
+    </div>
+
+    <!-- Pane logs -->
+    <div class="intranet-pane" id="pane-logs">
+      <div class="badge-soft">Journal côté navigateur (aucune donnée envoyée)</div>
+      <div class="log-area" id="logArea">
+        <!-- logs ajoutés en JS -->
+      </div>
+      <button class="btn-small" id="btnClearLogs" style="margin-top:5px;">
+        🧹 Nettoyer le journal
+      </button>
+      <p class="hint">
+        C’est un bon modèle pour un « log d’activité » purement local sur
+        lequel tu peux t’entraîner.
+      </p>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <span>
+    Fichier autonome : enregistre ce code comme <strong>index.html</strong>, mets-le sur une clé USB, ouvre-le dans ton navigateur.
+  </span>
+  <span>
+    Étapes : 1) lis le guide, 2) demande à E.A.R.L. un site complet d’agence, 3) copie les blocs qui t’intéressent pour ton intranet.
+  </span>
+</footer>
+
+<script>
+  // --- Gestion des sections du panneau principal ---
+  const navButtons = document.querySelectorAll(".nav-btn");
+  const sections = {
+    guide: document.getElementById("section-guide"),
+    prompts: document.getElementById("section-prompts"),
+    public: document.getElementById("section-public"),
+    templates: document.getElementById("section-templates"),
+    intranetGuide: document.getElementById("section-intranetGuide"),
+    intranetCode: document.getElementById("section-intranetCode")
+  };
+
+  function showSection(key) {
+    Object.values(sections).forEach(sec => (sec.style.display = "none"));
+    if (sections[key]) sections[key].style.display = "block";
+
+    navButtons.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.section === key);
+    });
+  }
+
+  navButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.section;
+      showSection(key);
+    });
+  });
+
+  // Boutons rapides dans le header
+  document.getElementById("btnViewPublic").addEventListener("click", () => {
+    showSection("public");
+  });
+
+  document.getElementById("btnViewIntranet").addEventListener("click", () => {
+    showSection("intranetGuide");
+  });
+
+  document.getElementById("btnScrollGuide").addEventListener("click", () => {
+    showSection("guide");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  // --- Intranet démo ---
+  const btnLogin = document.getElementById("btnLogin");
+  const loginStatus = document.getElementById("loginStatus");
+  const missionSummary = document.getElementById("missionsSummary");
+  const missionList = document.getElementById("missionList");
+  const logArea = document.getElementById("logArea");
+  const btnClearLogs = document.getElementById("btnClearLogs");
+
+  const missionsDemo = [
+    { id: "MX-01", titre: "Veille médias", statut: "Ouvert" },
+    { id: "MX-02", titre: "Note de synthèse", statut: "En cours" },
+    { id: "MX-03", titre: "Étude de cas d'école", statut: "Archivé" }
+  ];
+
+  let loggedIn = false;
+
+  function addLog(tag, message) {
+    const line = document.createElement("div");
+    line.className = "log-line";
+    const t = document.createElement("span");
+    t.className = "time";
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, "0");
+    const mm = String(now.getMinutes()).padStart(2, "0");
+    const ss = String(now.getSeconds()).padStart(2, "0");
+    t.textContent = hh + ":" + mm + ":" + ss;
+
+    const tagSpan = document.createElement("span");
+    tagSpan.className = "tag";
+    tagSpan.textContent = "[" + tag + "]";
+
+    const msgNode = document.createTextNode(" " + message);
+
+    line.appendChild(t);
+    line.appendChild(tagSpan);
+    line.appendChild(msgNode);
+
+    logArea.appendChild(line);
+    logArea.scrollTop = logArea.scrollHeight;
+  }
+
+  function renderMissions() {
+    missionList.innerHTML = "";
+    missionsDemo.forEach(m => {
+      const li = document.createElement("li");
+      li.innerHTML =
+        "&gt; <code>" +
+        m.id +
+        "</code> – " +
+        m.titre +
+        " (<strong>" +
+        m.statut +
+        "</strong>)";
+      missionList.appendChild(li);
+    });
+    missionSummary.textContent = "Missions chargées : " + missionsDemo.length;
+  }
+
+  btnLogin.addEventListener("click", () => {
+    const user = document.getElementById("intra-user").value.trim();
+    const pass = document.getElementById("intra-pass").value.trim();
+
+    if (user === "analyste" && pass === "demo") {
+      loggedIn = true;
+      loginStatus.textContent =
+        "Connexion réussie (simulation). Les missions sont disponibles dans l’onglet dédié.";
+      loginStatus.style.color = "#4ade80";
+      addLog("LOGIN", "Connexion fictive de l'utilisateur 'analyste'.");
+      renderMissions();
+    } else {
+      loginStatus.textContent =
+        "Identifiants incorrects (rappel : analyste / demo).";
+      loginStatus.style.color = "#f97316";
+      addLog("LOGIN", "Tentative échouée avec identifiant '" + user + "'.");
+    }
+  });
+
+  btnClearLogs.addEventListener("click", () => {
+    logArea.innerHTML = "";
+    addLog("SYS", "Journal nettoyé.");
+  });
+
+  // Onglets intranet
+  const intranetTabs = document.querySelectorAll(".intranet-tab");
+  const intranetPanes = document.querySelectorAll(".intranet-pane");
+
+  intranetTabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      const paneId = tab.dataset.pane;
+      intranetTabs.forEach(t => t.classList.remove("active"));
+      intranetPanes.forEach(p => p.classList.remove("active"));
+      tab.classList.add("active");
+      document.getElementById(paneId).classList.add("active");
+      addLog("TAB", "Changement d’onglet vers '" + paneId + "'.");
+    });
+  });
+
+  // Section par défaut
+  showSection("guide");
+  addLog("SYS", "Intranet démo initialisé. Aucune donnée quittant ton navigateur.");
+</script>
+</body>
+</html>
