@@ -1,0 +1,1138 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>BROL 2.0 – Intranet perso</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #020617;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #38bdf8;
+      --accent3: #facc15;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.5);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --radius-xl: 18px;
+      --shadow-soft: 0 22px 48px rgba(0, 0, 0, 0.95);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.25), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.22), transparent 55%),
+        #020617;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        rgba(15, 23, 42, 0.22) 1px,
+        transparent 1px
+      );
+      background-size: 100% 2px;
+      mix-blend-mode: soft-light;
+      opacity: 0.6;
+      z-index: 1;
+    }
+
+    a { color: #93c5fd; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.26), transparent 60%),
+        rgba(3, 7, 18, 0.96);
+      border-bottom: 1px solid rgba(30, 64, 175, 0.8);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 180deg, #22c55e, #0ea5e9, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #22c55e;
+      position: relative;
+      box-shadow:
+        0 0 0 2px #020617,
+        0 0 28px rgba(34, 197, 94, 0.9);
+    }
+
+    .logo::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, #020617, #020617);
+    }
+
+    .logo span {
+      position: relative;
+      letter-spacing: 0.08em;
+    }
+
+    .header-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .title-main {
+      font-size: 1rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .title-sub {
+      font-size: 0.76rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
+    .tagline {
+      font-family: var(--font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .header-right .hint {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    main {
+      flex: 1;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.8fr) minmax(0, 1.2fr);
+      gap: 10px;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+      }
+    }
+
+    .main-panel, .side-panel {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      font-size: 0.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .main-panel::before, .side-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        120deg,
+        rgba(56, 189, 248, 0.22),
+        transparent 45%,
+        rgba(250, 204, 21, 0.18),
+        transparent 70%
+      );
+      mix-blend-mode: soft-light;
+      opacity: 0.45;
+    }
+
+    .panel-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .panel-inner h1 {
+      font-size: 1rem;
+      margin-bottom: 3px;
+    }
+
+    .panel-inner p.lead {
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .panel-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 900px) {
+      .panel-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: #020617;
+      border-radius: 14px;
+      border: 1px solid rgba(51, 65, 85, 0.98);
+      padding: 8px 9px 9px;
+      font-size: 0.8rem;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.9);
+    }
+
+    .card h2 {
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .card p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .badge-soft {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 2px 7px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .badge-soft span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.95);
+    }
+
+    /* Tâches */
+    .task-input-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 5px;
+    }
+
+    .task-input-row input {
+      flex: 1;
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      color: var(--text);
+      padding: 4px 9px;
+      font-size: 0.78rem;
+      outline: none;
+    }
+
+    .btn-small {
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.9);
+      background: rgba(15, 23, 42, 0.98);
+      color: #e0f2fe;
+      font-size: 0.74rem;
+      padding: 4px 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+      transition: background 0.16s, box-shadow 0.16s, transform 0.16s;
+    }
+
+    .btn-small:hover {
+      background: rgba(15, 23, 42, 1);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.95);
+      transform: translateY(-1px);
+    }
+
+    .task-list {
+      list-style: none;
+      font-size: 0.78rem;
+      max-height: 170px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 3px;
+    }
+
+    .task-item input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+    }
+
+    .task-item span.label {
+      flex: 1;
+    }
+
+    .task-item span.label.done {
+      text-decoration: line-through;
+      color: #6b7280;
+    }
+
+    .task-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    /* Journal */
+    .journal-form textarea {
+      width: 100%;
+      min-height: 80px;
+      border-radius: 8px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      padding: 5px 7px;
+      resize: vertical;
+      outline: none;
+      margin-bottom: 4px;
+    }
+
+    .journal-form .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.76rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .journal-form input[type="date"] {
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      color: var(--text);
+      padding: 3px 7px;
+      font-size: 0.76rem;
+      outline: none;
+    }
+
+    .journal-list {
+      max-height: 150px;
+      overflow-y: auto;
+      border-radius: 8px;
+      border: 1px solid rgba(31, 41, 55, 0.98);
+      padding: 5px 6px;
+      background: #020617;
+      font-size: 0.76rem;
+    }
+
+    .journal-entry {
+      margin-bottom: 4px;
+      padding-bottom: 3px;
+      border-bottom: 1px dashed rgba(51, 65, 85, 0.9);
+    }
+
+    .journal-entry:last-child {
+      border-bottom: none;
+    }
+
+    .journal-entry .date {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: #a5b4fc;
+      margin-bottom: 1px;
+    }
+
+    /* Calendrier */
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+      font-size: 0.8rem;
+    }
+
+    .calendar-header span {
+      font-family: var(--font-mono);
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      font-size: 0.7rem;
+    }
+
+    .calendar-cell {
+      border-radius: 6px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      min-height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: default;
+      background: #020617;
+      color: var(--muted);
+    }
+
+    .calendar-cell.header {
+      background: rgba(30, 64, 175, 0.6);
+      border-color: rgba(30, 64, 175, 0.9);
+      font-weight: 500;
+      color: #e5e7eb;
+    }
+
+    .calendar-cell.day {
+      cursor: pointer;
+    }
+
+    .calendar-cell.day.today {
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #bbf7d0;
+    }
+
+    .calendar-cell.day.selected {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.9);
+    }
+
+    .calendar-note {
+      margin-top: 5px;
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    /* Side panel (distractions) */
+    .side-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .side-header h2 {
+      font-size: 0.9rem;
+    }
+
+    .score-badge {
+      border-radius: 999px;
+      border: 1px solid rgba(250, 204, 21, 0.9);
+      background: rgba(113, 63, 18, 0.9);
+      color: #fef9c3;
+      font-size: 0.7rem;
+      padding: 2px 7px;
+      font-family: var(--font-mono);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .side-section {
+      background: #020617;
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      padding: 6px 7px;
+      font-size: 0.78rem;
+      margin-bottom: 6px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.9);
+    }
+
+    .side-section h3 {
+      font-size: 0.82rem;
+      margin-bottom: 3px;
+    }
+
+    .penguin-box {
+      border-radius: 10px;
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      padding: 4px;
+      text-align: center;
+      margin-top: 4px;
+      background: #020617;
+    }
+
+    .penguin-box img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    .hint {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .embed-toggle-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 4px;
+    }
+
+    .embed-container {
+      margin-top: 4px;
+    }
+
+    .embed-container iframe {
+      border: none;
+      border-radius: 8px;
+      width: 100%;
+      height: 140px;
+    }
+
+    .embed-hidden {
+      display: none;
+    }
+
+    .distraction-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .distraction-log {
+      margin-top: 4px;
+      max-height: 110px;
+      overflow-y: auto;
+      border-radius: 8px;
+      border: 1px solid rgba(31, 41, 55, 0.98);
+      padding: 4px 5px;
+      background: #020617;
+      font-size: 0.74rem;
+    }
+
+    .distraction-line {
+      margin-bottom: 2px;
+    }
+
+    .distraction-line span.time {
+      font-family: var(--font-mono);
+      color: #a5b4fc;
+      margin-right: 4px;
+    }
+
+    footer {
+      padding: 6px 12px 8px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(30, 64, 175, 0.7);
+      background: rgba(3, 7, 18, 0.98);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 760px) {
+      header { flex-direction: column; align-items: flex-start; }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="logo"><span>BR</span></div>
+    <div class="header-titles">
+      <div class="title-main">BROL 2.0 – INTRANET</div>
+      <div class="title-sub">Tableau de bord perso · tâches · calendrier · journal · distractions à la pelle</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="tagline">“Organiser le chaos… sans oublier les pingouins.”</div>
+    <div class="hint">Tout est local, statique, et modifiable dans ce fichier.</div>
+  </div>
+</header>
+
+<main>
+  <!-- COLONNE GAUCHE : tâches + calendrier + journal -->
+  <section class="main-panel">
+    <div class="panel-inner">
+      <h1>Tableau de bord</h1>
+      <p class="lead">
+        Ton intranet perso pour suivre tes tâches, visualiser ta semaine, tenir un journal de bord…
+        et garder une trace de ton BROL.
+      </p>
+
+      <div class="panel-grid">
+        <!-- Tâches -->
+        <article class="card" id="cardTasks">
+          <div class="badge-soft">
+            <span class="dot"></span> Tâches du jour
+          </div>
+          <h2>Liste de tâches</h2>
+          <p>
+            Ajoute tes tâches, coche ce qui est fait. Tout est mémorisé dans ton navigateur (localStorage).
+          </p>
+          <div class="task-input-row">
+            <input type="text" id="taskInput" placeholder="Ajouter une tâche (ex : 'appeler X', 'relire dossier Y')…" />
+            <button class="btn-small" id="addTaskBtn">+</button>
+          </div>
+          <ul class="task-list" id="taskList"></ul>
+          <div class="task-meta">
+            <span id="taskStats"></span>
+            <button class="btn-small" id="clearDoneBtn" style="float:right;">Nettoyer les tâches faites</button>
+          </div>
+        </article>
+
+        <!-- Calendrier -->
+        <article class="card" id="cardCalendar">
+          <div class="badge-soft">
+            <span class="dot"></span> Vue calendrier
+          </div>
+          <h2>Mini-calendrier</h2>
+          <p>
+            Visualise le mois en cours, clique sur un jour pour le marquer comme “jour focus”.
+          </p>
+          <div class="calendar-header">
+            <button class="btn-small" id="prevMonthBtn">&lt;</button>
+            <span id="calendarLabel"></span>
+            <button class="btn-small" id="nextMonthBtn">&gt;</button>
+          </div>
+          <div class="calendar-grid" id="calendarGrid"></div>
+          <div class="calendar-note" id="calendarNote">
+            Clique sur un jour pour t’engager à écrire au moins une ligne dans ton journal.
+          </div>
+        </article>
+      </div>
+
+      <!-- Journal -->
+      <article class="card" id="cardJournal">
+        <div class="badge-soft">
+          <span class="dot"></span> Journal de bord
+        </div>
+        <h2>Journal</h2>
+        <p>
+          Quelques lignes par jour suffisent. Ici tu notes : ce que tu as fait, ce que tu as compris, ce que tu veux garder en mémoire.
+        </p>
+        <form class="journal-form" id="journalForm">
+          <textarea id="journalTextarea" placeholder="Écrire une entrée de journal…"></textarea>
+          <div class="meta-row">
+            <div>
+              Date :
+              <input type="date" id="journalDate" />
+            </div>
+            <div>
+              <button type="submit" class="btn-small">Ajouter</button>
+            </div>
+          </div>
+        </form>
+        <div class="journal-list" id="journalList"></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- COLONNE DROITE : distractions -->
+  <aside class="side-panel">
+    <div class="panel-inner">
+      <div class="side-header">
+        <h2>Zone de distractions contrôlées</h2>
+        <div class="score-badge">
+          Score distraction : <span id="distractionScore">0</span> pts
+        </div>
+      </div>
+
+      <!-- Pingouins -->
+      <section class="side-section">
+        <h3>Pingouins en continu 🐧</h3>
+        <p>
+          Anti-burnout visuel. Clique sur “Changer de pingouin” pour un nouveau GIF.
+        </p>
+        <div class="penguin-box">
+          <img id="penguinImg"
+               src="https://media.tenor.com/g9O7U8J0aZQAAAAC/penguin-wobble.gif"
+               alt="Pingouin" />
+          <p class="hint">
+            À consommer avec modération, sinon tu passes plus de temps avec eux que sur ton calendrier.
+          </p>
+        </div>
+        <button class="btn-small" id="changePenguinBtn" style="margin-top:4px;">Changer de pingouin</button>
+      </section>
+
+      <!-- Embeds -->
+      <section class="side-section">
+        <h3>Ambiance sonore 🎧</h3>
+        <p class="hint">
+          Tu peux basculer entre silence, lofi et playlist selon ton niveau de concentration.
+        </p>
+        <div class="embed-toggle-row">
+          <button class="btn-small" id="toggleYtBtn">YouTube ON/OFF</button>
+          <button class="btn-small" id="toggleSpotifyBtn">Spotify ON/OFF</button>
+        </div>
+        <div class="embed-container embed-hidden" id="ytContainer">
+          <iframe id="ytFrame"
+            src="https://www.youtube.com/embed/jfKfPfyJRdk"
+            title="YouTube lofi" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen">
+          </iframe>
+        </div>
+        <div class="embed-container embed-hidden" id="spotifyContainer">
+          <iframe id="spotifyFrame"
+            src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO?utm_source=generator"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+          </iframe>
+        </div>
+      </section>
+
+      <!-- Machine à distractions -->
+      <section class="side-section">
+        <h3>Machine à distractions ☕</h3>
+        <p>
+          Quand tu sens que ton cerveau part en vrille, clique sur un bouton, regarde ton score de distraction,
+          puis reviens aux tâches / journal.
+        </p>
+        <div class="distraction-buttons">
+          <button class="btn-small" data-distraction="procrastiner">Procrastiner 5 minutes</button>
+          <button class="btn-small" data-distraction="scroll">Scrollez le vide</button>
+          <button class="btn-small" data-distraction="frigo">Raid sur le frigo</button>
+          <button class="btn-small" data-distraction="pingouin">Contempler un pingouin</button>
+        </div>
+        <div class="distraction-log" id="distractionLog"></div>
+      </section>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  <span>
+    BROL 2.0 – Intranet perso. Tâches, calendrier, journal, pingouins et distractions intégrées.
+  </span>
+  <span>
+    Pour adapter : édite ce fichier, change les textes, les GIFs, les musiques. Tout est à toi.
+  </span>
+</footer>
+
+<script>
+  // ========= Constantes & localStorage keys =========
+  const TASKS_KEY = "brol20_intranet_tasks_v1";
+  const JOURNAL_KEY = "brol20_intranet_journal_v1";
+  const DISTRACTION_KEY = "brol20_intranet_distraction_score_v1";
+
+  // ========= TÂCHES =========
+  const taskInput = document.getElementById("taskInput");
+  const addTaskBtn = document.getElementById("addTaskBtn");
+  const taskListEl = document.getElementById("taskList");
+  const taskStatsEl = document.getElementById("taskStats");
+  const clearDoneBtn = document.getElementById("clearDoneBtn");
+
+  let tasks = [];
+
+  function loadTasks() {
+    try {
+      const data = localStorage.getItem(TASKS_KEY);
+      tasks = data ? JSON.parse(data) : [
+        { id: 1, label: "Créer / relire mon planning de la semaine", done: false },
+        { id: 2, label: "Mettre à jour une entrée de journal", done: false }
+      ];
+    } catch (e) {
+      tasks = [];
+    }
+  }
+
+  function saveTasks() {
+    try {
+      localStorage.setItem(TASKS_KEY, JSON.stringify(tasks));
+    } catch (e) {}
+  }
+
+  function renderTasks() {
+    taskListEl.innerHTML = "";
+    if (!tasks.length) {
+      const li = document.createElement("li");
+      li.className = "task-item";
+      li.textContent = "Aucune tâche pour l’instant. Ajoute-en une au-dessus.";
+      taskListEl.appendChild(li);
+      taskStatsEl.textContent = "";
+      return;
+    }
+    let doneCount = 0;
+    tasks.forEach(task => {
+      if (task.done) doneCount++;
+      const li = document.createElement("li");
+      li.className = "task-item";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = task.done;
+      checkbox.addEventListener("change", () => {
+        task.done = checkbox.checked;
+        saveTasks();
+        renderTasks();
+      });
+
+      const label = document.createElement("span");
+      label.className = "label" + (task.done ? " done" : "");
+      label.textContent = task.label;
+
+      li.appendChild(checkbox);
+      li.appendChild(label);
+      taskListEl.appendChild(li);
+    });
+    const total = tasks.length;
+    taskStatsEl.textContent = `${doneCount}/${total} tâches terminées`;
+  }
+
+  addTaskBtn.addEventListener("click", () => {
+    const label = (taskInput.value || "").trim();
+    if (!label) return;
+    const id = Date.now();
+    tasks.unshift({ id, label, done: false });
+    taskInput.value = "";
+    saveTasks();
+    renderTasks();
+  });
+
+  taskInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      addTaskBtn.click();
+    }
+  });
+
+  clearDoneBtn.addEventListener("click", () => {
+    tasks = tasks.filter(t => !t.done);
+    saveTasks();
+    renderTasks();
+  });
+
+  // ========= JOURNAL =========
+  const journalForm = document.getElementById("journalForm");
+  const journalTextarea = document.getElementById("journalTextarea");
+  const journalDate = document.getElementById("journalDate");
+  const journalListEl = document.getElementById("journalList");
+
+  let journalEntries = [];
+
+  function todayISO() {
+    const d = new Date();
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  function loadJournal() {
+    journalDate.value = todayISO();
+    try {
+      const data = localStorage.getItem(JOURNAL_KEY);
+      journalEntries = data ? JSON.parse(data) : [];
+    } catch (e) {
+      journalEntries = [];
+    }
+  }
+
+  function saveJournal() {
+    try {
+      localStorage.setItem(JOURNAL_KEY, JSON.stringify(journalEntries));
+    } catch (e) {}
+  }
+
+  function renderJournal() {
+    journalListEl.innerHTML = "";
+    if (!journalEntries.length) {
+      const div = document.createElement("div");
+      div.textContent = "Aucune entrée pour l’instant.";
+      journalListEl.appendChild(div);
+      return;
+    }
+    journalEntries
+      .slice()
+      .sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1))
+      .forEach(entry => {
+        const div = document.createElement("div");
+        div.className = "journal-entry";
+        const date = document.createElement("div");
+        date.className = "date";
+        date.textContent = `${entry.date} · ${entry.time}`;
+        const content = document.createElement("div");
+        content.textContent = entry.text;
+        div.appendChild(date);
+        div.appendChild(content);
+        journalListEl.appendChild(div);
+      });
+  }
+
+  journalForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const text = (journalTextarea.value || "").trim();
+    if (!text) return;
+    const dateVal = journalDate.value || todayISO();
+    const d = new Date();
+    const time = `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+    const entry = {
+      id: Date.now(),
+      date: dateVal,
+      time,
+      text,
+      timestamp: d.toISOString()
+    };
+    journalEntries.push(entry);
+    journalTextarea.value = "";
+    saveJournal();
+    renderJournal();
+  });
+
+  // ========= CALENDRIER =========
+  const calendarLabel = document.getElementById("calendarLabel");
+  const calendarGrid = document.getElementById("calendarGrid");
+  const calendarNote = document.getElementById("calendarNote");
+  const prevMonthBtn = document.getElementById("prevMonthBtn");
+  const nextMonthBtn = document.getElementById("nextMonthBtn");
+
+  let currentMonth = new Date(); // pointer sur un mois
+  let selectedDateStr = null;
+
+  const monthNames = [
+    "janvier", "février", "mars", "avril", "mai", "juin",
+    "juillet", "août", "septembre", "octobre", "novembre", "décembre"
+  ];
+  const dayNames = ["L", "M", "M", "J", "V", "S", "D"];
+
+  function renderCalendar() {
+    calendarGrid.innerHTML = "";
+
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
+    calendarLabel.textContent = `${monthNames[month]} ${year}`;
+
+    // Entête jours
+    dayNames.forEach(d => {
+      const cell = document.createElement("div");
+      cell.className = "calendar-cell header";
+      cell.textContent = d;
+      calendarGrid.appendChild(cell);
+    });
+
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const startWeekday = (firstDay.getDay() + 6) % 7; // Lundi=0
+    const daysInMonth = lastDay.getDate();
+
+    // Cases vides avant le 1er
+    for (let i = 0; i < startWeekday; i++) {
+      const emptyCell = document.createElement("div");
+      emptyCell.className = "calendar-cell";
+      calendarGrid.appendChild(emptyCell);
+    }
+
+    const today = new Date();
+    const todayStr = todayISO();
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const cell = document.createElement("div");
+      cell.className = "calendar-cell day";
+      cell.textContent = day;
+
+      const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+      if (dateStr === todayStr) {
+        cell.classList.add("today");
+      }
+      if (selectedDateStr === dateStr) {
+        cell.classList.add("selected");
+      }
+
+      cell.addEventListener("click", () => {
+        selectedDateStr = dateStr;
+        calendarNote.textContent =
+          `Jour sélectionné : ${dateStr}. Mission : écrire au moins une ligne de journal aujourd’hui.`;
+        renderCalendar();
+      });
+
+      calendarGrid.appendChild(cell);
+    }
+  }
+
+  prevMonthBtn.addEventListener("click", () => {
+    currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
+    renderCalendar();
+  });
+
+  nextMonthBtn.addEventListener("click", () => {
+    currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
+    renderCalendar();
+  });
+
+  // ========= DISTRACTIONS =========
+  const penguinImg = document.getElementById("penguinImg");
+  const changePenguinBtn = document.getElementById("changePenguinBtn");
+  const toggleYtBtn = document.getElementById("toggleYtBtn");
+  const toggleSpotifyBtn = document.getElementById("toggleSpotifyBtn");
+  const ytContainer = document.getElementById("ytContainer");
+  const spotifyContainer = document.getElementById("spotifyContainer");
+  const distractionLog = document.getElementById("distractionLog");
+  const distractionScoreEl = document.getElementById("distractionScore");
+
+  const penguinSources = [
+    "https://media.tenor.com/g9O7U8J0aZQAAAAC/penguin-wobble.gif",
+    "https://media.tenor.com/1qzT1YLRhYEAAAAC/penguin-slide.gif",
+    "https://media.tenor.com/3J4PaG1A6D0AAAAC/penguin-jump.gif",
+    "https://media.tenor.com/3B0tJE7tGakAAAAC/penguin-dance.gif"
+  ];
+
+  let distractionScore = 0;
+
+  function loadDistractionScore() {
+    try {
+      const val = localStorage.getItem(DISTRACTION_KEY);
+      distractionScore = val ? parseInt(val, 10) || 0 : 0;
+    } catch (e) {
+      distractionScore = 0;
+    }
+    distractionScoreEl.textContent = distractionScore;
+  }
+
+  function saveDistractionScore() {
+    try {
+      localStorage.setItem(DISTRACTION_KEY, String(distractionScore));
+    } catch (e) {}
+  }
+
+  function bumpDistraction(pts, message) {
+    distractionScore += pts;
+    distractionScoreEl.textContent = distractionScore;
+    saveDistractionScore();
+    const line = document.createElement("div");
+    line.className = "distraction-line";
+
+    const now = new Date();
+    const time = `${String(now.getHours()).padStart(2, "0")}:${String(
+      now.getMinutes()
+    ).padStart(2, "0")}`;
+    const timeSpan = document.createElement("span");
+    timeSpan.className = "time";
+    timeSpan.textContent = time;
+
+    const msgSpan = document.createElement("span");
+    msgSpan.textContent = message;
+
+    line.appendChild(timeSpan);
+    line.appendChild(msgSpan);
+    distractionLog.prepend(line);
+  }
+
+  changePenguinBtn.addEventListener("click", () => {
+    const current = penguinImg.src;
+    let nextSrc = current;
+    let tries = 0;
+    while (nextSrc === current && tries < 10) {
+      nextSrc = penguinSources[Math.floor(Math.random() * penguinSources.length)];
+      tries++;
+    }
+    penguinImg.src = nextSrc;
+    bumpDistraction(1, "Changement de pingouin validé.");
+  });
+
+  toggleYtBtn.addEventListener("click", () => {
+    const hidden = ytContainer.classList.toggle("embed-hidden");
+    bumpDistraction(1, hidden ? "YouTube coupé (bravo)." : "YouTube activé (lofi mode).");
+  });
+
+  toggleSpotifyBtn.addEventListener("click", () => {
+    const hidden = spotifyContainer.classList.toggle("embed-hidden");
+    bumpDistraction(1, hidden ? "Spotify coupé (silence productif)." : "Spotify activé (ambiance).");
+  });
+
+  const distractionButtons = document.querySelectorAll(".distraction-buttons .btn-small");
+
+  const distractionMessages = {
+    procrastiner: [
+      "Tu viens de lancer une procrastination de luxe. Mets un timer.",
+      "Procrastination consciente : autorisée, mais surveillée.",
+      "Pause mentale accordée. Retour aux tâches après."
+    ],
+    scroll: [
+      "Tu scroles le vide, mais au moins tu le sais.",
+      "Le mur ne va pas se regarder tout seul.",
+      "Encore un scroll et c’est la timeline du pingouin."
+    ],
+    frigo: [
+      "Raid frigo planifié. Hydrate-toi.",
+      "Snack opérationnel. Ne transforme pas ça en banquette longue.",
+      "Tu peux y aller, mais reviens avec une idée."
+    ],
+    pingouin: [
+      "Observation de pingouin : séance thérapeutique.",
+      "Tu te rappelles que le monde n’est pas que deadlines.",
+      "Pingouin validé. Le cerveau te remercie."
+    ]
+  };
+
+  distractionButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const key = btn.getAttribute("data-distraction");
+      const messages = distractionMessages[key] || ["Distraction non spécifiée."];
+      const msg = messages[Math.floor(Math.random() * messages.length)];
+      bumpDistraction(2, msg);
+    });
+  });
+
+  // ========= INIT =========
+  document.addEventListener("DOMContentLoaded", () => {
+    loadTasks();
+    renderTasks();
+    loadJournal();
+    renderJournal();
+    renderCalendar();
+    loadDistractionScore();
+  });
+</script>
+</body>
+</html>
