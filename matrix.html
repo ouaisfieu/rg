@@ -1,0 +1,1230 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Starterkit de l’Ultime – Crée ta propre instance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Police lisible & fun -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #020617;
+      --card: rgba(15,23,42,0.98);
+      --accent-1: #38bdf8;
+      --accent-2: #22c55e;
+      --accent-3: #f97316;
+      --accent-4: #a855f7;
+      --accent-5: #eab308;
+      --danger: #fb7185;
+      --text: #f9fafb;
+      --muted: #cbd5f5;
+      --border: rgba(148,163,184,0.9);
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --shadow: 0 22px 60px rgba(15,23,42,0.95);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Baloo 2", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.25), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(168,85,247,0.25), transparent 60%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 1rem 0.6rem 1.6rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1080px;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.18), transparent 65%),
+        radial-gradient(circle at 100% 100%, rgba(15,23,42,0.98), transparent 60%),
+        var(--bg-soft);
+      border-radius: 28px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 1.1rem 0.9rem 1.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .app {
+        padding: 1.4rem 1.6rem 2rem;
+      }
+    }
+
+    .app::before {
+      content: "Starterkit • L’Organisation – Version clé USB";
+      position: absolute;
+      top: 0.45rem;
+      right: 1.4rem;
+      font-size: 0.63rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(148,163,184,0.9);
+    }
+
+    header {
+      border-bottom: 1px dashed rgba(148,163,184,0.8);
+      padding-bottom: 0.8rem;
+      margin-bottom: 0.7rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .logo-title {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 20px;
+      background:
+        conic-gradient(from 210deg,
+          rgba(56,189,248,0),
+          rgba(56,189,248,0.9),
+          rgba(34,197,94,0.9),
+          rgba(249,115,22,0.95),
+          rgba(234,179,8,0.95),
+          rgba(168,85,247,0.95),
+          rgba(56,189,248,0));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 0 26px rgba(56,189,248,0.95),
+        0 0 14px rgba(234,179,8,0.9);
+      font-size: 1.9rem;
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+      line-height: 1.05;
+    }
+
+    h1 span {
+      background: linear-gradient(120deg,#38bdf8,#22c55e,#f97316,#eab308,#a855f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 640px;
+    }
+
+    .subtitle strong {
+      color: var(--text);
+    }
+
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      gap: 0.38rem;
+      align-items: flex-end;
+      min-width: 220px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.16rem 0.6rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: #020617;
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34,197,94,0.95);
+    }
+
+    .mini-indicator {
+      font-size: 0.78rem;
+      color: rgba(148,163,184,0.95);
+      display: flex;
+      gap: 0.25rem;
+      align-items: center;
+    }
+
+    .mini-indicator span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #f97316;
+    }
+
+    .tabs-row {
+      margin-top: 0.35rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+
+    .tab-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.22rem 0.75rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      background: #020617;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      cursor: pointer;
+    }
+
+    .tab-btn span.icon {
+      font-size: 1rem;
+    }
+
+    .tab-btn.active {
+      border-color: var(--accent-1);
+      background: rgba(56,189,248,0.12);
+      color: #e0f2fe;
+    }
+
+    main {
+      margin-top: 0.8rem;
+    }
+
+    .tab-panel {
+      display: none;
+      animation: fadeIn 0.18s ease-out;
+    }
+    .tab-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .layout {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    @media (min-width: 880px) {
+      .layout {
+        grid-template-columns: minmax(0,1.8fr) minmax(0,1.15fr);
+        align-items: flex-start;
+      }
+    }
+
+    .card {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--card);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.95);
+      padding: 0.8rem 0.9rem 0.9rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+      align-items: center;
+      margin-bottom: 0.35rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .card-title span.icon {
+      font-size: 1.3rem;
+    }
+
+    .card-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    h2, h3 {
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    h2 {
+      font-size: 1.15rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+      margin-top: 0.35rem;
+    }
+
+    ul {
+      margin-left: 1.1rem;
+      margin-top: 0.15rem;
+    }
+
+    li + li {
+      margin-top: 0.08rem;
+    }
+
+    .checklist {
+      list-style: none;
+      margin-left: 0;
+    }
+
+    .checklist li {
+      display: flex;
+      gap: 0.35rem;
+      align-items: flex-start;
+      margin-top: 0.18rem;
+    }
+
+    .check-emoji {
+      font-size: 1rem;
+      margin-top: 0.05rem;
+    }
+
+    .label-tag {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      font-size: 0.72rem;
+      padding: 0.04rem 0.45rem;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.22rem;
+    }
+
+    .label-tag span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent-1);
+    }
+
+    .label-tag.danger span.dot { background: var(--danger); }
+
+    code {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.04rem 0.45rem;
+      font-size: 0.78rem;
+      background: #020617;
+      color: #e5e7eb;
+    }
+
+    .btn-row {
+      margin-top: 0.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: none;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.86rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: linear-gradient(135deg,#22c55e,#38bdf8);
+      color: #020617;
+      box-shadow: 0 10px 24px rgba(15,23,42,1);
+      font-weight: 600;
+      font-family: inherit;
+    }
+
+    .btn span.icon {
+      font-size: 1.05rem;
+    }
+
+    .btn-ghost {
+      background: #020617;
+      border: 1px solid rgba(148,163,184,0.9);
+      color: var(--muted);
+      box-shadow: none;
+    }
+
+    .badge-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-top: 0.25rem;
+    }
+
+    .badge-item {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.1rem 0.5rem;
+      font-size: 0.76rem;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: #020617;
+    }
+
+    .badge-item span.icon {
+      font-size: 1rem;
+    }
+
+    .timeline {
+      margin-top: 0.25rem;
+      border-left: 1px dashed rgba(148,163,184,0.9);
+      padding-left: 0.6rem;
+    }
+
+    .timeline-step {
+      margin-bottom: 0.35rem;
+      position: relative;
+    }
+
+    .timeline-step::before {
+      content: "";
+      position: absolute;
+      left: -0.6rem;
+      top: 0.25rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--accent-2);
+      box-shadow: 0 0 8px rgba(34,197,94,0.9);
+    }
+
+    .timeline-step h4 {
+      font-size: 0.9rem;
+      color: var(--text);
+      margin-bottom: 0.05rem;
+    }
+
+    .timeline-step p {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .helper-box {
+      border-radius: 16px;
+      border: 1px dashed rgba(148,163,184,0.9);
+      padding: 0.45rem 0.55rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      background: #020617;
+      margin-top: 0.35rem;
+    }
+
+    .helper-box strong {
+      color: var(--text);
+    }
+
+    .money-scale {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 0.35rem;
+      margin-top: 0.35rem;
+    }
+
+    .money-block {
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,0.9);
+      padding: 0.3rem 0.35rem;
+      font-size: 0.8rem;
+      background: #020617;
+      display: flex;
+      flex-direction: column;
+      gap: 0.12rem;
+    }
+
+    .money-block h4 {
+      font-size: 0.86rem;
+      color: var(--text);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 1rem;
+      transform: translateX(-50%);
+      background: #020617;
+      border-radius: 999px;
+      border: 1px solid rgba(56,189,248,0.9);
+      padding: 0.35rem 0.9rem;
+      font-size: 0.82rem;
+      color: #e0f2fe;
+      box-shadow: 0 16px 32px rgba(15,23,42,1);
+      display: none;
+      z-index: 1000;
+    }
+
+    .comfort-mode {
+      letter-spacing: 0.03em;
+      line-height: 1.35;
+    }
+
+    .comfort-mode .card {
+      font-size: 0.96rem;
+    }
+
+    .comfort-mode .subtitle {
+      font-size: 0.95rem;
+    }
+
+    .comfort-mode h2 {
+      font-size: 1.18rem;
+    }
+
+    .comfort-mode h3 {
+      font-size: 1.04rem;
+    }
+  </style>
+</head>
+<body>
+<div class="app" id="appRoot">
+  <header>
+    <div class="header-top">
+      <div class="logo-title">
+        <div class="logo">💿</div>
+        <div>
+          <h1>Starterkit de <span>l’Ultime</span></h1>
+          <p class="subtitle">
+            Un guide complet pour <strong>recréer ta propre instance</strong> du projet :
+            copier les pages (clic droit → “Enregistrer sous…”), les organiser en
+            <strong>kit clé USB</strong>, essaimer la <strong>veille citoyenne</strong>
+            et, si tu veux, <strong>générer du pognon</strong> sans devenir un super-vilain.
+          </p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="pill">
+          <span class="pill-dot"></span>
+          <span>Tout tient dans un dossier + un serveur simple</span>
+        </div>
+        <div class="mini-indicator">
+          <span class="dot"></span>
+          <span>Ce fichier peut être renommé par ex. <code>starterkit.html</code></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs-row" id="tabs">
+      <button class="tab-btn active" type="button" data-tab="tab-debut">
+        <span class="icon">🌱</span><span>1. Comprendre & récupérer</span>
+      </button>
+      <button class="tab-btn" type="button" data-tab="tab-kit">
+        <span class="icon">🧰</span><span>2. Construire ton kit</span>
+      </button>
+      <button class="tab-btn" type="button" data-tab="tab-money">
+        <span class="icon">💶</span><span>3. Essaimer & faire du pognon</span>
+      </button>
+      <button class="tab-btn" type="button" id="toggleComfort">
+        <span class="icon">🧘‍♂️</span><span>Mode confort</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- TAB 1 -->
+    <section class="tab-panel active" id="tab-debut">
+      <div class="layout">
+        <div>
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="icon">🧭</span>
+                <span>1. Ce que tu as entre les mains</span>
+              </div>
+            </div>
+            <p>
+              Tout ce qu’on a construit ensemble forme déjà un <strong>proto d’écosystème</strong> :
+            </p>
+            <ul>
+              <li>des <strong>tests de recrutement</strong> (test-0, test-1, symboles, propagande, CCTV…)</li>
+              <li>un <strong>escape game</strong> (ex. <code>index.html</code> avec le code USB16)</li>
+              <li>un <strong>panneau de contrôle</strong> (console centrale vers toutes les pages)</li>
+              <li>des pages <strong>business</strong> (power, cashback, linux, pomme, sharky, ultimate, budget…)</li>
+              <li>des pages <strong>techniques & QG</strong> (faq-tech, readme, roarmap, qg, citizen_hub, debrief…)</li>
+              <li>et des pages <strong>bonus / conspi</strong> (conspii, s, faq-o0-yohoo, browniz-politik, annif-neveu…)</li>
+            </ul>
+            <h3>Idée clé</h3>
+            <p>
+              Tout ça n’est <strong>qu’un gabarit</strong>. L’objectif n’est pas de vénérer ce proto,
+              mais de t’en servir comme <strong>starterkit réplicable</strong> : tu copies, tu modifies, tu ré-inventes.
+            </p>
+
+            <div class="helper-box">
+              <strong>Règle d’or :</strong> si tu sais :
+              <ul style="margin-left:1rem; margin-top:0.2rem;">
+                <li>faire un <strong>clic droit → “Enregistrer sous…”</strong> dans ton navigateur,</li>
+                <li>ouvrir un fichier <code>.html</code> avec un éditeur de texte,</li>
+                <li>et double-cliquer sur un fichier pour l’ouvrir,</li>
+              </ul>
+              alors tu peux déjà recréer et adapter ta propre instance.
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="icon">⬇️</span>
+                <span>2. Récupérer les pages (clic droit & GitHub)</span>
+              </div>
+            </div>
+
+            <h3>Option A – “Je télécharge à la main” (niveau zéro technique)</h3>
+            <ul class="checklist">
+              <li>
+                <span class="check-emoji">1️⃣</span>
+                <span>
+                  Ouvre une page que tu veux garder (ex. l’escape, le panneau de contrôle, un test…).
+                </span>
+              </li>
+              <li>
+                <span class="check-emoji">2️⃣</span>
+                <span>
+                  Clic droit dans la page → <strong>“Enregistrer sous…”</strong> → choisis
+                  <strong>“Page Web, complète”</strong> si possible → enregistre dans un dossier
+                  <code>mon-instance/</code>.
+                </span>
+              </li>
+              <li>
+                <span class="check-emoji">3️⃣</span>
+                <span>
+                  Répète pour chaque page que tu veux : <code>index.html</code>,
+                  <code>console.html</code>, <code>test-0.html</code>, <code>test-1.html</code>, etc.
+                </span>
+              </li>
+              <li>
+                <span class="check-emoji">4️⃣</span>
+                <span>
+                  Copie aussi les PDF, images, playlists et autres ressources (ou laisse les URLs externes
+                  si tu préfères).
+                </span>
+              </li>
+            </ul>
+
+            <h3>Option B – “Je passe par GitHub” (niveau débutant motivé)</h3>
+            <ul>
+              <li>Crée un compte sur GitHub (gratuit).</li>
+              <li>Crée un nouveau dépôt (repo) pour ton instance.</li>
+              <li>Ajoute les fichiers que tu as téléchargés (drag & drop dans le navigateur).</li>
+              <li>Active GitHub Pages pour rendre le site public (branch <code>main</code>, dossier <code>/</code>).</li>
+            </ul>
+
+            <div class="helper-box">
+              <span class="label-tag">
+                <span class="dot"></span><span>Astuce</span>
+              </span>
+              <p style="margin-top:0.25rem;">
+                Tu peux garder deux copies :
+                <br>– une sur <strong>clé USB</strong> (pour quand tout tombe en panne),
+                <br>– une sur <strong>GitHub Pages</strong> (pour partager facilement).
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <aside>
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="icon">🧊</span>
+                <span>3 blocs pour comprendre</span>
+              </div>
+            </div>
+
+            <div class="badge-list">
+              <div class="badge-item">
+                <span class="icon">🧪</span><span>Recrutement & tests</span>
+              </div>
+              <div class="badge-item">
+                <span class="icon">🎭</span><span>Jeux & narratif</span>
+              </div>
+              <div class="badge-item">
+                <span class="icon">💶</span><span>Business & tech</span>
+              </div>
+            </div>
+
+            <div class="timeline">
+              <div class="timeline-step">
+                <h4>Bloc 1 – Recruter les curieux</h4>
+                <p>Tests, SAS, exams, escape game. Sert à filtrer et à présenter le ton du projet.</p>
+              </div>
+              <div class="timeline-step">
+                <h4>Bloc 2 – Raconter une histoire</h4>
+                <p>Conspi, Sharky, Mordor, annif-neveu… servent à rendre le tout digeste et fun.</p>
+              </div>
+              <div class="timeline-step">
+                <h4>Bloc 3 – Structurer dans le temps</h4>
+                <p>QG, hub, business, budget, roadmap, starterkit : là où tu passes en “projet vivant”.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="icon">⚠️</span>
+                <span>Ce que ce kit n’est pas</span>
+              </div>
+            </div>
+            <p>
+              Ce kit n’est pas :
+            </p>
+            <ul>
+              <li>une secte,</li>
+              <li>une théorie du complot,</li>
+              <li>un plan pour dominer le monde (même si ça flirte avec la satire).</li>
+            </ul>
+            <p style="margin-top:0.25rem;">
+              C’est un <strong>bac à sable</strong> pour apprendre :
+            </p>
+            <ul>
+              <li>la veille citoyenne,</li>
+              <li>la lecture critique de l’info,</li>
+              <li>les modèles économiques non débiles,</li>
+              <li>et les limites du système actuel.</li>
+            </ul>
+          </article>
+        </aside>
+      </div>
+    </section>
+
+    <!-- TAB 2 -->
+    <section class="tab-panel" id="tab-kit">
+      <div class="layout">
+        <div>
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="icon">🧱</span>
+                <span>4. Structure minimale de ton kit</span>
+              </div>
+            </div>
+
+            <p>Voici une <strong>proposition d’arborescence</strong> simple :</p>
+            <pre style="margin-top:0.3rem; font-size:0.75rem; background:#020617; border-radius:12px; border:1px solid rgba(148,163,184,0.9); padding:0.5rem 0.6rem; overflow:auto;">
+mon-instance/
+├─ index.html              ← ton escape / page d’accueil
+├─ console.html            ← panneau de contrôle central
+├─ starterkit.html         ← (ce fichier)
+├─ test-index.html         ← index des tests
+├─ test-0.html
+├─ test-1.html
+├─ exam.html
+├─ SAS.html
+├─ business/
+│  ├─ power.html
+│  ├─ cashback.html
+│  ├─ linux.html
+│  ├─ pomme.html
+│  ├─ sharky.html
+│  ├─ ultimate.html
+│  └─ budget.html
+├─ tech/
+│  ├─ faq-tech.html
+│  ├─ readme.html
+│  ├─ roarmap.html
+│  ├─ qg.html
+│  ├─ citizen_hub.html
+│  └─ debrief.html
+├─ jeux/
+│  ├─ conspii.html
+│  ├─ s.html
+│  ├─ annif-neveu.html
+│  └─ vortex.html
+├─ special/
+│  ├─ browniz-politik.html
+│  └─ faq-o0-yohoo.html
+├─ assets/
+│  ├─ pdf/
+│  ├─ img/
+│  └─ audio/
+└─ README.md
+            </pre>
+
+            <div class="helper-box">
+              <strong>À adapter :</strong> tu peux renommer les dossiers, supprimer des pages
+              qui ne t’intéressent pas, ou en ajouter. L’important, c’est que ton
+              <strong>panneau de contrôle</strong> (<code>console.html</code> par ex.)
+              pointe vers les bonnes URLs.
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="icon">✏️</span>
+                <span>5. Personnaliser sans tout casser</span>
+              </div>
+            </div>
+
+            <h3>Étapes pour adapter un fichier HTML</h3>
+            <ul class="checklist">
+              <li>
+                <span class="check-emoji">1️⃣</span>
+                <span>
+                  Ouvre <code>index.html</code> avec un éditeur de texte (Notepad++, VS Code, etc.).
+                </span>
+              </li>
+              <li>
+                <span class="check-emoji">2️⃣</span>
+                <span>
+                  Repère les <strong>textes visibles</strong> : souvent entre
+                  <code>&lt;p&gt;</code>, <code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code>, etc.
+                  Modifie-les avec tes propres mots.
+                </span>
+              </li>
+              <li>
+                <span class="check-emoji">3️⃣</span>
+                <span>
+                  Repère les liens <code>href="..."</code> vers des PDF, YouTube,
+                  Spotify. Remplace-les par tes propres ressources.
+                </span>
+              </li>
+              <li>
+                <span class="check-emoji">4️⃣</span>
+                <span>
+                  Sauvegarde → recharge la page dans ton navigateur → si ça casse,
+                  utilise <code>Ctrl+Z</code> dans l’éditeur et recommence plus doucement.
+                </span>
+              </li>
+            </ul>
+
+            <h3>Changer le “skin” (couleurs & ambiance)</h3>
+            <p>
+              La plupart des fichiers que tu as reprennent les mêmes variables CSS en haut du fichier :
+            </p>
+<pre style="margin-top:0.3rem; font-size:0.75rem; background:#020617; border-radius:12px; border:1px solid rgba(148,163,184,0.9); padding:0.5rem 0.6rem; overflow:auto;">
+:root {
+  --bg: #020617;
+  --accent-1: #38bdf8;
+  --accent-2: #22c55e;
+  --accent-3: #f97316;
+  --accent-4: #a855f7;
+  --accent-5: #eab308;
+  --text: #f9fafb;
+  --muted: #cbd5f5;
+}
+</pre>
+            <p>
+              En changeant ces valeurs, tu peux décliner ta propre palette (ex. couleurs de ton asbl,
+              de ta ville, de ton réseau).
+            </p>
+
+            <div class="helper-box">
+              <span class="label-tag">
+                <span class="dot"></span><span>Tip “Design fainéant”</span>
+              </span>
+              <p style="margin-top:0.25rem;">
+                Commence par <strong>un seul fichier</strong> (ex. <code>index.html</code>).
+                Quand tu es satisfait, recopie les mêmes couleurs dans les autres fichiers.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <aside>
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="icon">🧰</span>
+                <span>Check-list “Kit minimal viable”</span>
+              </div>
+            </div>
+            <ul class="checklist">
+              <li>
+                <span class="check-emoji">✅</span>
+                <span>Une <strong>page d’accueil</strong> (escape, portail ou présentation claire).</span>
+              </li>
+              <li>
+                <span class="check-emoji">✅</span>
+                <span>Un <strong>panneau de contrôle</strong> (console.html) avec tous les liens importants.</span>
+              </li>
+              <li>
+                <span class="check-emoji">✅</span>
+                <span>Au moins <strong>1 test pédagogique</strong> (par ex. veille citoyenne ou symboles).</span>
+              </li>
+              <li>
+                <span class="check-emoji">✅</span>
+                <span>1–2 pages <strong>business</strong> (cashback, power) pour parler d’argent sans tabou.</span>
+              </li>
+              <li>
+                <span class="check-emoji">✅</span>
+                <span>1 page <strong>tech/FAQ</strong> (faq-tech, readme) pour expliquer comment c’est fait.</span>
+              </li>
+              <li>
+                <span class="check-emoji">✅</span>
+                <span>1 page <strong>debrief/starterkit</strong> (celle-ci) pour guider les nouveaux.</span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="icon">🌍</span>
+                <span>Hébergement & diffusion</span>
+              </div>
+            </div>
+            <p>
+              Tu peux faire vivre ton kit à trois niveaux :
+            </p>
+            <ul>
+              <li><strong>Local / clé USB :</strong> pour ateliers, formations, jeux IRL.</li>
+              <li><strong>Hébergement statique :</strong> GitHub Pages, GitLab Pages, Netlify, Vercel…</li>
+              <li><strong>Hébergement mutualisé / VPS :</strong> si tu veux plusieurs instances ou sous-domaines.</li>
+            </ul>
+            <div class="helper-box">
+              <strong>Principe :</strong> plus c’est simple, plus c’est réplicable.
+              Tu peux commencer en <strong>100% local</strong> et ne mettre en ligne qu’une
+              version “polie”.
+            </div>
+          </article>
+        </aside>
+      </div>
+    </section>
+
+    <!-- TAB 3 -->
+    <section class="tab-panel" id="tab-money">
+      <div class="layout">
+        <div>
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="icon">💶</span>
+                <span>6. Modèle économique : du 12,50 € à Sharky</span>
+              </div>
+            </div>
+
+            <p>
+              On part d’un principe simple : <strong>12,50 € par an et par personne</strong> comme
+              contribution de base. À partir de là, tu peux construire différents scénarios.
+            </p>
+
+            <div class="money-scale">
+              <div class="money-block">
+                <h4>Mode doux</h4>
+                <p>Adhésions, dons ponctuels, “prix libre conseillé”.</p>
+                <p style="font-size:0.76rem; color:var(--muted);">
+                  Idéal pour asbl, collectifs, écoles, petites structures.
+                </p>
+              </div>
+              <div class="money-block">
+                <h4>Mode hybride</h4>
+                <p>Partenariats, merchandising léger, formations, ateliers.</p>
+                <p style="font-size:0.76rem; color:var(--muted);">
+                  On commence à professionnaliser sans basculer dark side.
+                </p>
+              </div>
+              <div class="money-block">
+                <h4>Mode Sharky</h4>
+                <p>Scénarios poussés, quasi-startup. À manier avec beaucoup d’auto-critique.</p>
+                <p style="font-size:0.76rem; color:var(--muted);">
+                  Sert surtout de <strong>mise en garde</strong> et de labo d’idées.
+                </p>
+              </div>
+            </div>
+
+            <h3>À quoi peuvent servir les 12,50 € ?</h3>
+            <ul>
+              <li>payer l’hébergement et les noms de domaine,</li>
+              <li>rembourser des frais (déplacements, impressions, goodies),</li>
+              <li>financer du temps de travail (animation, rédaction, dev),</li>
+              <li>créer un <strong>fonds commun</strong> pour des expériences collectives.</li>
+            </ul>
+
+            <div class="helper-box">
+              <span class="label-tag danger">
+                <span class="dot"></span><span>Attention</span>
+              </span>
+              <p style="margin-top:0.25rem;">
+                Si tu commences à faire du pognon avec ce kit,
+                pose-toi toujours la question :
+                <br><strong>“Qui gagne quoi, pourquoi, et à quelles conditions ?”</strong>
+                <br>Les pages <code>pomme.html</code> et <code>sharky.html</code> sont là pour tester
+                tes limites.
+              </p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="icon">🌱</span>
+                <span>7. Essaimer la veille citoyenne</span>
+              </div>
+            </div>
+
+            <h3>Concrètement, comment essaimer ?</h3>
+            <ul class="checklist">
+              <li>
+                <span class="check-emoji">📂</span>
+                <span>
+                  Prépare un <strong>ZIP</strong> avec ton kit : arborescence propre, README, starterkit, console.
+                </span>
+              </li>
+              <li>
+                <span class="check-emoji">👥</span>
+                <span>
+                  Identifie 3–5 structures cibles : asbl, écoles, collectifs, bibliothèques, maisons de jeunes.
+                </span>
+              </li>
+              <li>
+                <span class="check-emoji">💬</span>
+                <span>
+                  Propose une <strong>démonstration</strong> : tu viens avec ta clé USB / ton site
+                  et tu montres l’escape, un test, le panneau de contrôle.
+                </span>
+              </li>
+              <li>
+                <span class="check-emoji">🧩</span>
+                <span>
+                  Offre-leur une <strong>instance en kit</strong> : tu copies le dossier sur leur clé / serveur
+                  et tu les aides à changer le nom, les textes, les tests.
+                </span>
+              </li>
+              <li>
+                <span class="check-emoji">📅</span>
+                <span>
+                  Fixe une <strong>feuille de route courte</strong> (3 mois) : 1 atelier, 1 test public,
+                  1 événement (IRL ou en ligne).
+                </span>
+              </li>
+            </ul>
+
+            <h3>Et le pognon là-dedans ?</h3>
+            <ul>
+              <li>Tu peux facturer de la <strong>facilitation</strong>, de la <strong>formation</strong>, du <strong>coaching</strong>.</li>
+              <li>Tu peux monter des <strong>packs</strong> : “kit + formation + suivi”.</li>
+              <li>Tu peux viser des <strong>fonds publics / privés</strong> pour développer des modules spécifiques.</li>
+            </ul>
+          </article>
+        </div>
+
+        <aside>
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="icon">📌</span>
+                <span>Plan d’action perso</span>
+              </div>
+            </div>
+
+            <p>Voici un <strong>mini-plan</strong> en 6 mouvements :</p>
+            <div class="timeline">
+              <div class="timeline-step">
+                <h4>1. Sauvegarder</h4>
+                <p>Tu copies les pages existantes (ou tu reprends ton dépôt) + ce starterkit.</p>
+              </div>
+              <div class="timeline-step">
+                <h4>2. Simplifier</h4>
+                <p>Tu retires ce qui te dépasse pour l’instant. Tu gardes un noyau gérable.</p>
+              </div>
+              <div class="timeline-step">
+                <h4>3. Renommer</h4>
+                <p>Tu mets ton nom, ton contexte, ta ville, ton réseau dans les textes principaux.</p>
+              </div>
+              <div class="timeline-step">
+                <h4>4. Tester</h4>
+                <p>Tu fais tester à une personne (ou deux) de confiance et tu écoutes les retours.</p>
+              </div>
+              <div class="timeline-step">
+                <h4>5. Mettre en ligne</h4>
+                <p>Tu publies une version “publique” sur GitHub Pages ou autre.</p>
+              </div>
+              <div class="timeline-step">
+                <h4>6. Proposer</h4>
+                <p>Tu contactes 3–5 structures cibles avec une proposition concrète.</p>
+              </div>
+            </div>
+
+            <div class="btn-row">
+              <button class="btn-ghost" type="button" id="btnCopyPlan">
+                <span class="icon">📋</span><span>Copier ce plan dans le presse-papier</span>
+              </button>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="icon">🧩</span>
+                <span>En résumé : le starterkit de l’ultime</span>
+              </div>
+            </div>
+            <ul class="checklist">
+              <li>
+                <span class="check-emoji">🧠</span>
+                <span>Un <strong>concept</strong> (veille citoyenne gamifiée, humour, critique).</span>
+              </li>
+              <li>
+                <span class="check-emoji">📂</span>
+                <span>Un <strong>dossier</strong> avec des pages HTML prêtes à copier/adapter.</span>
+              </li>
+              <li>
+                <span class="check-emoji">💿</span>
+                <span>Une <strong>clé USB</strong> (ou un dépôt Git) pour distribuer/installer des instances.</span>
+              </li>
+              <li>
+                <span class="check-emoji">💶</span>
+                <span>Un <strong>modèle économique</strong> modulable (12,50€ + options).</span>
+              </li>
+              <li>
+                <span class="check-emoji">🕵️‍♀️</span>
+                <span>Une <strong>posture</strong> : lucide, critique, mais joyeusement chelou.</span>
+              </li>
+            </ul>
+          </article>
+        </aside>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function() {
+  const tabs = document.getElementById("tabs");
+  const tabButtons = tabs.querySelectorAll(".tab-btn[data-tab]");
+  const panels = document.querySelectorAll(".tab-panel");
+  const toast = document.getElementById("toast");
+  const toggleComfort = document.getElementById("toggleComfort");
+  const appRoot = document.getElementById("appRoot");
+  const btnCopyPlan = document.getElementById("btnCopyPlan");
+
+  function showToast(message) {
+    toast.textContent = message;
+    toast.style.display = "block";
+    clearTimeout(showToast._timer);
+    showToast._timer = setTimeout(() => {
+      toast.style.display = "none";
+    }, 2300);
+  }
+
+  function activateTab(tabId) {
+    tabButtons.forEach(btn => {
+      btn.classList.toggle("active", btn.getAttribute("data-tab") === tabId);
+    });
+    panels.forEach(panel => {
+      panel.classList.toggle("active", panel.id === tabId);
+    });
+  }
+
+  function bindTabs() {
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const tabId = btn.getAttribute("data-tab");
+        if (!tabId) return;
+        activateTab(tabId);
+      });
+    });
+  }
+
+  function bindComfort() {
+    toggleComfort.addEventListener("click", () => {
+      appRoot.classList.toggle("comfort-mode");
+      const on = appRoot.classList.contains("comfort-mode");
+      toggleComfort.querySelector("span.icon").textContent = on ? "📖" : "🧘‍♂️";
+      toggleComfort.querySelectorAll("span")[1].textContent = on ? "Mode confort : activé" : "Mode confort";
+      showToast(on ? "Mode confort activé." : "Mode confort désactivé.");
+    });
+  }
+
+  function bindCopyPlan() {
+    if (!btnCopyPlan) return;
+    btnCopyPlan.addEventListener("click", () => {
+      const text =
+`Plan d’action perso – Starterkit de l’Ultime
+
+1. Sauvegarder
+- Copier les pages existantes (ou reprendre le dépôt) + starterkit.html.
+
+2. Simplifier
+- Retirer ce qui est trop complexe au début.
+- Garder un noyau d’accueil + console + 1–2 tests + 1 page business + 1 page tech.
+
+3. Renommer
+- Adapter le nom, les textes, les exemples à ton contexte (ville, réseau, asbl…).
+
+4. Tester
+- Faire tester à 1–2 personnes de confiance.
+- Ajuster en fonction des retours.
+
+5. Mettre en ligne
+- GitHub Pages ou autre hébergement statique.
+- Garder une copie sur clé USB.
+
+6. Proposer
+- Cibler 3–5 structures (asbl, écoles, collectifs…).
+- Proposer une démo + un kit en propre pour elles.`;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast("Plan d’action copié dans le presse-papier.");
+        }).catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    });
+  }
+
+  function fallbackCopy(text) {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); } catch(e) {}
+    document.body.removeChild(ta);
+    showToast("Copie réalisée (méthode de secours).");
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    bindTabs();
+    bindComfort();
+    bindCopyPlan();
+  });
+})();
+</script>
+</body>
+</html>
