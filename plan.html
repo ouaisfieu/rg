@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Rapport d’activités 2024 – Collectif Présence Active Auderghem (PAA) asbl</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Rapport d’activités annuel fictif d’une association d’éducation permanente en vue d’une reconnaissance officielle en Fédération Wallonie-Bruxelles, incluant calendrier et budget prévisionnel." />
+  <style>
+    :root {
+      --main: #e30613;
+      --main-dark: #b0040f;
+      --accent: #005b9f;
+      --bg: #ffffff;
+      --paper: #fafafa;
+      --border: #dddddd;
+      --text: #222222;
+      --muted: #555555;
+      --muted-light: #777777;
+      --radius: 8px;
+      --shadow: 0 4px 12px rgba(0,0,0,0.06);
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      padding: 1.2rem 0 2.5rem;
+    }
+
+    .page {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: var(--paper);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 1.5rem 1.7rem 2rem;
+    }
+
+    @media (min-width: 1100px) {
+      body {
+        background: #f1f1f1;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        padding: 0;
+      }
+      .page {
+        box-shadow: none;
+        border-radius: 0;
+        max-width: 100%;
+        padding: 0.8cm 1cm 1cm;
+      }
+      .no-print {
+        display: none !important;
+      }
+      a {
+        color: #000000;
+        text-decoration: none;
+      }
+    }
+
+    h1, h2, h3, h4 {
+      color: var(--text);
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.3rem;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      margin: 1.8rem 0 0.5rem;
+      border-bottom: 2px solid var(--main);
+      padding-bottom: 0.1rem;
+      page-break-after: avoid;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      margin: 1.1rem 0 0.4rem;
+      color: #333333;
+      page-break-after: avoid;
+    }
+
+    h4 {
+      font-size: 0.98rem;
+      margin: 0.7rem 0 0.25rem;
+      color: #333333;
+      page-break-after: avoid;
+    }
+
+    p {
+      margin-bottom: 0.55rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    ul, ol {
+      margin-left: 1.2rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.94rem;
+      color: var(--muted);
+    }
+
+    li + li {
+      margin-top: 0.15rem;
+    }
+
+    small {
+      font-size: 0.8rem;
+      color: var(--muted-light);
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e0e0e0;
+      margin: 1.4rem 0;
+    }
+
+    .header {
+      display: grid;
+      grid-template-columns: minmax(0, 2.3fr) minmax(0, 1.7fr);
+      gap: 1.2rem;
+      border-bottom: 3px solid var(--main);
+      padding-bottom: 0.9rem;
+      margin-bottom: 1.2rem;
+    }
+
+    @media (max-width: 780px) {
+      .header {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .badge-year {
+      display: inline-block;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: #ffe9eb;
+      color: var(--main-dark);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .association-info {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .association-info strong {
+      color: var(--text);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 1.5rem;
+      margin-top: 0.4rem;
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 620px) {
+      .info-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: var(--text);
+      display: block;
+      margin-bottom: 0.05rem;
+    }
+
+    .alert {
+      border-left: 4px solid var(--main);
+      background: #fff6f6;
+      padding: 0.55rem 0.8rem;
+      margin-bottom: 0.8rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .alert strong {
+      color: var(--main-dark);
+    }
+
+    .toc {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #ffffff;
+      padding: 0.8rem 0.9rem;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .toc-title {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: var(--text);
+    }
+
+    .toc ul {
+      margin: 0;
+      margin-left: 1.1rem;
+    }
+
+    .toc a {
+      text-decoration: none;
+      color: var(--accent);
+    }
+
+    .toc a:hover {
+      text-decoration: underline;
+    }
+
+    .meta-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 0.4rem 0 0.2rem;
+    }
+
+    .meta-pill {
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      padding: 0.1rem 0.55rem;
+      font-size: 0.8rem;
+      color: var(--muted-light);
+    }
+
+    .definition-box {
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: #ffffff;
+      padding: 0.8rem 0.9rem;
+      font-size: 0.9rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .definition-box strong {
+      display: block;
+      margin-bottom: 0.2rem;
+      color: var(--text);
+    }
+
+    .columns-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.5fr);
+      gap: 1.2rem;
+    }
+
+    @media (max-width: 780px) {
+      .columns-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .panel {
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: #ffffff;
+      padding: 0.8rem 0.9rem;
+      font-size: 0.9rem;
+    }
+
+    .panel-header {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: var(--text);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.3rem;
+    }
+
+    .tag {
+      font-size: 0.8rem;
+      padding: 0.1rem 0.55rem;
+      border-radius: 999px;
+      background: #f1f1f1;
+      color: #555555;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.5rem 0 0.9rem;
+      font-size: 0.85rem;
+      page-break-inside: avoid;
+    }
+
+    th, td {
+      border: 1px solid #e0e0e0;
+      padding: 0.35rem 0.35rem;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f5f5f5;
+      text-align: left;
+      font-weight: 600;
+      color: #444444;
+    }
+
+    tr:nth-child(even) td {
+      background: #fcfcfc;
+    }
+
+    .table-caption {
+      font-size: 0.85rem;
+      color: var(--muted-light);
+      margin-top: 0.05rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .number {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .axis-definition {
+      font-size: 0.86rem;
+      color: var(--muted-light);
+      margin-bottom: 0.35rem;
+    }
+
+    .highlight {
+      background: #fff2cc;
+      padding: 0 0.1rem;
+    }
+
+    .note {
+      font-size: 0.83rem;
+      color: var(--muted-light);
+      margin-top: 0.15rem;
+    }
+
+    .footer-meta {
+      margin-top: 1.3rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid #e0e0e0;
+      font-size: 0.8rem;
+      color: var(--muted-light);
+    }
+
+    .no-print-tip {
+      margin-top: 0.7rem;
+      font-size: 0.82rem;
+      color: var(--muted-light);
+    }
+
+    .no-print-tip code {
+      background: #eee;
+      padding: 0.05rem 0.2rem;
+      border-radius: 3px;
+      font-size: 0.8rem;
+    }
+
+    .calendar-grid {
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: #ffffff;
+      padding: 0.7rem 0.8rem;
+      font-size: 0.86rem;
+    }
+
+    .calendar-grid table th,
+    .calendar-grid table td {
+      font-size: 0.82rem;
+      padding: 0.3rem;
+    }
+
+    .calendar-period {
+      font-weight: 600;
+      color: var(--main-dark);
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    @media (max-width: 700px) {
+      .kpi-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .kpi-item {
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: #ffffff;
+      padding: 0.7rem 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    .kpi-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: var(--text);
+    }
+
+    .budget-table tfoot td {
+      font-weight: 600;
+      background: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <div>
+        <span class="badge-year">Rapport d’activités – Exercice 2024 (fictif)</span>
+        <h1>Collectif Présence Active Auderghem (PAA) asbl</h1>
+        <p class="association-info">
+          Rapport d’activités annuel fictif rédigé dans l’esprit du décret du 17 juillet 2003 relatif
+          au développement de l’action d’Éducation permanente dans le champ de la vie associative,
+          en vue d’une <strong>future demande de reconnaissance</strong> en Fédération Wallonie-Bruxelles.
+        </p>
+        <p class="alert">
+          <strong>Attention – Document pédagogique :</strong> ce rapport est une <em>maquette entièrement fictive</em>,
+          inspirée des formulaires-types (RAA, tableaux d’activités, RGE). Il doit être adapté et
+          transposé dans les modèles officiels avant tout dépôt réel auprès de la FWB.
+        </p>
+      </div>
+      <div>
+        <div class="info-grid">
+          <div>
+            <span class="info-label">Dénomination légale</span>
+            Collectif Présence Active Auderghem (PAA) asbl<br />
+            N° BCE : 0123.456.789
+          </div>
+          <div>
+            <span class="info-label">Coordonnées</span>
+            Rue des Cultures Citoyennes 15<br />
+            1160 Auderghem<br />
+            Tél. : 02/000.00.00<br />
+            Mail : info@paa-auderghem.be
+          </div>
+          <div>
+            <span class="info-label">Représentant·e légal·e</span>
+            Jeanne MARTIN, présidente<br />
+            Mandat voté en AG le 15/03/2022
+          </div>
+          <div>
+            <span class="info-label">Période couverte</span>
+            Du 01/01/2024 au 31/12/2024<br />
+            (année civile complète)
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="no-print">
+      <div class="toc">
+        <div class="toc-title">Sommaire du rapport</div>
+        <ul>
+          <li><a href="#identification">1. Identification de l’association</a></li>
+          <li><a href="#legal">2. Référentiel légal et axes de reconnaissance visés</a></li>
+          <li><a href="#gouvernance">3. Gouvernance, ressources humaines et ancrage territorial</a></li>
+          <li><a href="#demarche">4. Démarche d’Éducation permanente</a></li>
+          <li><a href="#axes">5. Description détaillée des activités par axe</a></li>
+          <li><a href="#publics">6. Publics, territoires, heures justifiées</a></li>
+          <li><a href="#evaluation">7. Auto-évaluation de l’exercice 2024</a></li>
+          <li><a href="#perspectives">8. Perspectives 2025</a></li>
+          <li><a href="#calendrier">9. Animations prévues & calendrier opérationnel</a></li>
+          <li><a href="#effets">10. Effets attendus et indicateurs</a></li>
+          <li><a href="#moyens">11. Moyens à mobiliser & budget prévisionnel</a></li>
+          <li><a href="#annexes">12. Liste des annexes (fictives)</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 1. Identification -->
+    <section id="identification">
+      <h2>1. Identification de l’association</h2>
+      <p>
+        Le Collectif Présence Active Auderghem (PAA) asbl est une association
+        sans but lucratif fondée le 12/11/2021, dont l’objet social vise à développer
+        des actions d’Éducation permanente principalement auprès d’un public
+        adulte, en privilégiant l’ancrage local à Auderghem et dans l’Est de
+        Bruxelles.
+      </p>
+      <div class="meta-pill-row">
+        <span class="meta-pill">Forme juridique : ASBL</span>
+        <span class="meta-pill">Siège social : Bruxelles-Capitale</span>
+        <span class="meta-pill">Public prioritaire : adultes (25–64 ans)</span>
+        <span class="meta-pill">Milieux populaires & mixité sociale</span>
+      </div>
+      <h3>1.1. Objet social (statuts – synthèse)</h3>
+      <p>
+        L’association a pour mission de favoriser, auprès d’un public adulte, la
+        prise de conscience et la connaissance critique des réalités sociales,
+        économiques, culturelles, environnementales et politiques ; développer
+        des capacités d’analyse, de choix, d’action et d’évaluation ; encourager
+        des attitudes de responsabilité et de participation active à la vie
+        démocratique. Ces finalités s’alignent sur l’article 1er du décret du 17 juillet
+        2003 relatif à l’Éducation permanente.
+      </p>
+      <h3>1.2. Axes de reconnaissance visés</h3>
+      <p>
+        Pour la période 2025–2029, l’association envisage une demande de
+        reconnaissance dans les axes suivants :
+      </p>
+      <ul>
+        <li>Axe 1 – Participation, éducation et formation citoyennes ;</li>
+        <li>Axe 2 – Formation d’animateurs, de formateurs et d’acteurs associatifs ;</li>
+        <li>Axe 3 – Production de services, d’analyses ou d’études (3.1 & 3.2) ;</li>
+        <li>Axe 4 – Sensibilisation et information.</li>
+      </ul>
+    </section>
+
+    <!-- 2. Référentiel légal -->
+    <section id="legal">
+      <h2>2. Référentiel légal et documents de référence</h2>
+
+      <div class="definition-box">
+        <strong>2.1. Cadre légal principal</strong>
+        <ul>
+          <li>Décret du 17 juillet 2003 relatif au développement de l’action d’Éducation permanente dans le champ de la vie associative (et ses modifications ultérieures).</li>
+          <li>Arrêtés d’exécution du décret et documents de synthèse édités par la FWB.</li>
+          <li>Formulaires et instructions du Service de l’Éducation permanente (RAA, RGE, fiches axes…).</li>
+        </ul>
+      </div>
+
+      <div class="definition-box">
+        <strong>2.2. Axes d’action (rappel synthétique)</strong>
+        <p class="axis-definition">
+          Sans reproduire les définitions officielles, le PAA retient la structuration suivante :
+        </p>
+        <ul>
+          <li><span class="highlight">Axe 1 :</span> formations/animations citoyennes en groupe.</li>
+          <li><span class="highlight">Axe 2 :</span> formation de relais, animateurs, acteurs associatifs.</li>
+          <li><span class="highlight">Axe 3 :</span> production d’outils, d’analyses et d’études.</li>
+          <li><span class="highlight">Axe 4 :</span> sensibilisation publique, campagnes et information.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 3. Gouvernance & RH -->
+    <section id="gouvernance">
+      <h2>3. Gouvernance, ressources humaines et ancrage territorial</h2>
+
+      <div class="columns-2">
+        <div class="panel">
+          <div class="panel-header">3.1. Organes de l’ASBL</div>
+          <p>
+            L’association est dotée d’une Assemblée générale (AG), d’un Conseil
+            d’administration (CA) et d’un Comité d’animation bénévole associé aux
+            activités d’Éducation permanente.
+          </p>
+          <h4>Composition au 31/12/2024</h4>
+          <ul>
+            <li>AG : 21 membres effectifs (13 femmes, 8 hommes).</li>
+            <li>CA : 5 administrateur·rices (3 femmes, 2 hommes).</li>
+            <li>Présidente : Jeanne MARTIN – Trésorier : Karim BENALI – Secrétaire : Lise DETRY.</li>
+          </ul>
+          <p class="note">
+            Les procès-verbaux d’AG et de CA sont tenus à disposition (Annexes 1 et 2 – fictives).
+          </p>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">3.2. Ressources humaines</div>
+          <p>
+            En 2024, l’équipe est composée de :
+          </p>
+          <ul>
+            <li>1 coordinatrice Éducation permanente (0,8 ETP) – CDI ;</li>
+            <li>1 chargé de projet (0,5 ETP) – CDI ;</li>
+            <li>1 employée administrative (0,3 ETP) – CDD sur fonds propres ;</li>
+            <li>8 bénévoles réguliers (animation, logistique, accueil).</li>
+          </ul>
+          <p class="note">
+            Un plan de formation (méthodologie d’EP, animation de groupe, lutte contre les discriminations) figure en annexe 5 (fictive).
+          </p>
+        </div>
+      </div>
+
+      <h3>3.3. Ancrage territorial</h3>
+      <p>
+        Le PAA concentre ses activités sur la commune d’Auderghem, avec des
+        extensions à Watermael-Boitsfort, Etterbeek et Woluwe-Saint-Pierre
+        lorsque cela renforce la mixité sociale et la participation citoyenne.
+      </p>
+      <div class="tag-row">
+        <span class="tag">Territoire prioritaire : Auderghem</span>
+        <span class="tag">Territoires associés : Est de Bruxelles</span>
+        <span class="tag">Publics adultes & intergénérationnels</span>
+      </div>
+    </section>
+
+    <!-- 4. Démarche EP -->
+    <section id="demarche">
+      <h2>4. Démarche d’Éducation permanente</h2>
+      <p>
+        La démarche d’Éducation permanente du PAA se veut conforme aux finalités
+        du décret : construction d’une pensée critique, développement de la
+        citoyenneté active, prise de conscience des rapports de domination,
+        participation à la transformation sociale.
+      </p>
+
+      <h3>4.1. Principes méthodologiques transversaux</h3>
+      <ul>
+        <li><strong>Co-construction avec les publics</strong> (choix des thèmes et des formats).</li>
+        <li><strong>Allers-retours vécu / analyse</strong> (récits, apports, débats).</li>
+        <li><strong>Temporalité longue</strong> (cycles de plusieurs séances plutôt que one shot).</li>
+        <li><strong>Traces produites</strong> (fanzines, podcasts, expos, comptes-rendus).</li>
+      </ul>
+
+      <h3>4.2. Articulation avec les quatre axes</h3>
+      <p>
+        Pour l’exercice 2024, le PAA a testé des activités dans chaque axe (1 à 4),
+        en vue d’une future demande de reconnaissance multi-axes. Les tableaux
+        ci-dessous détaillent ces activités.
+      </p>
+    </section>
+
+    <!-- 5. Axes -->
+    <section id="axes">
+      <h2>5. Description détaillée des activités par axe</h2>
+
+      <!-- Axe 1 -->
+      <h3>5.1. Axe 1 – Participation, éducation et formation citoyennes</h3>
+      <p class="axis-definition">
+        Actions d’animation/formation citoyenne en groupe d’adultes, pour développer une compréhension critique de la société et favoriser l’engagement collectif.
+      </p>
+
+      <p class="table-caption">
+        Tableau 1 – Activités Axe 1 – exercice 2024 (exemples fictifs)
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Réf.</th>
+            <th>Intitulé de l’activité</th>
+            <th>Publics visés / participants</th>
+            <th>Objectifs & lien avec l’art. 1er</th>
+            <th>Lieu / territoire</th>
+            <th>Dates</th>
+            <th class="number">Heures EP</th>
+            <th class="number">Nb part.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A1-01</td>
+            <td>Cycle « Budget, droits sociaux et démocratie locale »</td>
+            <td>Adultes en situation de précarité (CPAS, logements sociaux), 14 personnes</td>
+            <td>Comprendre le budget communal, identifier des droits sociaux, expérimenter des formes d’interpellation citoyenne.</td>
+            <td>Maison de quartier des Trois Fontaines – Auderghem</td>
+            <td>Février–avril 2024 (6 × 3h)</td>
+            <td class="number">18 h</td>
+            <td class="number">14</td>
+          </tr>
+          <tr>
+            <td>A1-02</td>
+            <td>Atelier « Dire pour agir » – Paroles de femmes d’Auderghem</td>
+            <td>Femmes 25–55 ans, milieux populaires et mixte, 16 participantes</td>
+            <td>Exprimer collectivement des vécus d’inégalités (emploi, mobilité, charge mentale) et produire un fanzine public.</td>
+            <td>Bibliothèque communale</td>
+            <td>Mars–juin 2024 (8 × 2h30)</td>
+            <td class="number">20 h</td>
+            <td class="number">16</td>
+          </tr>
+          <tr>
+            <td>A1-03</td>
+            <td>Balade « Mémoire des luttes à Auderghem »</td>
+            <td>Public intergénérationnel 18–70 ans, 22 personnes</td>
+            <td>Relier l’histoire locale à des enjeux actuels (logement, environnement) et susciter débats et prises de position.</td>
+            <td>Espace public – Auderghem</td>
+            <td>21/09/2024 (journée 6h)</td>
+            <td class="number">6 h</td>
+            <td class="number">22</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Axe 2 -->
+      <h3>5.2. Axe 2 – Formation d’animateurs, de formateurs et d’acteurs associatifs</h3>
+      <p class="axis-definition">
+        Actions visant à renforcer les compétences d’animateurs, de formateurs
+        et d’acteurs associatifs dans une perspective d’Éducation permanente.
+      </p>
+
+      <p class="table-caption">
+        Tableau 2 – Activités Axe 2 – exercice 2024 (exemples fictifs)
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Réf.</th>
+            <th>Intitulé de la formation</th>
+            <th>Public cible</th>
+            <th>Contenu & méthodologie</th>
+            <th>Partenaires</th>
+            <th class="number">Heures EP</th>
+            <th class="number">Nb part.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A2-01</td>
+            <td>Former à l’animation de débats citoyens</td>
+            <td>Animateurs de maisons de quartier et associations locales (12 personnes)</td>
+            <td>Outils d’animation participative, gestion des conflits, inclusion de publics peu habitués à prendre la parole.</td>
+            <td>Maison de la Participation d’Auderghem</td>
+            <td class="number">12 h</td>
+            <td class="number">12</td>
+          </tr>
+          <tr>
+            <td>A2-02</td>
+            <td>Éducation permanente & lutte contre les discriminations</td>
+            <td>Bénévoles et personnes relais issues des publics (10 personnes)</td>
+            <td>Analyse de situations discriminatoires, repères juridiques, construction d’animations à partir de récits de vie.</td>
+            <td>Collectif antiraciste local</td>
+            <td class="number">10 h</td>
+            <td class="number">10</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Axe 3 -->
+      <h3>5.3. Axe 3 – Production de services, d’analyses et d’études</h3>
+      <p class="axis-definition">
+        Production de services, d’outils pédagogiques et d’analyses en lien
+        avec les objectifs de l’Éducation permanente.
+      </p>
+
+      <h4>5.3.1. Sous-axe 3.1 – Services et outils</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Réf.</th>
+            <th>Outil / service</th>
+            <th>Publics & usages</th>
+            <th>Objectifs & diffusion</th>
+            <th class="number">Heures EP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A3.1-01</td>
+            <td>Kit d’animation « Budget communal pour débutant·es »</td>
+            <td>Animateurs des cycles Axe 1, associations partenaires, groupes d’habitants.</td>
+            <td>Proposer un outil simplifié (fiches, cartes, schémas) pour comprendre les choix budgétaires locaux et débattre des priorités.</td>
+            <td class="number">40 h</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>5.3.2. Sous-axe 3.2 – Analyses et études</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Réf.</th>
+            <th>Titre de l’analyse / étude</th>
+            <th>Thématique & problématique</th>
+            <th>Publics ciblés</th>
+            <th class="number">Heures EP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A3.2-01</td>
+            <td>« Auderghem : carte des inégalités d’accès à la culture »</td>
+            <td>Analyse de l’offre culturelle locale, des freins socio-économiques et des usages de l’espace public.</td>
+            <td>Associations locales, décideurs communaux, groupes Axe 1.</td>
+            <td class="number">45 h</td>
+          </tr>
+          <tr>
+            <td>A3.2-02</td>
+            <td>« Paroles de femmes en périphérie bruxelloise »</td>
+            <td>Étude qualitative issue des ateliers « Dire pour agir », sur les inégalités de genre dans la ville.</td>
+            <td>Acteurs féministes, services communaux, réseaux EP.</td>
+            <td class="number">35 h</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note">
+        Les textes complets des analyses/études (PDF) sont référencés en annexes 6 et 7 (fictives).
+      </p>
+
+      <!-- Axe 4 -->
+      <h3>5.4. Axe 4 – Sensibilisation et information</h3>
+      <p class="axis-definition">
+        Campagnes, actions publiques et outils de sensibilisation adressés à un
+        public large sur des enjeux de société.
+      </p>
+
+      <p class="table-caption">
+        Tableau 3 – Activités Axe 4 – exercice 2024 (exemples fictifs)
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Réf.</th>
+            <th>Action de sensibilisation</th>
+            <th>Message central</th>
+            <th>Canaux & territoires</th>
+            <th class="number">Heures EP</th>
+            <th class="number">Public touché (estimation)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A4-01</td>
+            <td>Campagne « La ville est à nous aussi »</td>
+            <td>Mettre en lumière les obstacles rencontrés par les femmes dans l’espace public et proposer des pistes d’action citoyenne.</td>
+            <td>Affichage, stands au marché communal, réseaux sociaux.</td>
+            <td class="number">30 h</td>
+            <td class="number">≈ 800 pers.</td>
+          </tr>
+          <tr>
+            <td>A4-02</td>
+            <td>Podcast « Quartiers en questions » – saison 1</td>
+            <td>Donner la parole aux habitants sur les priorités de la commune (logement, espaces verts, mobilité).</td>
+            <td>Diffusion web + écoutes collectives à la bibliothèque.</td>
+            <td class="number">32 h</td>
+            <td class="number">≈ 350 écoutes</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 6. Publics / heures -->
+    <section id="publics">
+      <h2>6. Publics, territoires, heures justifiées (synthèse annuelle fictive)</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Indicateur</th>
+            <th class="number">Valeur 2024</th>
+            <th>Commentaires</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Total heures d’Éducation permanente (tous axes)</td>
+            <td class="number">≈ 248 h</td>
+            <td>Calcul fictif basé sur les tableaux par axe, hors tâches purement administratives.</td>
+          </tr>
+          <tr>
+            <td>Nombre total de participant·es uniques (estimation)</td>
+            <td class="number">≈ 210 pers.</td>
+            <td>Estimation tenant compte des recoupements entre activités.</td>
+          </tr>
+          <tr>
+            <td>Part de personnes issues de milieux populaires</td>
+            <td class="number">≈ 60 %</td>
+            <td>À partir des partenariats (CPAS, logements sociaux…) et données auto-déclarées.</td>
+          </tr>
+          <tr>
+            <td>Territoires couverts</td>
+            <td class="number">4 communes</td>
+            <td>Auderghem (prioritaire), Watermael-Boitsfort, Etterbeek, Woluwe-Saint-Pierre.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 7. Évaluation -->
+    <section id="evaluation">
+      <h2>7. Auto-évaluation de l’exercice 2024</h2>
+      <h3>7.1. Points forts</h3>
+      <ul>
+        <li>Co-construction des thèmes avec les publics dans les cycles Axe 1.</li>
+        <li>Premiers modules structurés de formation d’animateurs (Axe 2) avec retours positifs.</li>
+        <li>Production d’outils et d’analyses (Axe 3) directement utilisables par les partenaires locaux.</li>
+        <li>Bonne visibilité des campagnes Axe 4 au niveau communal (bulletin communal, réseaux locaux).</li>
+      </ul>
+
+      <h3>7.2. Difficultés rencontrées</h3>
+      <ul>
+        <li>Documenter systématiquement toutes les démarches (fiches, évaluations écrites) reste chronophage.</li>
+        <li>Accès difficile à certains publics (chômeurs de longue durée, publics peu francophones).</li>
+        <li>Capacité financière fragile, dépendante de subsides ponctuels et de soutiens locaux.</li>
+      </ul>
+
+      <h3>7.3. Améliorations envisagées</h3>
+      <ul>
+        <li>Mieux formaliser les fiches d’activités et les bilans qualitatifs par axe.</li>
+        <li>Améliorer la collecte de données sur les publics (respect vie privée).</li>
+        <li>Préparer une logique pluriannuelle (2025–2029) en vue d’un futur RGE.</li>
+      </ul>
+    </section>
+
+    <!-- 8. Perspectives -->
+    <section id="perspectives">
+      <h2>8. Perspectives 2025</h2>
+      <p>
+        Sur base du bilan 2024, le PAA envisage pour 2025 :
+      </p>
+      <ul>
+        <li>Augmenter progressivement les heures en Axe 1 (cycles plus longs, nouveaux groupes d’habitants).</li>
+        <li>Consolider un module de formation récurrent en Axe 2 (au moins 2 éditions/an).</li>
+        <li>Poursuivre la production d’analyses ciblées (Axe 3.2) en lien avec les priorités locales.</li>
+        <li>Structurer une campagne annuelle en Axe 4 articulée aux enjeux de l’Éducation permanente.</li>
+      </ul>
+    </section>
+
+    <!-- 9. Animations prévues & calendrier -->
+    <section id="calendrier">
+      <h2>9. Animations prévues & calendrier opérationnel (12 prochains mois)</h2>
+      <p>
+        Le tableau ci-dessous présente, à titre fictif, le calendrier des principales
+        animations prévues pour les 12 prochains mois (année N+1), en continuité
+        directe avec les activités décrites au point 5.
+      </p>
+
+      <div class="calendar-grid">
+        <p class="table-caption">
+          Calendrier opérationnel – janvier à décembre N+1 (exemple fictif)
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Mois / période</th>
+              <th>Animations prévues</th>
+              <th>Axes concernés</th>
+              <th>Effets immédiats recherchés</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="calendar-period">Janvier–février</span></td>
+              <td>
+                • Lancement cycle Axe 1 « Budget communal – saison 2 » (6 séances).<br />
+                • Préparation de la campagne Axe 4 « La ville est à nous aussi – 2e édition ». <br />
+                • Réunion partenaires pour calendrier commun (commune, CPAS, maisons de quartier).
+              </td>
+              <td>Axe 1, Axe 4</td>
+              <td>Remobiliser les anciens participants, intégrer de nouveaux publics, co-construire la campagne.</td>
+            </tr>
+            <tr>
+              <td><span class="calendar-period">Mars–avril</span></td>
+              <td>
+                • Ateliers « Dire pour agir » – nouveaux groupes (Axe 1).<br />
+                • 1er module de formation d’animateurs (Axe 2) – 3 jours.<br />
+                • Collecte de matériaux pour l’analyse « Ville & genre » (Axe 3.2).
+              </td>
+              <td>Axe 1, Axe 2, Axe 3.2</td>
+              <td>Renforcer les compétences d’animation, nourrir une nouvelle analyse avec les récits des publics.</td>
+            </tr>
+            <tr>
+              <td><span class="calendar-period">Mai–juin</span></td>
+              <td>
+                • Balades « Mémoire des luttes » élargies aux communes voisines (Axe 1).<br />
+                • Finalisation et diffusion d’un nouveau kit pédagogique local (Axe 3.1).<br />
+                • Préparation podcast « Quartiers en questions – saison 2 » (Axe 4).
+              </td>
+              <td>Axe 1, Axe 3.1, Axe 4</td>
+              <td>Élargir le territoire touché, outiller les partenaires, préparer une diffusion médiatique plus large.</td>
+            </tr>
+            <tr>
+              <td><span class="calendar-period">Juillet–août</span></td>
+              <td>
+                • Activités plus légères : « cafés citoyens de l’été » dans l’espace public (Axe 1).<br />
+                • Séance de formation courte pour bénévoles (Axe 2).<br />
+                • Montage et édition des podcasts (Axe 4).
+              </td>
+              <td>Axe 1, Axe 2, Axe 4</td>
+              <td>Maintenir le lien estival avec les publics, renforcer l’équipe bénévole, préparer la rentrée.</td>
+            </tr>
+            <tr>
+              <td><span class="calendar-period">Septembre–octobre</span></td>
+              <td>
+                • Lancement officiel de la campagne Axe 4 (affichage, événements publics).<br />
+                • Organisation d’un week-end de formation inter-associative (Axe 2).<br />
+                • Restitution publique des analyses/études (Axe 3.2).
+              </td>
+              <td>Axe 2, Axe 3.2, Axe 4</td>
+              <td>Accroître la visibilité du travail mené, créer des synergies entre associations, ouvrir des pistes de plaidoyer.</td>
+            </tr>
+            <tr>
+              <td><span class="calendar-period">Novembre–décembre</span></td>
+              <td>
+                • Réunions d’évaluation avec les groupes et partenaires (tous axes).<br />
+                • Préparation du Rapport d’activités officiel (RAA) et du plan de travail N+2.<br />
+                • Soirée publique de restitution « Ce que nous avons appris ensemble ».
+              </td>
+              <td>Axe 1–4</td>
+              <td>Mettre en commun les apprentissages, préparer la suite, alimenter le RAA et le futur RGE.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 10. Effets attendus -->
+    <section id="effets">
+      <h2>10. Effets attendus et indicateurs de suivi</h2>
+      <p>
+        Les effets attendus sont formulés en lien avec les finalités de l’Éducation permanente
+        et déclinés en quelques indicateurs simples (quantitatifs et qualitatifs).
+      </p>
+
+      <div class="kpi-grid">
+        <div class="kpi-item">
+          <div class="kpi-title">10.1. Effets sur les personnes</div>
+          <ul>
+            <li>Renforcement de la capacité à analyser de manière critique la situation locale (logement, budget communal, genre, espace public).</li>
+            <li>Augmentation du nombre de personnes prenant la parole en réunion, en conseil consultatif ou en espace public.</li>
+          </ul>
+          <p class="note">
+            Indicateurs : questionnaires de fin de cycle, témoignages recueillis, comptage des prises de parole lors de moments publics.
+          </p>
+        </div>
+
+        <div class="kpi-item">
+          <div class="kpi-title">10.2. Effets sur les collectifs</div>
+          <ul>
+            <li>Constitution ou consolidation de groupes locaux durables (groupes femmes, groupes habitants de logements sociaux…).</li>
+            <li>Augmentation des collaborations entre associations sur des enjeux communs.</li>
+          </ul>
+          <p class="note">
+            Indicateurs : nombre de groupes et leur durée de vie, nombre de co-organisations d’activités, conventions ou accords signés.
+          </p>
+        </div>
+
+        <div class="kpi-item">
+          <div class="kpi-title">10.3. Effets sur les institutions</div>
+          <ul>
+            <li>Interpellations citoyennes structurées auprès de la commune (questions posées, recommandations écrites).</li>
+            <li>Prises en compte partielles ou complètes de demandes formulées dans le cadre des activités.</li>
+          </ul>
+          <p class="note">
+            Indicateurs : nombre d’interpellations, réponses officielles, évolutions observables dans des règlements ou pratiques locales.
+          </p>
+        </div>
+
+        <div class="kpi-item">
+          <div class="kpi-title">10.4. Effets sur l’association</div>
+          <ul>
+            <li>Clarification de la fonction d’Éducation permanente au sein de l’ASBL (axes, méthodes, suivi).</li>
+            <li>Structuration d’un système de collecte de données et de traces (en vue du RAA/RGE).</li>
+          </ul>
+          <p class="note">
+            Indicateurs : existence d’outils internes (fiches activités, bases de données anonymisées, dossiers de campagne).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. Moyens & budget -->
+    <section id="moyens">
+      <h2>11. Moyens à mobiliser & budget prévisionnel (année N+1 – fictif)</h2>
+      <p>
+        Les moyens décrits ci-dessous constituent une base de travail pour une future
+        demande de soutien (Fédération Wallonie-Bruxelles, commune, autres pouvoirs
+        publics et partenaires). Les montants sont donnés à titre indicatif.
+      </p>
+
+      <h3>11.1. Moyens humains à demander / consolider</h3>
+      <ul>
+        <li><strong>Maintien et sécurisation</strong> des 1,6 ETP salariés (0,8 + 0,5 + 0,3) sur une base pluriannuelle.</li>
+        <li><strong>Reconnaissance du temps d’animation et de coordination</strong> dédié à l’Éducation permanente (axes 1 à 4).</li>
+        <li><strong>Renforcement du volontariat organisé</strong> (indemnités, formations, assurances).</li>
+      </ul>
+
+      <h3>11.2. Moyens matériels et logistiques</h3>
+      <ul>
+        <li>Mise à disposition ou co-financement d’un <strong>local de proximité</strong> à Auderghem (40–60 m²) accessible en journée et soirée.</li>
+        <li>Équipement de base : mobilier modulable, vidéoprojecteur, sono légère, matériel d’enregistrement audio.</li>
+        <li>Budget récurrent pour impressions, petit matériel pédagogique, déplacements.</li>
+      </ul>
+
+      <h3>11.3. Budget prévisionnel détaillé (N+1 – exemple fictif)</h3>
+      <p class="table-caption">
+        Budget de fonctionnement annuel – montants arrondis en euros
+      </p>
+
+      <table class="budget-table">
+        <thead>
+          <tr>
+            <th>Poste</th>
+            <th>Détail</th>
+            <th class="number">Montant (€)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>I. Personnel</strong></td>
+            <td>
+              Coordinatrice EP 0,8 ETP (4 000 €/mois charges comprises × 12 × 0,8) = 38 400 €<br />
+              Chargé de projet 0,5 ETP (3 200 €/mois × 12 × 0,5) = 19 200 €<br />
+              Administrative 0,3 ETP (2 800 €/mois × 12 × 0,3) = 10 080 €<br />
+              Vacataires/animateurs externes (interventions ponctuelles) = 6 000 €
+            </td>
+            <td class="number">73 680</td>
+          </tr>
+          <tr>
+            <td><strong>II. Fonctionnement & local</strong></td>
+            <td>
+              Loyer local (800 €/mois × 12) = 9 600 €<br />
+              Charges (énergie, internet, entretien) (300 €/mois × 12) = 3 600 €<br />
+              Matériel pédagogique et petits équipements = 3 000 €<br />
+              Déplacements & frais d’animation = 2 500 €
+            </td>
+            <td class="number">18 700</td>
+          </tr>
+          <tr>
+            <td><strong>III. Communication & diffusion</strong></td>
+            <td>
+              Graphisme, impressions, site web, hébergement = 3 500 €<br />
+              Captation/montage podcast & vidéo = 2 800 €
+            </td>
+            <td class="number">6 300</td>
+          </tr>
+          <tr>
+            <td><strong>IV. Gouvernance & formation</strong></td>
+            <td>
+              Formations continues (équipe + bénévoles) = 2 000 €<br />
+              Assurances, frais bancaires, éventuel audit = 1 500 €
+            </td>
+            <td class="number">3 500</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2">Total budget prévisionnel annuel</td>
+            <td class="number">102 180</td>
+          </tr>
+        </tfoot>
+      </table>
+      <p class="note">
+        Total calculé : 73 680 + 18 700 + 6 300 + 3 500 = 102 180 €.
+      </p>
+
+      <h3>11.4. Structure de financement envisagée (fictive)</h3>
+      <p class="table-caption">
+        Répartition indicative des sources de financement
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Source</th>
+            <th>Description</th>
+            <th class="number">Montant (€)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Subvention Éducation permanente FWB</td>
+            <td>Soutien structurel demandé pour les axes 1 à 4 (personnel + fonctionnement lié).</td>
+            <td class="number">60 000</td>
+          </tr>
+          <tr>
+            <td>Subvention communale / CPAS</td>
+            <td>Partenariat local pour le local, les campagnes et les activités territoriales.</td>
+            <td class="number">20 000</td>
+          </tr>
+          <tr>
+            <td>Autres pouvoirs publics / fondations</td>
+            <td>Projets ciblés (analyses, campagnes thématiques, inter-associatif).</td>
+            <td class="number">12 180</td>
+          </tr>
+          <tr>
+            <td>Recettes propres & apports</td>
+            <td>Cotisations symboliques, participations à prix libre, revenus d’outils, apports propres.</td>
+            <td class="number">10 000</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2">Total ressources prévues</td>
+            <td class="number">102 180</td>
+          </tr>
+        </tfoot>
+      </table>
+      <p class="note">
+        Ce tableau permet de montrer que le budget prévisionnel est équilibré. À adapter avec des chiffres réels avant tout dépôt.
+      </p>
+    </section>
+
+    <!-- 12. Annexes -->
+    <section id="annexes">
+      <h2>12. Liste des annexes (toutes fictives dans ce modèle)</h2>
+      <p>
+        Dans une situation réelle, ces annexes seraient à joindre au format et
+        selon les modalités précisées par le Service de l’Éducation permanente
+        (formulaires officiels, tableaux Excel, rapports PDF, etc.).
+      </p>
+      <ol>
+        <li>Procès-verbaux d’AG 2024 (AG ordinaire et éventuelles AG extraordinaires).</li>
+        <li>Procès-verbaux de CA 2024.</li>
+        <li>Bilan comptable et comptes annuels 2024.</li>
+        <li>Tableaux détaillés des activités par axe (version Excel officielle – RAA).</li>
+        <li>Plan de formation du personnel et des bénévoles (2024–2025).</li>
+        <li>Texte complet de l’analyse A3.2-01.</li>
+        <li>Texte complet de l’étude A3.2-02.</li>
+        <li>Dossier de la campagne Axe 4 (visuels, textes, statistiques de diffusion).</li>
+        <li>Recueil de traces produites avec les publics (fanzines, podcast, photo-reportages).</li>
+      </ol>
+    </section>
+
+    <div class="footer-meta">
+      <p>
+        <strong>Important :</strong> ce rapport HTML est une maquette fictive. Pour être
+        recevable auprès de la Fédération Wallonie-Bruxelles, il doit être adapté
+        au profil réel de l’association, complété avec des données exactes et
+        retranscrit dans les formulaires-types officiels (RAA, RGE, tableaux
+        d’activités par axe).
+      </p>
+      <p class="no-print-tip no-print">
+        Astuce : modifie ce fichier avec un éditeur de texte, ouvre-le dans ton navigateur,
+        puis exporte en PDF (<code>Ctrl+P</code> &gt; « Enregistrer en PDF ») pour l’envoyer
+        dans ton cercle de confiance ou le travailler avec l’équipe.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
