@@ -1,0 +1,908 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tutoriel – Construire ton écosystème MILOU en statique</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #f3f4f6;
+      --bg-soft: #ffffff;
+      --accent: #0f766e;
+      --accent-soft: #ccfbf1;
+      --accent-strong: #115e59;
+      --border: #e5e7eb;
+      --text: #111827;
+      --muted: #4b5563;
+      --muted-soft: #6b7280;
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --radius-xl: 18px;
+      --shadow-soft: 0 16px 40px rgba(15, 23, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background: radial-gradient(circle at 0 0, #e0f2fe, transparent 60%),
+                  radial-gradient(circle at 100% 100%, #dcfce7, transparent 60%),
+                  var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+      background: rgba(243, 244, 246, 0.9);
+      border-bottom: 1px solid rgba(209, 213, 219, 0.9);
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 2px solid rgba(15, 118, 110, 0.2);
+      background: radial-gradient(circle at 30% 20%, #a7f3d0, #0d9488);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ecfdf5;
+      font-size: 0.9rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      box-shadow: 0 6px 16px rgba(15, 118, 110, 0.35);
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .title-main {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .title-sub {
+      font-size: 0.8rem;
+      color: var(--muted-soft);
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 0.76rem;
+      color: var(--muted-soft);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      border: 1px solid rgba(15, 118, 110, 0.3);
+      background: #ecfdf5;
+      padding: 2px 8px;
+      font-size: 0.74rem;
+      color: var(--accent-strong);
+      font-family: var(--font-mono);
+      margin-bottom: 2px;
+    }
+
+    .badge span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      margin-right: 5px;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+    }
+
+    main {
+      flex: 1;
+      padding: 14px 16px 18px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .layout {
+      width: 100%;
+      max-width: 1160px;
+      display: grid;
+      grid-template-columns: minmax(0, 260px) minmax(0, 1.85fr);
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: minmax(0, 1.2fr);
+      }
+    }
+
+    /* Sidebar nav */
+    .sidebar {
+      background: var(--bg-soft);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 12px;
+      position: sticky;
+      top: 64px;
+      max-height: calc(100vh - 80px);
+      overflow: auto;
+    }
+
+    .nav-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted-soft);
+      margin-bottom: 6px;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      background: transparent;
+      padding: 5px 8px;
+      font-size: 0.8rem;
+      text-align: left;
+      cursor: pointer;
+      color: var(--muted);
+      transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.15s;
+    }
+
+    .nav-link span.step {
+      min-width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(15, 118, 110, 0.3);
+      background: #ecfdf5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.74rem;
+      font-family: var(--font-mono);
+      color: var(--accent-strong);
+    }
+
+    .nav-link.active,
+    .nav-link:hover {
+      background: #ecfdf5;
+      border-color: rgba(15, 118, 110, 0.4);
+      color: var(--accent-strong);
+      transform: translateX(1px);
+    }
+
+    .sidebar-footnote {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 0.75rem;
+      color: var(--muted-soft);
+    }
+
+    .sidebar-footnote code {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      background: #f9fafb;
+      border-radius: 4px;
+      padding: 1px 4px;
+    }
+
+    /* Main content */
+    .content {
+      background: var(--bg-soft);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 12px 13px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content::before {
+      content: "";
+      position: absolute;
+      inset: -35%;
+      background-image: radial-gradient(circle at 0 0, rgba(14, 165, 233, 0.15), transparent 60%);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .content-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: 1.15rem;
+      margin-bottom: 4px;
+    }
+
+    .lead {
+      font-size: 0.86rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+      max-width: 620px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      padding: 2px 8px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      font-size: 0.74rem;
+      color: var(--muted-soft);
+      font-family: var(--font-mono);
+    }
+
+    .pill.accent {
+      border-color: rgba(15, 118, 110, 0.4);
+      background: #ecfdf5;
+      color: var(--accent-strong);
+    }
+
+    section.tuto-section {
+      margin-top: 10px;
+      border-radius: 14px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      padding: 8px 9px 9px;
+    }
+
+    section.tuto-section:first-of-type {
+      margin-top: 0;
+    }
+
+    section.tuto-section h2 {
+      font-size: 0.98rem;
+      margin-bottom: 3px;
+    }
+
+    section.tuto-section p {
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    section.tuto-section ul,
+    section.tuto-section ol {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-left: 16px;
+      margin-bottom: 4px;
+    }
+
+    section.tuto-section li {
+      margin-bottom: 3px;
+    }
+
+    .hint {
+      font-size: 0.78rem;
+      color: var(--muted-soft);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr);
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    @media (max-width: 800px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      padding: 7px 8px;
+      font-size: 0.82rem;
+    }
+
+    .card h3 {
+      font-size: 0.9rem;
+      margin-bottom: 3px;
+    }
+
+    .card p {
+      margin-bottom: 3px;
+    }
+
+    .card-highlight {
+      border-left: 3px solid var(--accent);
+      background: #ecfdf5;
+    }
+
+    .code-block {
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      background: #111827;
+      color: #e5e7eb;
+      border-radius: 8px;
+      padding: 6px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow-x: auto;
+    }
+
+    .filename {
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      color: var(--muted-soft);
+    }
+
+    footer {
+      padding: 8px 16px 10px;
+      font-size: 0.78rem;
+      color: var(--muted-soft);
+      border-top: 1px solid rgba(209, 213, 219, 0.9);
+      background: rgba(243, 244, 246, 0.95);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    @media (max-width: 720px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header-right {
+        text-align: left;
+      }
+      footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="logo">M</div>
+    <div class="title-block">
+      <div class="title-main">Atelier MILOU</div>
+      <div class="title-sub">Construire ton écosystème web statique – pas à pas, à partir de rien</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="badge"><span class="dot"></span>MODE TUTORIEL – NIVEAU 0 → NIVEAU BOSS</div>
+    <div>1 fichier HTML · 0 backend · déployable sur GitHub Pages ou clé USB.</div>
+  </div>
+</header>
+
+<main>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="nav-title">Plan du tutoriel</div>
+      <ul class="nav-list">
+        <li><button class="nav-link active" data-target="overview"><span class="step">0</span>Vue d’ensemble & objectifs</button></li>
+        <li><button class="nav-link" data-target="env"><span class="step">1</span>Préparer ton environnement</button></li>
+        <li><button class="nav-link" data-target="milou"><span class="step">2</span>Étape 1 – Page “OPÉRATION MILOU”</button></li>
+        <li><button class="nav-link" data-target="hub"><span class="step">3</span>Étape 2 – Hub central</button></li>
+        <li><button class="nav-link" data-target="intranets"><span class="step">4</span>Étape 3 – Intranets</button></li>
+        <li><button class="nav-link" data-target="search"><span class="step">5</span>Étape 4 – Moteur de recherche dystopique</button></li>
+        <li><button class="nav-link" data-target="faq"><span class="step">6</span>Étape 5 – FAQ & pédagogie</button></li>
+        <li><button class="nav-link" data-target="game"><span class="step">7</span>Étape 6 – Gamification & XP</button></li>
+        <li><button class="nav-link" data-target="checklist"><span class="step">8</span>Checklist & progression</button></li>
+      </ul>
+      <div class="sidebar-footnote">
+        💡 Tu peux commencer au niveau que tu veux.  
+        Pour un premier test, crée un dossier, mets un <code>index.html</code>, copie juste l’étape 1
+        et tu as déjà un proto.
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <div class="content">
+      <div class="content-inner">
+
+        <!-- Vue d’ensemble -->
+        <section id="overview" class="tuto-section">
+          <h2>Vue d’ensemble & objectifs</h2>
+          <p>
+            Ce tutoriel te propose un <strong>prototype de site à construire</strong> à partir de tout
+            ce qu’on a exploré&nbsp;:
+          </p>
+          <ul>
+            <li>une page principale <strong>OPÉRATION MILOU</strong> (jeu STIC de l’anarchie),</li>
+            <li>un <strong>hub</strong> qui relie toutes tes pages,</li>
+            <li>des <strong>intranets</strong> (lambda & dystopique corpo),</li>
+            <li>un <strong>moteur de recherche interne</strong> minimaliste,</li>
+            <li>une <strong>FAQ tutorielle</strong> pour expliquer comment faire pareil,</li>
+            <li>une couche de <strong>gamification</strong> (XP, niveaux, quêtes) pour tenir sur la durée.</li>
+          </ul>
+          <p class="lead">
+            L’idée&nbsp;: tu pars d’un simple <code>index.html</code>, puis tu ajoutes des pages
+            ou modules selon ton énergie. Chaque étape est indépendante.
+          </p>
+          <div class="pill-row">
+            <span class="pill accent">aucun prérequis</span>
+            <span class="pill">HTML statique</span>
+            <span class="pill">GitHub Pages</span>
+            <span class="pill">journal de bord</span>
+            <span class="pill">anarchie & capitalisme</span>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <h3>Architecture cible (vue simple)</h3>
+              <ul>
+                <li><code>index.html</code> → OPÉRATION MILOU (ou tutoriel)</li>
+                <li><code>hub.html</code> → Hub central</li>
+                <li><code>intranet-lambda.html</code> → Intranet neutre</li>
+                <li><code>intranet-noesis.html</code> → Intranet dystopique</li>
+                <li><code>moteur.html</code> → Moteur de recherche interne</li>
+                <li><code>faq.html</code> → FAQ “comment refaire ça soi-même”</li>
+                <li>+ tes <code>.pdf</code> (dystopie, plaidoyer, pression, etc.)</li>
+              </ul>
+            </div>
+            <div class="card card-highlight">
+              <h3>Philosophie de construction</h3>
+              <p>
+                On construit comme un jeu vidéo&nbsp;: niveau par niveau.  
+                À chaque étape, ton site est déjà utile, même si tout n’est pas “complet”.
+              </p>
+              <p class="hint">
+                Tu peux t’arrêter après l’étape 1 ou 2. Les étapes suivantes sont des bonus.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Environnement -->
+        <section id="env" class="tuto-section" style="display:none;">
+          <h2>Étape 1 – Préparer ton environnement</h2>
+          <p>
+            On reste au plus simple possible : <strong>un dossier</strong>, quelques
+            <strong>fichiers .html</strong>, éventuellement des <strong>.pdf</strong>.
+          </p>
+          <div class="grid-2">
+            <div class="card">
+              <h3>1. Crée ton dossier de travail</h3>
+              <ul>
+                <li>Sur ton ordi : <code>Documents/operation-milou/</code> par exemple.</li>
+                <li>Dans ce dossier, tu vas mettre tous tes fichiers HTML et PDF.</li>
+              </ul>
+              <p class="filename">Structure minimale&nbsp;:</p>
+              <div class="code-block">
+operation-milou/
+ ├─ index.html
+ ├─ hub.html
+ ├─ intranet-lambda.html
+ ├─ intranet-noesis.html
+ ├─ moteur.html
+ ├─ faq.html
+ ├─ dystopie.pdf
+ ├─ plaidoyer-jp.pdf
+ └─ pression (1).pdf
+              </div>
+            </div>
+            <div class="card">
+              <h3>2. Tester en local avant tout</h3>
+              <ul>
+                <li>Commence par ouvrir les fichiers en local (double clic > navigateur).</li>
+                <li>
+                  Tant que ça marche en local, tu n’as pas besoin de
+                  serveur, ni de ligne de commande.
+                </li>
+              </ul>
+              <p class="hint">
+                Quand tu seras à l’aise, tu pourras pousser tout ça sur GitHub Pages en quelques clics.
+              </p>
+            </div>
+          </div>
+
+          <h3 style="margin-top:8px;">3. (Optionnel) Préparer GitHub Pages</h3>
+          <p>
+            Si tu veux publier en ligne, la marche à suivre reste la même que dans la FAQ&nbsp;:
+          </p>
+          <ol>
+            <li>Créer un compte GitHub & un dépôt (ex : <code>operation-milou</code>).</li>
+            <li>Uploader tes fichiers (HTML + PDF).</li>
+            <li>Activer GitHub Pages dans Settings → Pages.</li>
+            <li>Récupérer l’URL publique pour la thèse / le projet.</li>
+          </ol>
+          <p class="hint">
+            Ne bloque pas là-dessus au début. Tu peux tout faire en local et publier plus tard.
+          </p>
+        </section>
+
+        <!-- MILOU page -->
+        <section id="milou" class="tuto-section" style="display:none;">
+          <h2>Étape 2 – Construire la page “OPÉRATION MILOU”</h2>
+          <p>
+            C’est la page “identité” du projet&nbsp;: elle explique la
+            <strong>question de recherche</strong>, la <strong>méthode 6·4·2</strong>, le
+            <strong>journal de bord</strong> et les <strong>annexes PDF</strong>.
+          </p>
+          <div class="grid-2">
+            <div class="card">
+              <h3>A. Version ultra minimaliste (recommandée pour commencer)</h3>
+              <p>
+                Dans <code>index.html</code>, tu peux commencer avec 3 blocs seulement&nbsp;:
+              </p>
+              <ul>
+                <li>1. “Ce que je cherche à comprendre”</li>
+                <li>2. “Comment je vais m’y prendre”</li>
+                <li>3. “Journal de bord”</li>
+              </ul>
+              <p class="filename">Exemple de squelette&nbsp;:</p>
+              <div class="code-block">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;title&gt;OPÉRATION MILOU – Prototype&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;OPÉRATION MILOU&lt;/h1&gt;
+  &lt;h2&gt;Ce que je cherche à comprendre&lt;/h2&gt;
+  &lt;p&gt;Écris ici ta question, même floue.&lt;/p&gt;
+
+  &lt;h2&gt;Comment je vais m’y prendre&lt;/h2&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Lire / regarder quelques ressources&lt;/li&gt;
+    &lt;li&gt;Observer un ou deux cas concrets&lt;/li&gt;
+    &lt;li&gt;Tenir ce journal de bord&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h2&gt;Journal de bord&lt;/h2&gt;
+  &lt;p&gt;[date] Ce que j’ai fait aujourd’hui...&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+              </div>
+              <p class="hint">
+                Une fois que ça fonctionne, tu peux remplacer ce squelette par la version plus riche qu’on a déjà codée
+                (avec design, méthode 6·4·2, etc.).
+              </p>
+            </div>
+            <div class="card card-highlight">
+              <h3>B. Ajouter les annexes PDF</h3>
+              <p>
+                Place tes PDF à côté de <code>index.html</code>, puis ajoute une section “Annexes” dans la page.
+              </p>
+              <div class="code-block">
+&lt;h2&gt;Annexes&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="dystopie.pdf" target="_blank"&gt;dystopie.pdf&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="plaidoyer-jp.pdf" target="_blank"&gt;plaidoyer-jp.pdf&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="pression (1).pdf" target="_blank"&gt;pression (1).pdf&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+              </div>
+              <p class="hint">
+                Tu pourras plus tard améliorer l’esthétique (comme dans le site MILOU cartoon).  
+                L’important au début, c’est juste que les liens marchent.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Hub -->
+        <section id="hub" class="tuto-section" style="display:none;">
+          <h2>Étape 3 – Créer le hub central</h2>
+          <p>
+            Le hub est une page (par exemple <code>hub.html</code>) qui liste tous tes
+            <strong>sous-sites</strong> : MILOU, intranets, moteur, FAQ, etc.  
+            C’est ton écran de sélection de “surfaces”.
+          </p>
+          <div class="grid-2">
+            <div class="card">
+              <h3>A. Structure simple du hub</h3>
+              <p>Tu peux partir d’une simple liste :</p>
+              <div class="code-block">
+&lt;h1&gt;NOESIS HUB / OPÉRATION MILOU&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="index.html"&gt;Page OPÉRATION MILOU&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="intranet-lambda.html"&gt;Intranet – Organisation lambda&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="intranet-noesis.html"&gt;Intranet – NOESIS CORP&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="moteur.html"&gt;Moteur de recherche dystopique&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="faq.html"&gt;FAQ – Comment refaire tout ça&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+              </div>
+              <p class="hint">
+                La version plus évoluée qu’on a déjà codée ajoute des cartes, des filtres par mot-clé,
+                et un design plus sophistiqué, mais ce n’est pas obligatoire au début.
+              </p>
+            </div>
+            <div class="card">
+              <h3>B. Quand utiliser le hub&nbsp;?</h3>
+              <ul>
+                <li>Quand tu commences à avoir plus de 3 pages différentes.</li>
+                <li>Quand tu veux partager le projet avec d’autres personnes.</li>
+                <li>Quand tu veux avoir une vue d’ensemble de tes expérimentations.</li>
+              </ul>
+              <p class="hint">
+                Sur GitHub Pages, tu peux choisir de mettre le hub en <code>index.html</code> à la racine,
+                et déplacer MILOU dans un autre fichier (par ex. <code>milou.html</code>).
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Intranets -->
+        <section id="intranets" class="tuto-section" style="display:none;">
+          <h2>Étape 4 – Intranets (lambda & dystopique)</h2>
+          <p>
+            Tu as deux intranets prototypes&nbsp;:
+          </p>
+          <ul>
+            <li><strong>Intranet lambda</strong> : neutre, organisation classique.</li>
+            <li><strong>Intranet NOESIS CORP</strong> : même squelette, ambiance corpo dystopique.</li>
+          </ul>
+          <div class="grid-2">
+            <div class="card">
+              <h3>A. Pourquoi les garder dans ton projet&nbsp;?</h3>
+              <ul>
+                <li>Ils te donnent des exemples de <strong>tableau de bord</strong> (actus, liens, docs).</li>
+                <li>Ils montrent comment gérer un <strong>annuaire</strong> et une
+                    <strong>liste de documents</strong> en pur HTML/JS.</li>
+                <li>Ils peuvent servir de <strong>cas d’étude</strong> pour ta thèse (interface, gouvernance, etc.).</li>
+              </ul>
+            </div>
+            <div class="card card-highlight">
+              <h3>B. Comment les simplifier au début&nbsp;?</h3>
+              <p>
+                Si le code te paraît trop long, tu peux :
+              </p>
+              <ul>
+                <li>Supprimer tout le JS lié aux filtres et ne garder que la liste en dur.</li>
+                <li>Réduire le nombre de personnes dans l’annuaire.</li>
+                <li>Réduire le nombre de documents dans la bibliothèque.</li>
+              </ul>
+              <p class="hint">
+                Tu peux repartir de l’intranet lambda, le copier dans <code>intranet-lambda.html</code>
+                puis adapter les données pas à pas.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Search -->
+        <section id="search" class="tuto-section" style="display:none;">
+          <h2>Étape 5 – Moteur de recherche interne dystopique</h2>
+          <p>
+            Le moteur de recherche dystopique est ta <strong>vitrine publique minimaliste</strong>,
+            façon “Google bizarre” : une page presque vide, un champ de recherche, des surprises.
+          </p>
+          <div class="grid-2">
+            <div class="card">
+              <h3>A. Version minimaliste</h3>
+              <p>
+                Tu peux commencer par un simple formulaire qui ne fait… rien (ou presque) :
+              </p>
+              <div class="code-block">
+&lt;h1&gt;NOESIS SEARCH&lt;/h1&gt;
+&lt;form&gt;
+  &lt;input type="text" placeholder="Tape quelque chose..." /&gt;
+  &lt;button type="submit"&gt;Rechercher&lt;/button&gt;
+&lt;/form&gt;
+              </div>
+              <p class="hint">
+                Ensuite, tu peux brancher du JavaScript pour afficher des réponses prédéfinies
+                en fonction de certains mots-clés (“google”, “EARL”, “horla”, etc.).
+              </p>
+            </div>
+            <div class="card card-highlight">
+              <h3>B. Jeux & easter eggs</h3>
+              <ul>
+                <li>Si on tape “google” → “apocalypse” (message spécial).</li>
+                <li>Si on tape “EARL” → “Bien essayé”.</li>
+                <li>Si on tape “E.A.R.L.” → redirection vers une recherche externe (ex. D.A.R.Y.L.).</li>
+                <li>Si on tape “horla” → petit dialogue user-console-IA fictive.</li>
+              </ul>
+              <p class="hint">
+                Tout ça peut rester <strong>local</strong> et inoffensif : ce sont juste des conditions
+                <code>if</code> dans ton script JS qui modifient le texte affiché.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="tuto-section" style="display:none;">
+          <h2>Étape 6 – FAQ “Comment faire pareil en partant de zéro”</h2>
+          <p>
+            La FAQ que tu as déjà est un <strong>outil pédagogique</strong> pour toi-même
+            et pour d’autres. Elle explique comment faire la même chose, voire mieux, en partant de rien.
+          </p>
+          <div class="grid-2">
+            <div class="card">
+              <h3>A. Pourquoi c’est important&nbsp;?</h3>
+              <ul>
+                <li>Tu fixes noir sur blanc que <strong>le chemin compte autant que le résultat</strong>.</li>
+                <li>Tu peux montrer cette FAQ à un·e encadrant·e comme preuve de ta démarche.</li>
+                <li>Tu peux la simplifier / adapter selon le public (étudiant·es, collègues, ami·es).</li>
+              </ul>
+            </div>
+            <div class="card card-highlight">
+              <h3>B. Version minimale d’une FAQ</h3>
+              <p class="filename">Dans <code>faq.html</code> :</p>
+              <div class="code-block">
+&lt;h1&gt;FAQ – Comment refaire ce projet ?&lt;/h1&gt;
+
+&lt;h2&gt;Question 1 : Je pars de zéro, je fais quoi ?&lt;/h2&gt;
+&lt;p&gt;Réponse simple...&lt;/p&gt;
+
+&lt;h2&gt;Question 2 : Comment publier sur GitHub Pages ?&lt;/h2&gt;
+&lt;p&gt;Étape par étape...&lt;/p&gt;
+              </div>
+              <p class="hint">
+                La version plus complète qu’on a codée ajoute un design agréable, des niveaux (N0, N1, N2, N3…)
+                et des questions déroulantes. Tu peux l’utiliser telle quelle ou la réduire.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Gamification -->
+        <section id="game" class="tuto-section" style="display:none;">
+          <h2>Étape 7 – Gamification & XP (optionnelle)</h2>
+          <p>
+            La gamification n’est pas obligatoire, mais elle peut t’aider à
+            <strong>tenir la longueur</strong> sur un projet de recherche ou de thèse.
+          </p>
+          <div class="grid-2">
+            <div class="card">
+              <h3>A. Système d’XP ultra simple</h3>
+              <p>
+                Commence par de simples règles écrites dans un coin de ton site (ou dans un fichier texte).
+              </p>
+              <ul>
+                <li>+10 XP → 1 page lue (ou 10 min de lecture).</li>
+                <li>+20 XP → 1 entrée de journal de bord.</li>
+                <li>+30 XP → 1 amélioration du site (mise à jour HTML/CSS).</li>
+                <li>+50 XP → 1 mini analyse d’un cas concret.</li>
+              </ul>
+              <p class="hint">
+                Tu n’as pas besoin de coder le calcul en JS au début. Tu peux compter à la main.
+              </p>
+            </div>
+            <div class="card card-highlight">
+              <h3>B. Niveaux & classes (IRL)</h3>
+              <p>
+                Tu peux réutiliser les classes et niveaux qu’on a définis (Chercheur·se Nomade,
+                Ingénieur·e du Bazar, etc.), mais ce n’est pas obligatoire.
+              </p>
+              <p>
+                Le plus important&nbsp;:
+              </p>
+              <ul>
+                <li>Que tu voies tes progrès (d’un mois à l’autre).</li>
+                <li>Que ça reste <strong>un jeu au service de la recherche</strong>, pas l’inverse.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Checklist -->
+        <section id="checklist" class="tuto-section" style="display:none;">
+          <h2>Étape 8 – Checklist & progression</h2>
+          <p>
+            Voici une checklist simple pour construire ton écosystème MILOU
+            <strong>graduellement</strong>. Coche mentalement ce que tu as déjà fait.
+          </p>
+          <div class="grid-2">
+            <div class="card">
+              <h3>Checklist minimale</h3>
+              <ul>
+                <li>[ ] J’ai un dossier dédié au projet sur mon ordinateur.</li>
+                <li>[ ] J’ai un fichier <code>index.html</code> qui s’ouvre dans mon navigateur.</li>
+                <li>[ ] J’ai écrit au moins une phrase de “Ce que je cherche à comprendre”.</li>
+                <li>[ ] J’ai créé ou adapté une section “Journal de bord”.</li>
+                <li>[ ] J’ai ajouté au moins un PDF en annexe (ou un lien externe)..</li>
+              </ul>
+            </div>
+            <div class="card card-highlight">
+              <h3>Checklist avancée (optionnelle)</h3>
+              <ul>
+                <li>[ ] J’ai un <code>hub.html</code> qui liste toutes mes pages.</li>
+                <li>[ ] J’ai au moins un intranet (lambda ou dystopique) branché sur le hub.</li>
+                <li>[ ] J’ai une FAQ qui explique comment refaire le projet.</li>
+                <li>[ ] J’ai défini un système d’XP, même basique.</li>
+                <li>[ ] J’ai publié sur GitHub Pages et noté l’URL quelque part.</li>
+              </ul>
+              <p class="hint">
+                À ce stade, tu as déjà un dispositif socio-technique cohérent, suffisant pour un
+                mémoire ou un début de thèse, même si tout n’est pas “parfait”.
+              </p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span>
+    Atelier MILOU – Prototype de site tutoriel pour reconstruire et améliorer ton écosystème web statique.
+  </span>
+  <span>
+    Commence avec 1 fichier, ajoute les autres quand tu veux. L’important, c’est de documenter en avançant.
+  </span>
+</footer>
+
+<script>
+  // Navigation par la sidebar : affichage des sections
+  const navLinks = document.querySelectorAll(".nav-link");
+  const sections = document.querySelectorAll(".tuto-section");
+
+  function showSection(id) {
+    sections.forEach(sec => {
+      sec.style.display = sec.id === id ? "block" : "none";
+    });
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      const target = link.getAttribute("data-target");
+      navLinks.forEach(l => l.classList.remove("active"));
+      link.classList.add("active");
+      showSection(target);
+      // Scroll doux vers le haut du contenu
+      const contentTop = document.querySelector(".content").offsetTop - 10;
+      window.scrollTo({ top: contentTop, behavior: "smooth" });
+    });
+  });
+
+  // Section par défaut
+  showSection("overview");
+</script>
+</body>
+</html>
